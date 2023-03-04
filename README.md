@@ -1,9 +1,11 @@
 # 初回環境構築方法
 
-## phpの依存関係のインストール(実行済みの場合は不要)
+## php の依存関係のインストール(実行済みの場合は不要)
+
 ```
 sudo apt update -y
 ```
+
 ```
 sudo apt install curl php-cli php-mbstring git unzip
 ```
@@ -26,12 +28,14 @@ sudo apt install curl php-cli php-mbstring git unzip
 > php -r "unlink('composer-setup.php');" -->
 
 ## `.env.example`をコピーして`.env`ファイルを作成する<br>
+
 ```
 cp .env.example .env
 ```
 
 ## パッケージのインストール
-``` shell
+
+```shell
 docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v $(pwd):/var/www/html \
@@ -41,38 +45,62 @@ docker run --rm \
 ```
 
 ## エイリアスの設定
+
 エイリアス設定ファイルを開く
+
 ```
 vim ~/.bashrc
 ```
-Iキーを押して適当な場所に
+
+I キーを押して適当な場所に
+
 ```
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 ```
+
 と打ち込む。その後、`esc` -> `:wq` -> エンターキーで保存して終了
 
 `~/.bashrc`に記載したコマンドを反映
+
 ```
 source ~/.bashrc
 ```
 
+## npm の初期設定
 
-## npmの初期設定
 ```
 sail npm install
 ```
 
 ## 環境の操作
-- 起動
+
+-   起動
+
 ```
 sail up -d
 ```
 
-## vite(laravel-mixに変わるやつ)
+## vite(laravel-mix に変わるやつ)
+
+### WSL で開発する場合
+
+`vite.config.js`に以下を設定する。
+
+```javascript
+    // Windows、WSL上で実行するときだけ必要か
+    server: {
+        hmr: {
+            host: "localhost",
+        },
+    },
+```
+
 ### 開発時用ビルド
+
 `npm run dev`
 開発時にビルドしたい時に使用するコマンドです。
 
 ### リリース用ビルド
+
 `npm run build`
-リリース用にビルドするコマンドで、開発時と違いCSSファイルやJSファイルが圧縮されて書き出されます。
+リリース用にビルドするコマンドで、開発時と違い CSS ファイルや JS ファイルが圧縮されて書き出されます。

@@ -1,0 +1,52 @@
+/* ダークモード対応 */
+/* :root {
+    --main-text: #333;
+    --main-bg: #fff;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --main-text: #ddd;
+        --main-bg: #000;
+    }
+}
+
+body {
+    color: var(--main-text);
+    background-color: var(--main-bg);
+} */
+
+/* common */
+.password {
+}
+
+/* auth/login.blade.php */
+.auth-login-html {
+    height: 100%;
+}
+
+.auth-login-body {
+    height: 100%;
+    background-color: #f5f5f5;
+}
+
+.auth-login-contents-icon {
+    display: block;
+    border-radius: 5px;
+}
+
+.auth-login-contents-header {
+    margin: 15px 0;
+}
+
+.auth-login-contents-header > h1 {
+    font-size: 25px;
+    text-align: center;
+}
+
+.auth-login-contents-input {
+    margin: 5px 0;
+}
+
+.auth-login-contents-submit {
+    width: 100%;
+}
