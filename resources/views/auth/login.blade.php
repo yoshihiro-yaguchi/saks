@@ -7,6 +7,11 @@
   @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
 
 </head>
+<script type="module">
+  $(function(){
+    console.log('run jquery');
+  });
+  </script>
 <body class="d-flex align-items-cente auth-login-body">
 
   <div class="d-flex align-items-center container">
