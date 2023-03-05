@@ -2,12 +2,15 @@
 <html class="auth-login-html" lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>ログイン</title>
 
   @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 <script type="module">
+  $('#submit').on('click', function() {
+    $('#ids').submit();
+  })
   $(function(){
     console.log('run jquery');
   });
@@ -17,7 +20,7 @@
   <div class="d-flex align-items-center container">
     <div class="mx-auto row">
       <div class="col-9">
-        <div class="auth-login-contents" style="width: 300px;">
+        <div class="auth-login-contents">
           <img
             class="mx-auto auth-login-contents-icon"
             src="{{ asset('storage/images/image-logo.jpg') }}"
@@ -27,12 +30,24 @@
           <div class="mx-auto auth-login-contents-header">
             <h1>サインイン</h1>
           </div>
-          <form action="" method="post">
-            <input type="email" class="form-control auth-login-contents-input" placeholder="メールアドレス">
-            <input type="password" class="form-control auth-login-contents-input password" placeholder="パスワード">
+
+          @if (count($errors) > 0)
+          <div class="alert alert-danger auth-login-error" role="alert">
+            <h1 class="auth-login-error-header"><b>エラーが発生しました。</b></h1>
+            <ul class="list-group">
+            @foreach ($errors as $error)
+              <li class="list-group-item">{{$error}}</li>
+            @endforeach
+            </ul>
+          </div>
+          @endif
+          <form id='ids' action="{{ url('/login') }}" method="post">
+            @csrf
+            <input id='id' type="email" class="form-control auth-login-contents-input" placeholder="メールアドレス">
+            <input id='password' type="password" class="form-control auth-login-contents-input password" placeholder="パスワード">
           </form>
 
-          <button type="submit" class="btn btn-lg btn-primary btn-block auth-login-contents-submit">サインイン</button>
+          <button id="submit" type="submit" class="btn btn-lg btn-primary btn-block auth-login-contents-submit">サインイン</button>
         </div>
       </div>
     </div>

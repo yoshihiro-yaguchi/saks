@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function () {
     return view('auth.login');
 });
+
+Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/test/bootstrap', function () {
     return view('test.bootstrap');
