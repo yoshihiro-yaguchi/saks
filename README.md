@@ -87,12 +87,12 @@ sail up -d
 `vite.config.js`に以下を設定する。
 
 ```javascript
-    // Windows、WSL上で実行するときだけ必要か
-    server: {
-        hmr: {
-            host: "localhost",
-        },
+// Windows、WSL上で実行するときだけ必要か
+server: {
+    hmr: {
+        host: "localhost",
     },
+},
 ```
 
 ### 開発時用ビルド
