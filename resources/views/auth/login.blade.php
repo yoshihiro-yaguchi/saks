@@ -9,12 +9,9 @@
 </head>
 <script type="module">
   $('#submit').on('click', function() {
-    $('#ids').submit();
+    $('#loginForm').submit();
   })
-  $(function(){
-    console.log('run jquery');
-  });
-  </script>
+</script>
 <body class="d-flex align-items-cente auth-login-body">
 
   <div class="d-flex align-items-center container">
@@ -41,7 +38,7 @@
             </ul>
           </div>
           @endif
-          <form id='ids' action="{{ url('/login') }}" method="post">
+          <form id='loginForm' action="{{ url('/login') }}" method="post">
             @csrf
             <input id='id' type="email" class="form-control auth-login-contents-input" placeholder="メールアドレス">
             <input id='password' type="password" class="form-control auth-login-contents-input password" placeholder="パスワード">
