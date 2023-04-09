@@ -28,11 +28,11 @@
             <h1>サインイン</h1>
           </div>
 
-          @if (count($errors) > 0)
+          @if ($errors->any())
           <div class="alert alert-danger auth-login-error" role="alert">
             <h1 class="auth-login-error-header"><b>エラーが発生しました。</b></h1>
             <ul class="list-group">
-            @foreach ($errors as $error)
+            @foreach ($errors->all() as $error)
               <li class="list-group-item">{{$error}}</li>
             @endforeach
             </ul>
@@ -40,8 +40,8 @@
           @endif
           <form id='loginForm' action="{{ url('/login') }}" method="post">
             @csrf
-            <input id='id' type="email" class="form-control auth-login-contents-input" placeholder="メールアドレス">
-            <input id='password' type="password" class="form-control auth-login-contents-input password" placeholder="パスワード">
+            <input id='id' name='id' class="form-control auth-login-contents-input" placeholder="メールアドレスまたはユーザーID">
+            <input id='password' name='password' type="password" class="form-control auth-login-contents-input password" placeholder="パスワード">
           </form>
 
           <button id="submit" type="submit" class="btn btn-lg btn-primary btn-block auth-login-contents-submit">サインイン</button>
