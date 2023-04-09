@@ -43,6 +43,7 @@ docker run --rm \
     laravelsail/php81-composer:latest \
     composer install --ignore-platform-reqs
 ```
+コマンド実行時にエラーになるときは、venderディレクトリを削除する。
 
 ## エイリアスの設定
 
