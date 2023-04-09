@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Log;
 class LoginController extends Controller
 {
     function login(PostLoginRequest $request) {
-        Log::info($request->id);
-        Log::info($request->password);
-        $collection = new Collection();
-        $collection->add(collect(['errors' => ['メールアドレスの形式が誤っています', 'パスワードが誤っています', 'メールアドレスまたはパスワードが誤っています']]));
-        return view('auth.login', $collection);
+
+        // 渡された情報で認証
+        // 認証に成功した時はセッションにデータを登録する
+        // 認証に失敗した時はlogicErrorsをauth.loginに返す
+        $returnData = ['logicErrors' => collect(['ログインIDまたはパスワードが誤っています。'])];
+        Log::info(json_encode($returnData));
+        return view('auth.login', $returnData);
     }
 }

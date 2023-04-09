@@ -28,15 +28,22 @@
             <h1>サインイン</h1>
           </div>
 
-          @if ($errors->any())
-          <div class="alert alert-danger auth-login-error" role="alert">
-            <h1 class="auth-login-error-header"><b>エラーが発生しました。</b></h1>
-            <ul class="list-group">
-            @foreach ($errors->all() as $error)
-              <li class="list-group-item">{{$error}}</li>
-            @endforeach
-            </ul>
-          </div>
+          @if ($errors->any() || isset($logicErrors))
+            <div class="alert alert-danger auth-login-error" role="alert">
+              <h1 class="auth-login-error-header"><b>エラーが発生しました。</b></h1>
+              <ul class="list-group">
+              @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                  <li class="list-group-item">{{$error}}</li>
+                @endforeach
+              @endif
+              @if (isset($logicErrors))
+                @foreach ($logicErrors->all() as $error)
+                  <li class="list-group-item">{{$error}}</li>
+                @endforeach
+              @endif
+              </ul>
+            </div>
           @endif
           <form id='loginForm' action="{{ url('/login') }}" method="post">
             @csrf
