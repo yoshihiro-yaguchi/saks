@@ -67,18 +67,18 @@ alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 source ~/.bashrc
 ```
 
-## npm の初期設定
-
-```
-sail npm install
-```
-
 ## 環境の操作
 
 -   起動
 
 ```
 sail up -d
+```
+
+## npm の初期設定
+
+```
+sail npm install
 ```
 
 ## vite(laravel-mix に変わるやつ)
