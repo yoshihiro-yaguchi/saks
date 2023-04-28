@@ -26,6 +26,5 @@ class LoginController extends Controller
         // 認証に成功した時はセッションにデータを登録する
         // 認証に失敗した時はlogicErrorsをauth.loginに返す
         return view('auth.login', $returnData);
-        // コメント
     }
 }
