@@ -20,7 +20,7 @@
         <div class="auth-login-contents">
           <img
             class="mx-auto auth-login-contents-icon"
-            src="{{ asset('storage/images/image-logo.jpg') }}"
+            src="{{ asset('systemImages/image-logo.jpg') }}"
             width="50%"
             height="50%"
           >
