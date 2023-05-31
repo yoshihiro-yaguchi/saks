@@ -105,3 +105,71 @@ server: {
 
 `npm run build`
 リリース用にビルドするコマンドで、開発時と違い CSS ファイルや JS ファイルが圧縮されて書き出されます。
+
+
+# 追加パッケージ
+## mPDF
+### 参考
+* [Laravel超初心者がMpdfでpdfを生成するまで](https://zenn.dev/chromel/articles/6edadcdcce19fa)<br>
+* [LaravelでPDFを出力する](https://qiita.com/yukieeeee/items/2085aad47f73aae3889e)
+### インストール方法
+1. パッケージ追加
+```
+sail composer require carlos-meneses/laravel-mpdf
+```
+2. PDF用コントローラー作成
+```
+sail php artisan make:controller PdfController
+```
+
+3. `./config/app.php`に設定を追加する。
+aliasesに設定しても動作しなかった。`LaravelMpdf`を直接呼び出すとうまくいったので、それを使う。
+```
+'providers' => [
+Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
+],
+'aliases' => Facade::defaultAliases()->merge([
+// 'ExampleClass' => App\Example\ExampleClass::class,
+'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
+])->toArray(),
+```
+4. 2.で作成したコントローラーに下記設定をする。
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf;
+
+class PdfController extends Controller
+{
+    public function viewPdf()
+    {
+        $data = [
+            'foo' => 'bar'
+        ];
+    	//ここでviewに$dataを送っているけど、
+    	//今回$dataはviewで使わない
+        $pdf = LaravelMpdf::loadView('pdf.document', $data);
+
+        // 表示させる場合
+        // return $pdf->stream('document.pdf');
+
+        return $pdf->download('document.pdf');//生成されるファイル名
+    }
+}
+```
+5. 日本語化対応のために、ipafontをダウンロードする。
+   [IPAexフォントおよびIPAフォントについて](https://moji.or.jp/ipafont/)
+
+6. ダウンロードしたファイルを回答し、`ipae.ttf`または`ipaexg.ttf`ファイルを`resources/fonts`に配置する。
+7. `config/pdf.php`のcustom_font_dataに以下の設定を追加する。
+```php
+'custom_font_data'         => [
+    'ipafont' => [
+        'R' => 'ipaexg.ttf' // 6.で配置したファイル名
+    ]
+],
+```
+8. `web.php`にルーティングの設定をしてリンクにアクセスしてみる。

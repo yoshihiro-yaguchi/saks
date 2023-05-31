@@ -184,6 +184,11 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        /**
+         * mPDF
+         */
+        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -212,6 +217,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
     ])->toArray(),
 
 ];

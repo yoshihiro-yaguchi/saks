@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,5 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/test/bootstrap', function () {
     return view('test.bootstrap');
 });
+
+Route::get('/pdf', [PdfController::class, 'viewPdf'])->name('viewPdf');
