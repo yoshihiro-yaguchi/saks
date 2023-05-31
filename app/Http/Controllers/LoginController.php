@@ -5,16 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostLoginRequest;
 use App\Services\LoginService;
 use App\Services\Beans\LoginServiceBean;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
     function login(PostLoginRequest $request) {
         $loginServiceBean = new LoginServiceBean();
-        $loginServiceBean->setUserId($request->id);
-        $loginServiceBean->setPassword($request->password);
+        $loginServiceBean->setUserId($request->input('id'));
+        $loginServiceBean->setPassword($request->input('password'));
         $result = (new LoginService())->login($loginServiceBean);
         $returnData = [
             'sample' => 'sample'
