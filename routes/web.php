@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeliverySlipController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Route;
@@ -15,11 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+# ログイン機能
 Route::get('/login', function () {
     return view('auth.login');
 });
-
 Route::post('/login', [LoginController::class, 'login']);
+
+# 商品管理
+
+# 仕切書発行
+Route::get('/createDeliverySlip', [DeliverySlipController::class, 'createDeliverySlipScreen']);
+
+# 明細書発行
+
 
 Route::get('/test/bootstrap', function () {
     return view('test.bootstrap');
