@@ -17,7 +17,7 @@
     <div class="deliverySlip-create-addRow">
       <button class="btn btn btn-outline-secondary btn-sm" id="addRow">行追加</button>
     </div>
-      <table class="deliverySlip-create-deliverySlipData">
+      <table class="deliverySlip-create-deliverySlipData" id="deliverySlip-create-deliverySlipData">
         <tr class="deliverySlip-create-tableHeader">
           <th>商品ID</th>
           <th>商品名</th>
@@ -26,13 +26,13 @@
           <th>数量</th>
           <th>価格</th>
         </tr>
-        <tr class="deliverySlip-create-tableData" name="tableData">
+        <tr class="deliverySlip-create-tableData" id="deliverySlip-create-tableData-1" name="tableData">
           <td><input type="text"></td>
           <td><input type="text"></td>
           <td><input type="text"></td>
           <td><input type="text"></td>
           <td><input type="text"></td>
-          <td><p>\1000</p></td>
+          <td><p>1000</p></td>
         </tr>
       </table>
     </div>

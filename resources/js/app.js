@@ -4,7 +4,29 @@ import "./bootstrap";
 import jQuery from "jquery";
 window.$ = jQuery;
 
-$("#addRow").on('click', function () {
-  $("#deliverySlip-create-deliverySlipData")
-    .append('<tr class="deliverySlip-create-tableData" name="tableData"><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><p>\1000</p></td></tr>')
+/**
+ * 仕切書作成画面
+ */
+$(function() {
+  let name = "deliverySlip-create-tableData-";
+  let idx = 1;
+  // 行追加
+  $("#addRow").on('click', function () {
+    idx++;
+    let id = name + idx;
+    $("#deliverySlip-create-deliverySlipData")
+      .append(`<tr class="deliverySlip-create-tableData" id=${id} name="tableData"></tr>`);
+    $(`#${id}`)
+      .append(`<td><input name="productId" type="text"></td>`);
+    $(`#${id}`)
+      .append(`<td><input type="text"></td>`);
+    $(`#${id}`)
+      .append(`<td><input type="text"></td>`);
+    $(`#${id}`)
+      .append(`<td><input type="text"></td>`);
+    $(`#${id}`)
+      .append(`<td><input type="text"></td>`);
+    $(`#${id}`)
+      .append(`<td><p>1000</p></td>`);
+  })
 })
