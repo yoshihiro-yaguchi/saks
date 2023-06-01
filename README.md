@@ -223,3 +223,4 @@ alias: {
     '@': '/resources/ts',
 },
 ```
+5. sail up -d, sail npm run dev
