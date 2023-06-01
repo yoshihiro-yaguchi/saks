@@ -173,3 +173,53 @@ class PdfController extends Controller
 ],
 ```
 8. `web.php`にルーティングの設定をしてリンクにアクセスしてみる。
+
+## React
+### 参考
+[【Laravel9系】 Laravel Sail Viteを使ってReact TypeScriptの開発環境を用意する。](https://saunabouya.com/2022/07/25/laravel9-sail-react-typescript-vite/)
+
+### インストール方法
+1. Reactをインストール
+```bash
+sail npm install --save-dev react react-dom @types/react @types/react-dom @vitejs/plugin-react @vitejs/plugin-react-refresh
+```
+2. app.tsxファイルを作成
+resources/ts/app.tsxを作成。
+```typescript
+import "../js/bootstrap";
+import "../css/app.css";
+import React from "react";
+import { createRoot } from 'react-dom/client';
+
+const App = () => {
+    const title: string = "Laravel 9 Vite with TypeScript React !!";
+    return <h1>{title}</h1>;
+};
+const container = document.getElementById('app') as HTMLInputElement;
+const root = createRoot(container);
+root.render(<App />);
+```
+3. viewファイル編集
+resources/views/welcome.blade.phpを編集
+```php
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Laravel</title>
+        @viteReactRefresh
+        @vite('resources/ts/app.tsx')
+    </head>
+    <body>
+        <div id="app"></div>
+    </body>
+</html>
+```
+4. vite.config.jsを修正
+aliasを設定する。
+```typescript
+alias: {
+    '@': '/resources/ts',
+},
+```
