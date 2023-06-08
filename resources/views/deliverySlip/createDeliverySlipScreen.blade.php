@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>仕切書</title>
-  @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
+  @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.ts'])
 </head>
 <body class="deliverySlip-create">
   <header>
