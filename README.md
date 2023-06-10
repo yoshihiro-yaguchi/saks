@@ -162,7 +162,6 @@ class PdfController extends Controller
 ```
 5. 日本語化対応のために、ipafontをダウンロードする。
    [IPAexフォントおよびIPAフォントについて](https://moji.or.jp/ipafont/)
-
 6. ダウンロードしたファイルを回答し、`ipae.ttf`または`ipaexg.ttf`ファイルを`resources/fonts`に配置する。
 7. `config/pdf.php`のcustom_font_dataに以下の設定を追加する。
 ```php
