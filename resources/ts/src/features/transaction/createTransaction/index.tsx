@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Table, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material"
+import { Box, Button, MenuItem, Select, Table, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material"
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from 'src/app/store';
@@ -8,6 +8,10 @@ import reportWebVitals from 'src/reportWebVitals';
 export const DeliverySlip = () => {
   return (
     <>
+      <Select value={1}>
+        <MenuItem value={1}>販売取引</MenuItem>
+        <MenuItem value={2}>買取取引</MenuItem>
+      </Select>
       <Button variant='contained'>行追加</Button>
       <TableContainer>
         <Table>
@@ -35,7 +39,7 @@ export const DeliverySlip = () => {
               商品名称
             </TableCell>
             <TableCell>
-              10
+              <TextField variant='standard' size='small'></TextField>
             </TableCell>
             <TableCell>
               12000

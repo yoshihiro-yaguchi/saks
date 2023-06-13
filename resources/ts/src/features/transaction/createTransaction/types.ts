@@ -1,13 +1,19 @@
 /**
  * メイン画面フォーム
  */
+export interface transactionState {
+  screenState: screenState
+}
 
 /**
  * deliverySlip画面ステート
  */
-export interface deliverySlipState {
-  columns: string[]
-  rows: string[]
+export interface screenState {
+  voucharState: number
+}
+
+export const initScreenState: screenState = {
+  voucharState: 1
 }
 
 /**

@@ -6,7 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>仕切書</title>
   @viteReactRefresh
-  @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/ts/src/features/transaction/index.tsx'])
+  @vite(['resources/sass/app.scss',
+    'resources/css/app.css',
+    'resources/ts/src/features/transaction/createTransaction/index.tsx'])
 </head>
 <body class="deliverySlip-create">
   <div id="createTransaction"></div>
