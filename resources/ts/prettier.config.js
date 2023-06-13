@@ -1,8 +1,8 @@
 module.exports = {
-  filepath:
-    "/home/yoshihiro-yaguchi/develop/tcis/resources/ts/src/features/transaction/createTransaction/index.tsx",
+  printWidth: 100,
   parser: "typescript",
   useTabs: false,
   tabWidth: 2,
+  semi: false,
   endOfLine: "lf",
 };

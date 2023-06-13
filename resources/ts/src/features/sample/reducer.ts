@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { contactForm, contactState, initContactScreenControlState, initContactState } from './types'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { contactForm, contactState, initContactScreenControlState, initContactState } from "./types"
 
 const initialState: contactForm = {
   contactState: initContactState,
@@ -7,7 +7,7 @@ const initialState: contactForm = {
 }
 
 export const contactStates = createSlice({
-  name: 'contact',
+  name: "contact",
   initialState,
   reducers: {
     // ステートリセット

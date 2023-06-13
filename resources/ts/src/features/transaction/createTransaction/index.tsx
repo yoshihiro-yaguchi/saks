@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Box,
   Button,
@@ -11,33 +11,30 @@ import {
   TableHead,
   TableRow,
   TextField,
-} from "@mui/material";
-import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
-import { RootState, store } from "src/app/store";
-import reportWebVitals from "src/reportWebVitals";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { ReactReduxContextInstance } from "react-redux/es/components/Context";
-import { actions } from "./reducer";
+} from "@mui/material"
+import { createRoot } from "react-dom/client"
+import { Provider } from "react-redux"
+import { RootState, store } from "src/app/store"
+import reportWebVitals from "src/reportWebVitals"
+import { useAppDispatch, useAppSelector } from "src/app/hooks"
+import { actions } from "./reducer"
 
 export const DeliverySlip = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const screenStates = useAppSelector(
-    (s: RootState) => s.createTransaction.screenState
-  );
+  const screenStates = useAppSelector((s: RootState) => s.createTransaction.screenState)
 
   // 取引区分セレクトハンドラ
   const selectVoucherClassHandle = (e: SelectChangeEvent) => {
-    dispatch(actions.onChangeVoucharStateHandle({ value: e.target.value }));
-  };
+    dispatch(actions.onChangeVoucharStateHandle({ value: e.target.value }))
+  }
 
   return (
     <>
       <Select
         value={screenStates.voucharState}
         onChange={(e: SelectChangeEvent) => {
-          selectVoucherClassHandle(e);
+          selectVoucherClassHandle(e)
         }}
       >
         <MenuItem value={"1"}>販売取引</MenuItem>
@@ -58,11 +55,7 @@ export const DeliverySlip = () => {
           <TableRow>
             <TableCell>商品名称</TableCell>
             <TableCell>
-              <TextField
-                label="数量(重量)"
-                variant="standard"
-                size="small"
-              ></TextField>
+              <TextField label="数量(重量)" variant="standard" size="small"></TextField>
             </TableCell>
             <TableCell>12000</TableCell>
             <TableCell>10</TableCell>
@@ -71,11 +64,11 @@ export const DeliverySlip = () => {
         </Table>
       </TableContainer>
     </>
-  );
-};
+  )
+}
 
-const container = document.getElementById("createTransaction")!;
-const root = createRoot(container);
+const container = document.getElementById("createTransaction")!
+const root = createRoot(container)
 
 root.render(
   <React.StrictMode>
@@ -83,6 +76,6 @@ root.render(
       <DeliverySlip />
     </Provider>
   </React.StrictMode>
-);
+)
 
-reportWebVitals();
+reportWebVitals()
