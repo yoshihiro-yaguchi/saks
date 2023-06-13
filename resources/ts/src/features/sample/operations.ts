@@ -1,6 +1,4 @@
-// import { AppThunk } from 'app/store'
-// import { AppThunk } from 'app/store'
-import { AppThunk } from 'app/store'
+import { AppThunk } from 'src/app/store'
 import { contactApi } from './api'
 import { actions as contactActions } from './reducer'
 
@@ -49,7 +47,6 @@ export const contactOperations = {
     params.append('contents', target.contents)
 
     const result = await contactApi.doSend(params)
-    console.log(result)
 
     dispatch(contactActions.controlConfilmDialog({ open: false }))
 

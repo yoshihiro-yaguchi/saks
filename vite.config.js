@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
 import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
     plugins: [
@@ -10,6 +11,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
                 'resources/ts/src/index.tsx',
+                "resources/ts/src/features/deliverySlip/deliverySlip.tsx",
             ],
 
             refresh: true,
@@ -27,6 +29,7 @@ export default defineConfig({
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
             $: "jQuery",
+            "src": path.resolve(__dirname, "resources/ts/src"),
         },
     },
 });

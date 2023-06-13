@@ -12,10 +12,10 @@ import {
   Typography,
 } from '@mui/material'
 import { Close } from '@mui/icons-material'
-import { ErrorDialog, ScreenBox, ViewDetailInfo, ViewDetailInfoBox } from 'sampleCommon/commonComponents'
+import { ErrorDialog, ScreenBox, ViewDetailInfo, ViewDetailInfoBox } from 'src/sampleCommon/commonComponents'
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { RootState } from 'app/store'
+import { useAppDispatch, useAppSelector } from 'src/app/hooks'
+import { RootState } from 'src/app/store'
 import { Send } from '@mui/icons-material'
 import contctImage from 'pic/contact/phone-ga8162a39d_1920.jpg'
 import { common } from '@mui/material/colors'

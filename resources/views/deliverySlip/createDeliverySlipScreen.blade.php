@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>仕切書</title>
-  @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
+  @viteReactRefresh
+  @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/ts/src/features/deliverySlip/deliverySlip.tsx'])
 </head>
 <body class="deliverySlip-create">
-  <header>
+  <div id="deliverySlip"></div>
+  {{-- <header>
   </header>
   <div class="deliverySlip-create-contents">
     <div class="deliverySlip-create-header">
@@ -37,7 +39,7 @@
       </table>
     </div>
     <div class="footer"></div>
-  </div>
+  </div> --}}
 </body>
 <script>
 </script>
