@@ -3,6 +3,8 @@ import laravel from "laravel-vite-plugin";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
+const src = path.resolve(__dirname, "resources/ts/src");
+
 export default defineConfig({
     plugins: [
         laravel({
@@ -10,8 +12,9 @@ export default defineConfig({
                 "resources/sass/app.scss",
                 "resources/css/app.css",
                 "resources/js/app.js",
-                'resources/ts/src/index.tsx',
-                "resources/ts/src/features/deliverySlip/deliverySlip.tsx",
+                src,
+                // 'resources/ts/src/index.tsx',
+                // "resources/ts/src/features/deliverySlip/deliverySlip.tsx",
             ],
 
             refresh: true,
