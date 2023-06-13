@@ -9,11 +9,11 @@ export interface transactionState {
  * deliverySlip画面ステート
  */
 export interface screenState {
-  voucharState: number
+  voucharState: string
 }
 
 export const initScreenState: screenState = {
-  voucharState: 1
+  voucharState: "1"
 }
 
 /**
