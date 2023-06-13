@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\DeliverySlipController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,12 +24,10 @@ Route::post('/login', [LoginController::class, 'login']);
 
 # 商品管理
 
-# 仕切書発行
-Route::get('/createDeliverySlip', [DeliverySlipController::class, 'createDeliverySlipScreen']);
+# 取引機能
+Route::get('/createTransaction', [TransactionController::class, 'createTransaction']);
 
 # 明細書発行
-
-
 Route::get('/test/bootstrap', function () {
     return view('test.bootstrap');
 });

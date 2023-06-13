@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DeliverySlipController extends Controller
+class TransactionController extends Controller
 {
-
     /**
      * 仕切書作成画面
      */
