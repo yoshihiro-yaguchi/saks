@@ -17,8 +17,8 @@ export const createTransactionStates = createSlice({
     //   state.screenState[action.payload.name as keyof screenState] = action.payload.value
     // },
 
-    onChangeVoucharStateHandle: (state, action: PayloadAction<{ value: string }>) => {
-      state.screenState.voucharState = action.payload.value
+    onChangeVoucherStateHandle: (state, action: PayloadAction<{ value: string }>) => {
+      state.screenState.voucherState = action.payload.value
     },
 
     onPushRows: (state, action: PayloadAction<{ value: indexRow }>) => {

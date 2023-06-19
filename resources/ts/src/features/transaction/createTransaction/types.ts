@@ -9,7 +9,7 @@ export interface transactionState {
  * deliverySlip画面ステート
  */
 export interface screenState {
-  voucharState: string
+  voucherState: string
   rows: indexRow[]
 }
 
@@ -23,7 +23,7 @@ export interface indexRow {
 }
 
 export const initScreenState: screenState = {
-  voucharState: "1",
+  voucherState: "1",
   rows: [],
 }
 

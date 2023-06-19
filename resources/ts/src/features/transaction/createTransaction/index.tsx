@@ -6,6 +6,7 @@ import {
   Select,
   SelectChangeEvent,
   Table,
+  TableBody,
   TableCell,
   TableContainer,
   TableHead,
@@ -26,19 +27,19 @@ export const DeliverySlip = () => {
   const screenStates = useAppSelector((s: RootState) => s.createTransaction.screenState)
 
   // 画面ロード時処理
-  // useEffect(() => {
-  //   dispatch(createTransactionOperations.onLoad())
-  // })
+  useEffect(() => {
+    dispatch(createTransactionOperations.onLoad())
+  }, [])
 
   // 取引区分セレクトハンドラ
   const selectVoucherClassHandle = (e: SelectChangeEvent) => {
-    dispatch(actions.onChangeVoucharStateHandle({ value: e.target.value }))
+    dispatch(actions.onChangeVoucherStateHandle({ value: e.target.value }))
   }
 
   return (
     <>
       <Select
-        value={screenStates.voucharState}
+        value={screenStates.voucherState}
         onChange={(e: SelectChangeEvent) => {
           selectVoucherClassHandle(e)
         }}
@@ -51,26 +52,30 @@ export const DeliverySlip = () => {
         <Table>
           {/* テーブルヘッダー */}
           <TableHead>
-            <TableCell>商品名称/商品備考</TableCell>
-            <TableCell>数量(重量)</TableCell>
-            <TableCell>単価</TableCell>
-            <TableCell>消費税</TableCell>
-            <TableCell>金額</TableCell>
-            <TableCell></TableCell>
+            <TableRow>
+              <TableCell>商品名称/商品備考</TableCell>
+              <TableCell>数量(重量)</TableCell>
+              <TableCell>単価</TableCell>
+              <TableCell>消費税</TableCell>
+              <TableCell>金額</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
           </TableHead>
-          {/* テーブルデータ */}
-          <TableRow>
-            <TableCell>商品名称</TableCell>
-            <TableCell>
-              <TextField label="数量(重量)" variant="standard" size="small"></TextField>
-            </TableCell>
-            <TableCell>12000</TableCell>
-            <TableCell>10</TableCell>
-            <TableCell>金額</TableCell>
-            <TableCell>
-              <Button variant="outlined">削除</Button>
-            </TableCell>
-          </TableRow>
+          <TableBody>
+            {/* テーブルデータ */}
+            <TableRow>
+              <TableCell>商品名称</TableCell>
+              <TableCell>
+                <TextField label="数量(重量)" variant="standard" size="small"></TextField>
+              </TableCell>
+              <TableCell>12000</TableCell>
+              <TableCell>10</TableCell>
+              <TableCell>金額</TableCell>
+              <TableCell>
+                <Button variant="outlined">削除</Button>
+              </TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
       </TableContainer>
     </>
@@ -78,6 +83,9 @@ export const DeliverySlip = () => {
 }
 
 const container = document.getElementById("createTransaction")!
+if (container !== null && container.childNodes.length === 0) {
+  const root = createRoot(container)
+}
 const root = createRoot(container)
 
 root.render(
