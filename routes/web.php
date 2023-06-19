@@ -34,6 +34,10 @@ Route::get('/test/bootstrap', function () {
 
 Route::get('/pdf', [PdfController::class, 'viewPdf'])->name('viewPdf');
 
+Route::get('/pdfPreview', function () {
+    return view('pdf.document');
+});
+
 Route::get('/', function () {
     return view('index');
 });
