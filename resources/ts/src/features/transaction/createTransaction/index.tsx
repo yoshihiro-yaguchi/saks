@@ -50,6 +50,7 @@ export const DeliverySlip = () => {
             <TableCell>単価</TableCell>
             <TableCell>消費税</TableCell>
             <TableCell>金額</TableCell>
+            <TableCell></TableCell>
           </TableHead>
           {/* テーブルデータ */}
           <TableRow>
@@ -60,6 +61,9 @@ export const DeliverySlip = () => {
             <TableCell>12000</TableCell>
             <TableCell>10</TableCell>
             <TableCell>金額</TableCell>
+            <TableCell>
+              <Button variant="outlined">削除</Button>
+            </TableCell>
           </TableRow>
         </Table>
       </TableContainer>
