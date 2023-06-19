@@ -83,9 +83,6 @@ export const DeliverySlip = () => {
 }
 
 const container = document.getElementById("createTransaction")!
-if (container !== null && container.childNodes.length === 0) {
-  const root = createRoot(container)
-}
 const root = createRoot(container)
 
 root.render(
