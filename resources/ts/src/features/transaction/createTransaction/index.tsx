@@ -68,22 +68,26 @@ export const DeliverySlip = () => {
           {/* テーブルヘッダー */}
           <TableHead>
             <TableRow>
-              <TableCell>商品名称/商品備考</TableCell>
-              <TableCell>数量(重量)</TableCell>
-              <TableCell>単価</TableCell>
-              <TableCell>消費税</TableCell>
-              <TableCell>金額</TableCell>
-              <TableCell></TableCell>
+              <TableCell sx={{ width: "200px" }}>商品名称/商品備考</TableCell>
+              <TableCell sx={{ width: "100px" }}>数量(重量)</TableCell>
+              <TableCell sx={{ width: "100px" }}>単価</TableCell>
+              <TableCell sx={{ width: "100px" }}>消費税</TableCell>
+              <TableCell sx={{ width: "100px" }}>金額</TableCell>
+              <TableCell sx={{ width: "100px" }}></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {/* テーブルデータ */}
-
             {screenStates.rows.map((row) => (
               <TableRow key={row.productId}>
                 <TableCell>{row.productName}</TableCell>
                 <TableCell>
-                  <TextField label="数量(重量)" variant="standard" size="small"></TextField>
+                  <TextField
+                    label="数量(重量)"
+                    variant="standard"
+                    size="small"
+                    value={1}
+                  ></TextField>
                 </TableCell>
                 <TableCell>{row.unitPrice}</TableCell>
                 <TableCell>{row.taxRate}%</TableCell>
