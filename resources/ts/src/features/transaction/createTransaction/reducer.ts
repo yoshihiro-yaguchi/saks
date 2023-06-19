@@ -21,8 +21,16 @@ export const createTransactionStates = createSlice({
       state.screenState.voucherState = action.payload.value
     },
 
-    onPushRows: (state, action: PayloadAction<{ value: indexRow }>) => {
+    pushRow: (state, action: PayloadAction<{ value: indexRow }>) => {
       state.screenState.rows.push(action.payload.value)
+    },
+
+    deleteRow: (state, action: PayloadAction<{ key: number }>) => {
+      const index = state.screenState.rows.findIndex(
+        ({ productId }) => productId === action.payload.key
+      )
+
+      state.screenState.rows.splice(index, 1)
     },
   },
 })

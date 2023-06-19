@@ -27,13 +27,21 @@ export const DeliverySlip = () => {
   const screenStates = useAppSelector((s: RootState) => s.createTransaction.screenState)
 
   // 画面ロード時処理
-  useEffect(() => {
-    dispatch(createTransactionOperations.onLoad())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(createTransactionOperations.onLoad())
+  // }, [])
 
   // 取引区分セレクトハンドラ
   const selectVoucherClassHandle = (e: SelectChangeEvent) => {
     dispatch(actions.onChangeVoucherStateHandle({ value: e.target.value }))
+  }
+
+  const pushAddRowButtonHandle = () => {
+    dispatch(createTransactionOperations.pushAddRowButton())
+  }
+
+  const pushDeleteRowButtonHandle = (key: number) => {
+    dispatch(actions.deleteRow({ key: key }))
   }
 
   return (
@@ -47,7 +55,14 @@ export const DeliverySlip = () => {
         <MenuItem value={"1"}>販売取引</MenuItem>
         <MenuItem value={"2"}>買取取引</MenuItem>
       </Select>
-      <Button variant="contained">行追加</Button>
+      <Button
+        variant="contained"
+        onClick={() => {
+          pushAddRowButtonHandle()
+        }}
+      >
+        行追加
+      </Button>
       <TableContainer>
         <Table>
           {/* テーブルヘッダー */}
@@ -63,18 +78,26 @@ export const DeliverySlip = () => {
           </TableHead>
           <TableBody>
             {/* テーブルデータ */}
-            <TableRow>
-              <TableCell>商品名称</TableCell>
-              <TableCell>
-                <TextField label="数量(重量)" variant="standard" size="small"></TextField>
-              </TableCell>
-              <TableCell>12000</TableCell>
-              <TableCell>10</TableCell>
-              <TableCell>金額</TableCell>
-              <TableCell>
-                <Button variant="outlined">削除</Button>
-              </TableCell>
-            </TableRow>
+
+            {screenStates.rows.map((row) => (
+              <TableRow key={row.productId}>
+                <TableCell>{row.productName}</TableCell>
+                <TableCell>
+                  <TextField label="数量(重量)" variant="standard" size="small"></TextField>
+                </TableCell>
+                <TableCell>{row.unitPrice}</TableCell>
+                <TableCell>{row.taxRate}%</TableCell>
+                <TableCell>{row.totalPrice}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="outlined"
+                    onClick={() => pushDeleteRowButtonHandle(row.productId)}
+                  >
+                    削除
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
