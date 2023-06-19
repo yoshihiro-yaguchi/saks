@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { initScreenState, screenState, transactionState } from "./types"
+import { indexRow, initScreenState, screenState, transactionState } from "./types"
 
 const initialState: transactionState = {
   screenState: initScreenState,
@@ -13,12 +13,16 @@ export const createTransactionStates = createSlice({
     reset: () => initialState,
 
     // テキストインプット時のハンドラ
-    onInputHandle: (state, action: PayloadAction<{ name: string; value: string }>) => {
-      state.screenState[action.payload.name as keyof screenState] = action.payload.value
-    },
+    // onInputHandle: (state, action: PayloadAction<{ name: string; value: string }>) => {
+    //   state.screenState[action.payload.name as keyof screenState] = action.payload.value
+    // },
 
     onChangeVoucharStateHandle: (state, action: PayloadAction<{ value: string }>) => {
       state.screenState.voucharState = action.payload.value
+    },
+
+    onPushRows: (state, action: PayloadAction<{ value: indexRow }>) => {
+      state.screenState.rows.push(action.payload.value)
     },
   },
 })

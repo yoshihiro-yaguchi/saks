@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   Box,
   Button,
@@ -18,11 +18,17 @@ import { RootState, store } from "src/app/store"
 import reportWebVitals from "src/reportWebVitals"
 import { useAppDispatch, useAppSelector } from "src/app/hooks"
 import { actions } from "./reducer"
+import { createTransactionOperations } from "./operation"
 
 export const DeliverySlip = () => {
   const dispatch = useAppDispatch()
 
   const screenStates = useAppSelector((s: RootState) => s.createTransaction.screenState)
+
+  // 画面ロード時処理
+  // useEffect(() => {
+  //   dispatch(createTransactionOperations.onLoad())
+  // })
 
   // 取引区分セレクトハンドラ
   const selectVoucherClassHandle = (e: SelectChangeEvent) => {

@@ -10,10 +10,21 @@ export interface transactionState {
  */
 export interface screenState {
   voucharState: string
+  rows: indexRow[]
+}
+
+export interface indexRow {
+  productId: number
+  productName: string
+  quantity: number
+  unitPrice: number
+  taxRate: number
+  totalPrice: number
 }
 
 export const initScreenState: screenState = {
-  voucharState: "1"
+  voucharState: "1",
+  rows: [],
 }
 
 /**
