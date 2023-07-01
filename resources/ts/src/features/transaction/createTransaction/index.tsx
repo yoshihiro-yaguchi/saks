@@ -20,6 +20,7 @@ import reportWebVitals from "src/reportWebVitals"
 import { useAppDispatch, useAppSelector } from "src/app/hooks"
 import { actions } from "./reducer"
 import { createTransactionOperations } from "./operation"
+import { BaseComponent } from "src/common/BaseComponent/BaseComponent"
 
 export const DeliverySlip = () => {
   const dispatch = useAppDispatch()
@@ -46,65 +47,67 @@ export const DeliverySlip = () => {
 
   return (
     <>
-      <Select
-        value={screenStates.voucherState}
-        onChange={(e: SelectChangeEvent) => {
-          selectVoucherClassHandle(e)
-        }}
-      >
-        <MenuItem value={"1"}>販売取引</MenuItem>
-        <MenuItem value={"2"}>買取取引</MenuItem>
-      </Select>
-      <Button
-        variant="contained"
-        onClick={() => {
-          pushAddRowButtonHandle()
-        }}
-      >
-        行追加
-      </Button>
-      <TableContainer>
-        <Table>
-          {/* テーブルヘッダー */}
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ width: "200px" }}>商品名称/商品備考</TableCell>
-              <TableCell sx={{ width: "100px" }}>数量(重量)</TableCell>
-              <TableCell sx={{ width: "100px" }}>単価</TableCell>
-              <TableCell sx={{ width: "100px" }}>消費税</TableCell>
-              <TableCell sx={{ width: "100px" }}>金額</TableCell>
-              <TableCell sx={{ width: "100px" }}></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* テーブルデータ */}
-            {screenStates.rows.map((row) => (
-              <TableRow key={row.productId}>
-                <TableCell>{row.productName}</TableCell>
-                <TableCell>
-                  <TextField
-                    label="数量(重量)"
-                    variant="standard"
-                    size="small"
-                    value={1}
-                  ></TextField>
-                </TableCell>
-                <TableCell>{row.unitPrice}</TableCell>
-                <TableCell>{row.taxRate}%</TableCell>
-                <TableCell>{row.totalPrice}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="outlined"
-                    onClick={() => pushDeleteRowButtonHandle(row.productId)}
-                  >
-                    削除
-                  </Button>
-                </TableCell>
+      <BaseComponent>
+        <Select
+          value={screenStates.voucherState}
+          onChange={(e: SelectChangeEvent) => {
+            selectVoucherClassHandle(e)
+          }}
+        >
+          <MenuItem value={"1"}>販売取引</MenuItem>
+          <MenuItem value={"2"}>買取取引</MenuItem>
+        </Select>
+        <Button
+          variant="contained"
+          onClick={() => {
+            pushAddRowButtonHandle()
+          }}
+        >
+          行追加
+        </Button>
+        <TableContainer>
+          <Table>
+            {/* テーブルヘッダー */}
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ width: "200px" }}>商品名称/商品備考</TableCell>
+                <TableCell sx={{ width: "100px" }}>数量(重量)</TableCell>
+                <TableCell sx={{ width: "100px" }}>単価</TableCell>
+                <TableCell sx={{ width: "100px" }}>消費税</TableCell>
+                <TableCell sx={{ width: "100px" }}>金額</TableCell>
+                <TableCell sx={{ width: "100px" }}></TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {/* テーブルデータ */}
+              {screenStates.rows.map((row) => (
+                <TableRow key={row.productId}>
+                  <TableCell>{row.productName}</TableCell>
+                  <TableCell>
+                    <TextField
+                      label="数量(重量)"
+                      variant="standard"
+                      size="small"
+                      value={1}
+                    ></TextField>
+                  </TableCell>
+                  <TableCell>{row.unitPrice}</TableCell>
+                  <TableCell>{row.taxRate}%</TableCell>
+                  <TableCell>{row.totalPrice}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="outlined"
+                      onClick={() => pushDeleteRowButtonHandle(row.productId)}
+                    >
+                      削除
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </BaseComponent>
     </>
   )
 }

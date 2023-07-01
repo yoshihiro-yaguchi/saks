@@ -1,5 +1,5 @@
-import { Box, BoxProps } from '@mui/material'
-import { blueGrey } from '@mui/material/colors'
+import { Box, BoxProps } from "@mui/material"
+import { blueGrey } from "@mui/material/colors"
 
 export const ViewDetailInfoBox = (props: BoxProps) => {
   const { children } = props
@@ -7,13 +7,13 @@ export const ViewDetailInfoBox = (props: BoxProps) => {
     <>
       <Box
         sx={{
-          borderRadius: '10px',
+          borderRadius: "10px",
           backgroundColor: blueGrey[100],
-          padding: '5px 5px',
-          margin: '5px 20px',
-          height: '100%',
-          maxWidth: '100%',
-          overflow: 'auto',
+          padding: "5px 5px",
+          margin: "5px 20px",
+          height: "100%",
+          maxWidth: "100%",
+          overflow: "auto",
         }}
       >
         {children}
