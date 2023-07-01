@@ -1,0 +1,155 @@
+{
+    // Place your tcis ワークスペース snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+    // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+    // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+    // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+    // Placeholders with the same ids are connected.
+    // Example:
+    // "Print to console": {
+    // 	"scope": "javascript,typescript",
+    // 	"prefix": "log",
+    // 	"body": [
+    // 		"console.log('$1');",
+    // 		"$2"
+    // 	],
+    // 	"description": "Log output to console"
+    // }
+
+    "react-component": {
+        "prefix": "react-component",
+        "body": [
+            "import { useAppDispatch, useAppSelector } from 'src/app/hooks'",
+            "import { RootState } from 'src/app/store'",
+            "import { actions } from './reducer'",
+            "import { operations } from './operations'",
+            "",
+            "export const #{COMPONENT_NAME} = () => {",
+            "  const dispatch = useAppDispatch()",
+            "  // 画面項目",
+            "  const contactStates = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.screenState)",
+            "  // 画面コントロール",
+            "  const contactScreenControl = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.controlState)",
+            "  // 値入力時ハンドラ",
+            "  const onInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {",
+            "    dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))",
+            "  }",
+            "  return (",
+            "    <>",
+            "    </>",
+            "  )",
+            "}"
+        ],
+        "description": "reactコンポーネント"
+    },
+    "react-tsx": {
+        "prefix": "react-tsx",
+        "body": [
+            "import { useAppDispatch, useAppSelector } from 'src/app/hooks'",
+            "import { RootState, store } from 'src/app/store'",
+            "import { actions } from './reducer'",
+            "import { operations } from './operations'",
+            "import { createRoot } from 'react-dom/client'",
+            "import { Provider } from 'react-redux'",
+            "import React from 'react'",
+            "",
+            "",
+            "",
+            "",
+            "export const #{COMPONENT_NAME} = () => {",
+            "  const dispatch = useAppDispatch()",
+            "  // 画面項目",
+            "  const contactStates = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.screenState)",
+            "  // 画面コントロール",
+            "  const contactScreenControl = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.controlState)",
+            "  // 値入力時ハンドラ",
+            "  const onInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {",
+            "    dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))",
+            "  }",
+            "  return (",
+            "    <>",
+            "    </>",
+            "  )",
+            "}",
+            "",
+            "const container = document.getElementById(\"#{ID}\")!",
+            "const root = createRoot(container)",
+            "",
+            "root.render(",
+            "  <React.StrictMode>",
+            "    <Provider store={store}>",
+            "      <#{COMPONENT_NAME} />",
+            "    </Provider>",
+            "  </React.StrictMode>",
+            ")",
+            "",
+            "reportWebVitals()"
+        ],
+        "description": "reactTSX"
+    },
+    "react-reducer": {
+        "prefix": "react-reducer",
+        "body": [
+            "import { createSlice, PayloadAction } from '@reduxjs/toolkit'",
+            "",
+            "const initialState: #{STATE_NAME} = {",
+            "  #{STATE_NAME}: #{INIT_STATE_NAME},",
+            "}",
+            "",
+            "export const #{STATES_NAME} = createSlice({",
+            "  name: '#{STATE_NAME}',",
+            "  initialState,",
+            "  reducers: {",
+            "    // ステートリセット",
+            "    reset: () => initialState,",
+            "",
+            "    // テキストインプット時のハンドラ",
+            "    onInputHandle: (state, action: PayloadAction<{ name: string; value: string }>) => {",
+            "      state.#{STATE_NAME}[action.payload.name as keyof contactState] = action.payload.value",
+            "    },",
+            "  },",
+            "})",
+            "export const { actions } = contactStates"
+        ],
+        "description": "react-reducer"
+    },
+    "react-operations": {
+        "prefix": "react-operations",
+        "body": [
+            "import { AppThunk } from 'src/app/store'",
+            "import { api } from './api'",
+            "",
+            "export const contactOperations = {",
+            "  /**",
+            "   * サンプル",
+            "   */",
+            "  sample: (): AppThunk => async (dispatch, getState) => {",
+            "    const target = getState().#{STATES_NAME}.#{STATE_NAME}",
+            "",
+            "    let params = new URLSearchParams()",
+            "    params.append('companyName', target.#{target1})",
+            "",
+            "    const result = await api.doPost(params)",
+            "    dispatch(#{actions})",
+            "  },",
+            "}"
+        ],
+        "description": "react-operations"
+    },
+    "react-api": {
+        "prefix": "react-api",
+        "body": [
+            "import axios from 'axios'",
+            "",
+            "export const api = {",
+            "  doInit: async (params: URLSearchParams) => {",
+            "    return await axios.get<string>(`sample/getMethod?${params.toString()}`)",
+            "  },",
+            "  doPost: async (params: URLSearchParams) => {",
+            "    return await axios.post<string>(`sample/postMethod`, params)",
+            "  },",
+            "}"
+        ],
+        "description": "react-api"
+    }
+}
