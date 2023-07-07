@@ -5,7 +5,7 @@ import { RootState, store } from "src/app/store"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import React from "react"
-import { Box, BoxProps, Typography } from "@mui/material"
+import { Box, BoxProps, Grid, Paper, Typography, styled } from "@mui/material"
 // import logo from "../../../public/image-logo.svg"
 
 export const BaseComponent = (props: BoxProps) => {
@@ -19,21 +19,28 @@ export const BaseComponent = (props: BoxProps) => {
   // const onInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))
   // }
+
   return (
     <>
       <Box>
         {/* ヘッダー */}
-        <Box sx={{ height: "50px", backgroundColor: "black" }}>
-          <Box sx={{ marginLeft: "10px" }}>
-            <Typography sx={{ color: "white" }}>契約ID</Typography>
-            <Typography>xxx-xxx-xxx</Typography>
-          </Box>
-        </Box>
-        {/* サイドメニュー */}
-        <Box sx={{ display: "flex" }}>
-          <Box sx={{ backgroundColor: "blueviolet", width: "100px" }}>メニュー</Box>
-          <Box>{children}</Box>
-        </Box>
+        <Box
+          sx={{ height: "55px", backgroundColor: "#1cc1cc", borderBottom: "1px solid #dddddd" }}
+        ></Box>
+        <Grid container spacing={4}>
+          {/* 左メニュー */}
+          <Grid item xs={2}>
+            <Box sx={{ height: "100%", borderRight: "1px solid #1cc1cc" }}></Box>
+          </Grid>
+          {/* コンテンツ */}
+          <Grid item xs={8}>
+            <Box sx={{ margin: "16px 0 16px" }}>{children}</Box>
+          </Grid>
+          {/* 右メニュー */}
+          <Grid item xs={2}>
+            <Box sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}></Box>
+          </Grid>
+        </Grid>
       </Box>
     </>
   )

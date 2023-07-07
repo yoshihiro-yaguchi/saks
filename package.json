@@ -31,6 +31,8 @@
         "@emotion/styled": "^11.11.0",
         "@mui/icons-material": "^5.11.16",
         "@mui/material": "^5.13.4",
+        "@mui/x-date-pickers": "^6.9.2",
+        "dayjs": "^1.11.9",
         "jquery": "^3.7.0",
         "react-redux": "^8.0.7",
         "redux": "^4.2.1"

@@ -1,10 +1,14 @@
 import React, { useEffect } from "react"
 import {
   Box,
+  BoxProps,
   Button,
+  Container,
+  Grid,
   MenuItem,
   Select,
   SelectChangeEvent,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -12,6 +16,9 @@ import {
   TableHead,
   TableRow,
   TextField,
+  TextFieldProps,
+  Typography,
+  TypographyProps,
 } from "@mui/material"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
@@ -21,6 +28,10 @@ import { useAppDispatch, useAppSelector } from "src/app/hooks"
 import { actions } from "./reducer"
 import { createTransactionOperations } from "./operation"
 import { BaseComponent } from "src/common/BaseComponent/BaseComponent"
+import styled from "@emotion/styled"
+import { Typo } from "src/common/Text/Typo"
+import { auto } from "@popperjs/core"
+import Date from "src/common/DatePicker/DatePicker"
 
 export const DeliverySlip = () => {
   const dispatch = useAppDispatch()
@@ -45,68 +56,129 @@ export const DeliverySlip = () => {
     dispatch(actions.deleteRow({ key: key }))
   }
 
+  const LinedContainerBox = function (props: BoxProps) {
+    const { children } = props
+    return (
+      <>
+        <Box
+          {...props}
+          sx={{
+            margin: "0",
+            padding: "16px",
+            border: "1px solid #dddddd",
+            borderRadius: "8px",
+            height: "100%",
+          }}
+        >
+          {children}
+        </Box>
+      </>
+    )
+  }
+
+  const ContainerBox = function (props: BoxProps) {
+    const { children } = props
+    return (
+      <>
+        <Box {...props} sx={{ margin: "0" }}>
+          {children}
+        </Box>
+      </>
+    )
+  }
+  const H1 = styled(Typo)(({ theme }) => ({
+    fontSize: 32,
+  }))
+
+  const H2 = styled(Typo)(({ theme }) => ({
+    fontSize: 28,
+  }))
+
+  const H3 = styled(Typo)(({}) => ({
+    fontSize: 20,
+  }))
+
+  const Input = function (props: TextFieldProps) {
+    const { children, name } = props
+    return (
+      <>
+        <Box sx={{ padding: "8px 0" }}>
+          <TextField
+            size="small"
+            sx={{ width: "100%" }}
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+            {...props}
+          ></TextField>
+        </Box>
+      </>
+    )
+  }
+
   return (
     <>
       <BaseComponent>
-        <Select
-          value={screenStates.voucherState}
-          onChange={(e: SelectChangeEvent) => {
-            selectVoucherClassHandle(e)
-          }}
-        >
-          <MenuItem value={"1"}>販売取引</MenuItem>
-          <MenuItem value={"2"}>買取取引</MenuItem>
-        </Select>
-        <Button
-          variant="contained"
-          onClick={() => {
-            pushAddRowButtonHandle()
-          }}
-        >
-          行追加
-        </Button>
-        <TableContainer>
-          <Table>
-            {/* テーブルヘッダー */}
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ width: "200px" }}>商品名称/商品備考</TableCell>
-                <TableCell sx={{ width: "100px" }}>数量(重量)</TableCell>
-                <TableCell sx={{ width: "100px" }}>単価</TableCell>
-                <TableCell sx={{ width: "100px" }}>消費税</TableCell>
-                <TableCell sx={{ width: "100px" }}>金額</TableCell>
-                <TableCell sx={{ width: "100px" }}></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {/* テーブルデータ */}
-              {screenStates.rows.map((row) => (
-                <TableRow key={row.productId}>
-                  <TableCell>{row.productName}</TableCell>
-                  <TableCell>
-                    <TextField
-                      label="数量(重量)"
-                      variant="standard"
-                      size="small"
-                      value={1}
-                    ></TextField>
-                  </TableCell>
-                  <TableCell>{row.unitPrice}</TableCell>
-                  <TableCell>{row.taxRate}%</TableCell>
-                  <TableCell>{row.totalPrice}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="outlined"
-                      onClick={() => pushDeleteRowButtonHandle(row.productId)}
-                    >
-                      削除
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {/* ページ内ヘッダー */}
+        <LinedContainerBox>
+          <H1>取引作成</H1>
+        </LinedContainerBox>
+        <Grid container spacing={4} sx={{ marginTop: "0px", marginBottom: "32px" }}>
+          <Grid item xs>
+            {/* 取引情報 */}
+            <LinedContainerBox>
+              <ContainerBox>
+                <H2>取引情報</H2>
+                <Grid container spacing={1}>
+                  <Grid item xs>
+                    <Input name="transactionDate" label="取引日付" type="date"></Input>
+                    <Input name="transactionBranch" label="取引支店"></Input>
+                  </Grid>
+                  <Grid item xs>
+                    <Input name="transactionDivision" label="取引区分"></Input>
+                    <Input name="corporateDivision" label="法人区分"></Input>
+                  </Grid>
+                </Grid>
+                <Input name="transactionTitle" label="件名">
+                  件名
+                </Input>
+              </ContainerBox>
+            </LinedContainerBox>
+          </Grid>
+          <Grid item xs>
+            {/* お客様情報 */}
+            <LinedContainerBox>
+              <H2>お客様情報</H2>
+              <ContainerBox>
+                <Grid container spacing={1}>
+                  <Grid item xs>
+                    <Input name="cunstomerCompanyName">会社名</Input>
+                    <Input name="customerBranch">支店</Input>
+                    <Input name="invoiceNumber">登録番号</Input>
+                  </Grid>
+                  <Grid item xs>
+                    <Input name="customerName">担当者名</Input>
+                    <Input name="postNumber">郵便番号</Input>
+                    <Input name="customerPhoneNumber">電話番号</Input>
+                  </Grid>
+                </Grid>
+                <Input name="customerAddress">住所</Input>
+                <Input name="buildingName">建物名</Input>
+              </ContainerBox>
+            </LinedContainerBox>
+          </Grid>
+        </Grid>
+
+        {/* 明細情報 */}
+        <LinedContainerBox>
+          <H2>明細情報</H2>
+        </LinedContainerBox>
+        {/* 備考 */}
+        <LinedContainerBox>
+          <H2>備考</H2>
+        </LinedContainerBox>
+        {/* ページ内フッター */}
+        <LinedContainerBox></LinedContainerBox>
       </BaseComponent>
     </>
   )
