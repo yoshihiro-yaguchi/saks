@@ -107,6 +107,7 @@ export const DeliverySlip = () => {
   return (
     <>
       <BaseComponent>
+        <Box sx={{ height: "32px" }}></Box>
         {/* ページ内ヘッダー */}
         <Box>
           <Grid container spacing={4}>
@@ -118,6 +119,7 @@ export const DeliverySlip = () => {
           </Grid>
         </Box>
 
+        <Box sx={{ height: "32px" }}></Box>
         <Grid container spacing={4}>
           <Grid item xs={12} md={6}>
             {/* 取引情報 */}
@@ -334,14 +336,19 @@ export const DeliverySlip = () => {
           </Grid>
         </Grid>
 
+        <Box sx={{ height: "32px" }}></Box>
         {/* 明細情報 */}
         <LinedContainerBox>
           <H2>明細情報</H2>
         </LinedContainerBox>
+
+        <Box sx={{ height: "32px" }}></Box>
         {/* 備考 */}
         <LinedContainerBox>
           <H2>備考</H2>
         </LinedContainerBox>
+
+        <Box sx={{ height: "32px" }}></Box>
         {/* ページ内フッター */}
         <LinedContainerBox></LinedContainerBox>
       </BaseComponent>
