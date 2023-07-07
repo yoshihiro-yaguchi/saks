@@ -190,14 +190,24 @@ export const DeliverySlip = () => {
                     </FormControl>
                   </Box>
                 </Grid>
-                <Grid item xs={12} lg={6}>
+                <Grid item xs={12} lg={3}>
                   <Input
-                    name="transactionPic"
-                    label="担当者"
+                    name="transactionPicLastName"
+                    label="担当者(姓)"
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                       changeTransactionInfoHandle(e.target.name, e.target.value)
                     }}
-                    value={transactionInfoState.transactionPic}
+                    value={transactionInfoState.transactionPicLastName}
+                  ></Input>
+                </Grid>
+                <Grid item xs={12} lg={3}>
+                  <Input
+                    name="transactionPicFirstName"
+                    label="担当者(名)"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeTransactionInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={transactionInfoState.transactionPicFirstName}
                   ></Input>
                 </Grid>
               </Grid>
@@ -265,14 +275,24 @@ export const DeliverySlip = () => {
                 value={customerInfoState.customerBranch}
               ></Input>
               <Grid container spacing={1}>
-                <Grid item xs={12} lg={6}>
+                <Grid item xs={12} lg={3}>
                   <Input
-                    name="customerName"
-                    label="お名前"
+                    name="customerLastName"
+                    label="お名前(姓)"
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                       changeCustomerInfoHandle(e.target.name, e.target.value)
                     }}
-                    value={customerInfoState.customerName}
+                    value={customerInfoState.customerLastName}
+                  ></Input>
+                </Grid>
+                <Grid item xs={12} lg={3}>
+                  <Input
+                    name="customerFirstName"
+                    label="お名前(名)"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeCustomerInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={customerInfoState.customerFirstName}
                   ></Input>
                 </Grid>
                 <Grid item xs={12} lg={6}>
