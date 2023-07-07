@@ -4,7 +4,9 @@ import {
   BoxProps,
   Button,
   Container,
+  FormControl,
   Grid,
+  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -102,7 +104,7 @@ export const DeliverySlip = () => {
     const { children, name } = props
     return (
       <>
-        <Box sx={{ padding: "8px 0" }}>
+        <Box sx={{ padding: "8px 8px 8px 0" }}>
           <TextField
             size="small"
             sx={{ width: "100%" }}
@@ -120,50 +122,82 @@ export const DeliverySlip = () => {
     <>
       <BaseComponent>
         {/* ページ内ヘッダー */}
-        <LinedContainerBox>
-          <H1>取引作成</H1>
-        </LinedContainerBox>
-        <Grid container spacing={4} sx={{ marginTop: "0px", marginBottom: "32px" }}>
-          <Grid item xs>
-            {/* 取引情報 */}
+        <Grid container spacing={0}>
+          <Grid item xs sx={{ margin: "16px 0" }}>
             <LinedContainerBox>
-              <ContainerBox>
-                <H2>取引情報</H2>
-                <Grid container spacing={1}>
-                  <Grid item xs>
-                    <Input name="transactionDate" label="取引日付" type="date"></Input>
-                    <Input name="transactionBranch" label="取引支店"></Input>
-                  </Grid>
-                  <Grid item xs>
-                    <Input name="transactionDivision" label="取引区分"></Input>
-                    <Input name="corporateDivision" label="法人区分"></Input>
-                  </Grid>
-                </Grid>
-                <Input name="transactionTitle" label="件名">
-                  件名
-                </Input>
-              </ContainerBox>
+              <H1>取引作成</H1>
             </LinedContainerBox>
           </Grid>
-          <Grid item xs>
+        </Grid>
+        <Grid container spacing={4}>
+          <Grid item xs sx={{ margin: "16px 0" }}>
             {/* お客様情報 */}
             <LinedContainerBox>
               <H2>お客様情報</H2>
               <ContainerBox>
                 <Grid container spacing={1}>
                   <Grid item xs>
-                    <Input name="cunstomerCompanyName">会社名</Input>
-                    <Input name="customerBranch">支店</Input>
-                    <Input name="invoiceNumber">登録番号</Input>
+                    <Box sx={{ padding: "8px 8px 8px 0" }}>
+                      <FormControl fullWidth>
+                        <InputLabel>法人区分</InputLabel>
+                        <Select
+                          id="corporateDivision"
+                          size="small"
+                          labelId="demo"
+                          value={1}
+                          label="法人区分"
+                        >
+                          <MenuItem value={1}>法人</MenuItem>
+                          <MenuItem value={2}>個人</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Box>
+                    <Input name="customerCompanyName" label="会社名"></Input>
+                    <Input name="customerBranch" label="支店"></Input>
                   </Grid>
                   <Grid item xs>
-                    <Input name="customerName">担当者名</Input>
-                    <Input name="postNumber">郵便番号</Input>
-                    <Input name="customerPhoneNumber">電話番号</Input>
+                    <Input name="invoiceNumber" label="インボイス登録番号"></Input>
+
+                    <Input name="customerName" label="担当者名"></Input>
+                    <Input name="customerPhoneNumber" label="電話番号"></Input>
                   </Grid>
                 </Grid>
-                <Input name="customerAddress">住所</Input>
-                <Input name="buildingName">建物名</Input>
+                <Input name="postNumber" label="郵便番号"></Input>
+                <Input name="customerAddress" label="住所"></Input>
+                <Input name="buildingName" label="建物名"></Input>
+              </ContainerBox>
+            </LinedContainerBox>
+          </Grid>
+          <Grid item xs sx={{ margin: "16px 0" }}>
+            {/* 取引情報 */}
+            <LinedContainerBox>
+              <ContainerBox>
+                <H2>取引情報</H2>
+                <Input name="transactionTitle" label="件名"></Input>
+                <Grid container spacing={1}>
+                  <Grid item xs>
+                    <Input name="transactionDate" label="取引日付" type="date"></Input>
+                    <Box sx={{ padding: "8px 8px 8px 0" }}>
+                      <FormControl fullWidth>
+                        <InputLabel>取引区分</InputLabel>
+                        <Select
+                          id="transactionDivision"
+                          size="small"
+                          labelId="demo"
+                          value={1}
+                          label="取引日付"
+                        >
+                          <MenuItem value={1}>販売</MenuItem>
+                          <MenuItem value={2}>買取</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  </Grid>
+                  <Grid item xs>
+                    <Input name="transactionBranch" label="取引支店"></Input>
+                    <Input name="transactionPic" label="担当者"></Input>
+                  </Grid>
+                </Grid>
               </ContainerBox>
             </LinedContainerBox>
           </Grid>
