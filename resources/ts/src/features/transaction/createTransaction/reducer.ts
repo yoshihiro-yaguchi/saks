@@ -1,8 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { indexRow, initScreenState, screenState, transactionState } from "./types"
+import {
+  customerInfo,
+  initCustomerInfo,
+  initTransactionInfo,
+  transactionInfo,
+  transactionState,
+} from "./types"
+import { stringify } from "querystring"
 
 const initialState: transactionState = {
-  screenState: initScreenState,
+  transactionInfo: initTransactionInfo,
+  customerInfo: initCustomerInfo,
 }
 
 export const createTransactionStates = createSlice({
@@ -13,24 +21,14 @@ export const createTransactionStates = createSlice({
     reset: () => initialState,
 
     // テキストインプット時のハンドラ
-    // onInputHandle: (state, action: PayloadAction<{ name: string; value: string }>) => {
-    //   state.screenState[action.payload.name as keyof screenState] = action.payload.value
-    // },
-
-    onChangeVoucherStateHandle: (state, action: PayloadAction<{ value: string }>) => {
-      state.screenState.voucherState = action.payload.value
+    changeTransactionInfoHandle: (
+      state,
+      action: PayloadAction<{ name: string; value: string }>
+    ) => {
+      state.transactionInfo[action.payload.name as keyof transactionInfo] = action.payload.value
     },
-
-    pushRow: (state, action: PayloadAction<{ value: indexRow }>) => {
-      state.screenState.rows.push(action.payload.value)
-    },
-
-    deleteRow: (state, action: PayloadAction<{ key: number }>) => {
-      const index = state.screenState.rows.findIndex(
-        ({ productId }) => productId === action.payload.key
-      )
-
-      state.screenState.rows.splice(index, 1)
+    changeCustomerInfoHandle: (state, action: PayloadAction<{ name: string; value: string }>) => {
+      state.customerInfo[action.payload.name as keyof customerInfo] = action.payload.value
     },
   },
 })

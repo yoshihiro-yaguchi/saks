@@ -28,177 +28,308 @@ import { RootState, store } from "src/app/store"
 import reportWebVitals from "src/reportWebVitals"
 import { useAppDispatch, useAppSelector } from "src/app/hooks"
 import { actions } from "./reducer"
-import { createTransactionOperations } from "./operation"
+
 import { BaseComponent } from "src/common/BaseComponent/BaseComponent"
 import styled from "@emotion/styled"
 import { Typo } from "src/common/Text/Typo"
-import { auto } from "@popperjs/core"
-import Date from "src/common/DatePicker/DatePicker"
+
+const LinedContainerBox = function (props: BoxProps) {
+  const { children } = props
+  return (
+    <>
+      <Box
+        {...props}
+        sx={{
+          margin: "0",
+          padding: "16px",
+          border: "1px solid #dddddd",
+          borderRadius: "8px",
+          height: "100%",
+        }}
+      >
+        {children}
+      </Box>
+    </>
+  )
+}
+
+const H1 = styled(Typo)(({ theme }) => ({
+  fontSize: 32,
+}))
+
+const H2 = styled(Typo)(({ theme }) => ({
+  fontSize: 28,
+}))
+
+const H3 = styled(Typo)(({}) => ({
+  fontSize: 20,
+}))
+
+const Input = function (props: TextFieldProps) {
+  const { children, name } = props
+  return (
+    <>
+      <Box sx={{ padding: "8px 8px 8px 0" }}>
+        <TextField
+          size="small"
+          sx={{ width: "100%" }}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          {...props}
+        ></TextField>
+      </Box>
+    </>
+  )
+}
 
 export const DeliverySlip = () => {
   const dispatch = useAppDispatch()
 
-  const screenStates = useAppSelector((s: RootState) => s.createTransaction.screenState)
+  // 取引情報ステート
+  const transactionInfoState = useAppSelector((s: RootState) => s.createTransaction.transactionInfo)
+  // お客様情報ステート
+  const customerInfoState = useAppSelector((s: RootState) => s.createTransaction.customerInfo)
+  // 取引情報変更時ハンドラ
+  const changeTransactionInfoHandle = (name: string, value: string) => {
+    dispatch(actions.changeTransactionInfoHandle({ name: name, value: value }))
+  }
+  // 取引情報変更時ハンドラ
+  const changeCustomerInfoHandle = (name: string, value: string) => {
+    dispatch(actions.changeCustomerInfoHandle({ name: name, value: value }))
+  }
 
   // 画面ロード時処理
-  // useEffect(() => {
-  //   dispatch(createTransactionOperations.onLoad())
-  // }, [])
-
-  // 取引区分セレクトハンドラ
-  const selectVoucherClassHandle = (e: SelectChangeEvent) => {
-    dispatch(actions.onChangeVoucherStateHandle({ value: e.target.value }))
-  }
-
-  const pushAddRowButtonHandle = () => {
-    dispatch(createTransactionOperations.pushAddRowButton())
-  }
-
-  const pushDeleteRowButtonHandle = (key: number) => {
-    dispatch(actions.deleteRow({ key: key }))
-  }
-
-  const LinedContainerBox = function (props: BoxProps) {
-    const { children } = props
-    return (
-      <>
-        <Box
-          {...props}
-          sx={{
-            margin: "0",
-            padding: "16px",
-            border: "1px solid #dddddd",
-            borderRadius: "8px",
-            height: "100%",
-          }}
-        >
-          {children}
-        </Box>
-      </>
-    )
-  }
-
-  const ContainerBox = function (props: BoxProps) {
-    const { children } = props
-    return (
-      <>
-        <Box {...props} sx={{ margin: "0" }}>
-          {children}
-        </Box>
-      </>
-    )
-  }
-  const H1 = styled(Typo)(({ theme }) => ({
-    fontSize: 32,
-  }))
-
-  const H2 = styled(Typo)(({ theme }) => ({
-    fontSize: 28,
-  }))
-
-  const H3 = styled(Typo)(({}) => ({
-    fontSize: 20,
-  }))
-
-  const Input = function (props: TextFieldProps) {
-    const { children, name } = props
-    return (
-      <>
-        <Box sx={{ padding: "8px 8px 8px 0" }}>
-          <TextField
-            size="small"
-            sx={{ width: "100%" }}
-            variant="outlined"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            {...props}
-          ></TextField>
-        </Box>
-      </>
-    )
-  }
+  useEffect(() => {
+    console.log("初回ロード")
+  }, [])
 
   return (
     <>
       <BaseComponent>
         {/* ページ内ヘッダー */}
-        <Grid container spacing={0}>
-          <Grid item xs sx={{ margin: "16px 0" }}>
+        <Box>
+          <Grid container spacing={4}>
+            <Grid item xs>
+              <LinedContainerBox>
+                <H1>取引作成</H1>
+              </LinedContainerBox>
+            </Grid>
+          </Grid>
+        </Box>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            {/* 取引情報 */}
             <LinedContainerBox>
-              <H1>取引作成</H1>
+              <H2>取引情報</H2>
+              <Input
+                name="transactionTitle"
+                label="件名"
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  changeTransactionInfoHandle(e.target.name, e.target.value)
+                }}
+                value={transactionInfoState.transactionTitle}
+              ></Input>
+              <Grid container spacing={1}>
+                <Grid item xs={12} lg={6}>
+                  <Box sx={{ padding: "8px 8px 8px 0" }}>
+                    <FormControl fullWidth>
+                      <InputLabel>取引区分</InputLabel>
+                      <Select
+                        id="transactionDivision"
+                        size="small"
+                        labelId="demo"
+                        value={transactionInfoState.transactionDivision}
+                        label="取引区分"
+                        onChange={(e: SelectChangeEvent<string>) => {
+                          changeTransactionInfoHandle(
+                            "transactionDivision",
+                            e.target.value as string
+                          )
+                        }}
+                      >
+                        <MenuItem value={"1"}>販売</MenuItem>
+                        <MenuItem value={"2"}>買取</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Input
+                    name="transactionDate"
+                    label="取引日付"
+                    type="date"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeTransactionInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={transactionInfoState.transactionDate}
+                  ></Input>
+                </Grid>
+              </Grid>
+              <Grid container spacing={1}>
+                <Grid item xs={12} lg={6}>
+                  <Box sx={{ padding: "8px 8px 8px 0" }}>
+                    <FormControl fullWidth>
+                      <InputLabel>取引支店</InputLabel>
+                      <Select
+                        id="transactionBranch"
+                        size="small"
+                        labelId="demo"
+                        value={transactionInfoState.transactionBranch}
+                        label="取引支店"
+                        onChange={(e: SelectChangeEvent<string>) => {
+                          changeTransactionInfoHandle("transactionBranch", e.target.value as string)
+                        }}
+                      >
+                        <MenuItem value={"1"}>本社工場</MenuItem>
+                        <MenuItem value={"2"}>高崎工場</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Input
+                    name="transactionPic"
+                    label="担当者"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeTransactionInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={transactionInfoState.transactionPic}
+                  ></Input>
+                </Grid>
+              </Grid>
+              <Input
+                name="transactionNote"
+                label="取引備考"
+                multiline
+                rows={11}
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  changeTransactionInfoHandle(e.target.name, e.target.value)
+                }}
+                value={transactionInfoState.transactionNote}
+              ></Input>
             </LinedContainerBox>
           </Grid>
-        </Grid>
-        <Grid container spacing={4}>
-          <Grid item xs sx={{ margin: "16px 0" }}>
+          <Grid item xs={12} md={6}>
             {/* お客様情報 */}
             <LinedContainerBox>
               <H2>お客様情報</H2>
-              <ContainerBox>
-                <Grid container spacing={1}>
-                  <Grid item xs>
-                    <Box sx={{ padding: "8px 8px 8px 0" }}>
-                      <FormControl fullWidth>
-                        <InputLabel>法人区分</InputLabel>
-                        <Select
-                          id="corporateDivision"
-                          size="small"
-                          labelId="demo"
-                          value={1}
-                          label="法人区分"
-                        >
-                          <MenuItem value={1}>法人</MenuItem>
-                          <MenuItem value={2}>個人</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Box>
-                    <Input name="customerCompanyName" label="会社名"></Input>
-                    <Input name="customerBranch" label="支店"></Input>
-                  </Grid>
-                  <Grid item xs>
-                    <Input name="invoiceNumber" label="インボイス登録番号"></Input>
-
-                    <Input name="customerName" label="担当者名"></Input>
-                    <Input name="customerPhoneNumber" label="電話番号"></Input>
-                  </Grid>
+              <Grid container spacing={1}>
+                <Grid item xs={12} lg={6}>
+                  <Box sx={{ padding: "8px 8px 8px 0" }}>
+                    <FormControl fullWidth>
+                      <InputLabel>法人区分</InputLabel>
+                      <Select
+                        id="corporationDivision"
+                        size="small"
+                        value={customerInfoState.corporationDivision}
+                        label="法人区分"
+                        onChange={(e: SelectChangeEvent<string>) => {
+                          changeCustomerInfoHandle("corporationDivision", e.target.value as string)
+                        }}
+                      >
+                        <MenuItem value={1}>法人</MenuItem>
+                        <MenuItem value={2}>個人</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
                 </Grid>
-                <Input name="postNumber" label="郵便番号"></Input>
-                <Input name="customerAddress" label="住所"></Input>
-                <Input name="buildingName" label="建物名"></Input>
-              </ContainerBox>
-            </LinedContainerBox>
-          </Grid>
-          <Grid item xs sx={{ margin: "16px 0" }}>
-            {/* 取引情報 */}
-            <LinedContainerBox>
-              <ContainerBox>
-                <H2>取引情報</H2>
-                <Input name="transactionTitle" label="件名"></Input>
-                <Grid container spacing={1}>
-                  <Grid item xs>
-                    <Input name="transactionDate" label="取引日付" type="date"></Input>
-                    <Box sx={{ padding: "8px 8px 8px 0" }}>
-                      <FormControl fullWidth>
-                        <InputLabel>取引区分</InputLabel>
-                        <Select
-                          id="transactionDivision"
-                          size="small"
-                          labelId="demo"
-                          value={1}
-                          label="取引日付"
-                        >
-                          <MenuItem value={1}>販売</MenuItem>
-                          <MenuItem value={2}>買取</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Box>
-                  </Grid>
-                  <Grid item xs>
-                    <Input name="transactionBranch" label="取引支店"></Input>
-                    <Input name="transactionPic" label="担当者"></Input>
-                  </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Input
+                    name="invoiceNumber"
+                    label="インボイス登録番号"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeCustomerInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={customerInfoState.invoiceNumber}
+                  ></Input>
                 </Grid>
-              </ContainerBox>
+              </Grid>
+              <Input
+                name="customerCompany"
+                label="会社名"
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  changeCustomerInfoHandle(e.target.name, e.target.value)
+                }}
+                value={customerInfoState.customerCompany}
+              ></Input>
+              <Input
+                name="customerBranch"
+                label="支店名"
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  changeCustomerInfoHandle(e.target.name, e.target.value)
+                }}
+                value={customerInfoState.customerBranch}
+              ></Input>
+              <Grid container spacing={1}>
+                <Grid item xs={12} lg={6}>
+                  <Input
+                    name="customerName"
+                    label="お名前"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeCustomerInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={customerInfoState.customerName}
+                  ></Input>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Input
+                    name="customerPhoneNumber"
+                    label="電話番号"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeCustomerInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={customerInfoState.customerPhoneNumber}
+                  ></Input>
+                </Grid>
+              </Grid>
+              <Grid container spacing={1} sx={{ marginTop: "8px" }}>
+                <Grid item xs={12} lg={6}>
+                  <Input
+                    name="zipCode"
+                    label="郵便番号"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeCustomerInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={customerInfoState.zipCode}
+                  ></Input>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Input
+                    name="customerAddress1"
+                    label="都道府県"
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeCustomerInfoHandle(e.target.name, e.target.value)
+                    }}
+                    value={customerInfoState.customerAddress1}
+                  ></Input>
+                </Grid>
+              </Grid>
+              <Input
+                name="customerAddress2"
+                label="市区町村"
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  changeCustomerInfoHandle(e.target.name, e.target.value)
+                }}
+                value={customerInfoState.customerAddress2}
+              ></Input>
+              <Input
+                name="customerAddress3"
+                label="町・番地"
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  changeCustomerInfoHandle(e.target.name, e.target.value)
+                }}
+                value={customerInfoState.customerAddress3}
+              ></Input>
+              <Input
+                name="customerAddress4"
+                label="建物名等"
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  changeCustomerInfoHandle(e.target.name, e.target.value)
+                }}
+                value={customerInfoState.customerAddress4}
+              ></Input>
             </LinedContainerBox>
           </Grid>
         </Grid>

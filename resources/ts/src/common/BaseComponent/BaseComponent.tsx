@@ -25,19 +25,24 @@ export const BaseComponent = (props: BoxProps) => {
       <Box>
         {/* ヘッダー */}
         <Box
-          sx={{ height: "55px", backgroundColor: "#1cc1cc", borderBottom: "1px solid #dddddd" }}
+          sx={{
+            margin: "0",
+            height: "55px",
+            backgroundColor: "#1cc1cc",
+            borderBottom: "1px solid #dddddd",
+          }}
         ></Box>
         <Grid container spacing={4}>
           {/* 左メニュー */}
-          <Grid item xs={2}>
+          <Grid item xs={0} sm={3} md={2}>
             <Box sx={{ height: "100%", borderRight: "1px solid #1cc1cc" }}></Box>
           </Grid>
           {/* コンテンツ */}
-          <Grid item xs={8}>
+          <Grid item xs={12} sm={9} md={8}>
             <Box sx={{ margin: "16px 0 16px" }}>{children}</Box>
           </Grid>
           {/* 右メニュー */}
-          <Grid item xs={2}>
+          <Grid item xs={0} sm={0} md={2}>
             <Box sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}></Box>
           </Grid>
         </Grid>

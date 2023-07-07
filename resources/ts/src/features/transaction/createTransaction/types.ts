@@ -2,35 +2,74 @@
  * メイン画面フォーム
  */
 export interface transactionState {
-  screenState: screenState
+  transactionInfo: transactionInfo
+  customerInfo: customerInfo
 }
 
 /**
- * deliverySlip画面ステート
+ * 取引情報
  */
-export interface screenState {
-  voucherState: string
-  rows: indexRow[]
+export interface transactionInfo {
+  /** 件名 */
+  transactionTitle: string
+  /** 取引区分 */
+  transactionDivision: string
+  /** 取引日付 */
+  transactionDate: string
+  /** 取引支店 */
+  transactionBranch: string
+  /** 担当者 */
+  transactionPic: string
+  /** 取引備考 */
+  transactionNote: string
 }
 
-export interface indexRow {
-  productId: number
-  productName: string
-  quantity: number
-  unitPrice: number
-  taxRate: number
-  totalPrice: number
-}
-
-export const initScreenState: screenState = {
-  voucherState: "1",
-  rows: [],
+export const initTransactionInfo: transactionInfo = {
+  transactionTitle: "",
+  transactionDivision: "1",
+  transactionDate: "",
+  transactionBranch: "1",
+  transactionPic: "",
+  transactionNote: "",
 }
 
 /**
- * deliverySlip画面コントロール
+ * お客様情報
  */
-
-/**
- * deliverySlip画面コントロール初期化
- */
+export interface customerInfo {
+  /** 法人区分 */
+  corporationDivision: string
+  /** 会社名 */
+  customerCompany: string
+  /** 支店名 */
+  customerBranch: string
+  /** インボイス登録番号 */
+  invoiceNumber: string
+  /** お名前 */
+  customerName: string
+  /** 電話番号 */
+  customerPhoneNumber: string
+  /** 郵便番号 */
+  zipCode: string
+  /** 住所1 都道府県 */
+  customerAddress1: string
+  /** 住所2 市町村区 */
+  customerAddress2: string
+  /** 住所3 町・番地 */
+  customerAddress3: string
+  /** 住所4 建物名等 */
+  customerAddress4: string
+}
+export const initCustomerInfo: customerInfo = {
+  corporationDivision: "1",
+  customerCompany: "",
+  customerBranch: "",
+  invoiceNumber: "",
+  customerName: "",
+  customerPhoneNumber: "",
+  zipCode: "",
+  customerAddress1: "",
+  customerAddress2: "",
+  customerAddress3: "",
+  customerAddress4: "",
+}
