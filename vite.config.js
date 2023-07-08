@@ -34,6 +34,7 @@ export default defineConfig({
             $: "jQuery",
             "@resource": path.resolve(__dirname, "./resources"),
             "@src": path.resolve(__dirname, "./resources/ts/src"),
+            "@common": path.resolve(__dirname, "./resources/ts/src/common"),
             "@public": path.resolve(__dirname, "./resources/ts/public"),
         },
     },

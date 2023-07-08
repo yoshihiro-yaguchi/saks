@@ -29,7 +29,7 @@ import reportWebVitals from "@src/reportWebVitals"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { actions } from "./reducer"
 
-import { BaseComponent } from "@src/common/BaseComponent/BaseComponent"
+import { BaseComponent } from "@common/BaseComponent/BaseComponent"
 import styled from "@emotion/styled"
 import { Typo } from "@src/common/Text/Typo"
 
