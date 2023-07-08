@@ -2,25 +2,14 @@ import React, { useEffect } from "react"
 import {
   Box,
   BoxProps,
-  Button,
-  Container,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   TextFieldProps,
-  Typography,
-  TypographyProps,
 } from "@mui/material"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
@@ -32,6 +21,22 @@ import { actions } from "./reducer"
 import { BaseComponent } from "@common/BaseComponent/BaseComponent"
 import styled from "@emotion/styled"
 import { Typo } from "@src/common/Text/Typo"
+
+/**
+ * bladeからのデータ受け取り
+ */
+let csrfToken = document.head.querySelector<HTMLMetaElement>('meta[name="csrfToken"]')?.content
+console.log(csrfToken)
+let metaData = document.head.querySelector<HTMLMetaElement>('meta[name="data"]')?.content
+console.log(metaData)
+// laravelからのデータ
+const element = document.getElementById("createTransaction")
+let data: string | undefined = element?.dataset.data
+let json = null
+if (data !== undefined) {
+  json = JSON.parse(data)
+}
+console.log(json)
 
 const LinedContainerBox = function (props: BoxProps) {
   const { children } = props

@@ -11,10 +11,10 @@ class TransactionController extends Controller
      */
     public function createTransaction() {
         $datas = [
-          "encodeData" => json_encode([
+          "encodeData" => json_encode(array(
             'message' => "成功",
-            "array" => ['conf', 'anf', 'enf']
-          ])
+            "array" => array('a'=>'conf', 'b'=>'anf', 'c'=>'enf')
+          ))
         ];
         return view('transaction.createTransaction')->with($datas);
     }
