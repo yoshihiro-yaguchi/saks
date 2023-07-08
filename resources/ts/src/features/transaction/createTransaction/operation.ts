@@ -1,4 +1,4 @@
-import { AppThunk } from "src/app/store"
+import { AppThunk } from "@front/ts/src/app/store"
 import { actions } from "./reducer"
 
 export const createTransactionOperations = {

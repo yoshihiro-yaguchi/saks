@@ -3,7 +3,7 @@ import laravel from "laravel-vite-plugin";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-const src = path.resolve(__dirname, "resources/ts/src");
+const src = path.resolve(__dirname, "resources/ts/*");
 
 export default defineConfig({
     plugins: [
@@ -30,9 +30,9 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            vue: 'vue/dist/vue.esm-bundler.js',
+            vue: "vue/dist/vue.esm-bundler.js",
             $: "jQuery",
-            "src": path.resolve(__dirname, "resources/ts/src"),
+            "@front": path.resolve(__dirname, "./resources"),
         },
     },
 });

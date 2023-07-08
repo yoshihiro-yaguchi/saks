@@ -1,6 +1,6 @@
-import { AppThunk } from 'src/app/store'
-import { contactApi } from './api'
-import { actions as contactActions } from './reducer'
+import { AppThunk } from "@front/ts/src/app/store"
+import { contactApi } from "./api"
+import { actions as contactActions } from "./reducer"
 
 export const contactOperations = {
   /**
@@ -11,16 +11,16 @@ export const contactOperations = {
     // validate
     let validateResult: string[] = []
     // お名前
-    if (userName === '' || userName === null) {
-      validateResult.push('お名前は入力必須項目です。')
+    if (userName === "" || userName === null) {
+      validateResult.push("お名前は入力必須項目です。")
     }
     // メールアドレス
-    if (mailAddress === '' || mailAddress === null) {
-      validateResult.push('メールアドレスは入力必須項目です。')
+    if (mailAddress === "" || mailAddress === null) {
+      validateResult.push("メールアドレスは入力必須項目です。")
     }
     // お問い合わせ内容
-    if (contents === '' || contents === null) {
-      validateResult.push('お問い合わせ内容は入力必須項目です。')
+    if (contents === "" || contents === null) {
+      validateResult.push("お問い合わせ内容は入力必須項目です。")
     }
 
     // エラーが有る場合は処理中断
@@ -40,11 +40,11 @@ export const contactOperations = {
     let target = getState().contact.contactState
 
     let params = new URLSearchParams()
-    params.append('companyName', target.companyName)
-    params.append('userName', target.userName)
-    params.append('mailAddress', target.mailAddress)
-    params.append('telephoneNumber', target.telephoneNumber)
-    params.append('contents', target.contents)
+    params.append("companyName", target.companyName)
+    params.append("userName", target.userName)
+    params.append("mailAddress", target.mailAddress)
+    params.append("telephoneNumber", target.telephoneNumber)
+    params.append("contents", target.contents)
 
     const result = await contactApi.doSend(params)
 

@@ -17,12 +17,12 @@ import {
   ScreenBox,
   ViewDetailInfo,
   ViewDetailInfoBox,
-} from "src/sampleCommon/commonComponents"
+} from "@front/ts/src/sampleCommon/commonComponents"
 import { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "src/app/hooks"
-import { RootState } from "src/app/store"
+import { useAppDispatch, useAppSelector } from "@front/ts/src/app/hooks"
+import { RootState } from "@front/ts/src/app/store"
 import { Send } from "@mui/icons-material"
-import contctImage from "pic/contact/phone-ga8162a39d_1920.jpg"
+// import contctImage from "ts/pic/contact/phone-ga8162a39d_1920.jpg"
 import { common } from "@mui/material/colors"
 import { actions as contactActions } from "./reducer"
 import { contactOperations } from "./operations"
@@ -79,7 +79,7 @@ export const Contact = () => {
         }}
       >
         <img
-          src={contctImage}
+          // src={contctImage}
           alt="contactImage"
           style={{ width: "100%", height: "500px", objectFit: "none", borderRadius: "10px" }}
         />

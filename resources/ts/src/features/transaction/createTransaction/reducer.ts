@@ -6,7 +6,6 @@ import {
   transactionInfo,
   transactionState,
 } from "./types"
-import { stringify } from "querystring"
 
 const initialState: transactionState = {
   transactionInfo: initTransactionInfo,

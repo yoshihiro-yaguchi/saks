@@ -24,14 +24,14 @@ import {
 } from "@mui/material"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
-import { RootState, store } from "src/app/store"
-import reportWebVitals from "src/reportWebVitals"
-import { useAppDispatch, useAppSelector } from "src/app/hooks"
+import { RootState, store } from "@front/ts/src/app/store"
+import reportWebVitals from "@front/ts/src/reportWebVitals"
+import { useAppDispatch, useAppSelector } from "@front/ts/src/app/hooks"
 import { actions } from "./reducer"
 
-import { BaseComponent } from "src/common/BaseComponent/BaseComponent"
+import { BaseComponent } from "@front/ts/src/common/BaseComponent/BaseComponent"
 import styled from "@emotion/styled"
-import { Typo } from "src/common/Text/Typo"
+import { Typo } from "@front/ts/src/common/Text/Typo"
 
 const LinedContainerBox = function (props: BoxProps) {
   const { children } = props
