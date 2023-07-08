@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 import counterReducer from "../features/counter/counterSlice"
-import { contactStates } from "@front/ts/src/features/sample/reducer"
-import { createTransactionStates } from "@front/ts/src/features/transaction/createTransaction/reducer"
+import { contactStates } from "@src/features/sample/reducer"
+import { createTransactionStates } from "@src/features/transaction/createTransaction/reducer"
 
 export const store = configureStore({
   reducer: {

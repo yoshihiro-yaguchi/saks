@@ -32,7 +32,9 @@ export default defineConfig({
         alias: {
             vue: "vue/dist/vue.esm-bundler.js",
             $: "jQuery",
-            "@front": path.resolve(__dirname, "./resources"),
+            "@resource": path.resolve(__dirname, "./resources"),
+            "@src": path.resolve(__dirname, "./resources/ts/src"),
+            "@public": path.resolve(__dirname, "./resources/ts/public"),
         },
     },
 });

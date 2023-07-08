@@ -17,10 +17,10 @@ import {
   ScreenBox,
   ViewDetailInfo,
   ViewDetailInfoBox,
-} from "@front/ts/src/sampleCommon/commonComponents"
+} from "@src/sampleCommon/commonComponents"
 import { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "@front/ts/src/app/hooks"
-import { RootState } from "@front/ts/src/app/store"
+import { useAppDispatch, useAppSelector } from "@src/app/hooks"
+import { RootState } from "@src/app/store"
 import { Send } from "@mui/icons-material"
 // import contctImage from "ts/pic/contact/phone-ga8162a39d_1920.jpg"
 import { common } from "@mui/material/colors"

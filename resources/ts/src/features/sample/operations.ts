@@ -1,4 +1,4 @@
-import { AppThunk } from "@front/ts/src/app/store"
+import { AppThunk } from "@src/app/store"
 import { contactApi } from "./api"
 import { actions as contactActions } from "./reducer"
 

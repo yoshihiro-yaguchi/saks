@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from "@front/ts/src/app/hooks"
-import { RootState, store } from "@front/ts/src/app/store"
+import { useAppDispatch, useAppSelector } from "@src/app/hooks"
+import { RootState, store } from "@src/app/store"
 // import { actions } from './reducer'
 // import { operations } from './operations'
 import { createRoot } from "react-dom/client"
