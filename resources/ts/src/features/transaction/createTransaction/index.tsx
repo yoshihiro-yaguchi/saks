@@ -83,7 +83,7 @@ const Input = function (props: TextFieldProps) {
   )
 }
 
-export const DeliverySlip = () => {
+export const CreateTransaction = () => {
   const dispatch = useAppDispatch()
 
   // 取引情報ステート
@@ -382,7 +382,7 @@ const root = createRoot(container)
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <DeliverySlip />
+      <CreateTransaction />
     </Provider>
   </React.StrictMode>
 )
