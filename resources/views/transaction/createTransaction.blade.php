@@ -7,6 +7,7 @@
   {{-- reactデータ連携 --}}
   <meta name="csrfToken" content={{csrf_token()}}>
   <meta name="data" content="{{$encodeData}}">
+  <meta name="rootUrl" content="{{Request::root()}}">
   <title>取引作成</title>
   @viteReactRefresh
   @vite(['resources/sass/app.scss',
