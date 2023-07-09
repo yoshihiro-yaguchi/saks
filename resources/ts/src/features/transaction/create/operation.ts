@@ -1,11 +1,9 @@
 import { AppThunk } from "@src/app/store"
 // import { api } from './api'
 
-export const contactOperations = {
+export const createTransactionOperations = {
   submit: (): AppThunk => async (dispatch, getState) => {
-    let request = new XMLHttpRequest()
-
-    // request.open('POST', )
+    let form = document.querySelector<HTMLFormElement>("")?.submit
   },
 
   /**

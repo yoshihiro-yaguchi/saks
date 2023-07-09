@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import {
   Box,
   BoxProps,
+  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -21,6 +22,7 @@ import { actions } from "./reducer"
 import { BaseComponent } from "@common/BaseComponent/BaseComponent"
 import styled from "@emotion/styled"
 import { Typo } from "@src/common/Text/Typo"
+import { createTransactionOperations } from "./operation"
 
 /**
  * bladeからのデータ受け取り
@@ -132,6 +134,9 @@ export const Create = () => {
   }, [])
 
   const csrfToken = useAppSelector((s: RootState) => s.createTransaction._token)
+  const baseUrl = useAppSelector(
+    (s: RootState) => s.createTransaction.common.baseUrl
+  )
   // 取引情報ステート
   const transactionInfoState = useAppSelector(
     (s: RootState) => s.createTransaction.transactionInfo
@@ -149,10 +154,20 @@ export const Create = () => {
     dispatch(actions.changeCustomerInfoHandle({ name: name, value: value }))
   }
 
+  // 送信
+  const onClickSendButton = () => {
+    dispatch(createTransactionOperations.submit())
+  }
+
   return (
     <>
       <BaseComponent>
-        <form>
+        <form
+          id="createTransaction"
+          name="createTransaction"
+          action={`${baseUrl}/transaction/create`}
+          method="post"
+        >
           <input type="hidden" name="_token" value={csrfToken} />
           <Box sx={{ height: "32px" }}></Box>
           {/* ページ内ヘッダー */}
@@ -161,6 +176,14 @@ export const Create = () => {
               <Grid item xs>
                 <LinedContainerBox>
                   <H1>取引作成</H1>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      onClickSendButton()
+                    }}
+                  >
+                    送信
+                  </Button>
                 </LinedContainerBox>
               </Grid>
             </Grid>
