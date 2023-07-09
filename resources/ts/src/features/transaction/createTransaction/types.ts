@@ -2,6 +2,7 @@
  * メイン画面フォーム
  */
 export interface transactionState {
+  _token: string
   transactionInfo: transactionInfo
   customerInfo: customerInfo
 }
