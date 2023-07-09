@@ -30,6 +30,7 @@ Route::post('/login', [LoginController::class, 'login']);
 // GET:作成
 Route::get('/transaction/create', [TransactionController::class, 'create']);
 // POST:作成
+Route::post('/transaction/create', [TransactionController::class . 'createTransaction']);
 
 
 

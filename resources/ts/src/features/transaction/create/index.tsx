@@ -26,9 +26,16 @@ import { Typo } from "@src/common/Text/Typo"
  * bladeからのデータ受け取り
  */
 // token
-let bladeCsrfToken = document.head.querySelector<HTMLMetaElement>('meta[name="csrfToken"]')?.content
+let bladeCsrfToken = document.head.querySelector<HTMLMetaElement>(
+  'meta[name="csrfToken"]'
+)?.content
+// baseUrl
+let baseUrl = document.head.querySelector<HTMLMetaElement>(
+  'meta[name="baseUrl"]'
+)?.content
 // バックエンドからのデータ
-let data = document.head.querySelector<HTMLMetaElement>('meta[name="data"]')?.content
+let data =
+  document.head.querySelector<HTMLMetaElement>('meta[name="data"]')?.content
 let arrayData = null
 if (typeof data === "string") {
   arrayData = JSON.parse(data)
@@ -116,16 +123,23 @@ export const Create = () => {
   // 画面ロード時処理
   useEffect(() => {
     // トークン設定
-    if (bladeCsrfToken !== undefined) {
+    if (typeof bladeCsrfToken === "string") {
       dispatch(actions.setToken({ token: bladeCsrfToken }))
+    }
+    if (typeof baseUrl === "string") {
+      dispatch(actions.setBaseUrl({ baseUrl: baseUrl }))
     }
   }, [])
 
   const csrfToken = useAppSelector((s: RootState) => s.createTransaction._token)
   // 取引情報ステート
-  const transactionInfoState = useAppSelector((s: RootState) => s.createTransaction.transactionInfo)
+  const transactionInfoState = useAppSelector(
+    (s: RootState) => s.createTransaction.transactionInfo
+  )
   // お客様情報ステート
-  const customerInfoState = useAppSelector((s: RootState) => s.createTransaction.customerInfo)
+  const customerInfoState = useAppSelector(
+    (s: RootState) => s.createTransaction.customerInfo
+  )
   // 取引情報変更時ハンドラ
   const changeTransactionInfoHandle = (name: string, value: string) => {
     dispatch(actions.changeTransactionInfoHandle({ name: name, value: value }))
@@ -196,7 +210,10 @@ export const Create = () => {
                       label="取引日付"
                       type="date"
                       onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeTransactionInfoHandle(e.target.name, e.target.value)
+                        changeTransactionInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={transactionInfoState.transactionDate}
                     ></Input>
@@ -231,7 +248,10 @@ export const Create = () => {
                       name="transactionPicLastName"
                       label="担当者(姓)"
                       onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeTransactionInfoHandle(e.target.name, e.target.value)
+                        changeTransactionInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={transactionInfoState.transactionPicLastName}
                     ></Input>
@@ -241,7 +261,10 @@ export const Create = () => {
                       name="transactionPicFirstName"
                       label="担当者(名)"
                       onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeTransactionInfoHandle(e.target.name, e.target.value)
+                        changeTransactionInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={transactionInfoState.transactionPicFirstName}
                     ></Input>

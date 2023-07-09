@@ -3,10 +3,20 @@
  */
 export interface transactionState {
   _token: string
+  common: common
   transactionInfo: transactionInfo
   customerInfo: customerInfo
 }
 
+/**
+ * 共通
+ */
+export interface common {
+  baseUrl: string
+}
+export const initCommon: common = {
+  baseUrl: "",
+}
 /**
  * 取引情報
  */
