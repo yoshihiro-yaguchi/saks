@@ -12,7 +12,7 @@
   @viteReactRefresh
   @vite(['resources/sass/app.scss',
     'resources/css/app.css',
-    'resources/ts/src/features/transaction/createTransaction/index.tsx'])
+    'resources/ts/src/features/transaction/create/index.tsx'])
 </head>
 <body class="deliverySlip-create">
   <div id="createTransaction"></div>

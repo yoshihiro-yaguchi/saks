@@ -16,18 +16,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-# ログイン機能
+// ログイン機能
 Route::get('/login', function () {
     return view('auth.login');
 });
 Route::post('/login', [LoginController::class, 'login']);
 
-# 商品管理
+// 商品管理
 
-# 取引機能
-Route::get('/createTransaction', [TransactionController::class, 'createTransaction']);
+/**
+ * 取引
+ */
+// GET:作成
+Route::get('/transaction/create', [TransactionController::class, 'create']);
+// POST:作成
 
-# 明細書発行
+
+
+// 明細書発行
 Route::get('/test/bootstrap', function () {
     return view('test.bootstrap');
 });

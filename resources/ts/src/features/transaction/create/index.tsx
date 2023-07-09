@@ -30,7 +30,7 @@ let bladeCsrfToken = document.head.querySelector<HTMLMetaElement>('meta[name="cs
 // バックエンドからのデータ
 let data = document.head.querySelector<HTMLMetaElement>('meta[name="data"]')?.content
 let arrayData = null
-if (data !== undefined) {
+if (typeof data === "string") {
   arrayData = JSON.parse(data)
 }
 
@@ -110,7 +110,7 @@ const Input = function (props: TextFieldProps) {
  *
  * @returns
  */
-export const CreateTransaction = () => {
+export const Create = () => {
   const dispatch = useAppDispatch()
 
   // 画面ロード時処理
@@ -422,7 +422,7 @@ const root = createRoot(container)
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <CreateTransaction />
+      <Create />
     </Provider>
   </React.StrictMode>
 )
