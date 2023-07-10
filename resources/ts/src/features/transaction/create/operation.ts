@@ -3,7 +3,12 @@ import { AppThunk } from "@src/app/store"
 
 export const createTransactionOperations = {
   submit: (): AppThunk => async (dispatch, getState) => {
-    let form = document.querySelector<HTMLFormElement>("")?.submit
+    let form = document.querySelector<HTMLFormElement>(
+      'form[id="createTransaction"]'
+    )
+    if (form !== null) {
+      form.submit()
+    }
   },
 
   /**
