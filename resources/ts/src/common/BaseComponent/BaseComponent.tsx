@@ -20,6 +20,16 @@ export const BaseComponent = (props: BoxProps) => {
   //   dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))
   // }
 
+  const StyledBox = styled(Box)(({ theme }) => ({
+    height: "100%",
+    "@media screen and (max-width:599px)": {
+      margin: "0 32px 0 32px",
+    },
+    "@media screen and (min-width:600px,max-width:900px)": {
+      margin: "0 32px 0 0",
+    },
+  }))
+
   return (
     <>
       <Box sx={{ height: "100%" }}>
@@ -40,10 +50,10 @@ export const BaseComponent = (props: BoxProps) => {
           </Grid>
           {/* コンテンツ */}
           <Grid item xs={12} sm={9} md={8}>
-            <Box sx={{ height: "100%" }}>
+            <StyledBox>
               <Box height={"32px"}></Box>
               {children}
-            </Box>
+            </StyledBox>
           </Grid>
           {/* 右メニュー */}
           <Grid item xs={0} sm={0} md={2}>
