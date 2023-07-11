@@ -191,7 +191,7 @@ export const Create = () => {
     dispatch(createTransactionOperations.submit())
   }
 
-  // 行追加
+  // 明細追加
   const addRow = () => {
     dispatch(
       createTransactionOperations.addDetailRow(
@@ -203,6 +203,15 @@ export const Create = () => {
   // 行削除
   const deleteRow = (index: number) => {
     dispatch(actions.deleteDetailRow({ index: index }))
+  }
+
+  // 明細データ変更時ハンドラ
+  const changeDetailRowHandle = (
+    index: number,
+    name: string,
+    value: string | number
+  ) => {
+    dispatch(createTransactionOperations.changeDetailRow(index, name, value))
   }
 
   // TODO: マジックナンバーどうしよう
@@ -607,6 +616,7 @@ export const Create = () => {
                         <StyledTableRowCell>
                           {row.productNo}
                           <input
+                            readOnly
                             hidden
                             name={`detailRows[${index}][productNo]`}
                             value={row.productNo}
@@ -616,6 +626,7 @@ export const Create = () => {
                         <StyledTableRowCell>
                           {row.productName}
                           <input
+                            readOnly
                             hidden
                             name={`detailRows[${index}][productName]`}
                             value={row.productName}
@@ -623,7 +634,6 @@ export const Create = () => {
                         </StyledTableRowCell>
                         {/* 数量(重量) */}
                         <StyledTableRowCell>
-                          {/* {row.quantity.toLocaleString()} */}
                           <TextField
                             name={`detailRows[${index}][quantity]`}
                             type="number"
@@ -637,11 +647,18 @@ export const Create = () => {
                                 </InputAdornment>
                               ),
                             }}
+                            value={row.quantity}
+                            onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                              changeDetailRowHandle(
+                                index,
+                                "quantity",
+                                e.target.value
+                              )
+                            }
                           ></TextField>
                         </StyledTableRowCell>
                         {/* 単価 */}
                         <StyledTableRowCell sx={{ textAlign: "right" }}>
-                          {/* {row.unitPrice.toLocaleString()} */}
                           <TextField
                             name={`detailRows[${index}][unitPrice]`}
                             type="number"
@@ -655,17 +672,31 @@ export const Create = () => {
                                 </InputAdornment>
                               ),
                             }}
+                            value={row.unitPrice}
+                            onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                              changeDetailRowHandle(
+                                index,
+                                "unitPrice",
+                                e.target.value
+                              )
+                            }
                           ></TextField>
                         </StyledTableRowCell>
                         {/* 税率 */}
                         <StyledTableRowCell sx={{ textAlign: "right" }}>
-                          {/* {row.taxRate.toLocaleString()} */}
                           <Select
                             name={`detailRows[${index}][taxRate]`}
                             labelId="taxRate"
-                            value={8}
+                            value={row.taxRate}
                             size="small"
                             variant="standard"
+                            onChange={(e: SelectChangeEvent<number>) => {
+                              changeDetailRowHandle(
+                                index,
+                                "taxRate",
+                                e.target.value as keyof number
+                              )
+                            }}
                           >
                             <MenuItem value={8}>8%</MenuItem>
                             <MenuItem value={10}>10%</MenuItem>
@@ -673,9 +704,10 @@ export const Create = () => {
                         </StyledTableRowCell>
                         {/* 金額 */}
                         <StyledTableRowCell sx={{ textAlign: "right" }}>
-                          {row.totalPrice.toLocaleString()}
+                          ￥{row.totalPrice.toLocaleString()}
                           <input
-                            type="hidden"
+                            readOnly
+                            hidden
                             name={`detailRows[${index}][totalPrice]`}
                             value={row.totalPrice}
                           />

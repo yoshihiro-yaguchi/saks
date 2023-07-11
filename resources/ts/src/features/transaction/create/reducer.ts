@@ -43,6 +43,17 @@ export const createTransactionStates = createSlice({
         action.payload.value
     },
 
+    // 明細情報変更時ハンドラ
+    changeDetailRowHandle: (
+      state,
+      action: PayloadAction<{
+        index: number
+        data: detailRow
+      }>
+    ) => {
+      state.detailRows[action.payload.index] = action.payload.data
+    },
+
     // トークンセット
     setToken: (state, action: PayloadAction<{ token: string }>) => {
       state._token = action.payload.token
