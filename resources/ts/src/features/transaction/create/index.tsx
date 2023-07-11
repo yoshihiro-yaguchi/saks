@@ -6,6 +6,7 @@ import {
   FormControl,
   Grid,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -569,27 +570,27 @@ export const Create = () => {
                       <StyledTableHeadCell>商品名</StyledTableHeadCell>
                       <StyledTableHeadCell
                         sx={{
-                          minWidth: "87px",
+                          minWidth: "120px",
                           width: "10%",
                           padding: "6px 6px",
                         }}
                       >
                         数量(重量)
                       </StyledTableHeadCell>
-                      <StyledTableHeadCell sx={{ width: "120px" }}>
+                      <StyledTableHeadCell sx={{ width: "140px" }}>
                         単価
                       </StyledTableHeadCell>
-                      <StyledTableHeadCell sx={{ width: "60px" }}>
+                      <StyledTableHeadCell sx={{ width: "91px" }}>
                         税率
                       </StyledTableHeadCell>
-                      <StyledTableHeadCell sx={{ width: "120px" }}>
+                      <StyledTableHeadCell sx={{ width: "100px" }}>
                         金額
                       </StyledTableHeadCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {detailRows.map((row, index) => (
-                      <StyledTableRow key={index}>
+                      <StyledTableRow key={row.productNo}>
                         {/* 削除ボタン */}
                         <StyledTableRowCell sx={{ padding: "6px 6px" }}>
                           <Box sx={{ display: "inline-block" }}>
@@ -603,26 +604,81 @@ export const Create = () => {
                           </Box>
                         </StyledTableRowCell>
                         {/* 商品番号 */}
-                        <StyledTableRowCell>{row.productNo}</StyledTableRowCell>
+                        <StyledTableRowCell>
+                          {row.productNo}
+                          <input
+                            hidden
+                            name={`detailRows[${index}][productNo]`}
+                            value={row.productNo}
+                          />
+                        </StyledTableRowCell>
                         {/* 商品名 */}
                         <StyledTableRowCell>
                           {row.productName}
+                          <input
+                            hidden
+                            name={`detailRows[${index}][productName]`}
+                            value={row.productName}
+                          />
                         </StyledTableRowCell>
                         {/* 数量(重量) */}
-                        <StyledTableRowCell sx={{ textAlign: "right" }}>
-                          {row.quantity.toLocaleString()}
+                        <StyledTableRowCell>
+                          {/* {row.quantity.toLocaleString()} */}
+                          <TextField
+                            name={`detailRows[${index}][quantity]`}
+                            type="number"
+                            size="small"
+                            variant="standard"
+                            sx={{ float: "left", fontSize: "10px" }}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  個
+                                </InputAdornment>
+                              ),
+                            }}
+                          ></TextField>
                         </StyledTableRowCell>
                         {/* 単価 */}
                         <StyledTableRowCell sx={{ textAlign: "right" }}>
-                          {row.unitPrice.toLocaleString()}
+                          {/* {row.unitPrice.toLocaleString()} */}
+                          <TextField
+                            name={`detailRows[${index}][unitPrice]`}
+                            type="number"
+                            size="small"
+                            variant="standard"
+                            sx={{ float: "left", fontSize: "10px" }}
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  ￥
+                                </InputAdornment>
+                              ),
+                            }}
+                          ></TextField>
                         </StyledTableRowCell>
                         {/* 税率 */}
                         <StyledTableRowCell sx={{ textAlign: "right" }}>
-                          {row.taxRate.toLocaleString()}
+                          {/* {row.taxRate.toLocaleString()} */}
+                          <Select
+                            name={`detailRows[${index}][taxRate]`}
+                            labelId="taxRate"
+                            value={8}
+                            size="small"
+                            variant="standard"
+                          >
+                            <MenuItem value={8}>8%</MenuItem>
+                            <MenuItem value={10}>10%</MenuItem>
+                          </Select>
                         </StyledTableRowCell>
                         {/* 金額 */}
                         <StyledTableRowCell sx={{ textAlign: "right" }}>
                           {row.totalPrice.toLocaleString()}
+                          <input
+                            type="hidden"
+                            name={`detailRows[${index}][totalPrice]`}
+                            value={row.totalPrice}
+                          />
                         </StyledTableRowCell>
                       </StyledTableRow>
                     ))}

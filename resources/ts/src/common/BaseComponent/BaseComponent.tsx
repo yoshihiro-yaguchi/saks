@@ -8,6 +8,17 @@ import React from "react"
 import { Box, BoxProps, Grid, Paper, Typography, styled } from "@mui/material"
 // import logo from "../../../public/image-logo.svg"
 
+// styledBox
+const StyledBox = styled(Box)(({ theme }) => ({
+  height: "100%",
+  "@media screen and (max-width:599px)": {
+    margin: "0 32px 0 32px",
+  },
+  "@media (min-width:600px) and (max-width:900px)": {
+    margin: "0 32px 0 0",
+  },
+}))
+
 export const BaseComponent = (props: BoxProps) => {
   const { children } = props
   const dispatch = useAppDispatch()
@@ -19,16 +30,6 @@ export const BaseComponent = (props: BoxProps) => {
   // const onInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))
   // }
-
-  const StyledBox = styled(Box)(({ theme }) => ({
-    height: "100%",
-    "@media screen and (max-width:599px)": {
-      margin: "0 32px 0 32px",
-    },
-    "@media (min-width:600px) and (max-width:900px)": {
-      margin: "0 32px 0 0",
-    },
-  }))
 
   return (
     <>
