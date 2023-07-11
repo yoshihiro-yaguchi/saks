@@ -6,6 +6,7 @@ export interface transactionState {
   common: common
   transactionInfo: transactionInfo
   customerInfo: customerInfo
+  detailRows: detailRow[]
 }
 
 /**
@@ -89,4 +90,22 @@ export const initCustomerInfo: customerInfo = {
   customerAddress2: "",
   customerAddress3: "",
   customerAddress4: "",
+}
+
+/**
+ * 明細行
+ */
+export interface detailRow {
+  /** 商品番号 */
+  productNo: string
+  /** 商品名 */
+  productName: string
+  /** 数量 */
+  quantity: number
+  /** 単価 */
+  unitPrice: number
+  /** 税率 */
+  taxRate: number
+  /** 金額 */
+  totalPrice: number
 }

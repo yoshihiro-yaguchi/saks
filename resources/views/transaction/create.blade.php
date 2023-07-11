@@ -10,12 +10,13 @@
   <meta name="baseUrl" content="{{Request::root()}}">
   <title>取引作成</title>
   @viteReactRefresh
-  @vite(['resources/sass/app.scss',
+  @vite(['resources/ts/src/features/transaction/create/index.tsx',
+    'resources/sass/app.scss',
     'resources/css/app.css',
-    'resources/ts/src/features/transaction/create/index.tsx'])
+    ])
 </head>
 <body class="deliverySlip-create">
-  <div id="createTransaction"></div>
+  <div class="createTransaction" id="createTransaction"></div>
 </body>
 <script>
 </script>

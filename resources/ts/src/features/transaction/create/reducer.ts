@@ -1,18 +1,21 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import {
   customerInfo,
+  detailRow,
   initCommon,
   initCustomerInfo,
   initTransactionInfo,
   transactionInfo,
   transactionState,
 } from "./types"
+import { stringify } from "querystring"
 
 const initialState: transactionState = {
   _token: "",
   common: initCommon,
   transactionInfo: initTransactionInfo,
   customerInfo: initCustomerInfo,
+  detailRows: [],
 }
 
 export const createTransactionStates = createSlice({
@@ -48,6 +51,16 @@ export const createTransactionStates = createSlice({
     // baseURLセット
     setBaseUrl: (state, action: PayloadAction<{ baseUrl: string }>) => {
       state.common.baseUrl = action.payload.baseUrl
+    },
+
+    // 明細追加
+    addDetailRow: (state, action: PayloadAction<{ value: detailRow }>) => {
+      state.detailRows.push(action.payload.value)
+    },
+
+    // 明細行削除
+    deleteDetailRow: (state, action: PayloadAction<{ index: number }>) => {
+      state.detailRows.splice(action.payload.index, 1)
     },
   },
 })

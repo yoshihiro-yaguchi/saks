@@ -5,10 +5,17 @@ import {
   Button,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   TextFieldProps,
 } from "@mui/material"
@@ -18,11 +25,13 @@ import { RootState, store } from "@src/app/store"
 import reportWebVitals from "@src/reportWebVitals"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { actions } from "./reducer"
-
 import { BaseComponent } from "@common/BaseComponent/BaseComponent"
 import styled from "@emotion/styled"
 import { Typo } from "@src/common/Text/Typo"
 import { createTransactionOperations } from "./operation"
+import Paper from "@mui/material/Paper"
+import { detailRow } from "./types"
+import { Delete } from "@mui/icons-material"
 
 /**
  * bladeからのデータ受け取り
@@ -97,13 +106,12 @@ const H3 = styled(Typo)(({}) => ({
  * @returns
  */
 const Input = function (props: TextFieldProps) {
-  const { children, name } = props
+  const { hidden } = props
   return (
     <>
-      <Box sx={{ padding: "8px 8px 8px 0" }}>
+      <Box sx={hidden ? {} : { padding: "8px 8px 8px 0" }}>
         <TextField
           size="small"
-          sx={{ width: "100%" }}
           variant="outlined"
           InputLabelProps={{ shrink: true }}
           fullWidth
@@ -113,6 +121,25 @@ const Input = function (props: TextFieldProps) {
     </>
   )
 }
+
+const StyledTableHeadCell = styled(TableCell)(({ theme }) => ({
+  border: "2px solid #1cc1cc",
+  color: "#ffffff",
+  paddingTop: "0 auto 0 auto",
+  fontSize: "12px",
+  textAlign: "center",
+}))
+
+const StyledTableRowCell = styled(TableCell)(({ theme }) => ({
+  border: "2px solid #1cc1cc",
+  fontSize: "12px",
+}))
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(even)": {
+    backgroundColor: "#effeff",
+  },
+}))
 
 /**
  * 画面
@@ -145,6 +172,10 @@ export const Create = () => {
   const customerInfoState = useAppSelector(
     (s: RootState) => s.createTransaction.customerInfo
   )
+  // 明細行
+  const detailRows: detailRow[] = useAppSelector(
+    (s: RootState) => s.createTransaction.detailRows
+  )
   // 取引情報変更時ハンドラ
   const changeTransactionInfoHandle = (name: string, value: string) => {
     dispatch(actions.changeTransactionInfoHandle({ name: name, value: value }))
@@ -159,6 +190,23 @@ export const Create = () => {
     dispatch(createTransactionOperations.submit())
   }
 
+  // 行追加
+  const addRow = () => {
+    dispatch(
+      createTransactionOperations.addDetailRow(
+        transactionInfoState.transactionDate
+      )
+    )
+  }
+
+  // 行削除
+  const deleteRow = (index: number) => {
+    dispatch(actions.deleteDetailRow({ index: index }))
+  }
+
+  // TODO: マジックナンバーどうしよう
+  const isCorporation = customerInfoState.corporationDivision === "2"
+
   return (
     <>
       <BaseComponent>
@@ -169,21 +217,25 @@ export const Create = () => {
           method="post"
         >
           <input type="hidden" name="_token" value={csrfToken} />
-          <Box sx={{ height: "32px" }}></Box>
           {/* ページ内ヘッダー */}
           <Box>
             <Grid container spacing={4}>
               <Grid item xs>
                 <LinedContainerBox>
+                  <Box></Box>
                   <H1>取引作成</H1>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      onClickSendButton()
-                    }}
-                  >
-                    送信
-                  </Button>
+                  <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="button"
+                      onClick={() => {
+                        onClickSendButton()
+                      }}
+                    >
+                      送信
+                    </Button>
+                  </Box>
                 </LinedContainerBox>
               </Grid>
             </Grid>
@@ -221,8 +273,8 @@ export const Create = () => {
                             )
                           }}
                         >
-                          <MenuItem value={"1"}>販売</MenuItem>
-                          <MenuItem value={"2"}>買取</MenuItem>
+                          <MenuItem value={"1"}>買取</MenuItem>
+                          <MenuItem value={"2"}>販売</MenuItem>
                         </Select>
                       </FormControl>
                     </Box>
@@ -297,7 +349,8 @@ export const Create = () => {
                   name="transactionNote"
                   label="取引備考"
                   multiline
-                  rows={11}
+                  rows={12}
+                  sx={{ height: "auto" }}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                     changeTransactionInfoHandle(e.target.name, e.target.value)
                   }}
@@ -326,8 +379,8 @@ export const Create = () => {
                             )
                           }}
                         >
-                          <MenuItem value={1}>法人</MenuItem>
-                          <MenuItem value={2}>個人</MenuItem>
+                          <MenuItem value={"1"}>個人</MenuItem>
+                          <MenuItem value={"2"}>法人</MenuItem>
                         </Select>
                       </FormControl>
                     </Box>
@@ -345,6 +398,8 @@ export const Create = () => {
                 </Grid>
                 <Input
                   name="customerCompany"
+                  hidden={isCorporation ? false : true}
+                  sx={isCorporation ? {} : { display: "none" }}
                   label="会社名"
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                     changeCustomerInfoHandle(e.target.name, e.target.value)
@@ -353,6 +408,8 @@ export const Create = () => {
                 ></Input>
                 <Input
                   name="customerBranch"
+                  hidden={isCorporation ? false : true}
+                  sx={isCorporation ? {} : { display: "none" }}
                   label="支店名"
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                     changeCustomerInfoHandle(e.target.name, e.target.value)
@@ -443,19 +500,111 @@ export const Create = () => {
 
           <Box sx={{ height: "32px" }}></Box>
           {/* 明細情報 */}
-          <LinedContainerBox>
-            <H2>明細情報</H2>
-          </LinedContainerBox>
-
-          <Box sx={{ height: "32px" }}></Box>
-          {/* 備考 */}
-          <LinedContainerBox>
-            <H2>備考</H2>
-          </LinedContainerBox>
+          <Box>
+            <LinedContainerBox>
+              <Box sx={{ marginBottom: "16px" }}>
+                <Box sx={{ float: "left" }}>
+                  <H2>明細情報</H2>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    type="button"
+                    color="info"
+                    onClick={() => addRow()}
+                  >
+                    明細追加
+                  </Button>
+                </Box>
+              </Box>
+              <TableContainer component={Paper}>
+                <Table size="small" sx={{ minWidth: "900px" }}>
+                  <TableHead>
+                    <TableRow sx={{ backgroundColor: "#1cc1cc" }}>
+                      <StyledTableHeadCell
+                        sx={{ width: "44px" }}
+                      ></StyledTableHeadCell>
+                      <StyledTableHeadCell
+                        sx={{ minWidth: "110px", width: "10%" }}
+                      >
+                        商品番号
+                      </StyledTableHeadCell>
+                      <StyledTableHeadCell>商品名</StyledTableHeadCell>
+                      <StyledTableHeadCell
+                        sx={{
+                          minWidth: "87px",
+                          width: "10%",
+                          padding: "6px 6px",
+                        }}
+                      >
+                        数量(重量)
+                      </StyledTableHeadCell>
+                      <StyledTableHeadCell sx={{ width: "120px" }}>
+                        単価
+                      </StyledTableHeadCell>
+                      <StyledTableHeadCell sx={{ width: "60px" }}>
+                        税率
+                      </StyledTableHeadCell>
+                      <StyledTableHeadCell sx={{ width: "120px" }}>
+                        金額
+                      </StyledTableHeadCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {detailRows.map((row, index) => (
+                      <StyledTableRow key={index}>
+                        {/* 削除ボタン */}
+                        <StyledTableRowCell sx={{ padding: "6px 6px" }}>
+                          <Box sx={{ display: "inline-block" }}>
+                            <IconButton
+                              aria-label="deleteRow"
+                              size="small"
+                              onClick={() => deleteRow(index)}
+                            >
+                              <Delete fontSize="small" />
+                            </IconButton>
+                          </Box>
+                        </StyledTableRowCell>
+                        {/* 商品番号 */}
+                        <StyledTableRowCell>{row.productNo}</StyledTableRowCell>
+                        {/* 商品名 */}
+                        <StyledTableRowCell>
+                          {row.productName}
+                        </StyledTableRowCell>
+                        {/* 数量(重量) */}
+                        <StyledTableRowCell sx={{ textAlign: "right" }}>
+                          {row.quantity.toLocaleString()}
+                        </StyledTableRowCell>
+                        {/* 単価 */}
+                        <StyledTableRowCell sx={{ textAlign: "right" }}>
+                          {row.unitPrice.toLocaleString()}
+                        </StyledTableRowCell>
+                        {/* 税率 */}
+                        <StyledTableRowCell sx={{ textAlign: "right" }}>
+                          {row.taxRate.toLocaleString()}
+                        </StyledTableRowCell>
+                        {/* 金額 */}
+                        <StyledTableRowCell sx={{ textAlign: "right" }}>
+                          {row.totalPrice.toLocaleString()}
+                        </StyledTableRowCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </LinedContainerBox>
+          </Box>
 
           <Box sx={{ height: "32px" }}></Box>
           {/* ページ内フッター */}
-          <LinedContainerBox></LinedContainerBox>
+          <Box>
+            <LinedContainerBox></LinedContainerBox>
+          </Box>
         </form>
       </BaseComponent>
     </>

@@ -22,28 +22,34 @@ export const BaseComponent = (props: BoxProps) => {
 
   return (
     <>
-      <Box>
+      <Box sx={{ height: "100%" }}>
         {/* ヘッダー */}
         <Box
           sx={{
-            margin: "0",
             height: "55px",
             backgroundColor: "#1cc1cc",
             borderBottom: "1px solid #dddddd",
           }}
         ></Box>
-        <Grid container spacing={4}>
+        <Grid container spacing={4} sx={{ height: "100%" }}>
           {/* 左メニュー */}
           <Grid item xs={0} sm={3} md={2}>
-            <Box sx={{ height: "100%", borderRight: "1px solid #1cc1cc" }}></Box>
+            <Box sx={{ height: "100%", borderRight: "1px solid #1cc1cc" }}>
+              <Box height={"32px"}></Box>
+            </Box>
           </Grid>
           {/* コンテンツ */}
           <Grid item xs={12} sm={9} md={8}>
-            <Box sx={{ margin: "16px 0 16px" }}>{children}</Box>
+            <Box sx={{ height: "100%" }}>
+              <Box height={"32px"}></Box>
+              {children}
+            </Box>
           </Grid>
           {/* 右メニュー */}
           <Grid item xs={0} sm={0} md={2}>
-            <Box sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}></Box>
+            <Box sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}>
+              <Box height={"32px"}></Box>
+            </Box>
           </Grid>
         </Grid>
       </Box>
