@@ -25,7 +25,7 @@ export const BaseComponent = (props: BoxProps) => {
     "@media screen and (max-width:599px)": {
       margin: "0 32px 0 32px",
     },
-    "@media screen and (min-width:600px,max-width:900px)": {
+    "@media (min-width:600px) and (max-width:900px)": {
       margin: "0 32px 0 0",
     },
   }))

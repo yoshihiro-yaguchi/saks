@@ -222,20 +222,52 @@ export const Create = () => {
             <Grid container spacing={4}>
               <Grid item xs>
                 <LinedContainerBox>
-                  <Box></Box>
-                  <H1>取引作成</H1>
-                  <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="button"
-                      onClick={() => {
-                        onClickSendButton()
+                  <Grid container spacing={1}>
+                    <Grid item xs>
+                      <Box sx={{ width: "150px" }}>
+                        <H1>取引作成</H1>
+                      </Box>
+                    </Grid>
+                    <Grid
+                      item
+                      xs
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
                       }}
                     >
-                      送信
-                    </Button>
-                  </Box>
+                      <Box sx={{ width: "250px" }}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          type="button"
+                          sx={{ margin: "auto 5px" }}
+                        >
+                          戻る
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          type="button"
+                          sx={{ margin: "auto 5px" }}
+                        >
+                          ドラフト
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="button"
+                          sx={{ margin: "auto 5px" }}
+                          onClick={() => {
+                            onClickSendButton()
+                          }}
+                        >
+                          送信
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
                 </LinedContainerBox>
               </Grid>
             </Grid>
@@ -605,6 +637,7 @@ export const Create = () => {
           <Box>
             <LinedContainerBox></LinedContainerBox>
           </Box>
+          <Box sx={{ height: "32px" }}></Box>
         </form>
       </BaseComponent>
     </>
