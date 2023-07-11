@@ -545,24 +545,32 @@ export const Create = () => {
           <Box>
             <LinedContainerBox>
               <Box sx={{ marginBottom: "16px" }}>
-                <Box sx={{ float: "left" }}>
-                  <H2>明細情報</H2>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Button
-                    variant="outlined"
-                    type="button"
-                    color="info"
-                    onClick={() => addRow()}
+                <Grid container spacing={1}>
+                  <Grid item xs>
+                    <H2>明細情報</H2>
+                  </Grid>
+                  <Grid
+                    item
+                    xs
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                    }}
                   >
-                    明細追加
-                  </Button>
-                </Box>
+                    <Box>
+                      <Button
+                        variant="outlined"
+                        type="button"
+                        color="primary"
+                        onClick={() => addRow()}
+                      >
+                        明細追加
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Box sx={{ float: "left" }}></Box>
               </Box>
               <TableContainer component={Paper}>
                 <Table size="small" sx={{ minWidth: "900px" }}>
