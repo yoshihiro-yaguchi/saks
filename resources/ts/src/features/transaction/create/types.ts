@@ -7,7 +7,7 @@ export interface transactionState {
   transactionInfo: TransactionInfo
   customerInfo: CustomerInfo
   detailRows: DetailRow[]
-  treasurerInfo: TreasurerInfo
+  amountInfo: AmountInfo
   taxInfos: TaxInfo[]
 }
 
@@ -113,9 +113,9 @@ export interface DetailRow {
 }
 
 /**
- * 会計情報
+ * 金額情報
  */
-export interface TreasurerInfo {
+export interface AmountInfo {
   /** 小計 */
   subtotal: number
   /** 内消費税 */
@@ -123,7 +123,7 @@ export interface TreasurerInfo {
   /** 合計 */
   total: number
 }
-export const initTreasurerInfo: TreasurerInfo = {
+export const initTreasurerInfo: AmountInfo = {
   subtotal: 0,
   taxInclude: 0,
   total: 0,

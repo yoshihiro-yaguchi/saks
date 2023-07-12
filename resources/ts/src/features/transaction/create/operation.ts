@@ -1,5 +1,5 @@
 import { AppThunk } from "@src/app/store"
-import { DetailRow, TaxInfo, TreasurerInfo } from "./types"
+import { DetailRow, TaxInfo, AmountInfo } from "./types"
 import { actions } from "./reducer"
 // import { api } from './api'
 
@@ -7,7 +7,9 @@ const culcTaxIncludeAmount = (
   taxableAmount: number,
   taxRate: number
 ) => {
-  return (taxableAmount / (1 * (taxRate / 100))) * (taxRate / 100)
+  return Math.ceil(
+    (taxableAmount / (1 + taxRate / 100)) * (taxRate / 100)
+  )
 }
 
 export const createTransactionOperations = {
@@ -46,6 +48,8 @@ export const createTransactionOperations = {
       row.totalPrice = row.quantity * row.unitPrice
 
       dispatch(actions.addDetailRow({ value: row }))
+      dispatch(createTransactionOperations.updateTaxInfo())
+      dispatch(createTransactionOperations.updateAmountInfo())
     },
 
   /**
@@ -63,6 +67,8 @@ export const createTransactionOperations = {
         )
 
       dispatch(actions.deleteDetailRow({ index: deleteIndex }))
+      dispatch(createTransactionOperations.updateTaxInfo())
+      dispatch(createTransactionOperations.updateAmountInfo())
     },
 
   /**
@@ -113,6 +119,8 @@ export const createTransactionOperations = {
           data: newDetailRow,
         })
       )
+      dispatch(createTransactionOperations.updateTaxInfo())
+      dispatch(createTransactionOperations.updateAmountInfo())
     },
 
   /**
@@ -127,8 +135,7 @@ export const createTransactionOperations = {
 
     detailRows.forEach((detailRow) => {
       if (detailRow.taxRate in taxInfos) {
-        taxInfos[detailRow.taxRate].taxableAmout =
-          taxInfos[detailRow.taxRate].taxableAmout +
+        taxInfos[detailRow.taxRate].taxableAmout +=
           detailRow.totalPrice
       } else {
         const taxInfo: TaxInfo = {
@@ -155,7 +162,7 @@ export const createTransactionOperations = {
    *
    * @returns
    */
-  updateTreasureInfo: (): AppThunk => async (dispatch, getState) => {
+  updateAmountInfo: (): AppThunk => async (dispatch, getState) => {
     const taxInfos: TaxInfo[] = getState().createTransaction.taxInfos
     let subTotal: number = 0
     let taxInclude: number = 0
@@ -166,13 +173,13 @@ export const createTransactionOperations = {
       total += taxInfo.taxableAmout
     })
 
-    const treasureInfo: TreasurerInfo = {
+    const amountInfo: AmountInfo = {
       subtotal: subTotal,
       taxInclude: taxInclude,
       total: total,
     }
     dispatch(
-      actions.updateTreasureInfoHandle({ treasureInfo: treasureInfo })
+      actions.updateAmountInfoHandle({ treasureInfo: amountInfo })
     )
   },
 

@@ -25,7 +25,11 @@ class TransactionController extends Controller
   public function createTransaction(createTransactionForm $request)
   {
     Log::info(json_encode($request->input("_token")));
+    Log::info(json_encode($request->input("transactionInfo")));
+    Log::info(json_encode($request->input("customerInfo")));
     Log::info(json_encode($request->input("detailRows")));
+    Log::info(json_encode($request->input("amountInfo")));
+    Log::info(json_encode($request->input("taxInfo")));
 
     $datas = [
       "encodeData" => json_encode(array(

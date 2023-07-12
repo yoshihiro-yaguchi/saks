@@ -31,7 +31,7 @@ import styled from "@emotion/styled"
 import { Typo } from "@src/common/Text/Typo"
 import { createTransactionOperations } from "./operation"
 import Paper from "@mui/material/Paper"
-import { DetailRow } from "./types"
+import { DetailRow, AmountInfo, TaxInfo } from "./types"
 import { Delete } from "@mui/icons-material"
 import { constants } from "./constant"
 
@@ -53,6 +53,7 @@ let data = document.head.querySelector<HTMLMetaElement>(
 let arrayData = null
 if (typeof data === "string") {
   arrayData = JSON.parse(data)
+  console.log(arrayData)
 }
 
 /**
@@ -163,31 +164,50 @@ export const Create = () => {
     }
   }, [])
 
+  // csrfトークン
   const csrfToken = useAppSelector(
     (s: RootState) => s.createTransaction._token
   )
+
+  // baseurl
   const baseUrl = useAppSelector(
     (s: RootState) => s.createTransaction.common.baseUrl
   )
+
   // 取引情報ステート
   const transactionInfoState = useAppSelector(
     (s: RootState) => s.createTransaction.transactionInfo
   )
+
   // お客様情報ステート
   const customerInfoState = useAppSelector(
     (s: RootState) => s.createTransaction.customerInfo
   )
+
   // 明細行
   const detailRows: DetailRow[] = useAppSelector(
     (s: RootState) => s.createTransaction.detailRows
   )
+
+  // 金額情報
+  const amountInfo: AmountInfo = useAppSelector(
+    (s: RootState) => s.createTransaction.amountInfo
+  )
+
+  const taxInfos: TaxInfo[] = useAppSelector(
+    (s: RootState) => s.createTransaction.taxInfos
+  )
+
   // 取引情報変更時ハンドラ
   const changeTransactionInfoHandle = (
     name: string,
     value: string
   ) => {
     dispatch(
-      actions.updateCustomerInfoHandle({ name: name, value: value })
+      actions.updateTransactionInfoHandle({
+        name: name,
+        value: value,
+      })
     )
   }
 
@@ -213,8 +233,8 @@ export const Create = () => {
   }
 
   // 行削除
-  const deleteRow = (index: number) => {
-    dispatch(actions.deleteDetailRow({ index: index }))
+  const deleteRow = (productNo: string) => {
+    dispatch(createTransactionOperations.deleteDetailRow(productNo))
   }
 
   // 明細データ変更時ハンドラ
@@ -306,8 +326,11 @@ export const Create = () => {
               <LinedContainerBox>
                 <H2>取引情報</H2>
                 <Input
-                  name="transactionTitle"
+                  name="transactionInfo[transactionTitle]"
                   label="件名"
+                  inputProps={{
+                    maxLength: "50",
+                  }}
                   onInput={(
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
@@ -325,6 +348,7 @@ export const Create = () => {
                         <InputLabel>取引区分</InputLabel>
                         <Select
                           id="transactionDivision"
+                          name="transactionInfo[transactionDivision]"
                           size="small"
                           labelId="demo"
                           value={
@@ -348,7 +372,7 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
-                      name="transactionDate"
+                      name="transactionInfo[transactionDate]"
                       label="取引日付"
                       type="date"
                       onInput={(
@@ -370,6 +394,7 @@ export const Create = () => {
                         <InputLabel>取引支店</InputLabel>
                         <Select
                           id="transactionBranch"
+                          name="transactionInfo[transactionBranch]"
                           size="small"
                           labelId="demo"
                           value={
@@ -393,8 +418,11 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={3}>
                     <Input
-                      name="transactionPicLastName"
+                      name="transactionInfo[transactionPicLastName]"
                       label="担当者(姓)"
+                      inputProps={{
+                        maxLength: "10",
+                      }}
                       onInput={(
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
@@ -410,8 +438,11 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={3}>
                     <Input
-                      name="transactionPicFirstName"
+                      name="transactionInfo[transactionPicFirstName]"
                       label="担当者(名)"
+                      inputProps={{
+                        maxLength: "10",
+                      }}
                       onInput={(
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
@@ -427,10 +458,13 @@ export const Create = () => {
                   </Grid>
                 </Grid>
                 <Input
-                  name="transactionNote"
+                  name="transactionInfo[transactionNote]"
                   label="取引備考"
                   multiline
                   rows={12}
+                  inputProps={{
+                    maxLength: "1000",
+                  }}
                   sx={{ height: "auto" }}
                   onInput={(
                     e: React.ChangeEvent<HTMLInputElement>
@@ -455,6 +489,7 @@ export const Create = () => {
                         <InputLabel>法人区分</InputLabel>
                         <Select
                           id="corporationDivision"
+                          name="customerInfo[corporationDivision]"
                           size="small"
                           value={
                             customerInfoState.corporationDivision
@@ -477,8 +512,11 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
-                      name="invoiceNumber"
+                      name="customerInfo[invoiceNumber]"
                       label="インボイス登録番号"
+                      inputProps={{
+                        maxLength: "14",
+                      }}
                       onInput={(
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
@@ -492,10 +530,13 @@ export const Create = () => {
                   </Grid>
                 </Grid>
                 <Input
-                  name="customerCompany"
+                  name="customerInfo[customerCompany]"
                   hidden={isCorporation ? false : true}
                   sx={isCorporation ? {} : { display: "none" }}
                   label="会社名"
+                  inputProps={{
+                    maxLength: "50",
+                  }}
                   onInput={(
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
@@ -507,10 +548,13 @@ export const Create = () => {
                   value={customerInfoState.customerCompany}
                 ></Input>
                 <Input
-                  name="customerBranch"
+                  name="customerInfo[customerBranch]"
                   hidden={isCorporation ? false : true}
                   sx={isCorporation ? {} : { display: "none" }}
                   label="支店名"
+                  inputProps={{
+                    maxLength: "50",
+                  }}
                   onInput={(
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
@@ -524,8 +568,11 @@ export const Create = () => {
                 <Grid container spacing={1}>
                   <Grid item xs={12} lg={3}>
                     <Input
-                      name="customerLastName"
+                      name="customerInfo[customerLastName]"
                       label="お名前(姓)"
+                      inputProps={{
+                        maxLength: "10",
+                      }}
                       onInput={(
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
@@ -539,8 +586,11 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={3}>
                     <Input
-                      name="customerFirstName"
+                      name="customerInfo[customerFirstName]"
                       label="お名前(名)"
+                      inputProps={{
+                        maxLength: "10",
+                      }}
                       onInput={(
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
@@ -554,8 +604,11 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
-                      name="customerPhoneNumber"
+                      name="customerInfo[customerPhoneNumber]"
                       label="電話番号"
+                      inputProps={{
+                        maxLength: "15",
+                      }}
                       onInput={(
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
@@ -571,8 +624,11 @@ export const Create = () => {
                 <Grid container spacing={1} sx={{ marginTop: "8px" }}>
                   <Grid item xs={12} lg={6}>
                     <Input
-                      name="zipCode"
+                      name="customerInfo[zipCode]"
                       label="郵便番号"
+                      inputProps={{
+                        maxLength: "8",
+                      }}
                       onInput={(
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
@@ -586,8 +642,11 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
-                      name="customerAddress1"
+                      name="customerInfo[customerAddress1]"
                       label="都道府県"
+                      inputProps={{
+                        maxLength: "10",
+                      }}
                       onInput={(
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
@@ -601,8 +660,11 @@ export const Create = () => {
                   </Grid>
                 </Grid>
                 <Input
-                  name="customerAddress2"
+                  name="customerInfo[customerAddress2]"
                   label="市区町村"
+                  inputProps={{
+                    maxLength: "50",
+                  }}
                   onInput={(
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
@@ -614,8 +676,11 @@ export const Create = () => {
                   value={customerInfoState.customerAddress2}
                 ></Input>
                 <Input
-                  name="customerAddress3"
+                  name="customerInfo[customerAddress3]"
                   label="町・番地"
+                  inputProps={{
+                    maxLength: "100",
+                  }}
                   onInput={(
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
@@ -627,8 +692,11 @@ export const Create = () => {
                   value={customerInfoState.customerAddress3}
                 ></Input>
                 <Input
-                  name="customerAddress4"
+                  name="customerInfo[customerAddress4]"
                   label="建物名等"
+                  inputProps={{
+                    maxLength: "100",
+                  }}
                   onInput={(
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
@@ -721,7 +789,7 @@ export const Create = () => {
                             <IconButton
                               aria-label="deleteRow"
                               size="small"
-                              onClick={() => deleteRow(index)}
+                              onClick={() => deleteRow(row.productNo)}
                             >
                               <Delete fontSize="small" />
                             </IconButton>
@@ -844,6 +912,151 @@ export const Create = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
+
+              <Box sx={{ height: "32px" }}></Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <TableContainer
+                  component={Paper}
+                  sx={{ width: "350px" }}
+                >
+                  <Table size="small" sx={{ width: "350px" }}>
+                    <TableBody>
+                      <StyledTableRow>
+                        <StyledTableRowCell sx={{ width: "40%" }}>
+                          小計
+                        </StyledTableRowCell>
+                        <StyledTableRowCell
+                          sx={{ textAlign: "right" }}
+                        >
+                          ￥{amountInfo.subtotal.toLocaleString()}
+                          <input
+                            type="hidden"
+                            name="amountInfo[subtotal]"
+                            value={amountInfo.subtotal}
+                            readOnly
+                          />
+                        </StyledTableRowCell>
+                      </StyledTableRow>
+                      <StyledTableRow>
+                        <StyledTableRowCell>
+                          (内消費税)
+                        </StyledTableRowCell>
+                        <StyledTableRowCell
+                          sx={{ textAlign: "right" }}
+                        >
+                          ￥{amountInfo.taxInclude.toLocaleString()}
+                          <input
+                            type="hidden"
+                            name="amountInfo[taxInclude]"
+                            value={amountInfo.taxInclude}
+                            readOnly
+                          />
+                        </StyledTableRowCell>
+                      </StyledTableRow>
+                      <StyledTableRow>
+                        <StyledTableRowCell>合計</StyledTableRowCell>
+                        <StyledTableRowCell
+                          sx={{ textAlign: "right" }}
+                        >
+                          ￥{amountInfo.total.toLocaleString()}
+                          <input
+                            type="hidden"
+                            name="amountInfo[total]"
+                            value={amountInfo.total}
+                            readOnly
+                          />
+                        </StyledTableRowCell>
+                      </StyledTableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+
+              {(() => {
+                if (taxInfos.length > 0) {
+                  return (
+                    <>
+                      <Box sx={{ height: "32px" }}></Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <TableContainer sx={{ width: "450px" }}>
+                          <Table size="small" sx={{ width: "450px" }}>
+                            <TableBody>
+                              {taxInfos.map((taxInfo, index) => (
+                                <StyledTableRow key={index}>
+                                  <StyledTableRowCell
+                                    sx={{
+                                      width: "20%",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    {taxInfo.taxRate}%対象
+                                    <input
+                                      type="hidden"
+                                      name={`taxInfo[${taxInfo.taxRate}][taxRate]`}
+                                      value={taxInfo.taxRate}
+                                      readOnly
+                                    />
+                                  </StyledTableRowCell>
+                                  <StyledTableRowCell
+                                    sx={{
+                                      width: "30%",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    ￥
+                                    {taxInfo.taxableAmout.toLocaleString()}
+                                    <input
+                                      type="hidden"
+                                      name={`taxInfo[${taxInfo.taxRate}][taxableAmout]`}
+                                      value={taxInfo.taxableAmout}
+                                      readOnly
+                                    />
+                                  </StyledTableRowCell>
+                                  <StyledTableRowCell
+                                    sx={{
+                                      width: "20%",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    消費税
+                                  </StyledTableRowCell>
+                                  <StyledTableRowCell
+                                    sx={{
+                                      width: "30%",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    ￥
+                                    {taxInfo.taxAmout.toLocaleString()}
+                                    <input
+                                      type="hidden"
+                                      name={`taxInfo[${taxInfo.taxRate}][taxAmout]`}
+                                      value={taxInfo.taxAmout}
+                                      readOnly
+                                    />
+                                  </StyledTableRowCell>
+                                </StyledTableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </Box>
+                    </>
+                  )
+                }
+              })()}
+
+              <Box></Box>
             </LinedContainerBox>
           </Box>
 

@@ -9,7 +9,7 @@ import {
   TaxInfo,
   TransactionInfo,
   transactionState,
-  TreasurerInfo,
+  AmountInfo,
 } from "./types"
 import { stringify } from "querystring"
 
@@ -19,7 +19,7 @@ const initialState: transactionState = {
   transactionInfo: initTransactionInfo,
   customerInfo: initCustomerInfo,
   detailRows: [],
-  treasurerInfo: initTreasurerInfo,
+  amountInfo: initTreasurerInfo,
   taxInfos: [],
 }
 
@@ -80,13 +80,13 @@ export const createTransactionStates = createSlice({
      * @param state
      * @param action
      */
-    updateTreasureInfoHandle: (
+    updateAmountInfoHandle: (
       state,
       action: PayloadAction<{
-        treasureInfo: TreasurerInfo
+        treasureInfo: AmountInfo
       }>
     ) => {
-      state.treasurerInfo = action.payload.treasureInfo
+      state.amountInfo = action.payload.treasureInfo
     },
 
     // トークンセット
