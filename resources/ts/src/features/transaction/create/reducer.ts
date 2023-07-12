@@ -11,7 +11,6 @@ import {
   transactionState,
   AmountInfo,
 } from "./types"
-import { stringify } from "querystring"
 
 const initialState: transactionState = {
   _token: "",

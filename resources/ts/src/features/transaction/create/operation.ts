@@ -1,18 +1,39 @@
 import { AppThunk } from "@src/app/store"
 import { DetailRow, TaxInfo, AmountInfo } from "./types"
 import { actions } from "./reducer"
+import { commonFunc } from "@resource/ts/src/common/commonFunc"
 // import { api } from './api'
 
-const culcTaxIncludeAmount = (
-  taxableAmount: number,
-  taxRate: number
-) => {
-  return Math.ceil(
-    (taxableAmount / (1 + taxRate / 100)) * (taxRate / 100)
-  )
-}
-
 export const createTransactionOperations = {
+  init: (): AppThunk => async (dispatch, getState) => {
+    let bladeCsrfToken = document.head.querySelector<HTMLMetaElement>(
+      'meta[name="csrfToken"]'
+    )!.content
+    // baseUrl
+    let baseUrl = document.head.querySelector<HTMLMetaElement>(
+      'meta[name="baseUrl"]'
+    )!.content
+    // errors
+    let errors: string[] = []
+    document.head
+      .querySelectorAll<HTMLMetaElement>('meta[name="errors"]')
+      ?.forEach((error) => {
+        errors.push(error.content)
+      })
+    console.log(errors)
+    // バックエンドからのデータ
+    let data = document.head.querySelector<HTMLMetaElement>(
+      'meta[name="data"]'
+    )?.content
+    let arrayData = null
+    if (typeof data === "string") {
+      arrayData = JSON.parse(data)
+      console.log(arrayData)
+    }
+
+    dispatch(actions.setToken({ token: bladeCsrfToken }))
+    dispatch(actions.setBaseUrl({ baseUrl: baseUrl }))
+  },
   /**
    * 保存処理
    *
@@ -148,7 +169,7 @@ export const createTransactionOperations = {
     })
 
     taxInfos.forEach((taxInfo) => {
-      taxInfo.taxAmout = culcTaxIncludeAmount(
+      taxInfo.taxAmout = commonFunc.culcTaxIncludeAmount(
         taxInfo.taxableAmout,
         taxInfo.taxRate
       )

@@ -38,23 +38,6 @@ import { constants } from "./constant"
 /**
  * bladeからのデータ受け取り
  */
-// token
-let bladeCsrfToken = document.head.querySelector<HTMLMetaElement>(
-  'meta[name="csrfToken"]'
-)?.content
-// baseUrl
-let baseUrl = document.head.querySelector<HTMLMetaElement>(
-  'meta[name="baseUrl"]'
-)?.content
-// バックエンドからのデータ
-let data = document.head.querySelector<HTMLMetaElement>(
-  'meta[name="data"]'
-)?.content
-let arrayData = null
-if (typeof data === "string") {
-  arrayData = JSON.parse(data)
-  console.log(arrayData)
-}
 
 /**
  * LinedContainerBox styledComponent
@@ -155,13 +138,7 @@ export const Create = () => {
 
   // 画面ロード時処理
   useEffect(() => {
-    // トークン設定
-    if (typeof bladeCsrfToken === "string") {
-      dispatch(actions.setToken({ token: bladeCsrfToken }))
-    }
-    if (typeof baseUrl === "string") {
-      dispatch(actions.setBaseUrl({ baseUrl: baseUrl }))
-    }
+    dispatch(createTransactionOperations.init())
   }, [])
 
   // csrfトークン
@@ -326,6 +303,7 @@ export const Create = () => {
               <LinedContainerBox>
                 <H2>取引情報</H2>
                 <Input
+                  id="transactionTitle"
                   name="transactionInfo[transactionTitle]"
                   label="件名"
                   inputProps={{
@@ -335,7 +313,7 @@ export const Create = () => {
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
                     changeTransactionInfoHandle(
-                      e.target.name,
+                      e.target.id,
                       e.target.value
                     )
                   }}
@@ -372,6 +350,7 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
+                      id="transactionDate"
                       name="transactionInfo[transactionDate]"
                       label="取引日付"
                       type="date"
@@ -379,7 +358,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeTransactionInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -418,6 +397,7 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={3}>
                     <Input
+                      id="transactionPicLastName"
                       name="transactionInfo[transactionPicLastName]"
                       label="担当者(姓)"
                       inputProps={{
@@ -427,7 +407,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeTransactionInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -438,6 +418,7 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={3}>
                     <Input
+                      id="transactionPicFirstName"
                       name="transactionInfo[transactionPicFirstName]"
                       label="担当者(名)"
                       inputProps={{
@@ -447,7 +428,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeTransactionInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -458,6 +439,7 @@ export const Create = () => {
                   </Grid>
                 </Grid>
                 <Input
+                  id="transactionNote"
                   name="transactionInfo[transactionNote]"
                   label="取引備考"
                   multiline
@@ -470,7 +452,7 @@ export const Create = () => {
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
                     changeTransactionInfoHandle(
-                      e.target.name,
+                      e.target.id,
                       e.target.value
                     )
                   }}
@@ -512,6 +494,7 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
+                      id="invoiceNumber"
                       name="customerInfo[invoiceNumber]"
                       label="インボイス登録番号"
                       inputProps={{
@@ -521,7 +504,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeCustomerInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -530,6 +513,7 @@ export const Create = () => {
                   </Grid>
                 </Grid>
                 <Input
+                  id="customerCompany"
                   name="customerInfo[customerCompany]"
                   hidden={isCorporation ? false : true}
                   sx={isCorporation ? {} : { display: "none" }}
@@ -541,13 +525,14 @@ export const Create = () => {
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
                     changeCustomerInfoHandle(
-                      e.target.name,
+                      e.target.id,
                       e.target.value
                     )
                   }}
                   value={customerInfoState.customerCompany}
                 ></Input>
                 <Input
+                  id="customerBranch"
                   name="customerInfo[customerBranch]"
                   hidden={isCorporation ? false : true}
                   sx={isCorporation ? {} : { display: "none" }}
@@ -559,7 +544,7 @@ export const Create = () => {
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
                     changeCustomerInfoHandle(
-                      e.target.name,
+                      e.target.id,
                       e.target.value
                     )
                   }}
@@ -568,6 +553,7 @@ export const Create = () => {
                 <Grid container spacing={1}>
                   <Grid item xs={12} lg={3}>
                     <Input
+                      id="customerLastName"
                       name="customerInfo[customerLastName]"
                       label="お名前(姓)"
                       inputProps={{
@@ -577,7 +563,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeCustomerInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -586,6 +572,7 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={3}>
                     <Input
+                      id="customerFirstName"
                       name="customerInfo[customerFirstName]"
                       label="お名前(名)"
                       inputProps={{
@@ -595,7 +582,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeCustomerInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -604,6 +591,7 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
+                      id="customerPhoneNumber"
                       name="customerInfo[customerPhoneNumber]"
                       label="電話番号"
                       inputProps={{
@@ -613,7 +601,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeCustomerInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -624,6 +612,7 @@ export const Create = () => {
                 <Grid container spacing={1} sx={{ marginTop: "8px" }}>
                   <Grid item xs={12} lg={6}>
                     <Input
+                      id="zipCode"
                       name="customerInfo[zipCode]"
                       label="郵便番号"
                       inputProps={{
@@ -633,7 +622,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeCustomerInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -642,6 +631,7 @@ export const Create = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Input
+                      id="customerAddress1"
                       name="customerInfo[customerAddress1]"
                       label="都道府県"
                       inputProps={{
@@ -651,7 +641,7 @@ export const Create = () => {
                         e: React.ChangeEvent<HTMLInputElement>
                       ) => {
                         changeCustomerInfoHandle(
-                          e.target.name,
+                          e.target.id,
                           e.target.value
                         )
                       }}
@@ -660,6 +650,7 @@ export const Create = () => {
                   </Grid>
                 </Grid>
                 <Input
+                  id="customerAddress2"
                   name="customerInfo[customerAddress2]"
                   label="市区町村"
                   inputProps={{
@@ -669,13 +660,14 @@ export const Create = () => {
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
                     changeCustomerInfoHandle(
-                      e.target.name,
+                      e.target.id,
                       e.target.value
                     )
                   }}
                   value={customerInfoState.customerAddress2}
                 ></Input>
                 <Input
+                  id="customerAddress3"
                   name="customerInfo[customerAddress3]"
                   label="町・番地"
                   inputProps={{
@@ -685,13 +677,14 @@ export const Create = () => {
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
                     changeCustomerInfoHandle(
-                      e.target.name,
+                      e.target.id,
                       e.target.value
                     )
                   }}
                   value={customerInfoState.customerAddress3}
                 ></Input>
                 <Input
+                  id="customerAddress4"
                   name="customerInfo[customerAddress4]"
                   label="建物名等"
                   inputProps={{
@@ -701,7 +694,7 @@ export const Create = () => {
                     e: React.ChangeEvent<HTMLInputElement>
                   ) => {
                     changeCustomerInfoHandle(
-                      e.target.name,
+                      e.target.id,
                       e.target.value
                     )
                   }}

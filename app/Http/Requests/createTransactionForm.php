@@ -22,7 +22,8 @@ class createTransactionForm extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'transactionInfo.transactionTitle' => ['nullable', 'max:10'],
+            '' => []
         ];
     }
 }
