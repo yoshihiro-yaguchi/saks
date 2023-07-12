@@ -5,7 +5,14 @@ import { RootState, store } from "@src/app/store"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import React from "react"
-import { Box, BoxProps, Grid, Paper, Typography, styled } from "@mui/material"
+import {
+  Box,
+  BoxProps,
+  Grid,
+  Paper,
+  Typography,
+  styled,
+} from "@mui/material"
 // import logo from "../../../public/image-logo.svg"
 
 // styledBox
@@ -45,7 +52,12 @@ export const BaseComponent = (props: BoxProps) => {
         <Grid container spacing={4} sx={{ height: "100%" }}>
           {/* 左メニュー */}
           <Grid item xs={0} sm={3} md={2}>
-            <Box sx={{ height: "100%", borderRight: "1px solid #1cc1cc" }}>
+            <Box
+              sx={{
+                height: "100%",
+                borderRight: "1px solid #1cc1cc",
+              }}
+            >
               <Box height={"32px"}></Box>
             </Box>
           </Grid>
@@ -58,7 +70,9 @@ export const BaseComponent = (props: BoxProps) => {
           </Grid>
           {/* 右メニュー */}
           <Grid item xs={0} sm={0} md={2}>
-            <Box sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}>
+            <Box
+              sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}
+            >
               <Box height={"32px"}></Box>
             </Box>
           </Grid>

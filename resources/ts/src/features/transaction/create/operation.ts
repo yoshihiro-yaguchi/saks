@@ -1,9 +1,21 @@
 import { AppThunk } from "@src/app/store"
-import { detailRow } from "./types"
+import { DetailRow, TaxInfo, TreasurerInfo } from "./types"
 import { actions } from "./reducer"
 // import { api } from './api'
 
+const culcTaxIncludeAmount = (
+  taxableAmount: number,
+  taxRate: number
+) => {
+  return (taxableAmount / (1 * (taxRate / 100))) * (taxRate / 100)
+}
+
 export const createTransactionOperations = {
+  /**
+   * 保存処理
+   *
+   * @returns
+   */
   submit: (): AppThunk => async (dispatch, getState) => {
     let form = document.querySelector<HTMLFormElement>(
       'form[id="createTransaction"]'
@@ -13,22 +25,35 @@ export const createTransactionOperations = {
     }
   },
 
+  /**
+   * 明細追加
+   *
+   * @param productName
+   * @returns
+   */
   addDetailRow:
     (productName: string): AppThunk =>
     async (dispatch, getState) => {
       const key = Math.random().toString(32).substring(2)
-      const row: detailRow = {
+      const row: DetailRow = {
         productNo: key,
         productName: productName,
         quantity: 10,
-        unitPrice: 999999999,
+        unitPrice: 500,
         taxRate: 10,
-        totalPrice: 999999999,
+        totalPrice: 0,
       }
+      row.totalPrice = row.quantity * row.unitPrice
 
       dispatch(actions.addDetailRow({ value: row }))
     },
 
+  /**
+   * 明細削除
+   *
+   * @param productNo
+   * @returns
+   */
   deleteDetailRow:
     (productNo: string): AppThunk =>
     async (dispatch, getState) => {
@@ -40,31 +65,116 @@ export const createTransactionOperations = {
       dispatch(actions.deleteDetailRow({ index: deleteIndex }))
     },
 
-  changeDetailRow:
+  /**
+   * 明細情報更新
+   *
+   * @param index
+   * @param name
+   * @param value
+   * @returns
+   */
+  updateDetailRow:
     (index: number, name: string, value: string | number): AppThunk =>
     async (dispatch, getState) => {
-      const oldDetailRow = getState().createTransaction.detailRows[index]
+      let oldDetailRow =
+        getState().createTransaction.detailRows[index]
 
-      const newDetailRow: detailRow = {
+      const newDetailRow: DetailRow = {
         productNo:
-          name === "productNo" ? (value as string) : oldDetailRow.productNo,
+          name === "productNo"
+            ? (value as string)
+            : oldDetailRow.productNo,
         productName:
-          name === "productName" ? (value as string) : oldDetailRow.productName,
+          name === "productName"
+            ? (value as string)
+            : oldDetailRow.productName,
         quantity:
-          name === "quantity" ? (value as number) : oldDetailRow.quantity,
+          name === "quantity"
+            ? (value as number)
+            : oldDetailRow.quantity,
         unitPrice:
-          name === "unitPrice" ? (value as number) : oldDetailRow.unitPrice,
-        taxRate: name === "taxRate" ? (value as number) : oldDetailRow.taxRate,
+          name === "unitPrice"
+            ? (value as number)
+            : oldDetailRow.unitPrice,
+        taxRate:
+          name === "taxRate"
+            ? (value as number)
+            : oldDetailRow.taxRate,
         totalPrice: 0,
       }
       // 合計金額計算
-      const totalPrice = newDetailRow.unitPrice * newDetailRow.quantity
+      const totalPrice =
+        newDetailRow.unitPrice * newDetailRow.quantity
       newDetailRow.totalPrice = totalPrice
 
       dispatch(
-        actions.changeDetailRowHandle({ index: index, data: newDetailRow })
+        actions.updateDetailRowHandle({
+          index: index,
+          data: newDetailRow,
+        })
       )
     },
+
+  /**
+   * 税情報更新
+   *
+   * @returns
+   */
+  updateTaxInfo: (): AppThunk => async (dispatch, getState) => {
+    const detailRows = getState().createTransaction.detailRows
+
+    const taxInfos: TaxInfo[] = []
+
+    detailRows.forEach((detailRow) => {
+      if (detailRow.taxRate in taxInfos) {
+        taxInfos[detailRow.taxRate].taxableAmout =
+          taxInfos[detailRow.taxRate].taxableAmout +
+          detailRow.totalPrice
+      } else {
+        const taxInfo: TaxInfo = {
+          taxRate: detailRow.taxRate,
+          taxableAmout: detailRow.totalPrice,
+          taxAmout: 0,
+        }
+        taxInfos[detailRow.taxRate] = taxInfo
+      }
+    })
+
+    taxInfos.forEach((taxInfo) => {
+      taxInfo.taxAmout = culcTaxIncludeAmount(
+        taxInfo.taxableAmout,
+        taxInfo.taxRate
+      )
+    })
+
+    dispatch(actions.updateTaxInfoHandle({ taxInfo: taxInfos }))
+  },
+
+  /**
+   * 会計情報更新
+   *
+   * @returns
+   */
+  updateTreasureInfo: (): AppThunk => async (dispatch, getState) => {
+    const taxInfos: TaxInfo[] = getState().createTransaction.taxInfos
+    let subTotal: number = 0
+    let taxInclude: number = 0
+    let total: number = 0
+    taxInfos.forEach((taxInfo) => {
+      subTotal += taxInfo.taxableAmout
+      taxInclude += taxInfo.taxAmout
+      total += taxInfo.taxableAmout
+    })
+
+    const treasureInfo: TreasurerInfo = {
+      subtotal: subTotal,
+      taxInclude: taxInclude,
+      total: total,
+    }
+    dispatch(
+      actions.updateTreasureInfoHandle({ treasureInfo: treasureInfo })
+    )
+  },
 
   /**
    * サンプル

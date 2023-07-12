@@ -31,7 +31,7 @@ import styled from "@emotion/styled"
 import { Typo } from "@src/common/Text/Typo"
 import { createTransactionOperations } from "./operation"
 import Paper from "@mui/material/Paper"
-import { detailRow } from "./types"
+import { DetailRow } from "./types"
 import { Delete } from "@mui/icons-material"
 
 /**
@@ -46,8 +46,9 @@ let baseUrl = document.head.querySelector<HTMLMetaElement>(
   'meta[name="baseUrl"]'
 )?.content
 // バックエンドからのデータ
-let data =
-  document.head.querySelector<HTMLMetaElement>('meta[name="data"]')?.content
+let data = document.head.querySelector<HTMLMetaElement>(
+  'meta[name="data"]'
+)?.content
 let arrayData = null
 if (typeof data === "string") {
   arrayData = JSON.parse(data)
@@ -161,7 +162,9 @@ export const Create = () => {
     }
   }, [])
 
-  const csrfToken = useAppSelector((s: RootState) => s.createTransaction._token)
+  const csrfToken = useAppSelector(
+    (s: RootState) => s.createTransaction._token
+  )
   const baseUrl = useAppSelector(
     (s: RootState) => s.createTransaction.common.baseUrl
   )
@@ -174,16 +177,24 @@ export const Create = () => {
     (s: RootState) => s.createTransaction.customerInfo
   )
   // 明細行
-  const detailRows: detailRow[] = useAppSelector(
+  const detailRows: DetailRow[] = useAppSelector(
     (s: RootState) => s.createTransaction.detailRows
   )
   // 取引情報変更時ハンドラ
-  const changeTransactionInfoHandle = (name: string, value: string) => {
-    dispatch(actions.changeTransactionInfoHandle({ name: name, value: value }))
+  const changeTransactionInfoHandle = (
+    name: string,
+    value: string
+  ) => {
+    dispatch(
+      actions.updateCustomerInfoHandle({ name: name, value: value })
+    )
   }
+
   // お客様情報変更時ハンドラ
   const changeCustomerInfoHandle = (name: string, value: string) => {
-    dispatch(actions.changeCustomerInfoHandle({ name: name, value: value }))
+    dispatch(
+      actions.updateCustomerInfoHandle({ name: name, value: value })
+    )
   }
 
   // 送信
@@ -211,7 +222,9 @@ export const Create = () => {
     name: string,
     value: string | number
   ) => {
-    dispatch(createTransactionOperations.changeDetailRow(index, name, value))
+    dispatch(
+      createTransactionOperations.updateDetailRow(index, name, value)
+    )
   }
 
   // TODO: マジックナンバーどうしよう
@@ -292,8 +305,13 @@ export const Create = () => {
                 <Input
                   name="transactionTitle"
                   label="件名"
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeTransactionInfoHandle(e.target.name, e.target.value)
+                  onInput={(
+                    e: React.ChangeEvent<HTMLInputElement>
+                  ) => {
+                    changeTransactionInfoHandle(
+                      e.target.name,
+                      e.target.value
+                    )
                   }}
                   value={transactionInfoState.transactionTitle}
                 ></Input>
@@ -306,9 +324,13 @@ export const Create = () => {
                           id="transactionDivision"
                           size="small"
                           labelId="demo"
-                          value={transactionInfoState.transactionDivision}
+                          value={
+                            transactionInfoState.transactionDivision
+                          }
                           label="取引区分"
-                          onChange={(e: SelectChangeEvent<string>) => {
+                          onChange={(
+                            e: SelectChangeEvent<string>
+                          ) => {
                             changeTransactionInfoHandle(
                               "transactionDivision",
                               e.target.value as string
@@ -326,7 +348,9 @@ export const Create = () => {
                       name="transactionDate"
                       label="取引日付"
                       type="date"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
                         changeTransactionInfoHandle(
                           e.target.name,
                           e.target.value
@@ -345,9 +369,13 @@ export const Create = () => {
                           id="transactionBranch"
                           size="small"
                           labelId="demo"
-                          value={transactionInfoState.transactionBranch}
+                          value={
+                            transactionInfoState.transactionBranch
+                          }
                           label="取引支店"
-                          onChange={(e: SelectChangeEvent<string>) => {
+                          onChange={(
+                            e: SelectChangeEvent<string>
+                          ) => {
                             changeTransactionInfoHandle(
                               "transactionBranch",
                               e.target.value as string
@@ -364,26 +392,34 @@ export const Create = () => {
                     <Input
                       name="transactionPicLastName"
                       label="担当者(姓)"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
                         changeTransactionInfoHandle(
                           e.target.name,
                           e.target.value
                         )
                       }}
-                      value={transactionInfoState.transactionPicLastName}
+                      value={
+                        transactionInfoState.transactionPicLastName
+                      }
                     ></Input>
                   </Grid>
                   <Grid item xs={12} lg={3}>
                     <Input
                       name="transactionPicFirstName"
                       label="担当者(名)"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
                         changeTransactionInfoHandle(
                           e.target.name,
                           e.target.value
                         )
                       }}
-                      value={transactionInfoState.transactionPicFirstName}
+                      value={
+                        transactionInfoState.transactionPicFirstName
+                      }
                     ></Input>
                   </Grid>
                 </Grid>
@@ -393,8 +429,13 @@ export const Create = () => {
                   multiline
                   rows={12}
                   sx={{ height: "auto" }}
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeTransactionInfoHandle(e.target.name, e.target.value)
+                  onInput={(
+                    e: React.ChangeEvent<HTMLInputElement>
+                  ) => {
+                    changeTransactionInfoHandle(
+                      e.target.name,
+                      e.target.value
+                    )
                   }}
                   value={transactionInfoState.transactionNote}
                 ></Input>
@@ -412,9 +453,13 @@ export const Create = () => {
                         <Select
                           id="corporationDivision"
                           size="small"
-                          value={customerInfoState.corporationDivision}
+                          value={
+                            customerInfoState.corporationDivision
+                          }
                           label="法人区分"
-                          onChange={(e: SelectChangeEvent<string>) => {
+                          onChange={(
+                            e: SelectChangeEvent<string>
+                          ) => {
                             changeCustomerInfoHandle(
                               "corporationDivision",
                               e.target.value as string
@@ -431,8 +476,13 @@ export const Create = () => {
                     <Input
                       name="invoiceNumber"
                       label="インボイス登録番号"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeCustomerInfoHandle(e.target.name, e.target.value)
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        changeCustomerInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={customerInfoState.invoiceNumber}
                     ></Input>
@@ -443,8 +493,13 @@ export const Create = () => {
                   hidden={isCorporation ? false : true}
                   sx={isCorporation ? {} : { display: "none" }}
                   label="会社名"
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeCustomerInfoHandle(e.target.name, e.target.value)
+                  onInput={(
+                    e: React.ChangeEvent<HTMLInputElement>
+                  ) => {
+                    changeCustomerInfoHandle(
+                      e.target.name,
+                      e.target.value
+                    )
                   }}
                   value={customerInfoState.customerCompany}
                 ></Input>
@@ -453,8 +508,13 @@ export const Create = () => {
                   hidden={isCorporation ? false : true}
                   sx={isCorporation ? {} : { display: "none" }}
                   label="支店名"
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeCustomerInfoHandle(e.target.name, e.target.value)
+                  onInput={(
+                    e: React.ChangeEvent<HTMLInputElement>
+                  ) => {
+                    changeCustomerInfoHandle(
+                      e.target.name,
+                      e.target.value
+                    )
                   }}
                   value={customerInfoState.customerBranch}
                 ></Input>
@@ -463,8 +523,13 @@ export const Create = () => {
                     <Input
                       name="customerLastName"
                       label="お名前(姓)"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeCustomerInfoHandle(e.target.name, e.target.value)
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        changeCustomerInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={customerInfoState.customerLastName}
                     ></Input>
@@ -473,8 +538,13 @@ export const Create = () => {
                     <Input
                       name="customerFirstName"
                       label="お名前(名)"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeCustomerInfoHandle(e.target.name, e.target.value)
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        changeCustomerInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={customerInfoState.customerFirstName}
                     ></Input>
@@ -483,8 +553,13 @@ export const Create = () => {
                     <Input
                       name="customerPhoneNumber"
                       label="電話番号"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeCustomerInfoHandle(e.target.name, e.target.value)
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        changeCustomerInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={customerInfoState.customerPhoneNumber}
                     ></Input>
@@ -495,8 +570,13 @@ export const Create = () => {
                     <Input
                       name="zipCode"
                       label="郵便番号"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeCustomerInfoHandle(e.target.name, e.target.value)
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        changeCustomerInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={customerInfoState.zipCode}
                     ></Input>
@@ -505,8 +585,13 @@ export const Create = () => {
                     <Input
                       name="customerAddress1"
                       label="都道府県"
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        changeCustomerInfoHandle(e.target.name, e.target.value)
+                      onInput={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        changeCustomerInfoHandle(
+                          e.target.name,
+                          e.target.value
+                        )
                       }}
                       value={customerInfoState.customerAddress1}
                     ></Input>
@@ -515,24 +600,39 @@ export const Create = () => {
                 <Input
                   name="customerAddress2"
                   label="市区町村"
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeCustomerInfoHandle(e.target.name, e.target.value)
+                  onInput={(
+                    e: React.ChangeEvent<HTMLInputElement>
+                  ) => {
+                    changeCustomerInfoHandle(
+                      e.target.name,
+                      e.target.value
+                    )
                   }}
                   value={customerInfoState.customerAddress2}
                 ></Input>
                 <Input
                   name="customerAddress3"
                   label="町・番地"
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeCustomerInfoHandle(e.target.name, e.target.value)
+                  onInput={(
+                    e: React.ChangeEvent<HTMLInputElement>
+                  ) => {
+                    changeCustomerInfoHandle(
+                      e.target.name,
+                      e.target.value
+                    )
                   }}
                   value={customerInfoState.customerAddress3}
                 ></Input>
                 <Input
                   name="customerAddress4"
                   label="建物名等"
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeCustomerInfoHandle(e.target.name, e.target.value)
+                  onInput={(
+                    e: React.ChangeEvent<HTMLInputElement>
+                  ) => {
+                    changeCustomerInfoHandle(
+                      e.target.name,
+                      e.target.value
+                    )
                   }}
                   value={customerInfoState.customerAddress4}
                 ></Input>
@@ -584,7 +684,9 @@ export const Create = () => {
                       >
                         商品番号
                       </StyledTableHeadCell>
-                      <StyledTableHeadCell>商品名</StyledTableHeadCell>
+                      <StyledTableHeadCell>
+                        商品名
+                      </StyledTableHeadCell>
                       <StyledTableHeadCell
                         sx={{
                           minWidth: "120px",
@@ -609,7 +711,9 @@ export const Create = () => {
                     {detailRows.map((row, index) => (
                       <StyledTableRow key={row.productNo}>
                         {/* 削除ボタン */}
-                        <StyledTableRowCell sx={{ padding: "6px 6px" }}>
+                        <StyledTableRowCell
+                          sx={{ padding: "6px 6px" }}
+                        >
                           <Box sx={{ display: "inline-block" }}>
                             <IconButton
                               aria-label="deleteRow"
@@ -656,7 +760,9 @@ export const Create = () => {
                               ),
                             }}
                             value={row.quantity}
-                            onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            onInput={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
                               changeDetailRowHandle(
                                 index,
                                 "quantity",
@@ -666,7 +772,9 @@ export const Create = () => {
                           ></TextField>
                         </StyledTableRowCell>
                         {/* 単価 */}
-                        <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <StyledTableRowCell
+                          sx={{ textAlign: "right" }}
+                        >
                           <TextField
                             name={`detailRows[${index}][unitPrice]`}
                             type="number"
@@ -681,7 +789,9 @@ export const Create = () => {
                               ),
                             }}
                             value={row.unitPrice}
-                            onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            onInput={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
                               changeDetailRowHandle(
                                 index,
                                 "unitPrice",
@@ -691,14 +801,18 @@ export const Create = () => {
                           ></TextField>
                         </StyledTableRowCell>
                         {/* 税率 */}
-                        <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <StyledTableRowCell
+                          sx={{ textAlign: "right" }}
+                        >
                           <Select
                             name={`detailRows[${index}][taxRate]`}
                             labelId="taxRate"
                             value={row.taxRate}
                             size="small"
                             variant="standard"
-                            onChange={(e: SelectChangeEvent<number>) => {
+                            onChange={(
+                              e: SelectChangeEvent<number>
+                            ) => {
                               changeDetailRowHandle(
                                 index,
                                 "taxRate",
@@ -711,7 +825,9 @@ export const Create = () => {
                           </Select>
                         </StyledTableRowCell>
                         {/* 金額 */}
-                        <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <StyledTableRowCell
+                          sx={{ textAlign: "right" }}
+                        >
                           ￥{row.totalPrice.toLocaleString()}
                           <input
                             readOnly

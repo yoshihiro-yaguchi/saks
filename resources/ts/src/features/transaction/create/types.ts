@@ -3,25 +3,27 @@
  */
 export interface transactionState {
   _token: string
-  common: common
-  transactionInfo: transactionInfo
-  customerInfo: customerInfo
-  detailRows: detailRow[]
+  common: Common
+  transactionInfo: TransactionInfo
+  customerInfo: CustomerInfo
+  detailRows: DetailRow[]
+  treasurerInfo: TreasurerInfo
+  taxInfos: TaxInfo[]
 }
 
 /**
  * 共通
  */
-export interface common {
+export interface Common {
   baseUrl: string
 }
-export const initCommon: common = {
+export const initCommon: Common = {
   baseUrl: "",
 }
 /**
  * 取引情報
  */
-export interface transactionInfo {
+export interface TransactionInfo {
   /** 件名 */
   transactionTitle: string
   /** 取引区分 */
@@ -38,7 +40,7 @@ export interface transactionInfo {
   transactionNote: string
 }
 
-export const initTransactionInfo: transactionInfo = {
+export const initTransactionInfo: TransactionInfo = {
   transactionTitle: "",
   transactionDivision: "1",
   transactionDate: "",
@@ -51,7 +53,7 @@ export const initTransactionInfo: transactionInfo = {
 /**
  * お客様情報
  */
-export interface customerInfo {
+export interface CustomerInfo {
   /** 法人区分 */
   corporationDivision: string
   /** 会社名 */
@@ -77,7 +79,7 @@ export interface customerInfo {
   /** 住所4 建物名等 */
   customerAddress4: string
 }
-export const initCustomerInfo: customerInfo = {
+export const initCustomerInfo: CustomerInfo = {
   corporationDivision: "1",
   customerCompany: "",
   customerBranch: "",
@@ -95,7 +97,7 @@ export const initCustomerInfo: customerInfo = {
 /**
  * 明細行
  */
-export interface detailRow {
+export interface DetailRow {
   /** 商品番号 */
   productNo: string
   /** 商品名 */
@@ -108,4 +110,33 @@ export interface detailRow {
   taxRate: number
   /** 金額 */
   totalPrice: number
+}
+
+/**
+ * 会計情報
+ */
+export interface TreasurerInfo {
+  /** 小計 */
+  subtotal: number
+  /** 内消費税 */
+  taxInclude: number
+  /** 合計 */
+  total: number
+}
+export const initTreasurerInfo: TreasurerInfo = {
+  subtotal: 0,
+  taxInclude: 0,
+  total: 0,
+}
+
+/**
+ * 税額情報
+ */
+export interface TaxInfo {
+  /** 税率 */
+  taxRate: number
+  /** 税率対象額 */
+  taxableAmout: number
+  /** 税額 */
+  taxAmout: number
 }

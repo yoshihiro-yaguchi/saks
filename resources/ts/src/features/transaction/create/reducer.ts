@@ -1,12 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import {
-  customerInfo,
-  detailRow,
+  CustomerInfo,
+  DetailRow,
   initCommon,
   initCustomerInfo,
   initTransactionInfo,
-  transactionInfo,
+  initTreasurerInfo,
+  TaxInfo,
+  TransactionInfo,
   transactionState,
+  TreasurerInfo,
 } from "./types"
 import { stringify } from "querystring"
 
@@ -16,6 +19,8 @@ const initialState: transactionState = {
   transactionInfo: initTransactionInfo,
   customerInfo: initCustomerInfo,
   detailRows: [],
+  treasurerInfo: initTreasurerInfo,
+  taxInfos: [],
 }
 
 export const createTransactionStates = createSlice({
@@ -26,32 +31,62 @@ export const createTransactionStates = createSlice({
     reset: () => initialState,
 
     // 取引情報変更時ハンドラ
-    changeTransactionInfoHandle: (
+    updateTransactionInfoHandle: (
       state,
       action: PayloadAction<{ name: string; value: string }>
     ) => {
-      state.transactionInfo[action.payload.name as keyof transactionInfo] =
-        action.payload.value
+      state.transactionInfo[
+        action.payload.name as keyof TransactionInfo
+      ] = action.payload.value
     },
 
     // お客様情報変更時ハンドラ
-    changeCustomerInfoHandle: (
+    updateCustomerInfoHandle: (
       state,
       action: PayloadAction<{ name: string; value: string }>
     ) => {
-      state.customerInfo[action.payload.name as keyof customerInfo] =
+      state.customerInfo[action.payload.name as keyof CustomerInfo] =
         action.payload.value
     },
 
     // 明細情報変更時ハンドラ
-    changeDetailRowHandle: (
+    updateDetailRowHandle: (
       state,
       action: PayloadAction<{
         index: number
-        data: detailRow
+        data: DetailRow
       }>
     ) => {
       state.detailRows[action.payload.index] = action.payload.data
+    },
+
+    /**
+     * 税情報更新
+     *
+     * @param state
+     * @param action
+     */
+    updateTaxInfoHandle: (
+      state,
+      action: PayloadAction<{
+        taxInfo: TaxInfo[]
+      }>
+    ) => {
+      state.taxInfos = action.payload.taxInfo
+    },
+
+    /**
+     * 会計情報更新
+     * @param state
+     * @param action
+     */
+    updateTreasureInfoHandle: (
+      state,
+      action: PayloadAction<{
+        treasureInfo: TreasurerInfo
+      }>
+    ) => {
+      state.treasurerInfo = action.payload.treasureInfo
     },
 
     // トークンセット
@@ -60,17 +95,26 @@ export const createTransactionStates = createSlice({
     },
 
     // baseURLセット
-    setBaseUrl: (state, action: PayloadAction<{ baseUrl: string }>) => {
+    setBaseUrl: (
+      state,
+      action: PayloadAction<{ baseUrl: string }>
+    ) => {
       state.common.baseUrl = action.payload.baseUrl
     },
 
     // 明細追加
-    addDetailRow: (state, action: PayloadAction<{ value: detailRow }>) => {
+    addDetailRow: (
+      state,
+      action: PayloadAction<{ value: DetailRow }>
+    ) => {
       state.detailRows.push(action.payload.value)
     },
 
     // 明細行削除
-    deleteDetailRow: (state, action: PayloadAction<{ index: number }>) => {
+    deleteDetailRow: (
+      state,
+      action: PayloadAction<{ index: number }>
+    ) => {
       state.detailRows.splice(action.payload.index, 1)
     },
   },
