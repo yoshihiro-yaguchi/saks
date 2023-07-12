@@ -33,6 +33,7 @@ import { createTransactionOperations } from "./operation"
 import Paper from "@mui/material/Paper"
 import { DetailRow } from "./types"
 import { Delete } from "@mui/icons-material"
+import { constants } from "./constant"
 
 /**
  * bladeからのデータ受け取り
@@ -227,8 +228,10 @@ export const Create = () => {
     )
   }
 
-  // TODO: マジックナンバーどうしよう
-  const isCorporation = customerInfoState.corporationDivision === "2"
+  // 法人区分が法人である
+  const isCorporation =
+    customerInfoState.corporationDivision ===
+    constants.CORPORATION_CORPORATE
 
   return (
     <>
