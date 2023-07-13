@@ -123,6 +123,10 @@ export const createTransactionStates = createSlice({
     deleteDetailRow: (state, action: PayloadAction<{ index: number }>) => {
       state.detailRows.splice(action.payload.index, 1)
     },
+
+    deleteError: (state) => {
+      state.common.errors = []
+    },
   },
 })
 

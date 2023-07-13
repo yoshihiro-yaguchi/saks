@@ -49,7 +49,14 @@ export const createTransactionOperations = {
       'meta[name="errors"]'
     )?.content
     if (typeof jsonErrors === "string") {
-      common.errors = JSON.parse(jsonErrors)
+      let perseError = JSON.parse(jsonErrors)
+      let arrayError: string[] = []
+      Object.keys(perseError).map((key, index) =>
+        perseError[key].forEach((content: string) => {
+          arrayError.push(content)
+        })
+      )
+      common.errors = arrayError
     }
     // stateのcommonを更新
     state.common = common
@@ -327,6 +334,10 @@ export const createTransactionOperations = {
       total: total,
     }
     dispatch(actions.updateAmountInfoHandle({ treasureInfo: amountInfo }))
+  },
+
+  errorAlertClose: (): AppThunk => async (dispatch, getState) => {
+    dispatch(actions.deleteError())
   },
 
   /**
