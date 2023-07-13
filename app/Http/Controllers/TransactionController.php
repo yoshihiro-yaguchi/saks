@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\createTransactionForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
@@ -13,30 +14,40 @@ class TransactionController extends Controller
    */
   public function create()
   {
-    $datas = [
-      "encodeData" => json_encode(array(
-        'message' => "成功",
-        "array" => array('a' => 'conf', 'b' => 'anf', 'c' => 'enf')
-      ))
-    ];
-    return view('transaction.create')->with($datas);
+    return view('transaction.create');
   }
 
-  public function createTransaction(createTransactionForm $request)
+  public function createTransaction(Request $request)
   {
-    Log::info(json_encode($request->input("_token")));
-    Log::info(json_encode($request->input("transactionInfo")));
-    Log::info(json_encode($request->input("customerInfo")));
-    Log::info(json_encode($request->input("detailRows")));
-    Log::info(json_encode($request->input("amountInfo")));
-    Log::info(json_encode($request->input("taxInfo")));
+    $responseData =
+      [
+        "encodeData" => json_encode(array(
+          'transactionInfo' => $request->input("transactionInfo"),
+          'customerInfo' => $request->input("customerInfo"),
+          'detailRows' => $request->input("detailRows"),
+          'amountInfo' => $request->input("amountInfo"),
+          'taxInfo' => $request->input("taxInfo"),
+        ))
+      ];
 
-    $datas = [
-      "encodeData" => json_encode(array(
-        'message' => "成功",
-        "array" => array('a' => 'conf', 'b' => 'anf', 'c' => 'enf')
-      ))
+    $rules = [
+      'transactionInfo.transactionTitle' => ['nullable', 'max:10']
     ];
-    return view('transaction.create')->with($datas);
+    $message = [];
+    $attributes = [
+      'transactionInfo.transactionTitle' => '取引情報 件名'
+    ];
+    $validator = Validator::make($request->all(), $rules, $message, $attributes);
+    if ($validator->fails()) {
+      Log::info(json_encode($validator->getMessageBag()->toArray()));
+      $responseData += [
+        'errors' => json_encode($validator->getMessageBag()->toArray())
+      ];
+    }
+    Log::info(json_encode($responseData));
+
+
+
+    return view('transaction.create')->with($responseData);
   }
 }
