@@ -55,9 +55,8 @@ export const createTransactionOperations = {
     state.common = common
 
     // バックエンドからのデータ
-    const jsondata = document.head.querySelector<HTMLMetaElement>(
-      'meta[name="data"]'
-    )?.content
+    const jsondata =
+      document.head.querySelector<HTMLMetaElement>('meta[name="data"]')?.content
     let datas = null
     if (typeof jsondata === "string") {
       datas = JSON.parse(jsondata)
@@ -78,20 +77,15 @@ export const createTransactionOperations = {
 
         // 値があればセット
         const oldInfo = datas.transactionInfo
-        transactionInfo.transactionTitle =
-          oldInfo.transactionTitle ?? ""
-        transactionInfo.transactionDivision =
-          oldInfo.transactionDivision ?? "1"
-        transactionInfo.transactionDate =
-          oldInfo.transactionDate ?? ""
-        transactionInfo.transactionBranch =
-          oldInfo.transactionBranch ?? "1"
+        transactionInfo.transactionTitle = oldInfo.transactionTitle ?? ""
+        transactionInfo.transactionDivision = oldInfo.transactionDivision ?? "1"
+        transactionInfo.transactionDate = oldInfo.transactionDate ?? ""
+        transactionInfo.transactionBranch = oldInfo.transactionBranch ?? "1"
         transactionInfo.transactionPicFirstName =
           oldInfo.transactionPicFirstName ?? ""
         transactionInfo.transactionPicLastName =
           oldInfo.transactionPicLastName ?? ""
-        transactionInfo.transactionNote =
-          oldInfo.transactionNote ?? ""
+        transactionInfo.transactionNote = oldInfo.transactionNote ?? ""
 
         state.transactionInfo = transactionInfo
       }
@@ -117,16 +111,13 @@ export const createTransactionOperations = {
 
         // 値があればセット
         const oldInfo = datas.customerInfo
-        customerInfo.corporationDivision =
-          oldInfo.corporationDivision ?? "1"
+        customerInfo.corporationDivision = oldInfo.corporationDivision ?? "1"
         customerInfo.customerCompany = oldInfo.customerCompany ?? ""
         customerInfo.customerBranch = oldInfo.customerBranch ?? ""
         customerInfo.invoiceNumber = oldInfo.invoiceNumber ?? ""
-        customerInfo.customerFirstName =
-          oldInfo.customerFirstName ?? ""
+        customerInfo.customerFirstName = oldInfo.customerFirstName ?? ""
         customerInfo.customerLastName = oldInfo.customerLastName ?? ""
-        customerInfo.customerPhoneNumber =
-          oldInfo.customerPhoneNumber ?? ""
+        customerInfo.customerPhoneNumber = oldInfo.customerPhoneNumber ?? ""
         customerInfo.zipCode = oldInfo.zipCode ?? ""
         customerInfo.customerAddress1 = oldInfo.customerAddress1 ?? ""
         customerInfo.customerAddress2 = oldInfo.customerAddress2 ?? ""
@@ -136,10 +127,7 @@ export const createTransactionOperations = {
         state.customerInfo = customerInfo
       }
       // 明細情報
-      if (
-        typeof datas.detailRows !== undefined &&
-        datas.detailRows !== null
-      ) {
+      if (typeof datas.detailRows !== undefined && datas.detailRows !== null) {
         let detailRows: DetailRow[] = []
         const oldInfos = datas.detailRows
 
@@ -158,10 +146,7 @@ export const createTransactionOperations = {
         state.detailRows = detailRows
       }
       // 会計情報
-      if (
-        typeof datas.amountInfo !== undefined &&
-        datas.amountInfo !== null
-      ) {
+      if (typeof datas.amountInfo !== undefined && datas.amountInfo !== null) {
         let amountInfo: AmountInfo = {
           subtotal: 0,
           taxInclude: 0,
@@ -177,10 +162,7 @@ export const createTransactionOperations = {
         state.amountInfo = amountInfo
       }
       // 税情報
-      if (
-        typeof datas.taxInfo !== undefined &&
-        datas.taxInfo !== null
-      ) {
+      if (typeof datas.taxInfo !== undefined && datas.taxInfo !== null) {
         let taxInfos: TaxInfo[] = state.taxInfos
 
         const oldInfos = datas.taxInfo
@@ -268,41 +250,22 @@ export const createTransactionOperations = {
   updateDetailRow:
     (index: number, name: string, value: string | number): AppThunk =>
     async (dispatch, getState) => {
-      let oldDetailRow =
-        getState().createTransaction.detailRows[index]
+      const oldInfo: DetailRow = getState().createTransaction.detailRows[index]
 
-      const newDetailRow: DetailRow = {
-        productNo:
-          name === "productNo"
-            ? (value as string)
-            : oldDetailRow.productNo,
-        productName:
-          name === "productName"
-            ? (value as string)
-            : oldDetailRow.productName,
-        quantity:
-          name === "quantity"
-            ? (value as number)
-            : oldDetailRow.quantity,
-        unitPrice:
-          name === "unitPrice"
-            ? (value as number)
-            : oldDetailRow.unitPrice,
-        taxRate:
-          name === "taxRate"
-            ? (value as number)
-            : oldDetailRow.taxRate,
-        totalPrice: 0,
+      const updateData: Partial<DetailRow> = { [name]: value }
+
+      let newDetailRow = {
+        ...oldInfo,
+        ...updateData,
       }
-      // 合計金額計算
-      const totalPrice =
-        newDetailRow.unitPrice * newDetailRow.quantity
-      newDetailRow.totalPrice = totalPrice
+
+      // 合計金額更新
+      newDetailRow.totalPrice = newDetailRow.quantity * newDetailRow.unitPrice
 
       dispatch(
         actions.updateDetailRowHandle({
           index: index,
-          data: newDetailRow,
+          params: newDetailRow,
         })
       )
       dispatch(createTransactionOperations.updateTaxInfo())
@@ -321,8 +284,7 @@ export const createTransactionOperations = {
 
     detailRows.forEach((detailRow) => {
       if (detailRow.taxRate in taxInfos) {
-        taxInfos[detailRow.taxRate].taxableAmout +=
-          detailRow.totalPrice
+        taxInfos[detailRow.taxRate].taxableAmout += detailRow.totalPrice
       } else {
         const taxInfo: TaxInfo = {
           taxRate: detailRow.taxRate,
@@ -364,9 +326,7 @@ export const createTransactionOperations = {
       taxInclude: taxInclude,
       total: total,
     }
-    dispatch(
-      actions.updateAmountInfoHandle({ treasureInfo: amountInfo })
-    )
+    dispatch(actions.updateAmountInfoHandle({ treasureInfo: amountInfo }))
   },
 
   /**

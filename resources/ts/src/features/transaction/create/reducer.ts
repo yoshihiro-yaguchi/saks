@@ -31,10 +31,7 @@ export const createTransactionStates = createSlice({
     reset: () => initialState,
 
     // 初期表示時
-    initHandle: (
-      state,
-      action: PayloadAction<{ param: transactionState }>
-    ) => {
+    initHandle: (state, action: PayloadAction<{ param: transactionState }>) => {
       const param = action.payload.param
       state.token = param.token
       state.amountInfo = param.amountInfo
@@ -50,9 +47,10 @@ export const createTransactionStates = createSlice({
       state,
       action: PayloadAction<{ name: string; value: string }>
     ) => {
-      state.transactionInfo[
-        action.payload.name as keyof TransactionInfo
-      ] = action.payload.value
+      const updateData: Partial<TransactionInfo> = {
+        [action.payload.name]: action.payload.value,
+      }
+      state.transactionInfo = { ...state.transactionInfo, ...updateData }
     },
 
     // お客様情報変更時ハンドラ
@@ -60,8 +58,10 @@ export const createTransactionStates = createSlice({
       state,
       action: PayloadAction<{ name: string; value: string }>
     ) => {
-      state.customerInfo[action.payload.name as keyof CustomerInfo] =
-        action.payload.value
+      const updateData: Partial<CustomerInfo> = {
+        [action.payload.name]: action.payload.value,
+      }
+      state.customerInfo = { ...state.customerInfo, ...updateData }
     },
 
     // 明細情報変更時ハンドラ
@@ -69,10 +69,10 @@ export const createTransactionStates = createSlice({
       state,
       action: PayloadAction<{
         index: number
-        data: DetailRow
+        params: DetailRow
       }>
     ) => {
-      state.detailRows[action.payload.index] = action.payload.data
+      state.detailRows[action.payload.index] = action.payload.params
     },
 
     /**
@@ -110,26 +110,17 @@ export const createTransactionStates = createSlice({
     },
 
     // baseURLセット
-    setBaseUrl: (
-      state,
-      action: PayloadAction<{ baseUrl: string }>
-    ) => {
+    setBaseUrl: (state, action: PayloadAction<{ baseUrl: string }>) => {
       state.common.baseUrl = action.payload.baseUrl
     },
 
     // 明細追加
-    addDetailRow: (
-      state,
-      action: PayloadAction<{ value: DetailRow }>
-    ) => {
+    addDetailRow: (state, action: PayloadAction<{ value: DetailRow }>) => {
       state.detailRows.push(action.payload.value)
     },
 
     // 明細行削除
-    deleteDetailRow: (
-      state,
-      action: PayloadAction<{ index: number }>
-    ) => {
+    deleteDetailRow: (state, action: PayloadAction<{ index: number }>) => {
       state.detailRows.splice(action.payload.index, 1)
     },
   },
