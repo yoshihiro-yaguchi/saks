@@ -5,20 +5,21 @@ import {
   initCommon,
   initCustomerInfo,
   initTransactionInfo,
-  initTreasurerInfo,
+  initAmountInfo,
   TaxInfo,
   TransactionInfo,
   transactionState,
   AmountInfo,
+  initHandle,
 } from "./types"
 
 const initialState: transactionState = {
-  _token: "",
+  token: "",
   common: initCommon,
   transactionInfo: initTransactionInfo,
   customerInfo: initCustomerInfo,
   detailRows: [],
-  amountInfo: initTreasurerInfo,
+  amountInfo: initAmountInfo,
   taxInfos: [],
 }
 
@@ -28,6 +29,21 @@ export const createTransactionStates = createSlice({
   reducers: {
     // ステートリセット
     reset: () => initialState,
+
+    // 初期表示時
+    initHandle: (
+      state,
+      action: PayloadAction<{ param: transactionState }>
+    ) => {
+      const param = action.payload.param
+      state.token = param.token
+      state.amountInfo = param.amountInfo
+      state.common = param.common
+      state.customerInfo = param.customerInfo
+      state.detailRows = param.detailRows
+      state.taxInfos = param.taxInfos
+      state.transactionInfo = param.transactionInfo
+    },
 
     // 取引情報変更時ハンドラ
     updateTransactionInfoHandle: (
@@ -90,7 +106,7 @@ export const createTransactionStates = createSlice({
 
     // トークンセット
     setToken: (state, action: PayloadAction<{ token: string }>) => {
-      state._token = action.payload.token
+      state.token = action.payload.token
     },
 
     // baseURLセット

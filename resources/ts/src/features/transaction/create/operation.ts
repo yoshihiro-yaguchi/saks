@@ -1,38 +1,203 @@
 import { AppThunk } from "@src/app/store"
-import { DetailRow, TaxInfo, AmountInfo } from "./types"
+import {
+  DetailRow,
+  TaxInfo,
+  AmountInfo,
+  initHandle,
+  BackendData,
+  initTransactionInfo,
+  initCustomerInfo,
+  initAmountInfo,
+  initBackendData,
+  transactionState,
+  TransactionInfo,
+  CustomerInfo,
+  Common,
+  initCommon,
+} from "./types"
 import { actions } from "./reducer"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
 // import { api } from './api'
 
 export const createTransactionOperations = {
   init: (): AppThunk => async (dispatch, getState) => {
-    let bladeCsrfToken = document.head.querySelector<HTMLMetaElement>(
+    let state: transactionState = {
+      token: "",
+      common: initCommon,
+      transactionInfo: initTransactionInfo,
+      customerInfo: initCustomerInfo,
+      detailRows: [],
+      amountInfo: initAmountInfo,
+      taxInfos: [],
+    }
+
+    // csrfToken
+    state.token = document.head.querySelector<HTMLMetaElement>(
       'meta[name="csrfToken"]'
     )!.content
+    // 共通情報
+    let common: Common = {
+      baseUrl: "",
+      errors: [],
+    }
     // baseUrl
-    let baseUrl = document.head.querySelector<HTMLMetaElement>(
+    common.baseUrl = document.head.querySelector<HTMLMetaElement>(
       'meta[name="baseUrl"]'
     )!.content
     // errors
-    let errors: string[] = []
-    document.head
-      .querySelectorAll<HTMLMetaElement>('meta[name="errors"]')
-      ?.forEach((error) => {
-        errors.push(error.content)
-      })
-    console.log(errors)
+    const jsonErrors = document.head.querySelector<HTMLMetaElement>(
+      'meta[name="errors"]'
+    )?.content
+    if (typeof jsonErrors === "string") {
+      common.errors = JSON.parse(jsonErrors)
+    }
+    // stateのcommonを更新
+    state.common = common
+
     // バックエンドからのデータ
-    let data = document.head.querySelector<HTMLMetaElement>(
+    const jsondata = document.head.querySelector<HTMLMetaElement>(
       'meta[name="data"]'
     )?.content
-    let arrayData = null
-    if (typeof data === "string") {
-      arrayData = JSON.parse(data)
-      console.log(arrayData)
-    }
+    let datas = null
+    if (typeof jsondata === "string") {
+      datas = JSON.parse(jsondata)
+      // 取引情報
+      if (
+        typeof datas.transactionInfo !== undefined &&
+        datas.transactionInfo !== null
+      ) {
+        let transactionInfo: TransactionInfo = {
+          transactionTitle: "",
+          transactionDivision: "1",
+          transactionDate: "",
+          transactionBranch: "1",
+          transactionPicLastName: "",
+          transactionPicFirstName: "",
+          transactionNote: "",
+        }
 
-    dispatch(actions.setToken({ token: bladeCsrfToken }))
-    dispatch(actions.setBaseUrl({ baseUrl: baseUrl }))
+        // 値があればセット
+        const oldInfo = datas.transactionInfo
+        transactionInfo.transactionTitle =
+          oldInfo.transactionTitle ?? ""
+        transactionInfo.transactionDivision =
+          oldInfo.transactionDivision ?? "1"
+        transactionInfo.transactionDate =
+          oldInfo.transactionDate ?? ""
+        transactionInfo.transactionBranch =
+          oldInfo.transactionBranch ?? "1"
+        transactionInfo.transactionPicFirstName =
+          oldInfo.transactionPicFirstName ?? ""
+        transactionInfo.transactionPicLastName =
+          oldInfo.transactionPicLastName ?? ""
+        transactionInfo.transactionNote =
+          oldInfo.transactionNote ?? ""
+
+        state.transactionInfo = transactionInfo
+      }
+      // お客様情報
+      if (
+        typeof datas.customerInfo !== undefined &&
+        datas.customerInfo !== null
+      ) {
+        let customerInfo: CustomerInfo = {
+          corporationDivision: "1",
+          customerCompany: "",
+          customerBranch: "",
+          invoiceNumber: "",
+          customerLastName: "",
+          customerFirstName: "",
+          customerPhoneNumber: "",
+          zipCode: "",
+          customerAddress1: "",
+          customerAddress2: "",
+          customerAddress3: "",
+          customerAddress4: "",
+        }
+
+        // 値があればセット
+        const oldInfo = datas.customerInfo
+        customerInfo.corporationDivision =
+          oldInfo.corporationDivision ?? "1"
+        customerInfo.customerCompany = oldInfo.customerCompany ?? ""
+        customerInfo.customerBranch = oldInfo.customerBranch ?? ""
+        customerInfo.invoiceNumber = oldInfo.invoiceNumber ?? ""
+        customerInfo.customerFirstName =
+          oldInfo.customerFirstName ?? ""
+        customerInfo.customerLastName = oldInfo.customerLastName ?? ""
+        customerInfo.customerPhoneNumber =
+          oldInfo.customerPhoneNumber ?? ""
+        customerInfo.zipCode = oldInfo.zipCode ?? ""
+        customerInfo.customerAddress1 = oldInfo.customerAddress1 ?? ""
+        customerInfo.customerAddress2 = oldInfo.customerAddress2 ?? ""
+        customerInfo.customerAddress3 = oldInfo.customerAddress3 ?? ""
+        customerInfo.customerAddress4 = oldInfo.customerAddress4 ?? ""
+
+        state.customerInfo = customerInfo
+      }
+      // 明細情報
+      if (
+        typeof datas.detailRows !== undefined &&
+        datas.detailRows !== null
+      ) {
+        let detailRows: DetailRow[] = []
+        const oldInfos = datas.detailRows
+
+        Object.keys(oldInfos).forEach((key) => {
+          let newDetailRow: DetailRow = {
+            productNo: oldInfos[key]?.productNo,
+            productName: oldInfos[key]?.productName,
+            quantity: Number(oldInfos[key]?.quantity ?? "0"),
+            unitPrice: Number(oldInfos[key]?.unitPrice ?? "0"),
+            taxRate: Number(oldInfos[key]?.taxRate ?? "0"),
+            totalPrice: Number(oldInfos[key]?.totalPrice ?? "0"),
+          }
+
+          detailRows.push(newDetailRow)
+        })
+        state.detailRows = detailRows
+      }
+      // 会計情報
+      if (
+        typeof datas.amountInfo !== undefined &&
+        datas.amountInfo !== null
+      ) {
+        let amountInfo: AmountInfo = {
+          subtotal: 0,
+          taxInclude: 0,
+          total: 0,
+        }
+
+        const oldInfo = datas.amountInfo
+
+        amountInfo.subtotal = Number(oldInfo?.subtotal ?? "0")
+        amountInfo.taxInclude = Number(oldInfo?.taxInclude ?? "0")
+        amountInfo.total = Number(oldInfo?.total ?? "0")
+
+        state.amountInfo = amountInfo
+      }
+      // 税情報
+      if (
+        typeof datas.taxInfo !== undefined &&
+        datas.taxInfo !== null
+      ) {
+        let taxInfos: TaxInfo[] = state.taxInfos
+
+        const oldInfos = datas.taxInfo
+
+        Object.keys(oldInfos).forEach((key) => {
+          let newTaxInfo: TaxInfo = {
+            taxRate: Number(oldInfos[key]?.taxRate ?? "0"),
+            taxableAmout: Number(oldInfos[key]?.taxableAmout ?? "0"),
+            taxAmout: Number(oldInfos[key]?.taxAmout ?? "0"),
+          }
+          taxInfos.push(newTaxInfo)
+        })
+
+        state.taxInfos = taxInfos
+      }
+    }
+    dispatch(actions.initHandle({ param: state }))
   },
   /**
    * 保存処理

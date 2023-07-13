@@ -2,7 +2,7 @@
  * メイン画面フォーム
  */
 export interface transactionState {
-  _token: string
+  token: string
   common: Common
   transactionInfo: TransactionInfo
   customerInfo: CustomerInfo
@@ -113,6 +113,14 @@ export interface DetailRow {
   /** 金額 */
   totalPrice: number
 }
+export const initDetailRow: DetailRow = {
+  productNo: "",
+  productName: "",
+  quantity: 0,
+  unitPrice: 0,
+  taxRate: 0,
+  totalPrice: 0,
+}
 
 /**
  * 金額情報
@@ -125,7 +133,7 @@ export interface AmountInfo {
   /** 合計 */
   total: number
 }
-export const initTreasurerInfo: AmountInfo = {
+export const initAmountInfo: AmountInfo = {
   subtotal: 0,
   taxInclude: 0,
   total: 0,
@@ -141,4 +149,34 @@ export interface TaxInfo {
   taxableAmout: number
   /** 税額 */
   taxAmout: number
+}
+export const initTaxInfo: TaxInfo = {
+  taxRate: 0,
+  taxableAmout: 0,
+  taxAmout: 0,
+}
+
+/**
+ * 初期表示reducerパラメーター
+ */
+export interface initHandle {
+  csrfToken: string
+  baseUrl: string
+  errors: string[]
+  datas: BackendData
+}
+
+export interface BackendData {
+  transactionInfo: TransactionInfo
+  customerInfo: CustomerInfo
+  detailRows: DetailRow[]
+  amountInfo: AmountInfo
+  taxInfo: TaxInfo[]
+}
+export const initBackendData: BackendData = {
+  transactionInfo: initTransactionInfo,
+  customerInfo: initCustomerInfo,
+  detailRows: [],
+  amountInfo: initAmountInfo,
+  taxInfo: [],
 }

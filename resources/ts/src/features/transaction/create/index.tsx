@@ -143,7 +143,7 @@ export const Create = () => {
 
   // csrfトークン
   const csrfToken = useAppSelector(
-    (s: RootState) => s.createTransaction._token
+    (s: RootState) => s.createTransaction.token
   )
 
   // baseurl
