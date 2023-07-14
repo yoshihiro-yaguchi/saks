@@ -124,8 +124,8 @@ export const createTransactionStates = createSlice({
       state.detailRows.splice(action.payload.index, 1)
     },
 
-    deleteError: (state) => {
-      state.common.errors = []
+    deleteErrorArray: (state) => {
+      state.common.errorArray = []
     },
   },
 })

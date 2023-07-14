@@ -266,6 +266,9 @@ export const Create = () => {
                     )
                   }}
                   value={transactionInfoState.transactionTitle}
+                  error={commonState.errors.hasOwnProperty(
+                    "transactionInfo.transactionTitle"
+                  )}
                 ></Input>
                 <Grid container spacing={1}>
                   <Grid item xs={12} lg={6}>
@@ -309,6 +312,9 @@ export const Create = () => {
                         )
                       }}
                       value={transactionInfoState.transactionDate}
+                      error={commonState.errors.hasOwnProperty(
+                        "transactionInfo.transactionDate"
+                      )}
                     ></Input>
                   </Grid>
                 </Grid>
@@ -356,6 +362,9 @@ export const Create = () => {
                         )
                       }}
                       value={transactionInfoState.transactionPicLastName}
+                      error={commonState.errors.hasOwnProperty(
+                        "transactionInfo.transactionPicLastName"
+                      )}
                     ></Input>
                   </Grid>
                   <Grid item xs={12} lg={3}>
@@ -375,6 +384,9 @@ export const Create = () => {
                         )
                       }}
                       value={transactionInfoState.transactionPicFirstName}
+                      error={commonState.errors.hasOwnProperty(
+                        "transactionInfo.transactionPicFirstName"
+                      )}
                     ></Input>
                   </Grid>
                 </Grid>
@@ -397,6 +409,9 @@ export const Create = () => {
                     )
                   }}
                   value={transactionInfoState.transactionNote}
+                  error={commonState.errors.hasOwnProperty(
+                    "transactionInfo.transactionNote"
+                  )}
                 ></Input>
               </LinedContainerBox>
             </Grid>
@@ -447,6 +462,9 @@ export const Create = () => {
                         )
                       }}
                       value={customerInfoState.invoiceNumber}
+                      error={commonState.errors.hasOwnProperty(
+                        "customerInfo.invoiceNumber"
+                      )}
                     ></Input>
                   </Grid>
                 </Grid>
@@ -468,6 +486,9 @@ export const Create = () => {
                     )
                   }}
                   value={customerInfoState.customerCompany}
+                  error={commonState.errors.hasOwnProperty(
+                    "customerInfo.customerCompany"
+                  )}
                 ></Input>
                 <Input
                   id="customerBranch"
@@ -487,6 +508,9 @@ export const Create = () => {
                     )
                   }}
                   value={customerInfoState.customerBranch}
+                  error={commonState.errors.hasOwnProperty(
+                    "customerInfo.customerBranch"
+                  )}
                 ></Input>
                 <Grid container spacing={1}>
                   <Grid item xs={12} lg={3}>
@@ -506,6 +530,9 @@ export const Create = () => {
                         )
                       }}
                       value={customerInfoState.customerLastName}
+                      error={commonState.errors.hasOwnProperty(
+                        "customerInfo.customerLastName"
+                      )}
                     ></Input>
                   </Grid>
                   <Grid item xs={12} lg={3}>
@@ -525,6 +552,9 @@ export const Create = () => {
                         )
                       }}
                       value={customerInfoState.customerFirstName}
+                      error={commonState.errors.hasOwnProperty(
+                        "customerInfo.customerFirstName"
+                      )}
                     ></Input>
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -544,6 +574,9 @@ export const Create = () => {
                         )
                       }}
                       value={customerInfoState.customerPhoneNumber}
+                      error={commonState.errors.hasOwnProperty(
+                        "customerInfo.customerPhoneNumber"
+                      )}
                     ></Input>
                   </Grid>
                 </Grid>
@@ -565,6 +598,9 @@ export const Create = () => {
                         )
                       }}
                       value={customerInfoState.zipCode}
+                      error={commonState.errors.hasOwnProperty(
+                        "customerInfo.zipCode"
+                      )}
                     ></Input>
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -584,6 +620,9 @@ export const Create = () => {
                         )
                       }}
                       value={customerInfoState.customerAddress1}
+                      error={commonState.errors.hasOwnProperty(
+                        "customerInfo.customerAddress1"
+                      )}
                     ></Input>
                   </Grid>
                 </Grid>
@@ -603,6 +642,9 @@ export const Create = () => {
                     )
                   }}
                   value={customerInfoState.customerAddress2}
+                  error={commonState.errors.hasOwnProperty(
+                    "customerInfo.customerAddress2"
+                  )}
                 ></Input>
                 <Input
                   id="customerAddress3"
@@ -620,6 +662,9 @@ export const Create = () => {
                     )
                   }}
                   value={customerInfoState.customerAddress3}
+                  error={commonState.errors.hasOwnProperty(
+                    "customerInfo.customerAddress3"
+                  )}
                 ></Input>
                 <Input
                   id="customerAddress4"
@@ -637,6 +682,9 @@ export const Create = () => {
                     )
                   }}
                   value={customerInfoState.customerAddress4}
+                  error={commonState.errors.hasOwnProperty(
+                    "customerInfo.customerAddress4"
+                  )}
                 ></Input>
               </LinedContainerBox>
             </Grid>
@@ -681,7 +729,7 @@ export const Create = () => {
                 <Box sx={{ float: "left" }}></Box>
               </Box>
               <TableContainer component={Paper}>
-                <Table size="small" sx={{ minWidth: "900px" }}>
+                <Table size="small" sx={{ minWidth: "915px" }}>
                   <TableHead>
                     <TableRow sx={{ backgroundColor: "#1cc1cc" }}>
                       <StyledTableHeadCell
@@ -695,8 +743,7 @@ export const Create = () => {
                       <StyledTableHeadCell>商品名</StyledTableHeadCell>
                       <StyledTableHeadCell
                         sx={{
-                          minWidth: "120px",
-                          width: "10%",
+                          width: "105px",
                           padding: "6px 6px",
                         }}
                       >
@@ -708,7 +755,7 @@ export const Create = () => {
                       <StyledTableHeadCell sx={{ width: "91px" }}>
                         税率
                       </StyledTableHeadCell>
-                      <StyledTableHeadCell sx={{ width: "100px" }}>
+                      <StyledTableHeadCell sx={{ width: "156px" }}>
                         金額
                       </StyledTableHeadCell>
                     </TableRow>
@@ -741,7 +788,7 @@ export const Create = () => {
                             readOnly
                             hidden
                             name={`detailRows[${index}][productNo]`}
-                            value={row.productNo}
+                            value={row.productNo ?? ""}
                           />
                         </StyledTableRowCell>
                         {/* 商品名 */}
@@ -751,7 +798,7 @@ export const Create = () => {
                             readOnly
                             hidden
                             name={`detailRows[${index}][productName]`}
-                            value={row.productName}
+                            value={row.productName ?? ""}
                           />
                         </StyledTableRowCell>
                         {/* 数量(重量) */}
@@ -761,7 +808,10 @@ export const Create = () => {
                             type="number"
                             size="small"
                             variant="standard"
-                            sx={{ float: "left", fontSize: "10px" }}
+                            sx={{
+                              float: "left",
+                              fontSize: "10px",
+                            }}
                             InputProps={{
                               endAdornment: (
                                 <InputAdornment position="end">
@@ -769,8 +819,16 @@ export const Create = () => {
                                 </InputAdornment>
                               ),
                             }}
-                            value={row.quantity}
-                            onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            value={row.quantity ?? 0}
+                            error={commonState.errors.hasOwnProperty(
+                              `detailRows.${index}.quantity`
+                            )}
+                            onInput={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (e.target.value.length > 5) {
+                                return false
+                              }
                               dispatch(
                                 createTransactionOperations.updateDetailRow(
                                   index,
@@ -778,17 +836,20 @@ export const Create = () => {
                                   e.target.value
                                 )
                               )
-                            }
+                            }}
                           ></TextField>
                         </StyledTableRowCell>
                         {/* 単価 */}
                         <StyledTableRowCell sx={{ textAlign: "right" }}>
                           <TextField
                             name={`detailRows[${index}][unitPrice]`}
-                            type="number"
                             size="small"
                             variant="standard"
-                            sx={{ float: "left", fontSize: "10px" }}
+                            sx={{
+                              float: "left",
+                              fontSize: "10px",
+                            }}
+                            type="number"
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -796,8 +857,16 @@ export const Create = () => {
                                 </InputAdornment>
                               ),
                             }}
-                            value={row.unitPrice}
-                            onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            value={row.unitPrice ?? 0}
+                            error={commonState.errors.hasOwnProperty(
+                              `detailRows.${index}.unitPrice`
+                            )}
+                            onInput={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (e.target.value.length > 9) {
+                                return false
+                              }
                               dispatch(
                                 createTransactionOperations.updateDetailRow(
                                   index,
@@ -805,7 +874,7 @@ export const Create = () => {
                                   e.target.value
                                 )
                               )
-                            }
+                            }}
                           ></TextField>
                         </StyledTableRowCell>
                         {/* 税率 */}
@@ -816,6 +885,7 @@ export const Create = () => {
                             value={row.taxRate}
                             size="small"
                             variant="standard"
+                            fullWidth
                             onChange={(e: SelectChangeEvent<number>) => {
                               dispatch(
                                 createTransactionOperations.updateDetailRow(
@@ -837,7 +907,7 @@ export const Create = () => {
                             readOnly
                             hidden
                             name={`detailRows[${index}][totalPrice]`}
-                            value={row.totalPrice}
+                            value={row.totalPrice ?? 0}
                           />
                         </StyledTableRowCell>
                       </StyledTableRow>
@@ -910,8 +980,8 @@ export const Create = () => {
                           justifyContent: "flex-end",
                         }}
                       >
-                        <TableContainer sx={{ width: "450px" }}>
-                          <Table size="small" sx={{ width: "450px" }}>
+                        <TableContainer sx={{ width: "500px" }}>
+                          <Table size="small" sx={{ width: "500px" }}>
                             <TableBody>
                               {taxInfos.map((taxInfo, index) => (
                                 <StyledTableRow key={index}>
@@ -989,7 +1059,7 @@ export const Create = () => {
         </form>
       </BaseComponent>
       {(() => {
-        if (commonState.errors.length > 0) {
+        if (commonState.errorArray.length > 0) {
           return (
             <Box
               sx={{
@@ -1009,7 +1079,7 @@ export const Create = () => {
                   borderRadius: "8px",
                 }}
               >
-                {commonState.errors.map((error, index) => (
+                {commonState.errorArray.map((error, index) => (
                   <Box key={index} sx={{ margin: "3px 0" }}>
                     {error}
                   </Box>

@@ -16,11 +16,13 @@ export interface transactionState {
  */
 export interface Common {
   baseUrl: string
-  errors: string[]
+  errors: Object
+  errorArray: string[]
 }
 export const initCommon: Common = {
   baseUrl: "",
   errors: [],
+  errorArray: [],
 }
 /**
  * 取引情報

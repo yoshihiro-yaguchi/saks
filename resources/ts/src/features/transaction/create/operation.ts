@@ -38,7 +38,8 @@ export const createTransactionOperations = {
     // 共通情報
     let common: Common = {
       baseUrl: "",
-      errors: [],
+      errors: "",
+      errorArray: [],
     }
     // baseUrl
     common.baseUrl = document.head.querySelector<HTMLMetaElement>(
@@ -50,13 +51,14 @@ export const createTransactionOperations = {
     )?.content
     if (typeof jsonErrors === "string") {
       let perseError = JSON.parse(jsonErrors)
+      common.errors = perseError
       let arrayError: string[] = []
       Object.keys(perseError).map((key, index) =>
         perseError[key].forEach((content: string) => {
           arrayError.push(content)
         })
       )
-      common.errors = arrayError
+      common.errorArray = arrayError
     }
     // stateのcommonを更新
     state.common = common
@@ -337,7 +339,7 @@ export const createTransactionOperations = {
   },
 
   errorAlertClose: (): AppThunk => async (dispatch, getState) => {
-    dispatch(actions.deleteError())
+    dispatch(actions.deleteErrorArray())
   },
 
   /**

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Validator\TransactionValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
+
 
 class TransactionController extends Controller
 {
@@ -30,21 +31,14 @@ class TransactionController extends Controller
         ))
       ];
 
-    $rules = [
-      'transactionInfo.transactionTitle' => ['nullable', 'max:10']
-    ];
-    $message = [];
-    $attributes = [
-      'transactionInfo.transactionTitle' => '取引情報 件名'
-    ];
-    $validator = Validator::make($request->all(), $rules, $message, $attributes);
+
+    $validator = TransactionValidator::createValidater($request);
     if ($validator->fails()) {
-      Log::info(json_encode($validator->getMessageBag()->toArray()));
+      // バリデーションに引っかかったとき
       $responseData += [
         'errors' => json_encode($validator->getMessageBag()->toArray())
       ];
     }
-    Log::info(json_encode($responseData));
 
 
 
