@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Validator\TransactionValidator;
+use App\Models\TransactionHeader;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
 
 
 class TransactionController extends Controller
@@ -20,9 +19,10 @@ class TransactionController extends Controller
 
   public function createTransaction(Request $request)
   {
+    // 入力値データをレスポンスデータにセットする。
     $responseData =
       [
-        "encodeData" => json_encode(array(
+        "oldInputData" => json_encode(array(
           'transactionInfo' => $request->input("transactionInfo"),
           'customerInfo' => $request->input("customerInfo"),
           'detailRows' => $request->input("detailRows"),
@@ -32,6 +32,7 @@ class TransactionController extends Controller
       ];
 
 
+    // バリデーション
     $validator = TransactionValidator::createTransactionValidater($request->all());
     if ($validator->fails()) {
       // バリデーションに引っかかったとき
@@ -41,7 +42,42 @@ class TransactionController extends Controller
       return view('transaction.create')->with($responseData);
     }
 
+    $transactionInfo = $request->input("transactionInfo");
+    $customerInfo = $request->input("customerInfo");
+    $amountInfo = $request->input('amountInfo');
 
+    // 取引ヘッダー作成
+    try {
+      $transactionHeaderModel = new TransactionHeader();
+      $transactionHeaderModel->fill([
+        'contract_id' => 'dummy',
+        'transaction_title' => $transactionInfo['transactionTitle'],
+        'transaction_division' => $transactionInfo['transactionDivision'],
+        'transaction_date' => $transactionInfo['transactionDate'],
+        'transaction_branch' => $transactionInfo['transactionBranch'],
+        'transaction_pic_last_name' => $transactionInfo['transactionPicLastName'],
+        'transaction_pic_first_name' => $transactionInfo['transactionPicFirstName'],
+        'transaction_note' => $transactionInfo['transactionNote'],
+        'corporation_division' => $customerInfo['corporationDivision'],
+        'invoice_number' => $customerInfo['invoiceNumber'],
+        'customer_company' => $customerInfo['customerCompany'],
+        'customer_branch' => $customerInfo['customerBranch'],
+        'customer_last_name' => $customerInfo['customerLastName'],
+        'customer_first_name' => $customerInfo['customerFirstName'],
+        'customer_phone_number' => $customerInfo['customerPhoneNumber'],
+        'customer_zip_code' => $customerInfo['zipCode'],
+        'customer_address1' => $customerInfo['customerAddress1'],
+        'customer_address2' => $customerInfo['customerAddress2'],
+        'customer_address3' => $customerInfo['customerAddress3'],
+        'customer_address4' => $customerInfo['customerAddress4'],
+        'subtotal' => $amountInfo['subtotal'],
+        'tax_include' => $amountInfo['taxInclude'],
+        'total' => $amountInfo['total'],
+        'delete_flag' => 0
+      ])->save();
+    } catch (\Exception $e) {
+      throw $e;
+    }
 
     return view('transaction.create')->with($responseData);
   }

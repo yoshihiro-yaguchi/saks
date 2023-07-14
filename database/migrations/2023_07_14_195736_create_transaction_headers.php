@@ -17,7 +17,7 @@ return new class extends Migration
             // 取引情報
             $table->string('transaction_title', 50)->nullable()->comment('件名');
             $table->unsignedTinyInteger('transaction_division')->comment('取引区分 1-買取 2-販売');
-            $table->timestamp('transaction_date')->comment('取引日付');
+            $table->date('transaction_date')->comment('取引日付');
             $table->string('transaction_branch', 50)->comment('取引支店');
             $table->string('transaction_pic_last_name', 10)->comment('担当者(姓)');
             $table->string('transaction_pic_first_name', 10)->comment('担当者(名)');
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('customer_last_name', 10)->comment('お名前(姓)');
             $table->string('customer_first_name', 10)->comment('お名前(名)');
             $table->string('customer_phone_number', 15)->nullable()->comment('電話番号');
-            $table->string('zip_code', 8)->comment('郵便番号');
+            $table->string('customer_zip_code', 8)->comment('郵便番号');
             $table->string('customer_address1', 10)->comment('住所1 都道府県');
             $table->string('customer_address2', 50)->comment('住所2 市町村区');
             $table->string('customer_address3', 100)->comment('住所3 町・番地');
@@ -39,6 +39,8 @@ return new class extends Migration
             $table->bigInteger('subtotal')->comment('小計');
             $table->bigInteger('tax_include')->comment('内消費税');
             $table->bigInteger('total')->comment('合計');
+
+            $table->tinyInteger('delete_flag')->default(0)->comment('削除フラグ 0-存在 1-削除');
 
             $table->timestamps();
 
