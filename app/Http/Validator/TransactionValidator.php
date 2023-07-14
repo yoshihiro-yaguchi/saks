@@ -31,8 +31,8 @@ final class TransactionValidator
       'customerInfo.customerAddress4' => ['nullable', 'max:100'],
       // 明細情報
       'detailRows' => ['bail', 'required'],
-      'detailRows.*.quantity' => ['required', 'max:5', 'numeric'],
-      'detailRows.*.unitPrice' => ['required', 'max:9', 'numeric'],
+      'detailRows.*.quantity' => ['required', 'max:99999', 'numeric'],
+      'detailRows.*.unitPrice' => ['required', 'max:999999999', 'numeric'],
     ];
     // メッセージカスタマイズ
     $message = [
@@ -44,8 +44,8 @@ final class TransactionValidator
       'transactionInfo.transactionTitle' => '取引情報 件名',
       'transactionInfo.transactionDate' => '取引情報 取引日付',
       'transactionInfo.transactionPicLastName' => '取引情報 担当者(姓)',
-      'transactionInfo.transactionPicLastName' => '取引情報 担当者(名)',
-      'transactionInfo.transactionPicFirstName' => '取引情報 取引備考',
+      'transactionInfo.transactionPicFirstName' => '取引情報 担当者(名)',
+      'transactionInfo.transactionNote' => '取引情報 取引備考',
       // お客様情報
       'customerInfo.invoiceNumber' => 'お客様情報 登録番号',
       'customerInfo.customerCompany' => 'お客様情報 会社名',
