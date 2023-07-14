@@ -10,8 +10,8 @@
   @if (isset($errors))
     <meta name='errors' content="{{$errors}}">
   @endif
-  @if (isset($encodeData))
-    <meta name="data" content="{{$encodeData}}">
+  @if (isset($oldInputData))
+    <meta name="data" content="{{$oldInputData}}">
   @endif
   <title>取引作成</title>
   @viteReactRefresh
