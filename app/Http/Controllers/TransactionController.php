@@ -32,12 +32,13 @@ class TransactionController extends Controller
       ];
 
 
-    $validator = TransactionValidator::createValidater($request);
+    $validator = TransactionValidator::createTransactionValidater($request->all());
     if ($validator->fails()) {
       // バリデーションに引っかかったとき
       $responseData += [
         'errors' => json_encode($validator->getMessageBag()->toArray())
       ];
+      return view('transaction.create')->with($responseData);
     }
 
 
