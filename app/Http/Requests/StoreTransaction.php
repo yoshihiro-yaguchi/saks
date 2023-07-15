@@ -1,16 +1,27 @@
 <?php
 
-namespace App\Http\Validator;
+namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Validator as ReturnValidatorType;
+use Illuminate\Foundation\Http\FormRequest;
 
-final class TransactionValidator
+class StoreTransaction extends FormRequest
 {
-  public static function createTransactionValidater(array $request): ReturnValidatorType
+  /**
+   * Determine if the user is authorized to make this request.
+   */
+  public function authorize(): bool
   {
-    // ルール
-    $rules = [
+    return true;
+  }
+
+  /**
+   * Get the validation rules that apply to the request.
+   *
+   * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+   */
+  public function rules(): array
+  {
+    return [
       // 取引情報
       'transactionInfo.transactionTitle' => ['nullable', 'max:50'],
       'transactionInfo.transactionDate' => ['required', 'date_format:Y-m-d'],
@@ -34,12 +45,18 @@ final class TransactionValidator
       'detailRows.*.quantity' => ['required', 'max:99999', 'numeric'],
       'detailRows.*.unitPrice' => ['required', 'max:999999999', 'numeric'],
     ];
-    // メッセージカスタマイズ
-    $message = [
+  }
+
+  public function messages()
+  {
+    return [
       'detailRows' => '明細情報は1件以上設定してください。'
     ];
-    // 項目名カスタマイズ
-    $attributes = [
+  }
+
+  public function attributes()
+  {
+    return [
       // 取引情報
       'transactionInfo.transactionTitle' => '取引情報 件名',
       'transactionInfo.transactionDate' => '取引情報 取引日付',
@@ -62,6 +79,5 @@ final class TransactionValidator
       'detailRows.*.quantity' => '明細情報 数量(重量)',
       'detailRows.*.unitPrice' => '明細情報 単価',
     ];
-    return Validator::make($request, $rules, $message, $attributes);
   }
 }

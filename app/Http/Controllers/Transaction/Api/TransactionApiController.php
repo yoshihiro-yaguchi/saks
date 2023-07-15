@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Transaction\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Validator\TransactionValidator;
+use App\Http\Requests\StoreTransaction;
 use Illuminate\Http\Request;
 
 class TransactionApiController extends Controller
@@ -12,7 +12,7 @@ class TransactionApiController extends Controller
   /**
    * 取引登録
    */
-  public function storeTransaction(Request $request)
+  public function storeTransaction(StoreTransaction $request)
   {
     // 入力値データをレスポンスデータにセットする。
     $responseData =
@@ -25,24 +25,6 @@ class TransactionApiController extends Controller
           'taxInfo' => $request->input("taxInfo"),
         ))
       ];
-
-
-    // バリデーション
-    $validator = TransactionValidator::createTransactionValidater($request->all());
-    if ($validator->fails()) {
-      // バリデーションに引っかかったとき
-      $responseData += [
-        'errors' => json_encode($validator->getMessageBag()->toArray())
-      ];
-
-      return response()->json(
-        [
-          'status' => 'error',
-          'responseData' => $responseData
-        ],
-        200,
-      );
-    }
 
     $transactionInfo = $request->input("transactionInfo");
     $customerInfo = $request->input("customerInfo");
