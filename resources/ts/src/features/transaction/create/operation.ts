@@ -14,9 +14,9 @@ import {
 } from "./types"
 import { actions } from "./reducer"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
-// import { api } from './api'
+import { apis } from "./api"
 
-export const createTransactionOperations = {
+export const operations = {
   init: (): AppThunk => async (dispatch, getState) => {
     let state: transactionState = {
       token: "",
@@ -222,8 +222,8 @@ export const createTransactionOperations = {
       row.totalPrice = row.quantity * row.unitPrice
 
       dispatch(actions.addDetailRow({ value: row }))
-      dispatch(createTransactionOperations.updateTaxInfo())
-      dispatch(createTransactionOperations.updateAmountInfo())
+      dispatch(operations.updateTaxInfo())
+      dispatch(operations.updateAmountInfo())
     },
 
   /**
@@ -241,8 +241,8 @@ export const createTransactionOperations = {
         )
 
       dispatch(actions.deleteDetailRow({ index: deleteIndex }))
-      dispatch(createTransactionOperations.updateTaxInfo())
-      dispatch(createTransactionOperations.updateAmountInfo())
+      dispatch(operations.updateTaxInfo())
+      dispatch(operations.updateAmountInfo())
     },
 
   /**
@@ -274,8 +274,8 @@ export const createTransactionOperations = {
           params: newDetailRow,
         })
       )
-      dispatch(createTransactionOperations.updateTaxInfo())
-      dispatch(createTransactionOperations.updateAmountInfo())
+      dispatch(operations.updateTaxInfo())
+      dispatch(operations.updateAmountInfo())
     },
 
   /**
@@ -337,6 +337,56 @@ export const createTransactionOperations = {
 
   errorAlertClose: (): AppThunk => async (dispatch, getState) => {
     dispatch(actions.deleteErrorArray())
+  },
+
+  postTest: (): AppThunk => async (dispatch, getState) => {
+    const createTransactionState = getState().createTransaction
+    const postData = {
+      transactionInfo: JSON.stringify(createTransactionState.transactionInfo),
+    }
+    let params = new URLSearchParams()
+    params.append(
+      "transactionInfo",
+      JSON.stringify(createTransactionState.transactionInfo)
+    )
+    params.append(
+      "customerInfo",
+      JSON.stringify(createTransactionState.customerInfo)
+    )
+    params.append(
+      "detailRows",
+      JSON.stringify(createTransactionState.detailRows)
+    )
+    params.append(
+      "amountInfo",
+      JSON.stringify(createTransactionState.amountInfo)
+    )
+    params.append("taxInfos", JSON.stringify(createTransactionState.taxInfos))
+    const variable = await apis.postTest(
+      params,
+      createTransactionState.common.baseUrl
+    )
+    console.log(variable)
+  },
+
+  putErrors: (): AppThunk => async (dispatch, getState) => {
+    let common: Partial<Common> = {}
+
+    const jsonErrors = document.head.querySelector<HTMLMetaElement>(
+      'meta[name="errors"]'
+    )?.content
+    if (typeof jsonErrors === "string") {
+      let perseError = JSON.parse(jsonErrors)
+      common.errors = perseError
+      let arrayError: string[] = []
+      Object.keys(perseError).map((key, index) =>
+        perseError[key].forEach((content: string) => {
+          arrayError.push(content)
+        })
+      )
+      common.errorArray = arrayError
+    }
+    dispatch(actions.updateCommon({ common: common }))
   },
 
   /**

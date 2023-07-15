@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PdfController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Transaction\Api\TransactionApiController;
+use App\Http\Controllers\Transaction\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,15 +23,19 @@ Route::get('/login', function () {
 });
 Route::post('/login', [LoginController::class, 'login']);
 
-// 商品管理
-
 /**
  * 取引
  */
 // GET:作成
 Route::get('/transaction/create', [TransactionController::class, 'create']);
 // POST:作成
-Route::post('/transaction/create', [TransactionController::class, 'createTransaction']);
+Route::post('/transaction/store', [TransactionApiController::class, 'storeTransaction']);
+
+
+/**
+ * テスト
+ */
+Route::post('/transaction/test', [TransactionApiController::class, 'testPost']);
 
 
 

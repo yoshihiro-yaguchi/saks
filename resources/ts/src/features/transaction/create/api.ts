@@ -1,9 +1,10 @@
-import axios from 'axios'
+import axios from "axios"
 
-export const deliverySlipApi = {
-  // doInit: async (params: URLSearchParams) => {
-  //   return await axios.get<string>(`sample/getMethod?${params.toString()}`)
-  // },
+export const apis = {
+  postTest: async (params: URLSearchParams, baseUrl: string) => {
+    return await axios.post<any>(`${baseUrl}/transaction/store`, params)
+  },
+
   // doPost: async (params: URLSearchParams) => {
   //   return await axios.post<string>(`sample/postMethod`, params)
   // },

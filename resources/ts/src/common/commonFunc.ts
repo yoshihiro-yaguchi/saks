@@ -6,9 +6,21 @@ export const commonFunc = {
    * @param taxRate
    * @returns
    */
-  culcTaxIncludeAmount: (taxableAmount: number, taxRate: number) => {
-    return Math.ceil(
-      (taxableAmount / (1 + taxRate / 100)) * (taxRate / 100)
-    )
+  culcTaxIncludeAmount: (taxableAmount: number, taxRate: number): number => {
+    return Math.ceil((taxableAmount / (1 + taxRate / 100)) * (taxRate / 100))
+  },
+
+  /**
+   * null空判定
+   *
+   * @param data
+   * @returns
+   */
+  isNullEmpty: (data: any): boolean => {
+    if (data === null || data === "") {
+      return true
+    } else {
+      return false
+    }
   },
 }

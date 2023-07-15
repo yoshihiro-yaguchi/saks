@@ -30,7 +30,7 @@ import { actions } from "./reducer"
 import { BaseComponent } from "@common/BaseComponent/BaseComponent"
 import styled from "@emotion/styled"
 import { Typo } from "@src/common/Text/Typo"
-import { createTransactionOperations } from "./operation"
+import { operations } from "./operation"
 import Paper from "@mui/material/Paper"
 import { DetailRow, AmountInfo, TaxInfo } from "./types"
 import { Delete } from "@mui/icons-material"
@@ -139,7 +139,7 @@ export const Create = () => {
 
   // 画面ロード時処理
   useEffect(() => {
-    dispatch(createTransactionOperations.init())
+    dispatch(operations.init())
   }, [])
 
   // csrfトークン
@@ -184,7 +184,7 @@ export const Create = () => {
         <form
           id="createTransaction"
           name="createTransaction"
-          action={`${commonState.baseUrl}/transaction/create`}
+          action={`${commonState.baseUrl}/transaction/store`}
           method="post"
         >
           <input type="hidden" name="_token" value={csrfToken} />
@@ -231,7 +231,7 @@ export const Create = () => {
                           type="button"
                           sx={{ margin: "auto 5px" }}
                           onClick={() => {
-                            dispatch(createTransactionOperations.submit())
+                            dispatch(operations.submit())
                           }}
                         >
                           送信
@@ -418,7 +418,31 @@ export const Create = () => {
             <Grid item xs={12} md={6}>
               {/* お客様情報 */}
               <LinedContainerBox>
-                <H2>お客様情報</H2>
+                <Grid container spacing={1}>
+                  <Grid item xs>
+                    <H2>お客様情報</H2>
+                  </Grid>
+                  <Grid
+                    item
+                    xs
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box>
+                      <Button
+                        variant="outlined"
+                        type="button"
+                        color="primary"
+                        onClick={() => dispatch(operations.postTest())}
+                      >
+                        お客様検索
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
                 <Grid container spacing={1}>
                   <Grid item xs={12} lg={6}>
                     <Box sx={{ padding: "8px 8px 8px 0" }}>
@@ -715,7 +739,7 @@ export const Create = () => {
                         color="primary"
                         onClick={() =>
                           dispatch(
-                            createTransactionOperations.addDetailRow(
+                            operations.addDetailRow(
                               transactionInfoState.transactionDate
                             )
                           )
@@ -771,9 +795,7 @@ export const Create = () => {
                               size="small"
                               onClick={() =>
                                 dispatch(
-                                  createTransactionOperations.deleteDetailRow(
-                                    row.productNo
-                                  )
+                                  operations.deleteDetailRow(row.productNo)
                                 )
                               }
                             >
@@ -830,7 +852,7 @@ export const Create = () => {
                                 return false
                               }
                               dispatch(
-                                createTransactionOperations.updateDetailRow(
+                                operations.updateDetailRow(
                                   index,
                                   "quantity",
                                   e.target.value
@@ -868,7 +890,7 @@ export const Create = () => {
                                 return false
                               }
                               dispatch(
-                                createTransactionOperations.updateDetailRow(
+                                operations.updateDetailRow(
                                   index,
                                   "unitPrice",
                                   e.target.value
@@ -888,7 +910,7 @@ export const Create = () => {
                             fullWidth
                             onChange={(e: SelectChangeEvent<number>) => {
                               dispatch(
-                                createTransactionOperations.updateDetailRow(
+                                operations.updateDetailRow(
                                   index,
                                   "taxRate",
                                   e.target.value
@@ -1073,7 +1095,7 @@ export const Create = () => {
               <Alert
                 severity="error"
                 onClose={() => {
-                  dispatch(createTransactionOperations.errorAlertClose())
+                  dispatch(operations.errorAlertClose())
                 }}
                 sx={{
                   borderRadius: "8px",

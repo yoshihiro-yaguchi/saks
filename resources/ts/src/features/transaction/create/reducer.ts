@@ -10,7 +10,7 @@ import {
   TransactionInfo,
   transactionState,
   AmountInfo,
-  initHandle,
+  Common,
 } from "./types"
 
 const initialState: transactionState = {
@@ -124,8 +124,17 @@ export const createTransactionStates = createSlice({
       state.detailRows.splice(action.payload.index, 1)
     },
 
+    // エラー削除
     deleteErrorArray: (state) => {
       state.common.errorArray = []
+    },
+
+    // 共通情報更新
+    updateCommon: (
+      state,
+      action: PayloadAction<{ common: Partial<Common> }>
+    ) => {
+      state.common = { ...state.common, ...action.payload.common }
     },
   },
 })
