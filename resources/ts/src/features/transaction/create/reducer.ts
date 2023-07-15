@@ -14,6 +14,7 @@ import {
 } from "./types"
 
 const initialState: transactionState = {
+  processing: false,
   token: "",
   common: initCommon,
   transactionInfo: initTransactionInfo,
@@ -31,15 +32,13 @@ export const createTransactionStates = createSlice({
     reset: () => initialState,
 
     // 初期表示時
-    initHandle: (state, action: PayloadAction<{ param: transactionState }>) => {
-      const param = action.payload.param
-      state.token = param.token
-      state.amountInfo = param.amountInfo
-      state.common = param.common
-      state.customerInfo = param.customerInfo
-      state.detailRows = param.detailRows
-      state.taxInfos = param.taxInfos
-      state.transactionInfo = param.transactionInfo
+    initHandle: (
+      state,
+      action: PayloadAction<{ param: Partial<transactionState> }>
+    ) => {
+      // トークン情報
+      state.token = action.payload.param.token ?? ""
+      state.common = { ...state.common, ...action.payload.param.common }
     },
 
     // 取引情報変更時ハンドラ
@@ -135,6 +134,16 @@ export const createTransactionStates = createSlice({
       action: PayloadAction<{ common: Partial<Common> }>
     ) => {
       state.common = { ...state.common, ...action.payload.common }
+    },
+
+    // 処理開始
+    processStart: (state) => {
+      state.processing = true
+    },
+
+    // 処理終了
+    processEnd: (state) => {
+      state.processing = false
     },
   },
 })

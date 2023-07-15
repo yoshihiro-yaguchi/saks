@@ -5,14 +5,8 @@ import { RootState, store } from "@src/app/store"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import React from "react"
-import {
-  Box,
-  BoxProps,
-  Grid,
-  Paper,
-  Typography,
-  styled,
-} from "@mui/material"
+import { Box, BoxProps, Grid, Paper, Typography, styled } from "@mui/material"
+import { Loading } from "@common/Loading/Loading"
 // import logo from "../../../public/image-logo.svg"
 
 // styledBox
@@ -26,8 +20,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const BaseComponent = (props: BoxProps) => {
-  const { children } = props
+type Props = BoxProps & {
+  processing: boolean
+}
+export const BaseComponent = (props: Props) => {
+  const { children, processing } = props
   const dispatch = useAppDispatch()
   // 画面項目
   // const contactStates = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.screenState)
@@ -40,6 +37,7 @@ export const BaseComponent = (props: BoxProps) => {
 
   return (
     <>
+      <Loading processing={processing} />
       <Box sx={{ height: "100%" }}>
         {/* ヘッダー */}
         <Box
@@ -70,9 +68,7 @@ export const BaseComponent = (props: BoxProps) => {
           </Grid>
           {/* 右メニュー */}
           <Grid item xs={0} sm={0} md={2}>
-            <Box
-              sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}
-            >
+            <Box sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}>
               <Box height={"32px"}></Box>
             </Box>
           </Grid>
@@ -80,4 +76,8 @@ export const BaseComponent = (props: BoxProps) => {
       </Box>
     </>
   )
+}
+
+BaseComponent.defaultProps = {
+  processing: true,
 }

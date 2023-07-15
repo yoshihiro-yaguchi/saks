@@ -2,6 +2,7 @@
  * メイン画面フォーム
  */
 export interface transactionState {
+  processing: boolean
   token: string
   common: Common
   transactionInfo: TransactionInfo

@@ -35,6 +35,7 @@ import Paper from "@mui/material/Paper"
 import { DetailRow, AmountInfo, TaxInfo } from "./types"
 import { Delete } from "@mui/icons-material"
 import { constants } from "./constant"
+import { ErrorAlert } from "@resource/ts/src/common/ErrorAlert/ErrorAlert"
 
 /**
  * bladeからのデータ受け取り
@@ -142,6 +143,11 @@ export const Create = () => {
     dispatch(operations.init())
   }, [])
 
+  // ロード中
+  const processing = useAppSelector(
+    (s: RootState) => s.createTransaction.processing
+  )
+
   // csrfトークン
   const csrfToken = useAppSelector((s: RootState) => s.createTransaction.token)
 
@@ -180,7 +186,7 @@ export const Create = () => {
 
   return (
     <>
-      <BaseComponent>
+      <BaseComponent processing={processing}>
         <form
           id="createTransaction"
           name="createTransaction"
@@ -234,7 +240,7 @@ export const Create = () => {
                             dispatch(operations.submit())
                           }}
                         >
-                          送信
+                          保存
                         </Button>
                       </Box>
                     </Grid>
@@ -436,7 +442,7 @@ export const Create = () => {
                         variant="outlined"
                         type="button"
                         color="primary"
-                        onClick={() => dispatch(operations.postTest())}
+                        onClick={() => {}}
                       >
                         お客様検索
                       </Button>
@@ -1083,31 +1089,21 @@ export const Create = () => {
       {(() => {
         if (commonState.errorArray.length > 0) {
           return (
-            <Box
+            <ErrorAlert
+              severity="error"
+              onClose={() => {
+                dispatch(operations.errorAlertClose())
+              }}
               sx={{
-                position: "fixed",
-                top: "60px",
-                right: "10px",
-                width: "350px",
-                opacity: "0.95",
+                borderRadius: "8px",
               }}
             >
-              <Alert
-                severity="error"
-                onClose={() => {
-                  dispatch(operations.errorAlertClose())
-                }}
-                sx={{
-                  borderRadius: "8px",
-                }}
-              >
-                {commonState.errorArray.map((error, index) => (
-                  <Box key={index} sx={{ margin: "3px 0" }}>
-                    {error}
-                  </Box>
-                ))}
-              </Alert>
-            </Box>
+              {commonState.errorArray.map((error, index) => (
+                <Box key={index} sx={{ margin: "3px 0" }}>
+                  {error}
+                </Box>
+              ))}
+            </ErrorAlert>
           )
         }
       })()}
