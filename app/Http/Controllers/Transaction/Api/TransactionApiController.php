@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transaction\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransaction;
+use App\Models\TransactionHeader;
 use Illuminate\Http\Request;
 
 class TransactionApiController extends Controller
