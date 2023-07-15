@@ -23,4 +23,13 @@ class TransactionHeader extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = ['created_at', 'updated_at'];
+
+    public function nextInsertTransactionId(string $contract_id)
+    {
+        $maxTransactionId = $this->query()->where('contract_id', '=', $contract_id)->max('transaction_id');
+        if ($maxTransactionId === null) {
+            return 1;
+        }
+        return $maxTransactionId + 1;
+    }
 }

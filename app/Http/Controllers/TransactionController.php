@@ -51,6 +51,7 @@ class TransactionController extends Controller
       $transactionHeaderModel = new TransactionHeader();
       $transactionHeaderModel->fill([
         'contract_id' => 'dummy',
+        'transaction_id' => $transactionHeaderModel->nextInsertTransactionId('dummy'),
         'transaction_title' => $transactionInfo['transactionTitle'],
         'transaction_division' => $transactionInfo['transactionDivision'],
         'transaction_date' => $transactionInfo['transactionDate'],

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('transaction_headers', function (Blueprint $table) {
             $table->id();
             $table->string('contract_id', 8)->comment('契約ID');
+            $table->unsignedBigInteger('transaction_id')->comment('取引ID');
             // 取引情報
             $table->string('transaction_title', 50)->nullable()->comment('件名');
             $table->unsignedTinyInteger('transaction_division')->comment('取引区分 1-買取 2-販売');
@@ -45,6 +46,12 @@ return new class extends Migration
             $table->timestamps();
 
             $table->comment('取引ヘッダー');
+
+            // ユニークキー
+            $table->unique(['contract_id', 'transaction_id'], 'transaction_headers_unique_1');
+
+            $table->index(['contract_id'], 'transaction_headers_index_1');
+            $table->index(['contract_id', 'transaction_id'], 'transaction_headers_index_2');
         });
     }
 
