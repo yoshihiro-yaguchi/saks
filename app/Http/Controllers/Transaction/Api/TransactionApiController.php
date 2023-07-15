@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Transaction\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Validator\TransactionValidator;
-use App\Models\TransactionHeader;
 use Illuminate\Http\Request;
 
-
-class TransactionController extends Controller
+class TransactionApiController extends Controller
 {
-  /**
-   * 仕切書作成画面
-   */
-  public function create()
-  {
-    return view('transaction.create');
-  }
 
-  public function createTransaction(Request $request)
+  /**
+   * 取引登録
+   */
+  public function storeTransaction(Request $request)
   {
     // 入力値データをレスポンスデータにセットする。
     $responseData =
@@ -39,7 +34,14 @@ class TransactionController extends Controller
       $responseData += [
         'errors' => json_encode($validator->getMessageBag()->toArray())
       ];
-      return view('transaction.create')->with($responseData);
+
+      return response()->json(
+        [
+          'status' => 'error',
+          'responseData' => $responseData
+        ],
+        200,
+      );
     }
 
     $transactionInfo = $request->input("transactionInfo");
@@ -80,6 +82,37 @@ class TransactionController extends Controller
       throw $e;
     }
 
-    return view('transaction.create')->with($responseData);
+    return response()->json(
+      [
+        'status' => 'success',
+        'responseData' => $responseData
+      ],
+      200,
+    );
+  }
+
+
+  /**
+   * APIテスト
+   */
+  public function testPost(Request $request)
+  {
+    $responseData =
+      [
+        "oldInputData" => json_encode(array(
+          'transactionInfo' => $request->input("transactionInfo"),
+          'customerInfo' => $request->input("customerInfo"),
+          'detailRows' => $request->input("detailRows"),
+          'amountInfo' => $request->input("amountInfo"),
+          'taxInfo' => $request->input("taxInfo"),
+        ))
+      ];
+    return response()->json(
+      [
+        'status' => 'success',
+        'oldInputData' => $responseData['oldInputData']
+      ],
+      200,
+    );
   }
 }
