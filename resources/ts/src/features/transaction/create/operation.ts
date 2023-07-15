@@ -11,10 +11,12 @@ import {
   CustomerInfo,
   Common,
   initCommon,
+  ValidateError,
 } from "./types"
 import { actions } from "./reducer"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
 import { apis } from "./api"
+import { isAxiosError } from "axios"
 
 export const operations = {
   init: (): AppThunk => async (dispatch, getState) => {
@@ -344,50 +346,89 @@ export const operations = {
     const postData = {
       transactionInfo: JSON.stringify(createTransactionState.transactionInfo),
     }
-    let params = new URLSearchParams()
-    params.append(
-      "transactionInfo",
-      JSON.stringify(createTransactionState.transactionInfo)
-    )
-    params.append(
-      "customerInfo",
-      JSON.stringify(createTransactionState.customerInfo)
-    )
-    params.append(
-      "detailRows",
-      JSON.stringify(createTransactionState.detailRows)
-    )
-    params.append(
-      "amountInfo",
-      JSON.stringify(createTransactionState.amountInfo)
-    )
-    params.append("taxInfos", JSON.stringify(createTransactionState.taxInfos))
-    const variable = await apis.postTest(
-      params,
-      createTransactionState.common.baseUrl
-    )
-    console.log(variable)
-  },
 
-  putErrors: (): AppThunk => async (dispatch, getState) => {
-    let common: Partial<Common> = {}
-
-    const jsonErrors = document.head.querySelector<HTMLMetaElement>(
-      'meta[name="errors"]'
-    )?.content
-    if (typeof jsonErrors === "string") {
-      let perseError = JSON.parse(jsonErrors)
-      common.errors = perseError
-      let arrayError: string[] = []
-      Object.keys(perseError).map((key, index) =>
-        perseError[key].forEach((content: string) => {
-          arrayError.push(content)
-        })
+    let formData = new FormData()
+    // 取引データ
+    Object.keys(createTransactionState.transactionInfo).forEach((key) => {
+      formData.append(
+        `transactionInfo[${key}]`,
+        createTransactionState.transactionInfo[key as keyof TransactionInfo]
       )
-      common.errorArray = arrayError
+    })
+
+    // お客様情報
+    Object.keys(createTransactionState.customerInfo).forEach((key) => {
+      formData.append(
+        `customerInfo[${key}]`,
+        createTransactionState.customerInfo[key as keyof CustomerInfo]
+      )
+    })
+
+    // 明細情報
+    Object.keys(createTransactionState.detailRows).forEach((index) => {
+      const detailRow =
+        createTransactionState.detailRows[index as unknown as number]
+      Object.keys(detailRow).forEach((key) => {
+        const value = detailRow[key as keyof DetailRow] as string
+        formData.append(`detailRows[${index}][${key}]`, value)
+      })
+    })
+
+    // 会計情報
+    Object.keys(createTransactionState.amountInfo).forEach((key) => {
+      formData.append(
+        `amountInfo[${key}]`,
+        createTransactionState.amountInfo[
+          key as keyof AmountInfo
+        ] as unknown as string
+      )
+    })
+
+    // 税情報
+    Object.keys(createTransactionState.taxInfos).forEach((index) => {
+      const taxInfo =
+        createTransactionState.taxInfos[index as unknown as number]
+      Object.keys(taxInfo).forEach((key) => {
+        const value = taxInfo[key as keyof TaxInfo] as unknown as string
+        formData.append(`taxInfos[${index}][${key}]`, value)
+      })
+    })
+
+    try {
+      await apis.postTest(formData, createTransactionState.common.baseUrl)
+    } catch (e) {
+      if (
+        isAxiosError(e) &&
+        e.response &&
+        e.response.status === 422 &&
+        e.response.data.errors
+      ) {
+        // laravelでvalidation errorが発生したとき
+        dispatch(operations.putErrors(e.response.data.errors))
+        return
+      } else {
+        throw e
+      }
     }
-    dispatch(actions.updateCommon({ common: common }))
   },
+
+  // エラー更新
+  putErrors:
+    (validateErrors: ValidateError): AppThunk =>
+    async (dispatch, getState) => {
+      let common: Partial<Common> = {}
+      common.errors = validateErrors
+
+      let errorArray: string[] = []
+      Object.keys(validateErrors).forEach((key) => {
+        validateErrors[key].forEach((error: string) => {
+          errorArray.push(error)
+        })
+      })
+      common.errorArray = errorArray
+
+      dispatch(actions.updateCommon({ common: common }))
+    },
 
   /**
    * サンプル

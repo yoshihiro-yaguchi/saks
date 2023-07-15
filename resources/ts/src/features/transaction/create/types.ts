@@ -168,6 +168,7 @@ export interface initHandle {
   datas: BackendData
 }
 
+// バックエンドからのデータ
 export interface BackendData {
   transactionInfo: TransactionInfo
   customerInfo: CustomerInfo
@@ -181,4 +182,9 @@ export const initBackendData: BackendData = {
   detailRows: [],
   amountInfo: initAmountInfo,
   taxInfo: [],
+}
+
+// バリデーションエラーの型
+export interface ValidateError {
+  [key: string]: Array<string>
 }
