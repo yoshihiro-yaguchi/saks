@@ -15,7 +15,7 @@
   @endif
   <title>取引作成</title>
   @viteReactRefresh
-  @vite(['resources/ts/src/features/transaction/create/index.tsx',
+  @vite(['resources/ts/src/features/transaction/store/index.tsx',
     'resources/sass/app.scss',
     'resources/css/app.css',
     ])

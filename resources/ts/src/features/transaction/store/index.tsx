@@ -135,7 +135,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
  *
  * @returns
  */
-export const Create = () => {
+export const Store = () => {
   const dispatch = useAppDispatch()
 
   // 画面ロード時処理
@@ -1117,7 +1117,7 @@ const root = createRoot(container)
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Create />
+      <Store />
     </Provider>
   </React.StrictMode>
 )

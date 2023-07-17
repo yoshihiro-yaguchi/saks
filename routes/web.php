@@ -27,7 +27,7 @@ Route::post('/login', [LoginController::class, 'login']);
  * 取引
  */
 // GET:作成
-Route::get('/transaction/create', [TransactionController::class, 'create']);
+Route::get('/transaction/store', [TransactionController::class, 'store']);
 // POST:作成
 Route::post('/transaction/store', [TransactionApiController::class, 'storeTransaction']);
 

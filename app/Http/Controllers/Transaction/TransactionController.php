@@ -11,8 +11,8 @@ class TransactionController extends Controller
   /**
    * 取引登録画面
    */
-  public function create()
+  public function store()
   {
-    return view('transaction.create');
+    return view('transaction.store');
   }
 }
