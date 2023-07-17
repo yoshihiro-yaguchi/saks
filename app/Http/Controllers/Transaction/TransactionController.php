@@ -11,8 +11,16 @@ class TransactionController extends Controller
   /**
    * 取引登録画面
    */
-  public function store()
+  public function routeStore()
   {
     return view('transaction.store');
+  }
+
+  /**
+   * 取引詳細画面
+   */
+  public function routeShow()
+  {
+    return view('transaction.show');
   }
 }

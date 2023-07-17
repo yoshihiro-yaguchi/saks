@@ -20,9 +20,9 @@
     'resources/css/app.css',
     ])
 </head>
-<body class="deliverySlip-create">
+<body>
   {{-- エラー --}}
-  <div class="createTransaction" id="createTransaction"></div>
+  <div id="storeTransaction"></div>
 </body>
 <script>
 </script>
