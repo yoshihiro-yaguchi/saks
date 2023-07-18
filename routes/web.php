@@ -27,11 +27,11 @@ Route::post('/login', [LoginController::class, 'login']);
  * 取引
  */
 // GET:作成
-Route::get('/transaction/store', [TransactionController::class, 'routeStore']);
+Route::get('/{contractId}/transaction/store', [TransactionController::class, 'routeStore']);
 // POST:作成
-Route::post('/transaction/store', [TransactionApiController::class, 'storeTransaction']);
+Route::post('/{contractId}/transaction/store', [TransactionApiController::class, 'storeTransaction']);
 // GET:詳細
-Route::get('/transaction/show', [TransactionController::class, 'routeShow']);
+Route::get('/{contractId}/transaction/show/{id}', [TransactionController::class, 'routeShow']);
 
 
 /**
