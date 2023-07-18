@@ -11,7 +11,7 @@
     'resources/css/app.css',
     ])
 </head>
-<body id="showTransaction">
-
+<body>
+  <div class="maxHeight" id="showTransaction"></div>
 </body>
 </html>

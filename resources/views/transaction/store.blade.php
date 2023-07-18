@@ -22,7 +22,7 @@
 </head>
 <body>
   {{-- エラー --}}
-  <div id="storeTransaction"></div>
+  <div class="maxHeight" id="storeTransaction"></div>
 </body>
 <script>
 </script>
