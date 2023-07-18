@@ -13,7 +13,7 @@ class TransactionApiController extends Controller
   /**
    * 取引登録
    */
-  public function storeTransaction(StoreTransaction $request)
+  public function storeTransaction(StoreTransaction $request, string $contractId)
   {
     // 入力値データをレスポンスデータにセットする。
     $responseData =

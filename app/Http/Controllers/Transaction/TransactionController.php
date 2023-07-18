@@ -11,7 +11,7 @@ class TransactionController extends Controller
   /**
    * 取引登録画面
    */
-  public function routeStore()
+  public function routeStore(string $contractId)
   {
     return view('transaction.store');
   }
@@ -19,7 +19,7 @@ class TransactionController extends Controller
   /**
    * 取引詳細画面
    */
-  public function routeShow()
+  public function routeShow(string $contractId, string $id)
   {
     return view('transaction.show');
   }
