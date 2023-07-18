@@ -12,7 +12,6 @@ import {
   SelectChangeEvent,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableRow,
@@ -25,7 +24,6 @@ import reportWebVitals from "@src/reportWebVitals"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { actions } from "./reducer"
 import { BaseComponent } from "@common/BaseComponent/BaseComponent"
-import styled from "@emotion/styled"
 import { H1, H2 } from "@src/common/Text/Typo"
 import { operations } from "./operation"
 import Paper from "@mui/material/Paper"
@@ -119,22 +117,20 @@ export const Store = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Box sx={{ width: "250px" }}>
+                    <Box
+                      sx={{
+                        width: "250px",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }}
+                    >
                       <Button
                         variant="outlined"
                         color="primary"
                         type="button"
                         sx={{ margin: "auto 5px" }}
                       >
-                        戻る
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        type="button"
-                        sx={{ margin: "auto 5px" }}
-                      >
-                        ドラフト
+                        一覧へ戻る
                       </Button>
                       <Button
                         variant="contained"
