@@ -42,14 +42,13 @@ return new class extends Migration
             $table->decimal('total', 12, 3)->comment('合計');
 
             $table->tinyInteger('delete_flag')->default(0)->comment('削除フラグ 0-存在 1-削除');
-
             $table->timestamps();
 
+            // テーブルコメント
             $table->comment('取引ヘッダー');
-
             // ユニークキー
             $table->unique(['contract_id', 'transaction_id'], 'transaction_headers_unique_1');
-
+            // インデックス
             $table->index(['contract_id'], 'transaction_headers_index_1');
             $table->index(['contract_id', 'transaction_id'], 'transaction_headers_index_2');
         });

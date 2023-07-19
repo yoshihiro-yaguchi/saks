@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaction_details', function (Blueprint $table) {
+            // カラム
             $table->id();
 
             $table->string('contract_id', 8)->comment('契約ID');
@@ -24,8 +25,12 @@ return new class extends Migration
             $table->decimal('total_price', 9, 3)->comment('金額');
 
             $table->tinyInteger('delete_flag')->default(0)->comment('削除フラグ 0-存在 1-削除');
-
             $table->timestamps();
+
+            // テーブルコメント
+            $table->comment('取引明細');
+            // インデックス
+            $table->index(['contract_id', 'transaction_id'], 'transaction_details_index_1');
         });
     }
 
