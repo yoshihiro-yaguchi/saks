@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Transaction\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ShowTransactionData;
 use App\Http\Requests\StoreTransaction;
 use App\Models\TransactionHeader;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class TransactionApiController extends Controller
 {
@@ -13,8 +15,16 @@ class TransactionApiController extends Controller
   /**
    * 取引登録
    */
+  /**
+   * 取引作成
+   *
+   * @param StoreTransaction $request
+   * @param string $contractId
+   * @return JsonResponse response
+   */
   public function storeTransaction(StoreTransaction $request, string $contractId)
   {
+    Log::info('TransactionApiController.storeTransaction : START');
     // 入力値データをレスポンスデータにセットする。
     $responseData =
       [
@@ -30,13 +40,15 @@ class TransactionApiController extends Controller
     $transactionInfo = $request->input("transactionInfo");
     $customerInfo = $request->input("customerInfo");
     $amountInfo = $request->input('amountInfo');
+    $detailRows = $request->input('detailRows');
+    Log::info($detailRows);
 
     // 取引ヘッダー作成
     try {
       $transactionHeaderModel = new TransactionHeader();
       $transactionHeaderModel->fill([
-        'contract_id' => 'dummy',
-        'transaction_id' => $transactionHeaderModel->nextInsertTransactionId('dummy'),
+        'contract_id' => $contractId,
+        'transaction_id' => $transactionHeaderModel->nextInsertTransactionId($contractId),
         'transaction_title' => $transactionInfo['transactionTitle'],
         'transaction_division' => $transactionInfo['transactionDivision'],
         'transaction_date' => $transactionInfo['transactionDate'],
@@ -64,38 +76,28 @@ class TransactionApiController extends Controller
     } catch (\Exception $e) {
       throw $e;
     }
-
-    return response()->json(
+    $response = response()->json(
       [
         'status' => 'success',
         'responseData' => $responseData
       ],
       200,
     );
+
+    Log::info('response: ' . $response);
+    Log::info('TransactionApiController.storeTransaction : END');
+    return $response;
   }
 
-
   /**
-   * APIテスト
+   * パラメーターから取引データを1件分返す
+   *
+   * @param ShowTransactionData $request
+   * @param string $contractId
+   * @return void
    */
-  public function testPost(Request $request)
+  public function showTransactionData(ShowTransactionData $request, string $contractId)
   {
-    $responseData =
-      [
-        "oldInputData" => json_encode(array(
-          'transactionInfo' => $request->input("transactionInfo"),
-          'customerInfo' => $request->input("customerInfo"),
-          'detailRows' => $request->input("detailRows"),
-          'amountInfo' => $request->input("amountInfo"),
-          'taxInfo' => $request->input("taxInfo"),
-        ))
-      ];
-    return response()->json(
-      [
-        'status' => 'success',
-        'oldInputData' => $responseData['oldInputData']
-      ],
-      200,
-    );
+    // 契約IDと取引IDでデータを引っ張ってくる。
   }
 }
