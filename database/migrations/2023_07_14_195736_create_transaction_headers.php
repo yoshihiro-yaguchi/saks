@@ -37,9 +37,9 @@ return new class extends Migration
             $table->string('customer_address3', 100)->comment('住所3 町・番地');
             $table->string('customer_address4', 100)->nullable()->comment('住所4 建物名等');
             // 会計情報
-            $table->bigInteger('subtotal')->comment('小計');
-            $table->bigInteger('tax_include')->comment('内消費税');
-            $table->bigInteger('total')->comment('合計');
+            $table->decimal('subtotal', 12, 3)->comment('小計');
+            $table->decimal('tax_include', 12, 3)->comment('内消費税');
+            $table->decimal('total', 12, 3)->comment('合計');
 
             $table->tinyInteger('delete_flag')->default(0)->comment('削除フラグ 0-存在 1-削除');
 
