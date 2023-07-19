@@ -903,7 +903,7 @@ export const Store = () => {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <TableContainer sx={{ width: "500px" }}>
+                      <TableContainer component={Paper} sx={{ width: "500px" }}>
                         <Table size="small" sx={{ width: "500px" }}>
                           <TableBody>
                             {taxInfos.map((taxInfo, index) => (

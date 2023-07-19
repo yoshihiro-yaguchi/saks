@@ -81,6 +81,24 @@ export const Index = () => {
             </Grid>
           </Grid>
         </Box>
+
+        <Box sx={{ marginTop: "32px" }}></Box>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12} lg={6}>
+            <LinedContainerBox></LinedContainerBox>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <LinedContainerBox></LinedContainerBox>
+          </Grid>
+        </Grid>
+        {/* 取引情報 */}
+
+        {/* お客様情報 */}
+
+        {/* 明細情報 */}
+
+        {/* ページ内フッター */}
       </BaseComponent>
     </>
   )
