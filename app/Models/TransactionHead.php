@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TransactionHeader extends Model
+class TransactionHead extends Model
 {
     /** 取引区分:買取 */
     public static $TRANSACTION_DIV_PURCHASE = '1';
