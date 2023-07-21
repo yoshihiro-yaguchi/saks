@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Transaction\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ShowTransactionData;
 use App\Http\Requests\StoreTransaction;
 use App\Services\TransactionService;
 use Illuminate\Http\JsonResponse;
@@ -63,7 +62,8 @@ class TransactionApiController extends Controller
     $response = response()->json(
       [
         'status' => 'success',
-        'responseData' => $responseData
+        'contractId' => $contractId,
+        'transactionId' => $saveHeadResult->transactionId,
       ],
       200,
     );
@@ -76,12 +76,13 @@ class TransactionApiController extends Controller
   /**
    * パラメーターから取引データを1件分返す
    *
-   * @param ShowTransactionData $request
-   * @param string $contractId
+   * @param string contractId
+   * @param string transactionId
    * @return void
    */
-  public function showTransactionData(ShowTransactionData $request, string $contractId)
+  public function getTransactionData(string $contractId, string $transactionId)
   {
     // 契約IDと取引IDでデータを引っ張ってくる。
+
   }
 }

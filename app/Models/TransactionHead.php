@@ -24,12 +24,17 @@ class TransactionHead extends Model
 
     protected $guarded = ['created_at', 'updated_at'];
 
-    public function nextInsertTransactionId(string $contract_id)
+    public function nextInsertTransactionId(string $contractId)
     {
-        $maxTransactionId = $this->query()->where('contract_id', '=', $contract_id)->max('transaction_id');
+        $maxTransactionId = $this->query()->where('contract_id', '=', $contractId)->max('transaction_id');
         if ($maxTransactionId === null) {
             return 1;
         }
         return $maxTransactionId + 1;
+    }
+
+    public function transactionData(string $contractId, string $transactionId)
+    {
+        return $this->join;
     }
 }
