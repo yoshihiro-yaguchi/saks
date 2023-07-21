@@ -19,8 +19,8 @@
     "react-component": {
         "prefix": "react-component",
         "body": [
-            "import { useAppDispatch, useAppSelector } from 'src/app/hooks'",
-            "import { RootState } from 'src/app/store'",
+            "import { useAppDispatch, useAppSelector } from '@src/app/hooks'",
+            "import { RootState } from '@src/app/store'",
             "import { actions } from './reducer'",
             "import { operations } from './operations'",
             "",
@@ -45,8 +45,8 @@
     "react-tsx": {
         "prefix": "react-tsx",
         "body": [
-            "import { useAppDispatch, useAppSelector } from 'src/app/hooks'",
-            "import { RootState, store } from 'src/app/store'",
+            "import { useAppDispatch, useAppSelector } from '@src/app/hooks'",
+            "import { RootState, store } from '@src/app/store'",
             "import { actions } from './reducer'",
             "import { operations } from './operations'",
             "import { createRoot } from 'react-dom/client'",
@@ -116,10 +116,10 @@
     "react-operations": {
         "prefix": "react-operations",
         "body": [
-            "import { AppThunk } from 'src/app/store'",
+            "import { AppThunk } from '@src/app/store'",
             "import { api } from './api'",
             "",
-            "export const contactOperations = {",
+            "export const operations = {",
             "  /**",
             "   * サンプル",
             "   */",
