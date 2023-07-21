@@ -3,10 +3,7 @@ import {
   DetailRow,
   TaxInfo,
   AmountInfo,
-  initTransactionInfo,
-  initCustomerInfo,
-  initAmountInfo,
-  transactionState,
+  StoreTransactionState,
   TransactionInfo,
   CustomerInfo,
   Common,
@@ -21,7 +18,7 @@ import { isAxiosError } from "axios"
 export const operations = {
   init: (): AppThunk => async (dispatch, getState) => {
     dispatch(actions.processStart())
-    let partialState: Partial<transactionState> = {
+    let partialState: Partial<StoreTransactionState> = {
       token: "",
       common: initCommon,
     }
@@ -52,7 +49,7 @@ export const operations = {
    */
   submit: (): AppThunk => async (dispatch, getState) => {
     dispatch(actions.processStart())
-    const createTransactionState = getState().createTransaction
+    const createTransactionState = getState().storeTransaction
     const postData = {
       transactionInfo: JSON.stringify(createTransactionState.transactionInfo),
     }
@@ -163,7 +160,7 @@ export const operations = {
     async (dispatch, getState) => {
       dispatch(actions.processStart())
       const deleteIndex: number =
-        getState().createTransaction.detailRows.findIndex(
+        getState().storeTransaction.detailRows.findIndex(
           (row) => row.productNo === productNo
         )
 
@@ -184,7 +181,7 @@ export const operations = {
   updateDetailRow:
     (index: number, name: string, value: string | number): AppThunk =>
     async (dispatch, getState) => {
-      const oldInfo: DetailRow = getState().createTransaction.detailRows[index]
+      const oldInfo: DetailRow = getState().storeTransaction.detailRows[index]
 
       const updateData: Partial<DetailRow> = { [name]: value }
 
@@ -212,7 +209,7 @@ export const operations = {
    * @returns
    */
   updateTaxInfo: (): AppThunk => async (dispatch, getState) => {
-    const detailRows = getState().createTransaction.detailRows
+    const detailRows = getState().storeTransaction.detailRows
 
     const taxInfos: TaxInfo[] = []
 
@@ -245,7 +242,7 @@ export const operations = {
    * @returns
    */
   updateAmountInfo: (): AppThunk => async (dispatch, getState) => {
-    const taxInfos: TaxInfo[] = getState().createTransaction.taxInfos
+    const taxInfos: TaxInfo[] = getState().storeTransaction.taxInfos
     let subTotal: number = 0
     let taxInclude: number = 0
     let total: number = 0

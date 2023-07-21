@@ -8,7 +8,7 @@ export const store = configureStore({
     counter: counterReducer,
     contact: contactStates.reducer,
     // 取引作成
-    createTransaction: createTransactionStates.reducer,
+    storeTransaction: createTransactionStates.reducer,
   },
 })
 

@@ -1,7 +1,7 @@
 /**
  * メイン画面フォーム
  */
-export interface transactionState {
+export interface StoreTransactionState {
   processing: boolean
   token: string
   common: Common

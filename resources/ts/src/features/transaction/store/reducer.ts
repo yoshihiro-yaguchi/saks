@@ -8,12 +8,12 @@ import {
   initAmountInfo,
   TaxInfo,
   TransactionInfo,
-  transactionState,
+  StoreTransactionState,
   AmountInfo,
   Common,
 } from "./types"
 
-const initialState: transactionState = {
+const initialState: StoreTransactionState = {
   processing: false,
   token: "",
   common: initCommon,
@@ -25,7 +25,7 @@ const initialState: transactionState = {
 }
 
 export const createTransactionStates = createSlice({
-  name: "createTransaction",
+  name: "storeTransaction",
   initialState,
   reducers: {
     // ステートリセット
@@ -34,7 +34,7 @@ export const createTransactionStates = createSlice({
     // 初期表示時
     initHandle: (
       state,
-      action: PayloadAction<{ param: Partial<transactionState> }>
+      action: PayloadAction<{ param: Partial<StoreTransactionState> }>
     ) => {
       // トークン情報
       state.token = action.payload.param.token ?? ""

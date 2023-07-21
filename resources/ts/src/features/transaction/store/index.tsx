@@ -54,39 +54,39 @@ export const Store = () => {
 
   // ロード中
   const processing = useAppSelector(
-    (s: RootState) => s.createTransaction.processing
+    (s: RootState) => s.storeTransaction.processing
   )
 
   // csrfトークン
-  const csrfToken = useAppSelector((s: RootState) => s.createTransaction.token)
+  const csrfToken = useAppSelector((s: RootState) => s.storeTransaction.token)
 
   // commonコンポーネント
   const commonState = useAppSelector(
-    (s: RootState) => s.createTransaction.common
+    (s: RootState) => s.storeTransaction.common
   )
 
   // 取引情報ステート
   const transactionInfoState = useAppSelector(
-    (s: RootState) => s.createTransaction.transactionInfo
+    (s: RootState) => s.storeTransaction.transactionInfo
   )
 
   // お客様情報ステート
   const customerInfoState = useAppSelector(
-    (s: RootState) => s.createTransaction.customerInfo
+    (s: RootState) => s.storeTransaction.customerInfo
   )
 
   // 明細行
   const detailRows: DetailRow[] = useAppSelector(
-    (s: RootState) => s.createTransaction.detailRows
+    (s: RootState) => s.storeTransaction.detailRows
   )
 
   // 金額情報
   const amountInfo: AmountInfo = useAppSelector(
-    (s: RootState) => s.createTransaction.amountInfo
+    (s: RootState) => s.storeTransaction.amountInfo
   )
 
   const taxInfos: TaxInfo[] = useAppSelector(
-    (s: RootState) => s.createTransaction.taxInfos
+    (s: RootState) => s.storeTransaction.taxInfos
   )
 
   // 法人区分が法人である
@@ -186,7 +186,7 @@ export const Store = () => {
                         id="transactionDivision"
                         name="transactionInfo[transactionDivision]"
                         size="small"
-                        labelId="demo"
+                        labelId="transactionDivision"
                         value={transactionInfoState.transactionDivision}
                         label="取引区分"
                         onChange={(e: SelectChangeEvent<string>) => {
@@ -234,7 +234,7 @@ export const Store = () => {
                         id="transactionBranch"
                         name="transactionInfo[transactionBranch]"
                         size="small"
-                        labelId="demo"
+                        labelId="transactionBranch"
                         value={transactionInfoState.transactionBranch}
                         label="取引支店"
                         onChange={(e: SelectChangeEvent<string>) => {
@@ -380,7 +380,7 @@ export const Store = () => {
                   <Input
                     id="invoiceNumber"
                     name="customerInfo[invoiceNumber]"
-                    label="インボイス登録番号"
+                    label="登録番号"
                     inputProps={{
                       maxLength: "14",
                     }}
