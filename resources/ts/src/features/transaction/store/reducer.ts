@@ -24,7 +24,7 @@ const initialState: StoreTransactionState = {
   taxInfos: [],
 }
 
-export const createTransactionStates = createSlice({
+export const storeTransactionReducer = createSlice({
   name: "storeTransaction",
   initialState,
   reducers: {
@@ -148,4 +148,4 @@ export const createTransactionStates = createSlice({
   },
 })
 
-export const { actions } = createTransactionStates
+export const { actions } = storeTransactionReducer
