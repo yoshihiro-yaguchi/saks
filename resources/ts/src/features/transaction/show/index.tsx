@@ -7,9 +7,26 @@ import { Provider } from "react-redux"
 import React from "react"
 import reportWebVitals from "@src/reportWebVitals"
 import { BaseComponent } from "@resource/ts/src/common/BaseComponent/BaseComponent"
-import { Box, Button, Grid } from "@mui/material"
+import {
+  Box,
+  Button,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableContainer,
+} from "@mui/material"
 import { LinedContainerBox } from "@resource/ts/src/common/Box/LinedContainerBox"
-import { H1 } from "@resource/ts/src/common/Text/Typo"
+import { H1, H2, H3 } from "@resource/ts/src/common/Text/Typo"
+import {
+  StyledTableRow,
+  StyledTableRowCell,
+} from "@resource/ts/src/common/Table/Table"
+import styled from "@emotion/styled"
+
+const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
+  textAlign: "center",
+}))
 
 export const Index = () => {
   const dispatch = useAppDispatch()
@@ -82,20 +99,162 @@ export const Index = () => {
           </Grid>
         </Box>
 
-        <Box sx={{ marginTop: "32px" }}></Box>
+        <Box sx={{ height: "32px" }}></Box>
 
         <Grid container spacing={4}>
           <Grid item xs={12} lg={6}>
-            <LinedContainerBox></LinedContainerBox>
+            {/* 取引情報 */}
+            <LinedContainerBox>
+              <H2>取引情報</H2>
+              <Box sx={{ height: "16px" }}></Box>
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableBody>
+                    {/* 件名 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell sx={{ width: "160px" }}>
+                        <H3>件名</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 取引区分 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>取引区分</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 取引日付 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>取引日付</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 取引支店 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>取引支店</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 担当者 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>担当者</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 取引備考 */}
+                    <StyledTableRow sx={{ height: "280px" }}>
+                      <TextCenterdTableCell>
+                        <H3>取引備考</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </LinedContainerBox>
           </Grid>
           <Grid item xs={12} lg={6}>
-            <LinedContainerBox></LinedContainerBox>
+            {/* お客様情報 */}
+            <LinedContainerBox>
+              <H2>お客様情報</H2>
+              <Box sx={{ height: "16px" }}></Box>
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableBody>
+                    {/* 法人区分 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell sx={{ width: "160px" }}>
+                        <H3>法人区分</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 登録番号 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>登録番号</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 会社名 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>会社名</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 支店名 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>支店名</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* お名前 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>お名前</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 電話番号 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>電話番号</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Box sx={{ height: "16px" }}></Box>
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableBody>
+                    {/* 郵便番号 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell sx={{ width: "160px" }}>
+                        <H3>郵便番号</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 都道府県 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>都道府県</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 市区町村 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>市区町村</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 町・番地 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>町・番地</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                    {/* 建物名等 */}
+                    <StyledTableRow>
+                      <TextCenterdTableCell>
+                        <H3>建物名等</H3>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell></StyledTableRowCell>
+                    </StyledTableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </LinedContainerBox>
           </Grid>
         </Grid>
-        {/* 取引情報 */}
-
-        {/* お客様情報 */}
-
         {/* 明細情報 */}
 
         {/* ページ内フッター */}

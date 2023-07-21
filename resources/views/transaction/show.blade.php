@@ -7,6 +7,7 @@
   {{-- reactデータ連携 --}}
   <meta name="csrfToken" content={{csrf_token()}}>
   <meta name="baseUrl" content="{{Request::root()}}">
+  <meta name="initData" content={{$initData}}>
   <title>取引詳細</title>
   @viteReactRefresh
   @vite(['resources/ts/src/features/transaction/show/index.tsx',

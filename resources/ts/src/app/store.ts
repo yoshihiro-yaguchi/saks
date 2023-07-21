@@ -1,14 +1,17 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 import counterReducer from "../features/counter/counterSlice"
 import { contactStates } from "@src/features/sample/reducer"
-import { createTransactionStates } from "@resource/ts/src/features/transaction/store/reducer"
+import { storeTransactionReducer } from "@resource/ts/src/features/transaction/store/reducer"
+import { showTransactionReducer } from "../features/transaction/show/reducer"
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     contact: contactStates.reducer,
     // 取引作成
-    storeTransaction: createTransactionStates.reducer,
+    storeTransaction: storeTransactionReducer.reducer,
+    // 取引詳細
+    showTransaction: showTransactionReducer.reducer,
   },
 })
 
