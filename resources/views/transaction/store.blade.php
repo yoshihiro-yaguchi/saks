@@ -7,12 +7,6 @@
   {{-- reactデータ連携 --}}
   <meta name="csrfToken" content={{csrf_token()}}>
   <meta name="baseUrl" content="{{Request::root()}}">
-  @if (isset($errors))
-    <meta name='errors' content="{{$errors}}">
-  @endif
-  @if (isset($oldInputData))
-    <meta name="data" content="{{$oldInputData}}">
-  @endif
   <title>取引作成</title>
   @viteReactRefresh
   @vite(['resources/ts/src/features/transaction/store/index.tsx',
