@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('transaction_note', 1000)->nullable()->comment('取引備考');
             // お客様情報
             $table->unsignedTinyInteger('corporation_division')->comment('法人区分 1-個人 2-法人');
-            $table->string('invoice_number', 14)->nullable()->comment('インボイス登録番号');
+            $table->string('customer_invoice_number', 14)->nullable()->comment('インボイス登録番号');
             $table->string('customer_company', 50)->nullable()->comment('会社名');
             $table->string('customer_branch', 50)->nullable()->comment('支店名');
             $table->string('customer_last_name', 10)->comment('お名前(姓)');
@@ -37,9 +37,9 @@ return new class extends Migration
             $table->string('customer_address3', 100)->comment('住所3 町・番地');
             $table->string('customer_address4', 100)->nullable()->comment('住所4 建物名等');
             // 会計情報
-            $table->decimal('subtotal', 12, 3)->comment('小計');
-            $table->decimal('tax_include', 12, 3)->comment('内消費税');
-            $table->decimal('total', 12, 3)->comment('合計');
+            $table->decimal('subtotal', 15, 3)->comment('小計');
+            $table->decimal('tax_include', 15, 3)->comment('内消費税');
+            $table->decimal('total', 15, 3)->comment('合計');
 
             $table->tinyInteger('delete_flag')->default(0)->comment('削除フラグ 0-存在 1-削除');
             $table->timestamps();
