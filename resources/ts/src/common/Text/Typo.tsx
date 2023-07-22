@@ -6,7 +6,7 @@ export const Typo = (props: TypographyProps) => {
   const { children } = props
   return (
     <>
-      <Typography {...props} fontFamily={"Noto Sans JP"}>
+      <Typography fontSize={14} {...props} fontFamily={"Noto Sans JP"}>
         {children}
       </Typography>
     </>
@@ -31,5 +31,19 @@ export const H2 = styled(Typo)(({ theme }) => ({
  * H3 styledComponent
  */
 export const H3 = styled(Typo)(({}) => ({
+  fontSize: 24,
+}))
+
+/**
+ * H3 styledComponent
+ */
+export const H4 = styled(Typo)(({}) => ({
   fontSize: 20,
+}))
+
+/**
+ * H4 styledComponent
+ */
+export const H5 = styled(Typo)(({}) => ({
+  fontSize: 16,
 }))
