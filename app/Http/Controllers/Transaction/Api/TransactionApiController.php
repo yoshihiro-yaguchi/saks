@@ -12,9 +12,13 @@ use Illuminate\Support\Facades\Log;
 class TransactionApiController extends Controller
 {
 
-  /**
-   * 取引登録
-   */
+  /** @var TransactionService */
+  public $transactionService;
+
+  public function __construct()
+  {
+    $this->transactionService = new TransactionService();
+  }
   /**
    * 取引作成
    *
@@ -63,7 +67,7 @@ class TransactionApiController extends Controller
       [
         'status' => 'success',
         'contractId' => $contractId,
-        'transactionId' => $saveHeadResult->transactionId,
+        'transactionId' => $saveHeadResult->transaction_id,
       ],
       200,
     );
@@ -82,7 +86,18 @@ class TransactionApiController extends Controller
    */
   public function getTransactionData(string $contractId, string $transactionId)
   {
-    // 契約IDと取引IDでデータを引っ張ってくる。
+    Log::info('TransactionApiController.getTransactionData : START');
 
+    // 契約IDと取引IDでデータを引っ張ってくる。
+    $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
+
+    $response = response()->json(
+      ['initData' => $transactionData],
+      200
+    );
+
+    Log::info('response: ' . $response);
+    Log::info('TransactionApiController.getTransactionData : START');
+    return $response;
   }
 }
