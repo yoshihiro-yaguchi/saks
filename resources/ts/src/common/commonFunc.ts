@@ -24,6 +24,11 @@ export const commonFunc = {
     }
   },
 
+  /**
+   * 郵便番号にハイフンを入れる
+   * @param zipCode
+   * @returns
+   */
   zipCodeHyphen: (zipCode: string): string => {
     if (zipCode.length > 3) {
       return zipCode.slice(0, 3) + "-" + zipCode.slice(3)
