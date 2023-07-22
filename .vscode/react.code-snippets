@@ -117,7 +117,7 @@
         "prefix": "react-operations",
         "body": [
             "import { AppThunk } from '@src/app/store'",
-            "import { api } from './api'",
+            "import { apis } from './api'",
             "",
             "export const operations = {",
             "  /**",
@@ -129,7 +129,7 @@
             "    let params = new URLSearchParams()",
             "    params.append('companyName', target.#{target1})",
             "",
-            "    const result = await api.doPost(params)",
+            "    const result = await apis.doPost(params)",
             "    dispatch(#{actions})",
             "  },",
             "}"
@@ -141,7 +141,7 @@
         "body": [
             "import axios from 'axios'",
             "",
-            "export const api = {",
+            "export const apis = {",
             "  doInit: async (params: URLSearchParams) => {",
             "    return await axios.get<string>(`sample/getMethod?${params.toString()}`)",
             "  },",
