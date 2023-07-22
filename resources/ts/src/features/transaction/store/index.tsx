@@ -38,6 +38,7 @@ import {
   StyledTableRowCell,
   StyledTableRow,
 } from "@resource/ts/src/common/Table/Table"
+import { commonFunc } from "@resource/ts/src/common/commonFunc"
 
 /**
  * 画面
@@ -138,7 +139,7 @@ export const Store = () => {
                         type="button"
                         sx={{ margin: "auto 5px" }}
                         onClick={() => {
-                          dispatch(operations.submit())
+                          dispatch(operations.saveTransactionData())
                         }}
                       >
                         保存
@@ -521,14 +522,18 @@ export const Store = () => {
                       maxLength: "8",
                     }}
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const zipCode = e.target.value.replace("-", "")
                       dispatch(
                         actions.updateCustomerInfoHandle({
                           name: e.target.id,
-                          value: e.target.value,
+                          value: zipCode,
                         })
                       )
                     }}
-                    value={customerInfoState.zipCode}
+                    onBlur={() => {
+                      dispatch(operations.zipCodeOnBlur())
+                    }}
+                    value={commonFunc.zipCodeHyphen(customerInfoState.zipCode)}
                     error={commonState.errors.hasOwnProperty(
                       "customerInfo.zipCode"
                     )}

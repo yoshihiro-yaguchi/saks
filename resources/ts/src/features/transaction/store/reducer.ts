@@ -136,6 +136,16 @@ export const storeTransactionReducer = createSlice({
       state.common = { ...state.common, ...action.payload.common }
     },
 
+    updateCustomerInfo: (
+      state,
+      action: PayloadAction<{ newCustomerInfo: Partial<CustomerInfo> }>
+    ) => {
+      state.customerInfo = {
+        ...state.customerInfo,
+        ...action.payload.newCustomerInfo,
+      }
+    },
+
     // 処理開始
     processStart: (state) => {
       state.processing = true

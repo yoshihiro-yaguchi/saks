@@ -23,4 +23,11 @@ export const commonFunc = {
       return false
     }
   },
+
+  zipCodeHyphen: (zipCode: string): string => {
+    if (zipCode.length > 3) {
+      return zipCode.slice(0, 3) + "-" + zipCode.slice(3)
+    }
+    return zipCode
+  },
 }
