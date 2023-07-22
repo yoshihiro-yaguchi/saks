@@ -4,11 +4,21 @@ namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Controller;
 use App\Models\TransactionHead;
-use App\Repository\TransactionRepository;
+use App\Services\TransactionService;
 use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
+
+  /** @var TransactionService */
+  public $transactionService;
+
+  public function __construct()
+  {
+    $this->transactionService = new TransactionService();
+  }
+
+
   /**
    * 取引登録画面
    */
@@ -34,16 +44,17 @@ class TransactionController extends Controller
     $dataCount = TransactionHead::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->count();
 
     // TODO: データ0件の場合の処理を考える。
+    if ($dataCount === 0) {
+      return redirect('/' . $contractId . '/transaction/store');
+    }
 
-    $transactionData = TransactionRepository::getTransactionData($contractId, $transactionId);
-
+    // $transactionData = TransactionRepository::getTransactionData($contractId, $transactionId);
+    // 取引データ
 
     $initData = array(
       'contractId' => $contractId,
-      'transactionId' => $transactionId
+      'transactionId' => $transactionId,
     );
-
-
 
     return view('transaction.show')->with('initData', json_encode($initData));
     Log::info('TransactionController.routeShow : END');
