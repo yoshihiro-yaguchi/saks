@@ -101,8 +101,12 @@ export const operations = {
       })
     })
 
+    let apiResult
     try {
-      await apis.postTest(formData, createTransactionState.common.baseUrl)
+      apiResult = await apis.postTest(
+        formData,
+        createTransactionState.common.baseUrl
+      )
     } catch (e) {
       if (
         isAxiosError(e) &&
@@ -120,6 +124,10 @@ export const operations = {
       }
     }
     dispatch(actions.processEnd())
+
+    location.href = `${getState().storeTransaction.common.baseUrl}/${
+      apiResult.data.contractId
+    }/transaction/${apiResult.data.transactionId}`
   },
 
   /**

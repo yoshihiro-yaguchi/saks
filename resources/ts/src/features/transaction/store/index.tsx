@@ -24,7 +24,7 @@ import reportWebVitals from "@src/reportWebVitals"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { actions } from "./reducer"
 import { BaseComponent } from "@common/BaseComponent/BaseComponent"
-import { H1, H2 } from "@src/common/Text/Typo"
+import { H1, H2, H5, Typo } from "@src/common/Text/Typo"
 import { operations } from "./operation"
 import Paper from "@mui/material/Paper"
 import { DetailRow, AmountInfo, TaxInfo } from "./types"
@@ -712,7 +712,7 @@ export const Store = () => {
                       </StyledTableRowCell>
                       {/* 商品番号 */}
                       <StyledTableRowCell>
-                        {row.productNo}
+                        <Typo>{row.productNo}</Typo>
                         <input
                           readOnly
                           hidden
@@ -722,7 +722,7 @@ export const Store = () => {
                       </StyledTableRowCell>
                       {/* 商品名 */}
                       <StyledTableRowCell>
-                        {row.productName}
+                        <Typo>{row.productName}</Typo>
                         <input
                           readOnly
                           hidden
@@ -825,7 +825,7 @@ export const Store = () => {
                       </StyledTableRowCell>
                       {/* 金額 */}
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
-                        ￥{row.totalPrice.toLocaleString()}
+                        <Typo>￥{row.totalPrice.toLocaleString()}</Typo>
                         <input
                           readOnly
                           hidden
@@ -851,10 +851,10 @@ export const Store = () => {
                   <TableBody>
                     <StyledTableRow>
                       <StyledTableRowCell sx={{ width: "40%" }}>
-                        小計
+                        <H5>小計</H5>
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
-                        ￥{amountInfo.subtotal.toLocaleString()}
+                        <Typo>￥{amountInfo.subtotal.toLocaleString()}</Typo>
                         <input
                           type="hidden"
                           name="amountInfo[subtotal]"
@@ -864,9 +864,11 @@ export const Store = () => {
                       </StyledTableRowCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                      <StyledTableRowCell>(内消費税)</StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <H5>(内消費税)</H5>
+                      </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
-                        ￥{amountInfo.taxInclude.toLocaleString()}
+                        <Typo>￥{amountInfo.taxInclude.toLocaleString()}</Typo>
                         <input
                           type="hidden"
                           name="amountInfo[taxInclude]"
@@ -876,9 +878,11 @@ export const Store = () => {
                       </StyledTableRowCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                      <StyledTableRowCell>合計</StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <H5>合計</H5>
+                      </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
-                        ￥{amountInfo.total.toLocaleString()}
+                        <Typo>￥{amountInfo.total.toLocaleString()}</Typo>
                         <input
                           type="hidden"
                           name="amountInfo[total]"
@@ -914,7 +918,7 @@ export const Store = () => {
                                     textAlign: "center",
                                   }}
                                 >
-                                  {taxInfo.taxRate}%対象
+                                  <H5>{taxInfo.taxRate}%対象</H5>
                                   <input
                                     type="hidden"
                                     name={`taxInfo[${taxInfo.taxRate}][taxRate]`}
@@ -928,7 +932,9 @@ export const Store = () => {
                                     textAlign: "right",
                                   }}
                                 >
-                                  ￥{taxInfo.taxableAmout.toLocaleString()}
+                                  <Typo>
+                                    ￥{taxInfo.taxableAmout.toLocaleString()}
+                                  </Typo>
                                   <input
                                     type="hidden"
                                     name={`taxInfo[${taxInfo.taxRate}][taxableAmout]`}
@@ -942,7 +948,7 @@ export const Store = () => {
                                     textAlign: "center",
                                   }}
                                 >
-                                  消費税
+                                  <H5>消費税</H5>
                                 </StyledTableRowCell>
                                 <StyledTableRowCell
                                   sx={{
@@ -950,7 +956,9 @@ export const Store = () => {
                                     textAlign: "right",
                                   }}
                                 >
-                                  ￥{taxInfo.taxAmout.toLocaleString()}
+                                  <Typo>
+                                    ￥{taxInfo.taxAmout.toLocaleString()}
+                                  </Typo>
                                   <input
                                     type="hidden"
                                     name={`taxInfo[${taxInfo.taxRate}][taxAmout]`}

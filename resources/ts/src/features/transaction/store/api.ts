@@ -2,7 +2,10 @@ import axios from "axios"
 
 export const apis = {
   postTest: async (params: FormData, baseUrl: string) => {
-    return await axios.post<any>(`${baseUrl}/dummy/transaction/store`, params)
+    return await axios.post<any>(
+      `${baseUrl}/api/dummy/transaction/store`,
+      params
+    )
   },
 
   // doPost: async (params: URLSearchParams) => {
