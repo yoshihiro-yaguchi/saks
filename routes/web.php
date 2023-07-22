@@ -29,14 +29,14 @@ Route::post('/login', [LoginController::class, 'login']);
 // GET:取引作成画面表示
 Route::get('/{contractId}/transaction/store', [TransactionController::class, 'routeStore']);
 // GET:取引詳細画面表示
-Route::get('/{contractId}/transaction/show/{id}', [TransactionController::class, 'routeShow']);
+Route::get('/{contractId}/transaction/{id}', [TransactionController::class, 'routeShow']);
 /**
  * 取引:RESTAPI
  */
 // POST:取引データ登録
-Route::post('/{contractId}/transaction/store', [TransactionApiController::class, 'storeTransaction']);
+Route::post('/api/{contractId}/transaction/store', [TransactionApiController::class, 'storeTransaction']);
 // GET:取引データ取得
-Route::get('/{contractId}/transaction/getTransactionData/{id}', [TransactionApiController::class, '']);
+Route::get('/api/{contractId}/transaction/getTransactionData/{transactionId}', [TransactionApiController::class, 'getTransactionData']);
 
 
 /**
