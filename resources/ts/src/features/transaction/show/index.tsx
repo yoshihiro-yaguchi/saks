@@ -4,7 +4,7 @@ import { RootState, store } from "@src/app/store"
 // import { operations } from './operations'
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
-import React from "react"
+import React, { useEffect } from "react"
 import reportWebVitals from "@src/reportWebVitals"
 import { BaseComponent } from "@resource/ts/src/common/BaseComponent/BaseComponent"
 import {
@@ -15,14 +15,18 @@ import {
   Table,
   TableBody,
   TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material"
 import { LinedContainerBox } from "@resource/ts/src/common/Box/LinedContainerBox"
-import { H1, H2, H3 } from "@resource/ts/src/common/Text/Typo"
+import { H1, H2, H4, H5, Typo } from "@resource/ts/src/common/Text/Typo"
 import {
+  StyledTableHeadCell,
   StyledTableRow,
   StyledTableRowCell,
 } from "@resource/ts/src/common/Table/Table"
 import styled from "@emotion/styled"
+import { operations } from "./operators"
 
 const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
   textAlign: "center",
@@ -30,14 +34,28 @@ const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
 
 export const Index = () => {
   const dispatch = useAppDispatch()
-  // // 画面項目
-  // const contactStates = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.screenState)
-  // // 画面コントロール
-  // const contactScreenControl = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.controlState)
-  // // 値入力時ハンドラ
-  // const onInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))
-  // }
+
+  const transactionInfo = useAppSelector(
+    (s: RootState) => s.showTransaction.transactionInfo
+  )
+
+  const customerInfo = useAppSelector(
+    (s: RootState) => s.showTransaction.customerInfo
+  )
+
+  const detailRows = useAppSelector(
+    (s: RootState) => s.showTransaction.detailRows
+  )
+
+  const amountInfo = useAppSelector(
+    (s: RootState) => s.showTransaction.amountInfo
+  )
+
+  // 画面ロード時処理
+  useEffect(() => {
+    dispatch(operations.init())
+  }, [])
+
   return (
     <>
       <BaseComponent processing={false}>
@@ -113,44 +131,56 @@ export const Index = () => {
                     {/* 件名 */}
                     <StyledTableRow>
                       <TextCenterdTableCell sx={{ width: "160px" }}>
-                        <H3>件名</H3>
+                        <H4>件名</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{transactionInfo.transactionNote}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引区分 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>取引区分</H3>
+                        <H4>取引区分</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{transactionInfo.transactionDivision}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引日付 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>取引日付</H3>
+                        <H4>取引日付</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{transactionInfo.transactionDate}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引支店 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>取引支店</H3>
+                        <H4>取引支店</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{transactionInfo.transactionBranch}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 担当者 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>担当者</H3>
+                        <H4>担当者</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{transactionInfo.transactionPicName}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引備考 */}
                     <StyledTableRow sx={{ height: "280px" }}>
                       <TextCenterdTableCell>
-                        <H3>取引備考</H3>
+                        <H4>取引備考</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{transactionInfo.transactionNote}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
                 </Table>
@@ -168,44 +198,56 @@ export const Index = () => {
                     {/* 法人区分 */}
                     <StyledTableRow>
                       <TextCenterdTableCell sx={{ width: "160px" }}>
-                        <H3>法人区分</H3>
+                        <H4>法人区分</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.corporationDivision}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 登録番号 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>登録番号</H3>
+                        <H4>登録番号</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.invoiceNumber}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 会社名 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>会社名</H3>
+                        <H4>会社名</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerCompany}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 支店名 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>支店名</H3>
+                        <H4>支店名</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerBranch}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* お名前 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>お名前</H3>
+                        <H4>お名前</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerName}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 電話番号 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>電話番号</H3>
+                        <H4>電話番号</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerPhoneNumber}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
                 </Table>
@@ -217,37 +259,47 @@ export const Index = () => {
                     {/* 郵便番号 */}
                     <StyledTableRow>
                       <TextCenterdTableCell sx={{ width: "160px" }}>
-                        <H3>郵便番号</H3>
+                        <H4>郵便番号</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerZipCode}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 都道府県 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>都道府県</H3>
+                        <H4>都道府県</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerAddress1}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 市区町村 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>市区町村</H3>
+                        <H4>市区町村</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerAddress2}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 町・番地 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>町・番地</H3>
+                        <H4>町・番地</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerAddress3}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 建物名等 */}
                     <StyledTableRow>
                       <TextCenterdTableCell>
-                        <H3>建物名等</H3>
+                        <H4>建物名等</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell></StyledTableRowCell>
+                      <StyledTableRowCell>
+                        <Typo>{customerInfo.customerAddress4}</Typo>
+                      </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
                 </Table>
@@ -256,6 +308,129 @@ export const Index = () => {
           </Grid>
         </Grid>
         {/* 明細情報 */}
+        <Box sx={{ height: "32px" }}></Box>
+        {/* 明細情報 */}
+        <Box>
+          <LinedContainerBox>
+            <Box sx={{ marginBottom: "16px" }}>
+              <Grid container spacing={1}>
+                <Grid item xs>
+                  <H2>明細情報</H2>
+                </Grid>
+              </Grid>
+              <Box sx={{ float: "left" }}></Box>
+            </Box>
+            <TableContainer component={Paper}>
+              <Table size="small" sx={{ minWidth: "915px" }}>
+                <TableHead>
+                  <TableRow sx={{ backgroundColor: "#1cc1cc" }}>
+                    <StyledTableHeadCell
+                      sx={{ minWidth: "110px", width: "10%" }}
+                    >
+                      商品番号
+                    </StyledTableHeadCell>
+                    <StyledTableHeadCell>商品名</StyledTableHeadCell>
+                    <StyledTableHeadCell
+                      sx={{
+                        width: "105px",
+                        padding: "6px 6px",
+                      }}
+                    >
+                      数量(重量)
+                    </StyledTableHeadCell>
+                    <StyledTableHeadCell sx={{ width: "140px" }}>
+                      単価
+                    </StyledTableHeadCell>
+                    <StyledTableHeadCell sx={{ width: "91px" }}>
+                      税率
+                    </StyledTableHeadCell>
+                    <StyledTableHeadCell sx={{ width: "156px" }}>
+                      金額
+                    </StyledTableHeadCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {detailRows.map((row, index) => (
+                    <StyledTableRow key={row.productNo}>
+                      {/* 商品番号 */}
+                      <StyledTableRowCell>
+                        <Typo>{row.productNo}</Typo>
+                      </StyledTableRowCell>
+                      {/* 商品名 */}
+                      <StyledTableRowCell>
+                        <Typo>{row.productName}</Typo>
+                      </StyledTableRowCell>
+                      {/* 数量(重量) */}
+                      <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <Typo>{Math.floor(row.quantity)}</Typo>
+                      </StyledTableRowCell>
+                      {/* 単価 */}
+                      <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <Typo>{`￥${Math.floor(
+                          row.unitPrice
+                        ).toLocaleString()}`}</Typo>
+                      </StyledTableRowCell>
+                      {/* 税率 */}
+                      <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <Typo>{`${Math.floor(row.taxRate)}%`}</Typo>
+                      </StyledTableRowCell>
+                      {/* 金額 */}
+                      <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <Typo>{`￥${Math.floor(
+                          row.totalPrice
+                        ).toLocaleString()}`}</Typo>
+                      </StyledTableRowCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Box sx={{ height: "32px" }}></Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              <TableContainer component={Paper} sx={{ width: "350px" }}>
+                <Table size="small" sx={{ width: "350px" }}>
+                  <TableBody>
+                    <StyledTableRow>
+                      <StyledTableRowCell sx={{ width: "40%" }}>
+                        <H5>小計</H5>
+                      </StyledTableRowCell>
+                      <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <Typo>
+                          ￥{Math.floor(amountInfo.subtotal).toLocaleString()}
+                        </Typo>
+                      </StyledTableRowCell>
+                    </StyledTableRow>
+                    <StyledTableRow>
+                      <StyledTableRowCell>
+                        <H5>(内消費税)</H5>
+                      </StyledTableRowCell>
+                      <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <Typo>
+                          ￥{Math.floor(amountInfo.taxInclude).toLocaleString()}
+                        </Typo>
+                      </StyledTableRowCell>
+                    </StyledTableRow>
+                    <StyledTableRow>
+                      <StyledTableRowCell>
+                        <H5>合計</H5>
+                      </StyledTableRowCell>
+                      <StyledTableRowCell sx={{ textAlign: "right" }}>
+                        <Typo>
+                          ￥{Math.floor(amountInfo.total).toLocaleString()}
+                        </Typo>
+                      </StyledTableRowCell>
+                    </StyledTableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          </LinedContainerBox>
+        </Box>
 
         {/* ページ内フッター */}
       </BaseComponent>

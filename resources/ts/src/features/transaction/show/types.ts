@@ -1,9 +1,23 @@
 export interface ShowTransactionState {
+  common: Common
   transactionInfo: TransactionInfo
   customerInfo: CustomerInfo
   detailRows: DetailRow[]
   amountInfo: AmountInfo
   taxInfos: TaxInfo[]
+}
+
+export interface Common {
+  token: string
+  baseUrl: string
+  contractId: string
+  transactionId: string
+}
+export const initCommon: Common = {
+  token: "",
+  baseUrl: "",
+  contractId: "",
+  transactionId: "",
 }
 
 /**
@@ -49,7 +63,7 @@ export interface CustomerInfo {
   /** 電話番号 */
   customerPhoneNumber: string
   /** 郵便番号 */
-  zipCode: string
+  customerZipCode: string
   /** 住所1 都道府県 */
   customerAddress1: string
   /** 住所2 市区町村 */
@@ -66,7 +80,7 @@ export const initCustomerInfo: CustomerInfo = {
   invoiceNumber: "",
   customerName: "",
   customerPhoneNumber: "",
-  zipCode: "",
+  customerZipCode: "",
   customerAddress1: "",
   customerAddress2: "",
   customerAddress3: "",
