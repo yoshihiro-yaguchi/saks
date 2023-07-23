@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\TransactionDetail;
 use App\Models\TransactionHead;
+use App\Models\TransactionPrice;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -85,6 +86,34 @@ class TransactionService
   }
 
   /**
+   * 取引金額保存
+   *
+   * @param string $contractId
+   * @param string $transactionId
+   * @param array $taxInfos
+   * @return void
+   */
+  public function saveTransactionPrices(string $contractId, string $transactionId, array $taxInfos)
+  {
+    $saveData = [];
+
+    $nowDate = new Carbon();
+
+    foreach ($taxInfos as $taxInfo) {
+      $saveData[] = [
+        'contract_id' => $contractId,
+        'transaction_id' => $transactionId,
+        'tax_rate' => $taxInfo['taxRate'],
+        'taxable_amount' => $taxInfo['taxableAmount'],
+        'tax_include' => $taxInfo['taxAmount'],
+        'created_at' => $nowDate,
+        'updated_at' => $nowDate,
+      ];
+    }
+    TransactionPrice::insert($saveData);
+  }
+
+  /**
    * 取引データ取得
    *
    * @param string $contractId
@@ -96,14 +125,14 @@ class TransactionService
     $transactionHeadData = TransactionHead::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->first();
     $transactionInfo = array(
       'transactionTitle' => $transactionHeadData->transaction_title,
-      'transactionDivision' => $transactionHeadData->transaction_division, // TODO: 定数から日本語データを取得する。
+      'transactionDivision' => TransactionHead::$TRANSACTION_DIV_NAMES[$transactionHeadData->transaction_division],
       'transactionDate' => $transactionHeadData->transaction_date,
       'transactionBranch' => $transactionHeadData->transaction_branch, // TODO: 支店マスタ作ったらデータ見に行くようにする。
       'transactionPicName' => $transactionHeadData->transaction_pic_last_name . ' ' . $transactionHeadData->transaction_pic_first_name,
       'transactionNote' => $transactionHeadData->transaction_note,
     );
     $customerInfo = array(
-      'corporationDivision' => $transactionHeadData->corporation_division, // TODO: 定数から日本語データを取得する。
+      'corporationDivision' => TransactionHead::$CORPORATION_DIV_NAME[$transactionHeadData->corporation_division],
       'invoiceNumber' => $transactionHeadData->customer_invoice_number,
       'customerCompany' => $transactionHeadData->customer_company,
       'customerBranch' => $transactionHeadData->customer_branch,
