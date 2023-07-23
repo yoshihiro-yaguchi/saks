@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\TransactionDetail;
 use App\Models\TransactionHead;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class TransactionService
@@ -63,6 +64,9 @@ class TransactionService
   {
     TransactionDetail::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->delete();
     $saveData = [];
+
+    $nowDate = new Carbon();
+
     foreach ($detailRows as $detailRow) {
       $saveData[] = [
         'contract_id' => $contractId,
@@ -72,7 +76,9 @@ class TransactionService
         'quantity' => $detailRow['quantity'],
         'unit_price' => $detailRow['unitPrice'],
         'tax_rate' => $detailRow['taxRate'],
-        'total_price' => $detailRow['totalPrice']
+        'total_price' => $detailRow['totalPrice'],
+        'created_at' => $nowDate,
+        'updated_at' => $nowDate,
       ];
     }
     TransactionDetail::insert($saveData);
