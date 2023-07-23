@@ -87,7 +87,7 @@ class TransactionApiController extends Controller
     );
 
     Log::info('response: ' . $response);
-    Log::info('TransactionApiController.getTransactionData : START');
+    Log::info('TransactionApiController.getTransactionData : END');
     return $response;
   }
 }
