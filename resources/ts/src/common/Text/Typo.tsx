@@ -6,7 +6,12 @@ export const Typo = (props: TypographyProps) => {
   const { children } = props
   return (
     <>
-      <Typography fontSize={14} {...props} fontFamily={"Noto Sans JP"}>
+      <Typography
+        fontSize={14}
+        {...props}
+        fontFamily={"Noto Sans JP"}
+        sx={{ overflow: "auto" }}
+      >
         {children}
       </Typography>
     </>

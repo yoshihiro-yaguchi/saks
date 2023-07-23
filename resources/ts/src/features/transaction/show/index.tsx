@@ -126,15 +126,15 @@ export const Index = () => {
               <H2>取引情報</H2>
               <Box sx={{ height: "16px" }}></Box>
               <TableContainer component={Paper}>
-                <Table size="small">
+                <Table size="small" sx={{ tableLayout: "fixed" }}>
                   <TableBody>
                     {/* 件名 */}
                     <StyledTableRow>
-                      <TextCenterdTableCell sx={{ width: "160px" }}>
+                      <TextCenterdTableCell sx={{ width: "130px" }}>
                         <H4>件名</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{transactionInfo.transactionNote}</Typo>
+                        <Typo>{transactionInfo.transactionTitle}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引区分 */}
@@ -193,11 +193,11 @@ export const Index = () => {
               <H2>お客様情報</H2>
               <Box sx={{ height: "16px" }}></Box>
               <TableContainer component={Paper}>
-                <Table size="small">
+                <Table size="small" sx={{ tableLayout: "fixed" }}>
                   <TableBody>
                     {/* 法人区分 */}
                     <StyledTableRow>
-                      <TextCenterdTableCell sx={{ width: "160px" }}>
+                      <TextCenterdTableCell sx={{ width: "130px" }}>
                         <H4>法人区分</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
@@ -254,11 +254,11 @@ export const Index = () => {
               </TableContainer>
               <Box sx={{ height: "16px" }}></Box>
               <TableContainer component={Paper}>
-                <Table size="small">
+                <Table size="small" sx={{ tableLayout: "fixed" }}>
                   <TableBody>
                     {/* 郵便番号 */}
                     <StyledTableRow>
-                      <TextCenterdTableCell sx={{ width: "160px" }}>
+                      <TextCenterdTableCell sx={{ width: "130px" }}>
                         <H4>郵便番号</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
