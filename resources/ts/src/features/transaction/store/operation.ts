@@ -306,6 +306,11 @@ export const operations = {
     } catch (error) {
       throw error
     }
+
+    if (!Array.isArray(apiResult.data["results"])) {
+      // 住所検索にヒットしなかった場合(ヒットしなかった場合、resultsは配列では帰ってこない)
+      return
+    }
     // TODO: 1つの郵便番号に紐づく住所が2つ以上ある場合を考慮する。
     const address = apiResult.data["results"][0]
 
