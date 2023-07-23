@@ -44,6 +44,7 @@ class TransactionApiController extends Controller
     try {
       $saveHeadResult = $service->insertTransactionHead($contractId, $transactionInfo, $customerInfo, $amountInfo);
       $service->saveTransactionDetails($contractId, $saveHeadResult->transaction_id, $detailRows);
+      $service->saveTransactionPrices($contractId, $saveHeadResult->transaction_id, $taxInfos);
     } catch (\Exception $e) {
       DB::rollBack();
       Log::error('取引データ登録処理でエラー発生');

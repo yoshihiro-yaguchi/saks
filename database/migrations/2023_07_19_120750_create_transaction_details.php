@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('product_no', 50)->comment('商品番号')->nullable();
             $table->string('product_name', 100)->comment('商品名');
             $table->decimal('quantity', 8, 3)->comment('数量(重量)');
+            $table->string('unit', 5)->comment('単位')->nullable();
             $table->decimal('unit_price', 12, 3)->comment('単価');
             $table->decimal('tax_rate', 8, 3)->comment('税率');
             $table->decimal('total_price', 12, 3)->comment('金額');
