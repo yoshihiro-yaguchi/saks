@@ -48,9 +48,6 @@ class TransactionController extends Controller
       return redirect('/' . $contractId . '/transaction/store');
     }
 
-    // $transactionData = TransactionRepository::getTransactionData($contractId, $transactionId);
-    // 取引データ
-
     $initData = array(
       'contractId' => $contractId,
       'transactionId' => $transactionId,
