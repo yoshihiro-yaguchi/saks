@@ -32,22 +32,12 @@ class TransactionApiController extends Controller
 
     $service = new TransactionService();
 
-    // 入力値データをレスポンスデータにセットする。
-    $responseData =
-      [
-        "oldInputData" => json_encode(array(
-          'transactionInfo' => $request->input("transactionInfo"),
-          'customerInfo' => $request->input("customerInfo"),
-          'detailRows' => $request->input("detailRows"),
-          'amountInfo' => $request->input("amountInfo"),
-          'taxInfo' => $request->input("taxInfo"),
-        ))
-      ];
-
     $transactionInfo = $request->input("transactionInfo");
     $customerInfo = $request->input("customerInfo");
-    $amountInfo = $request->input('amountInfo');
     $detailRows = $request->input('detailRows');
+    $culcResult = $this->transactionService->culcTransaction($detailRows);
+    $amountInfo = $culcResult['amountInfo'];
+    $taxInfos = $culcResult['taxInfos'];
 
     // 取引データ作成
     DB::beginTransaction();

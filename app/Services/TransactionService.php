@@ -147,4 +147,67 @@ class TransactionService
     }
     return $detailDatas;
   }
+
+  /**
+   * トランザクション内の金額計算を行う。
+   *
+   * @param array $detailRows
+   * @return array
+   */
+  public function culcTransaction(array $detailRows): array
+  {
+    $amountInfo = array(
+      'subtotal' => 0,
+      'taxInclude' => 0,
+      'total' => 0,
+    );
+
+    $taxInfos = array();
+
+    foreach ($detailRows as $detailRow) {
+      $taxRate = $detailRow['taxRate'];
+      $unitPrice = $detailRow['unitPrice'];
+      $quantity = $detailRow['quantity'];
+      $subtotal = bcmul($unitPrice, $quantity);
+
+      if (array_key_exists($taxRate, $taxInfos)) {
+        $taxInfos[$taxRate]['taxableAmount'] += $subtotal;
+      } else {
+        $taxInfos[$taxRate]['taxRate'] = $taxRate;
+        $taxInfos[$taxRate]['taxableAmount'] = $subtotal;
+        $taxInfos[$taxRate]['taxAmount'] = 0;
+      }
+    }
+
+    foreach ($taxInfos as $taxRate => $taxInfo) {
+      $taxInfos[$taxRate]['taxAmount'] = $this->culcTaxInclude($taxInfo['taxableAmount'], $taxInfo['taxRate']);
+
+      $amountInfo['subtotal'] += $taxInfos[$taxRate]['taxableAmount'];
+      $amountInfo['taxInclude'] += $taxInfos[$taxRate]['taxAmount'];
+      $amountInfo['total'] += $taxInfos[$taxRate]['taxableAmount'];
+    }
+
+    return array(
+      'amountInfo' => $amountInfo,
+      'taxInfos' => $taxInfos,
+    );
+  }
+
+  /**
+   * 内税額計算
+   * 内税 = (税込金額 / (1 + 税率)) * 税率
+   *
+   * @param int $taxableAmount
+   * @param int $taxRate
+   * @return void
+   */
+  private function culcTaxInclude($taxableAmount, $taxRate)
+  {
+    $effectiveTaxRate = bcdiv($taxRate, 100, 2);
+    $exclusionTaxableAmount = bcdiv($taxableAmount, bcadd(1, $effectiveTaxRate, 2), 5);
+
+    $taxInclude = bcmul($effectiveTaxRate, $exclusionTaxableAmount, 5);
+    // TODO: 丸め方式をどこかに持つ必要性あり。
+    return ceil($taxInclude);
+  }
 }
