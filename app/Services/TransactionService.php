@@ -104,10 +104,8 @@ class TransactionService
 
     /**
      * 取引データ取得
-     *
-     * @return array
      */
-    public function getTransactionData(string $contractId, string $transactionId)
+    public function getTransactionData(string $contractId, string $transactionId): array
     {
         $transactionHeadData = TransactionHead::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->first();
         $transactionInfo = [
@@ -148,10 +146,8 @@ class TransactionService
 
     /**
      * 取引明細データ取得
-     *
-     * @return array
      */
-    private function getTransactionDetails(string $contractId, string $transactionId)
+    private function getTransactionDetails(string $contractId, string $transactionId): array
     {
         $transactionDetailDatas = TransactionDetail::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->get();
         $detailDatas = [];
@@ -167,6 +163,21 @@ class TransactionService
         }
 
         return $detailDatas;
+    }
+
+    private function getTransactionPrices(string $contractId, string $transactionId): array
+    {
+        $transactionPriceDatas = TransactionPrice::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->get();
+        $taxInfos = [];
+        foreach ($transactionPriceDatas as $priceData) {
+            $taxInfos[] = [
+                'taxRate' => $priceData->tax_rate,
+                'taxableAmout' => $priceData->taxable_amount,
+                'taxAmout' => $priceData->tax_include,
+            ];
+        }
+
+        return $taxInfos;
     }
 
     /**
