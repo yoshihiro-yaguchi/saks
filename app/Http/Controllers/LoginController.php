@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostLoginRequest;
-use App\Services\LoginService;
 use App\Services\Beans\LoginServiceBean;
+use App\Services\LoginService;
 
 class LoginController extends Controller
 {
-    function login(PostLoginRequest $request) {
+    public function login(PostLoginRequest $request)
+    {
         $loginServiceBean = new LoginServiceBean();
         $loginServiceBean->setUserId($request->input('id'));
         $loginServiceBean->setPassword($request->input('password'));
         $result = (new LoginService())->login($loginServiceBean);
         $returnData = [
-            'sample' => 'sample'
+            'sample' => 'sample',
         ];
         if ($result->has('failed')) {
             $returnData['logicErrors'] = $result->get('failed');

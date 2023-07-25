@@ -11,84 +11,83 @@ use Illuminate\Support\Facades\Log;
 
 class TransactionApiController extends Controller
 {
+    /** @var TransactionService */
+    public $transactionService;
 
-  /** @var TransactionService */
-  public $transactionService;
-
-  public function __construct()
-  {
-    $this->transactionService = new TransactionService();
-  }
-  /**
-   * 取引作成
-   *
-   * @param StoreTransaction $request
-   * @param string $contractId
-   * @return JsonResponse response
-   */
-  public function storeTransaction(StoreTransaction $request, string $contractId)
-  {
-    Log::info('TransactionApiController.storeTransaction : START');
-
-    $service = new TransactionService();
-
-    $transactionInfo = $request->input("transactionInfo");
-    $customerInfo = $request->input("customerInfo");
-    $detailRows = $request->input('detailRows');
-    $culcResult = $this->transactionService->culcTransaction($detailRows);
-    $amountInfo = $culcResult['amountInfo'];
-    $taxInfos = $culcResult['taxInfos'];
-
-    // 取引データ作成
-    DB::beginTransaction();
-    try {
-      $saveHeadResult = $service->insertTransactionHead($contractId, $transactionInfo, $customerInfo, $amountInfo);
-      $service->saveTransactionDetails($contractId, $saveHeadResult->transaction_id, $detailRows);
-      $service->saveTransactionPrices($contractId, $saveHeadResult->transaction_id, $taxInfos);
-    } catch (\Exception $e) {
-      DB::rollBack();
-      Log::error('取引データ登録処理でエラー発生');
-
-      throw $e;
+    public function __construct()
+    {
+        $this->transactionService = new TransactionService();
     }
-    DB::commit();
 
+    /**
+     * 取引作成
+     *
+     * @return JsonResponse response
+     */
+    public function storeTransaction(StoreTransaction $request, string $contractId)
+    {
+        Log::info('TransactionApiController.storeTransaction : START');
 
-    $response = response()->json(
-      [
-        'status' => 'success',
-        'contractId' => $contractId,
-        'transactionId' => $saveHeadResult->transaction_id,
-      ],
-      200,
-    );
+        $service = new TransactionService();
 
-    Log::info('response: ' . $response);
-    Log::info('TransactionApiController.storeTransaction : END');
-    return $response;
-  }
+        $transactionInfo = $request->input('transactionInfo');
+        $customerInfo = $request->input('customerInfo');
+        $detailRows = $request->input('detailRows');
+        $culcResult = $this->transactionService->culcTransaction($detailRows);
+        $amountInfo = $culcResult['amountInfo'];
+        $taxInfos = $culcResult['taxInfos'];
 
-  /**
-   * パラメーターから取引データを1件分返す
-   *
-   * @param string contractId
-   * @param string transactionId
-   * @return void
-   */
-  public function getTransactionData(string $contractId, string $transactionId)
-  {
-    Log::info('TransactionApiController.getTransactionData : START');
+        // 取引データ作成
+        DB::beginTransaction();
+        try {
+            $saveHeadResult = $service->insertTransactionHead($contractId, $transactionInfo, $customerInfo, $amountInfo);
+            $service->saveTransactionDetails($contractId, $saveHeadResult->transaction_id, $detailRows);
+            $service->saveTransactionPrices($contractId, $saveHeadResult->transaction_id, $taxInfos);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('取引データ登録処理でエラー発生');
 
-    // 契約IDと取引IDでデータを引っ張ってくる。
-    $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
+            throw $e;
+        }
+        DB::commit();
 
-    $response = response()->json(
-      ['initData' => $transactionData],
-      200
-    );
+        $response = response()->json(
+            [
+                'status' => 'success',
+                'contractId' => $contractId,
+                'transactionId' => $saveHeadResult->transaction_id,
+            ],
+            200,
+        );
 
-    Log::info('response: ' . $response);
-    Log::info('TransactionApiController.getTransactionData : END');
-    return $response;
-  }
+        Log::info('response: '.$response);
+        Log::info('TransactionApiController.storeTransaction : END');
+
+        return $response;
+    }
+
+    /**
+     * パラメーターから取引データを1件分返す
+     *
+     * @param string contractId
+     * @param string transactionId
+     * @return void
+     */
+    public function getTransactionData(string $contractId, string $transactionId)
+    {
+        Log::info('TransactionApiController.getTransactionData : START');
+
+        // 契約IDと取引IDでデータを引っ張ってくる。
+        $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
+
+        $response = response()->json(
+            ['initData' => $transactionData],
+            200
+        );
+
+        Log::info('response: '.$response);
+        Log::info('TransactionApiController.getTransactionData : END');
+
+        return $response;
+    }
 }

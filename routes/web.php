@@ -38,13 +38,10 @@ Route::post('/api/{contractId}/transaction/store', [TransactionApiController::cl
 // GET:取引データ取得
 Route::get('/api/{contractId}/transaction/getTransactionData/{transactionId}', [TransactionApiController::class, 'getTransactionData']);
 
-
 /**
  * テスト
  */
 Route::post('/transaction/test', [TransactionApiController::class, 'testPost']);
-
-
 
 // 明細書発行
 Route::get('/test/bootstrap', function () {

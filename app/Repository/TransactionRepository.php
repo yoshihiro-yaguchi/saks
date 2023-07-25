@@ -11,23 +11,20 @@ use Illuminate\Support\Facades\DB;
  */
 class TransactionRepository
 {
-
-  /**
-   * 取引データ取得
-   *
-   * @param string $contractId
-   * @param string $transactionId
-   * @return Collection
-   */
-  public static function getTransactionData(string $contractId, string $transactionId)
-  {
-    return
-      DB::table('transaction_headers as T1')->leftJoin('transaction_details as T2', function (JoinClause $join) {
-        $join->on("T1.contract_id", '=', "T2.contract_id")
-          ->on("T1.transaction_id", '=', "T2.transaction_id");
-      })
-      ->where('T1.contract_id', '=', $contractId)
-      ->where('T1.transaction_id', '=', $transactionId)
-      ->get();
-  }
+    /**
+     * 取引データ取得
+     *
+     * @return Collection
+     */
+    public static function getTransactionData(string $contractId, string $transactionId)
+    {
+        return
+          DB::table('transaction_headers as T1')->leftJoin('transaction_details as T2', function (JoinClause $join) {
+              $join->on('T1.contract_id', '=', 'T2.contract_id')
+                  ->on('T1.transaction_id', '=', 'T2.transaction_id');
+          })
+              ->where('T1.contract_id', '=', $contractId)
+              ->where('T1.transaction_id', '=', $transactionId)
+              ->get();
+    }
 }
