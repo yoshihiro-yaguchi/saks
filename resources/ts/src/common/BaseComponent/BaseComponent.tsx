@@ -4,9 +4,18 @@ import { RootState, store } from "@src/app/store"
 // import { operations } from './operations'
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
-import React from "react"
-import { Box, BoxProps, Grid, Paper, Typography, styled } from "@mui/material"
+import React, { useEffect } from "react"
+import {
+  Box,
+  BoxProps,
+  Button,
+  Grid,
+  Paper,
+  Typography,
+  styled,
+} from "@mui/material"
 import { Loading } from "@common/Loading/Loading"
+import { commonOperations } from "../commonOperations"
 // import logo from "../../../public/image-logo.svg"
 
 // styledBox
@@ -26,14 +35,14 @@ type Props = BoxProps & {
 export const BaseComponent = (props: Props) => {
   const { children, processing } = props
   const dispatch = useAppDispatch()
-  // 画面項目
-  // const contactStates = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.screenState)
-  // 画面コントロール
-  // const contactScreenControl = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.controlState)
-  // 値入力時ハンドラ
-  // const onInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))
-  // }
+
+  // 画面ロード時処理
+  useEffect(() => {
+    dispatch(commonOperations.init())
+  }, [])
+
+  // 共通ステート
+  const commonState = useAppSelector((s: RootState) => s.common)
 
   return (
     <>
@@ -46,7 +55,12 @@ export const BaseComponent = (props: Props) => {
             backgroundColor: "#1cc1cc",
             borderBottom: "1px solid #dddddd",
           }}
-        ></Box>
+        >
+          <form action="/logout" method="post">
+            <input type="hidden" name="_token" value={commonState.csrfToken} />
+            <Button type="submit">ログアウト</Button>
+          </form>
+        </Box>
         <Grid container spacing={4} sx={{ height: "100%" }}>
           {/* 左メニュー */}
           <Grid item xs={0} sm={3} md={2}>

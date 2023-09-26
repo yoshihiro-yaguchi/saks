@@ -1,10 +1,14 @@
 <?php
 
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Transaction\Api\TransactionApiController;
 use App\Http\Controllers\Transaction\TransactionController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+
+// 認証チェック
+// ログインしていない場合はログイン画面に遷移させる。
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +21,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// ログイン機能
-Route::get('/login', function () {
-    return view('auth.login');
+// リダイレクト
+Route::get('/', function () {
+    return redirect('/contractId/transaction/store');
 });
-Route::post('/login', [LoginController::class, 'login']);
+
+Route::get('/home', function () {
+    return redirect('/contractId/transaction/store');
+});
 
 /**
  * 取引

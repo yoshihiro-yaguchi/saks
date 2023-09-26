@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @viteReactRefresh
-  @vite(['resources/ts/src/features/auth/login/index.tsx',
+  @viteReactRefresh
+  @vite(['resources/ts/src/features/auth/register/index.tsx',
     'resources/sass/app.scss',
     'resources/css/app.css',
     ])
@@ -17,7 +17,8 @@
   @endif
   <form class="maxHeight" action="{{url()->current()}}" method="post">
     @csrf
-    <div class="maxHeight" id="loginForm"></div>
+    <div class="maxHeight" id="registerForm"></div>
   </form>
+
 </body>
 </html>
