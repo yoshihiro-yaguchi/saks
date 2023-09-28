@@ -47,6 +47,7 @@ docker run --rm \
 
 ## エイリアスの設定
 
+### bash
 エイリアス設定ファイルを開く
 
 ```
@@ -65,6 +66,23 @@ alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 ```
 source ~/.bashrc
+```
+
+### zsh
+
+エイリアス設定ファイルを開く
+```
+vim ~/.zshrc
+```
+I キーを押して適当な場所に
+```
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+```
+と打ち込む。その後、`esc` -> `:wq` -> エンターキーで保存して終了
+
+`~/.zshrc`に記載したコマンドを反映
+```
+source ~/.zshrc
 ```
 
 ## 環境の操作

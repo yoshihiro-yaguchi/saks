@@ -9,7 +9,7 @@
     'resources/sass/app.scss',
     'resources/css/app.css',
     ])
-  <title>Document</title>
+  <title>ユーザー登録</title>
 </head>
 <body>
   @if ($errors->any())
