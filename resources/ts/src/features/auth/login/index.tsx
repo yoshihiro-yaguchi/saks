@@ -11,6 +11,7 @@ import { Input } from "@resource/ts/src/common/Input/Input"
 import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material"
 import { operations } from "./operations"
 import { ErrorAlert } from "@resource/ts/src/common/ErrorAlert/ErrorAlert"
+import { commonOperations } from "@resource/ts/src/common/commonOperations"
 
 export const Index = () => {
   const dispatch = useAppDispatch()
@@ -91,7 +92,7 @@ export const Index = () => {
             <ErrorAlert
               severity="error"
               onClose={() => {
-                dispatch(operations.errorAlertClose())
+                dispatch(commonOperations.errorAlertClose())
               }}
               sx={{
                 borderRadius: "8px",

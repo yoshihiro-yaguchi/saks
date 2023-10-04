@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::HOME,
+    'home' => RouteServiceProvider::REDIRECTOR,
 
     /*
     |--------------------------------------------------------------------------
@@ -145,6 +145,17 @@ return [
             'confirmPassword' => true,
             // 'window' => 0,
         ]),
+    ],
+
+    /**
+     * リダイレクト先定義
+     */
+    'redirects' => [
+        'login' => null,
+        'logout' => null,
+        'password-confirmation' => null,
+        'register' => '/redirector',
+        'email-verification' => null,
     ],
 
 ];

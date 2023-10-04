@@ -23,6 +23,16 @@ export const authRegisterReducer = createSlice({
     deleteErrorArray: (state) => {
       state.errorArray = []
     },
+
+    // nameを設定する
+    putName: (state, action: PayloadAction<{ value: string }>) => {
+      state.name = action.payload.value
+    },
+
+    // emailを設定する
+    putEmail: (state, action: PayloadAction<{ value: string }>) => {
+      state.email = action.payload.value
+    },
   },
 })
 export const { actions } = authRegisterReducer

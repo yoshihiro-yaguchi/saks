@@ -1,5 +1,6 @@
 import { AppThunk } from "@src/app/store"
-import { actions } from "@resource/ts/src/common/commonReducer"
+import { actions as commonActions } from "@resource/ts/src/common/commonReducer"
+import { actions } from "./reducer"
 // import { apis } from './api'
 
 export const operations = {
@@ -18,16 +19,38 @@ export const operations = {
 
   /** 初期処理 */
   init: (): AppThunk => async (dispatch, getState) => {
+    // エラー取得
     let errors = document.body.querySelector<HTMLInputElement>("#errors")?.value
     if (errors !== undefined) {
       let errorArray = JSON.parse(errors)
       console.log(errorArray)
-      dispatch(actions.putErrors({ value: errorArray }))
+      dispatch(commonActions.putErrors({ value: errorArray }))
+    }
+
+    // 旧name取得
+    let name = document.body.querySelector<HTMLInputElement>("#oldName")?.value
+    if (typeof name === "string") {
+      dispatch(
+        actions.putName({
+          value: name,
+        })
+      )
+    }
+
+    // 旧email取得
+    let email =
+      document.body.querySelector<HTMLInputElement>("#oldEmail")?.value
+    if (typeof email === "string") {
+      dispatch(
+        actions.putEmail({
+          value: email,
+        })
+      )
     }
   },
 
   /** エラーアラートを閉じる */
   errorAlertClose: (): AppThunk => async (dispatch, getState) => {
-    dispatch(actions.deleteErrorArray())
+    dispatch(commonActions.deleteErrorArray())
   },
 }

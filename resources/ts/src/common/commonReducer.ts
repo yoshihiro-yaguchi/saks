@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { CommonTypes, initCommonTypes } from "./commonTypes"
+import { CommonTypes, initCommonTypes, UserTypes } from "./commonTypes"
 
 const initialState: CommonTypes = initCommonTypes
 
 export const commonReducer = createSlice({
-  name: "#{STATE_NAME}",
+  name: "common",
   initialState,
   reducers: {
     // ステートリセット
@@ -12,7 +12,6 @@ export const commonReducer = createSlice({
 
     // CSRFトークンをアップデート
     updateCsrfToken: (state, action: PayloadAction<{ csrfToken: string }>) => {
-      console.log(action.payload.csrfToken)
       state.csrfToken = action.payload.csrfToken
     },
 
@@ -20,9 +19,29 @@ export const commonReducer = createSlice({
     putErrors: (state, action: PayloadAction<{ value: string[] }>) => {
       state.errorArray = action.payload.value
     },
+
+    /**
+     * エラーオブジェクト更新
+     *
+     * @param state
+     * @param action
+     */
+    putErrorsObject: (state, action: PayloadAction<{ value: Object }>) => {
+      state.errors = action.payload.value
+    },
     // エラー削除
     deleteErrorArray: (state) => {
       state.errorArray = []
+    },
+
+    /**
+     * ユーザーデータ更新
+     *
+     * @param state
+     * @param action
+     */
+    putUser: (state, action: PayloadAction<{ data: Partial<UserTypes> }>) => {
+      state.user = { ...state.user, ...action.payload.data }
     },
   },
 })

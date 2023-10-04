@@ -73,8 +73,8 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         // メール認証後
-        Fortify::verifyEmailView(function () {
-            return view('auth.register_contract');
-        });
+        // Fortify::verifyEmailView(function () {
+        //     return view('auth.comfirm_mail');
+        // });
     }
 }

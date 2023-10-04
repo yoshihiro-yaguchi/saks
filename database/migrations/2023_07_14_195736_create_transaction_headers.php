@@ -41,7 +41,6 @@ return new class extends Migration
             $table->decimal('tax_include', 15, 3)->comment('内消費税');
             $table->decimal('total', 15, 3)->comment('合計');
 
-            $table->tinyInteger('delete_flag')->default(0)->comment('削除フラグ 0-存在 1-削除');
             $table->timestamps();
 
             // テーブルコメント

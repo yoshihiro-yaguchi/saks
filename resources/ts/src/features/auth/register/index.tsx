@@ -11,14 +11,15 @@ import { Input } from "@resource/ts/src/common/Input/Input"
 import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material"
 import { operations } from "./operations"
 import { ErrorAlert } from "@resource/ts/src/common/ErrorAlert/ErrorAlert"
+import { actions } from "./reducer"
 
 export const Index = () => {
   const dispatch = useAppDispatch()
-  // // 画面項目
+  // 画面項目
   // const contactStates = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.screenState)
-  // // 画面コントロール
+  // 画面コントロール
   // const contactScreenControl = useAppSelector((s: RootState) => s.#{REDUCER_NAME}.controlState)
-  // // 値入力時ハンドラ
+  // 値入力時ハンドラ
   // const onInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))
   // }
@@ -28,8 +29,11 @@ export const Index = () => {
     dispatch(operations.init())
   }, [])
 
-  // commonコンポーネント
+  // commonステート
   const commonState = useAppSelector((s: RootState) => s.common)
+
+  // register state
+  const registerState = useAppSelector((s: RootState) => s.authRegister)
 
   // ログインに戻るボタン押下時処理
   const locationToLogin = () => {
@@ -56,8 +60,22 @@ export const Index = () => {
             <Box>
               <H1>ユーザー登録</H1>
 
-              <Input name="name" label="お名前"></Input>
-              <Input name="email" label="メールアドレス"></Input>
+              <Input
+                name="name"
+                label="お名前"
+                value={registerState.name}
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch(actions.putName({ value: e.target.value }))
+                }
+              ></Input>
+              <Input
+                name="email"
+                label="メールアドレス"
+                value={registerState.email}
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  dispatch(actions.putEmail({ value: e.target.value }))
+                }
+              ></Input>
               <Input name="password" label="パスワード" type="password"></Input>
               <Box>
                 <InfoOutlined sx={{ float: "left" }}></InfoOutlined>

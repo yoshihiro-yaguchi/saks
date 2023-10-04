@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\CommonApiController;
+use App\Http\Controllers\Master\Api\ContractApiController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\Transaction\Api\TransactionApiController;
 use App\Http\Controllers\Transaction\TransactionController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 // 認証チェック
@@ -21,29 +22,55 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// リダイレクト
-Route::get('/', function () {
-    return redirect('/contractId/transaction/store');
-});
+Route::middleware('auth')->group(function () {
 
-Route::get('/home', function () {
-    return redirect('/contractId/transaction/store');
-});
+    // リダイレクト
+    Route::get('/', [RedirectController::class, 'index']);
+    Route::get('/redirector', [RedirectController::class, 'authRedirector']);
 
-/**
- * 取引
- */
-// GET:取引作成画面表示
-Route::get('/{contractId}/transaction/store', [TransactionController::class, 'routeStore']);
-// GET:取引詳細画面表示
-Route::get('/{contractId}/transaction/{id}', [TransactionController::class, 'routeShow']);
-/**
- * 取引:RESTAPI
- */
-// POST:取引データ登録
-Route::post('/api/{contractId}/transaction/store', [TransactionApiController::class, 'storeTransaction']);
-// GET:取引データ取得
-Route::get('/api/{contractId}/transaction/getTransactionData/{transactionId}', [TransactionApiController::class, 'getTransactionData']);
+    /**
+     * 認証
+     */
+    // メール確認画面
+    Route::get('/confirmation_mail', function () {
+        return view('auth.confirm_mail');
+    });
+
+    /**
+     * マスターメンテナンス
+     */
+    // 契約情報入力画面
+    Route::get('/register_contract', function () {
+        return view('auth.register_contract');
+    });
+    /**
+     * マスターメンテナンス:RESTAPI
+     */
+    // 契約情報登録
+    Route::post('/api/store_contract', [ContractApiController::class, 'storeContract']);
+
+    // ホーム画面
+
+    /**
+     * 共通:RESTAPI
+     */
+    Route::get('/api/fetchUserInfo', [CommonApiController::class, 'fetchUserInfo']);
+
+    /**
+     * 取引
+     */
+    // 取引作成画面表示
+    Route::get('/{contractId}/transaction/store', [TransactionController::class, 'routeStore']);
+    // 取引詳細画面表示
+    Route::get('/{contractId}/transaction/{id}', [TransactionController::class, 'routeShow']);
+    /**
+     * 取引:RESTAPI
+     */
+    // 取引データ登録
+    Route::post('/api/{contractId}/transaction/store', [TransactionApiController::class, 'storeTransaction']);
+    // 取引データ取得
+    Route::get('/api/{contractId}/transaction/getTransactionData/{transactionId}', [TransactionApiController::class, 'getTransactionData']);
+});
 
 /**
  * テスト
@@ -59,8 +86,4 @@ Route::get('/pdf', [PdfController::class, 'viewPdf'])->name('viewPdf');
 
 Route::get('/pdfPreview', function () {
     return view('pdf.document');
-});
-
-Route::get('/', function () {
-    return view('index');
 });

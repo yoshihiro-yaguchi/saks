@@ -5,6 +5,7 @@ import { storeTransactionReducer } from "@resource/ts/src/features/transaction/s
 import { showTransactionReducer } from "../features/transaction/show/reducer"
 import { authRegisterReducer } from "../features/auth/register/reducer"
 import { commonReducer } from "../common/commonReducer"
+import { registerContractReducer } from "../features/auth/registerContract/reducer"
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,8 @@ export const store = configureStore({
     showTransaction: showTransactionReducer.reducer,
     // 認証 新規登録
     authRegister: authRegisterReducer.reducer,
+    // 契約情報登録
+    registerContract: registerContractReducer.reducer,
   },
 })
 

@@ -50,9 +50,6 @@ export const operations = {
   saveTransactionData: (): AppThunk => async (dispatch, getState) => {
     dispatch(actions.processStart())
     const createTransactionState = getState().storeTransaction
-    const postData = {
-      transactionInfo: JSON.stringify(createTransactionState.transactionInfo),
-    }
 
     let formData = new FormData()
     // 取引データ

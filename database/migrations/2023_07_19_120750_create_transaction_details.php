@@ -25,7 +25,6 @@ return new class extends Migration
             $table->decimal('tax_rate', 8, 3)->comment('税率');
             $table->decimal('total_price', 12, 3)->comment('金額');
 
-            $table->tinyInteger('delete_flag')->default(0)->comment('削除フラグ 0-存在 1-削除');
             $table->timestamps();
 
             // テーブルコメント
