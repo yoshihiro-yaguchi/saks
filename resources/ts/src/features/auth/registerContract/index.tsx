@@ -69,6 +69,7 @@ export const Index = () => {
                   error={commonState.errors.hasOwnProperty(
                     "contractCompanyName"
                   )}
+                  inputProps={{ maxLength: 100 }}
                 ></Input>
                 <Input
                   label="契約者名"
@@ -79,6 +80,7 @@ export const Index = () => {
                   }
                   error={commonState.errors.hasOwnProperty("contractersName")}
                   required
+                  inputProps={{ maxLength: 100 }}
                 ></Input>
                 <Input
                   label="郵便番号"
@@ -90,6 +92,7 @@ export const Index = () => {
                   }}
                   onBlur={() => dispatch(operations.zipCodeOnBlur())}
                   error={commonState.errors.hasOwnProperty("contractZipcode")}
+                  inputProps={{ maxLength: 8 }}
                 ></Input>
                 <Input
                   label="契約者住所 都道府県"
@@ -99,6 +102,7 @@ export const Index = () => {
                     updateInputState(e.target.name, e.target.value)
                   }
                   error={commonState.errors.hasOwnProperty("contractAddress1")}
+                  inputProps={{ maxLength: 10 }}
                 ></Input>
                 <Input
                   label="契約者住所 市区町村"
@@ -108,6 +112,7 @@ export const Index = () => {
                     updateInputState(e.target.name, e.target.value)
                   }
                   error={commonState.errors.hasOwnProperty("contractAddress2")}
+                  inputProps={{ maxLength: 50 }}
                 ></Input>
                 <Input
                   label="契約者住所 町・番地"
@@ -117,6 +122,7 @@ export const Index = () => {
                     updateInputState(e.target.name, e.target.value)
                   }
                   error={commonState.errors.hasOwnProperty("contractAddress3")}
+                  inputProps={{ maxLength: 100 }}
                 ></Input>
                 <Input
                   label="契約者住所 建物名等"
@@ -126,6 +132,7 @@ export const Index = () => {
                     updateInputState(e.target.name, e.target.value)
                   }
                   error={commonState.errors.hasOwnProperty("contractAddress4")}
+                  inputProps={{ maxLength: 100 }}
                 ></Input>
               </Box>
               <Box sx={{ height: "15px" }}></Box>
