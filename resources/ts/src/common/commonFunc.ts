@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom"
+
 export const commonFunc = {
   /**
    * 内税計算
@@ -34,5 +36,15 @@ export const commonFunc = {
       return zipCode.slice(0, 3) + "-" + zipCode.slice(3)
     }
     return zipCode
+  },
+
+  /**
+   * 画面遷移
+   *
+   * @param url
+   */
+  navigate: (url: string) => {
+    const navigate = useNavigate()
+    navigate(url)
   },
 }

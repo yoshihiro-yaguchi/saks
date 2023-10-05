@@ -6,10 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   {{-- reactデータ連携 --}}
   <meta name="csrfToken" content={{csrf_token()}}>
-  <meta name="baseUrl" content="{{Request::root()}}">
   <title>取引作成</title>
   @viteReactRefresh
-  @vite(['resources/ts/src/features/transaction/store/index.tsx',
+  @vite(['resources/ts/src/features/transaction/store/store.tsx',
     'resources/sass/app.scss',
     'resources/css/app.css',
     ])

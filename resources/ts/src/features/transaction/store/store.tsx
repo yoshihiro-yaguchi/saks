@@ -54,9 +54,7 @@ export const Store = () => {
   }, [])
 
   // ロード中
-  const processing = useAppSelector(
-    (s: RootState) => s.storeTransaction.processing
-  )
+  const processing = useAppSelector((s: RootState) => s.common.processing)
 
   // csrfトークン
   const csrfToken = useAppSelector((s: RootState) => s.storeTransaction.token)
@@ -1018,15 +1016,15 @@ export const Store = () => {
   )
 }
 
-const container = document.getElementById("storeTransaction")!
-const root = createRoot(container)
+// const container = document.getElementById("storeTransaction")!
+// const root = createRoot(container)
 
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Store />
-    </Provider>
-  </React.StrictMode>
-)
+// root.render(
+//   <React.StrictMode>
+//     <Provider store={store}>
+//       <Store />
+//     </Provider>
+//   </React.StrictMode>
+// )
 
-reportWebVitals()
+// reportWebVitals()

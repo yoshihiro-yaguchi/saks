@@ -32,7 +32,7 @@ const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
   textAlign: "center",
 }))
 
-export const Index = () => {
+export const Show = () => {
   const dispatch = useAppDispatch()
 
   const transactionInfo = useAppSelector(
@@ -438,15 +438,15 @@ export const Index = () => {
   )
 }
 
-const container = document.getElementById("showTransaction")!
-const root = createRoot(container)
+// const container = document.getElementById("showTransaction")!
+// const root = createRoot(container)
 
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Index />
-    </Provider>
-  </React.StrictMode>
-)
+// root.render(
+//   <React.StrictMode>
+//     <Provider store={store}>
+//       <Show />
+//     </Provider>
+//   </React.StrictMode>
+// )
 
-reportWebVitals()
+// reportWebVitals()

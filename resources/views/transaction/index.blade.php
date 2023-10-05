@@ -4,17 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  {{-- reactデータ連携 --}}
   <meta name="csrfToken" content={{csrf_token()}}>
-  <meta name="initData" content={{$initData}}>
-  <title>取引詳細</title>
   @viteReactRefresh
-  @vite(['resources/ts/src/features/transaction/show/show.tsx',
+  @vite(['resources/ts/src/features/transaction/router/router.tsx',
     'resources/sass/app.scss',
     'resources/css/app.css',
     ])
+  <title>Document</title>
 </head>
 <body>
-  <div class="maxHeight" id="showTransaction"></div>
+  <div id="index"></div>
 </body>
 </html>

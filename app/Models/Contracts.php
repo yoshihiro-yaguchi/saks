@@ -15,7 +15,7 @@ class Contracts extends Model
         'contract_id',
         'contract_plan',
         'contract_company_name',
-        'contractors_name',
+        'contracters_name',
         'contract_date',
         'cancellation_date',
         'cancellation_memo',

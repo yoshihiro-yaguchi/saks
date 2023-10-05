@@ -2,6 +2,8 @@ import { AppThunk } from "@src/app/store"
 import { apis } from "./api"
 import { Common, ShowTransactionState } from "./types"
 import { actions } from "./reducer"
+import { ParamParseKey, useParams } from "react-router-dom"
+import { TRANSACTION_PATHS } from "../router/router"
 
 export const operations = {
   /**
@@ -15,19 +17,15 @@ export const operations = {
     const token = document.head.querySelector<HTMLMetaElement>(
       'meta[name="csrfToken"]'
     )!.content
-    // baseUrl
-    const baseUrl = document.head.querySelector<HTMLMetaElement>(
-      'meta[name="baseUrl"]'
-    )!.content
     // metaInitData
     const metaInitData = JSON.parse(
       document.head.querySelector<HTMLMetaElement>('meta[name="initData"]')!
         .content
     )
+    console.log(useParams<ParamParseKey<typeof TRANSACTION_PATHS.SHOW>>())
     const commonData: Common = {
       token: token,
-      baseUrl: baseUrl,
-      contractId: metaInitData.contractId,
+      contractId: "",
       transactionId: metaInitData.transactionId,
     }
 
@@ -35,7 +33,6 @@ export const operations = {
     let apiInitResult
     try {
       apiInitResult = await apis.doInit(
-        baseUrl,
         metaInitData.contractId,
         metaInitData.transactionId
       )

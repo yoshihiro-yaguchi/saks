@@ -59,10 +59,9 @@ Route::middleware('auth')->group(function () {
     /**
      * 取引
      */
-    // 取引作成画面表示
-    Route::get('/{contractId}/transaction/store', [TransactionController::class, 'routeStore']);
-    // 取引詳細画面表示
-    Route::get('/{contractId}/transaction/{id}', [TransactionController::class, 'routeShow']);
+    Route::get('/transaction/{any}', function () {
+        return view('transaction.index');
+    })->where('any', '.*');
     /**
      * 取引:RESTAPI
      */

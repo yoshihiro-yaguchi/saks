@@ -22,22 +22,25 @@ export const commonOperations = {
   /**
    * 初期処理
    */
-  init: (): AppThunk => async (dispatch, getState) => {
-    const token = document.head.querySelector<HTMLMetaElement>(
-      'meta[name="csrfToken"]'
-    )!.content
+  init:
+    (title: string): AppThunk =>
+    async (dispatch, getState) => {
+      document.querySelector("title")!.textContent = title
+      const token = document.head.querySelector<HTMLMetaElement>(
+        'meta[name="csrfToken"]'
+      )!.content
 
-    dispatch(actions.updateCsrfToken({ csrfToken: token }))
+      dispatch(actions.updateCsrfToken({ csrfToken: token }))
 
-    const userInfoResult = await commonApis.fetchUserInfo()
-    dispatch(
-      actions.putUser({
-        data: {
-          name: userInfoResult.data.name,
-        },
-      })
-    )
-  },
+      const userInfoResult = await commonApis.fetchUserInfo()
+      dispatch(
+        actions.putUser({
+          data: {
+            name: userInfoResult.data.name,
+          },
+        })
+      )
+    },
 
   // エラー更新
   putErrors:

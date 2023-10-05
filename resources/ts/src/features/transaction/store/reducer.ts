@@ -14,7 +14,6 @@ import {
 } from "./types"
 
 const initialState: StoreTransactionState = {
-  processing: false,
   token: "",
   common: initCommon,
   transactionInfo: initTransactionInfo,
@@ -108,11 +107,6 @@ export const storeTransactionReducer = createSlice({
       state.token = action.payload.token
     },
 
-    // baseURLセット
-    setBaseUrl: (state, action: PayloadAction<{ baseUrl: string }>) => {
-      state.common.baseUrl = action.payload.baseUrl
-    },
-
     // 明細追加
     addDetailRow: (state, action: PayloadAction<{ value: DetailRow }>) => {
       state.detailRows.push(action.payload.value)
@@ -144,16 +138,6 @@ export const storeTransactionReducer = createSlice({
         ...state.customerInfo,
         ...action.payload.newCustomerInfo,
       }
-    },
-
-    // 処理開始
-    processStart: (state) => {
-      state.processing = true
-    },
-
-    // 処理終了
-    processEnd: (state) => {
-      state.processing = false
     },
   },
 })

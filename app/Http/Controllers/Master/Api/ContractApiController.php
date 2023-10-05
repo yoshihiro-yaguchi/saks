@@ -30,11 +30,11 @@ class ContractApiController extends Controller
             }
         }
         // contracts
-        Contracts::created([
+        Contracts::create([
             'contract_id' => $contractId,
             'contract_plan' => '0',
             'contract_company_name' => $request->input('contractCompanyName'),
-            'contractors_name' => $request->input('contractersName'),
+            'contracters_name' => $request->input('contractersName'),
             'contract_date' => Carbon::today(),
             'contract_zipcode' => $request->input('contractZipcode'),
             'contract_address1' => $request->input('contractAddress1'),
@@ -43,7 +43,7 @@ class ContractApiController extends Controller
             'contract_address4' => $request->input('contractAddress4'),
         ]);
         // affiliation_contracts
-        AffiliationContracts::created([
+        AffiliationContracts::create([
             'contract_id' => $contractId,
             'email' => Auth::user()->email,
             'job_division' => '1',

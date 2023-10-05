@@ -3,6 +3,7 @@ export interface CommonTypes {
   errorArray: string[]
   errors: Object
   user: UserTypes
+  processing: boolean
 }
 
 /**
@@ -20,6 +21,7 @@ export const initCommonTypes: CommonTypes = {
   errorArray: [],
   user: initUserTypes,
   errors: [],
+  processing: false,
 }
 
 // バリデーションエラーの型

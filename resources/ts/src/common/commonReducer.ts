@@ -43,6 +43,16 @@ export const commonReducer = createSlice({
     putUser: (state, action: PayloadAction<{ data: Partial<UserTypes> }>) => {
       state.user = { ...state.user, ...action.payload.data }
     },
+
+    // 処理開始
+    processStart: (state) => {
+      state.processing = true
+    },
+
+    // 処理終了
+    processEnd: (state) => {
+      state.processing = false
+    },
   },
 })
 export const { actions } = commonReducer

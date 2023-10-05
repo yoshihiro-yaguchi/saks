@@ -11,13 +11,22 @@ import {
   ValidateError,
 } from "./types"
 import { actions } from "./reducer"
+import { actions as commonActions } from "@resource/ts/src/common/commonReducer"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
 import { apis } from "./api"
 import { isAxiosError } from "axios"
+import { commonOperations } from "@resource/ts/src/common/commonOperations"
 
 export const operations = {
+  /**
+   * 初期処理
+   *
+   * @returns
+   */
   init: (): AppThunk => async (dispatch, getState) => {
-    dispatch(actions.processStart())
+    await dispatch(commonOperations.init("取引作成"))
+    dispatch(commonActions.processStart())
+
     let partialState: Partial<StoreTransactionState> = {
       token: "",
       common: initCommon,
@@ -27,20 +36,8 @@ export const operations = {
     partialState.token = document.head.querySelector<HTMLMetaElement>(
       'meta[name="csrfToken"]'
     )!.content
-    // baseUrl
-    let common: Common = {
-      baseUrl: "",
-      errors: [],
-      errorArray: [],
-    }
-    if (partialState.common !== undefined) {
-      common.baseUrl = document.head.querySelector<HTMLMetaElement>(
-        'meta[name="baseUrl"]'
-      )!.content
-      partialState.common = common
-    }
     dispatch(actions.initHandle({ param: partialState }))
-    dispatch(actions.processEnd())
+    dispatch(commonActions.processEnd())
   },
   /**
    * 保存処理
@@ -48,7 +45,7 @@ export const operations = {
    * @returns
    */
   saveTransactionData: (): AppThunk => async (dispatch, getState) => {
-    dispatch(actions.processStart())
+    dispatch(commonActions.processStart())
     const createTransactionState = getState().storeTransaction
 
     let formData = new FormData()
@@ -100,10 +97,7 @@ export const operations = {
 
     let apiResult
     try {
-      apiResult = await apis.saveTransactionData(
-        formData,
-        createTransactionState.common.baseUrl
-      )
+      apiResult = await apis.saveTransactionData(formData)
     } catch (e) {
       if (
         isAxiosError(e) &&
@@ -113,18 +107,17 @@ export const operations = {
       ) {
         // laravelでvalidation errorが発生したとき
         dispatch(operations.putErrors(e.response.data.errors))
-        dispatch(actions.processEnd())
+        dispatch(commonActions.processEnd())
         return
       } else {
-        dispatch(actions.processEnd())
+        dispatch(commonActions.processEnd())
         throw e
       }
     }
-    dispatch(actions.processEnd())
+    dispatch(commonActions.processEnd())
 
-    location.href = `${getState().storeTransaction.common.baseUrl}/${
-      apiResult.data.contractId
-    }/transaction/${apiResult.data.transactionId}`
+    // 画面遷移
+    commonFunc.navigate(`/transaction/show/${apiResult.data.transactionId}`)
   },
 
   /**
@@ -136,7 +129,7 @@ export const operations = {
   addDetailRow:
     (productName: string): AppThunk =>
     async (dispatch, getState) => {
-      dispatch(actions.processStart())
+      dispatch(commonActions.processStart())
       const key = Math.random().toString(32).substring(2)
       const row: DetailRow = {
         productNo: key,
@@ -151,7 +144,7 @@ export const operations = {
       dispatch(actions.addDetailRow({ value: row }))
       dispatch(operations.updateTaxInfo())
       dispatch(operations.updateAmountInfo())
-      dispatch(actions.processEnd())
+      dispatch(commonActions.processEnd())
     },
 
   /**
@@ -163,7 +156,7 @@ export const operations = {
   deleteDetailRow:
     (productNo: string): AppThunk =>
     async (dispatch, getState) => {
-      dispatch(actions.processStart())
+      dispatch(commonActions.processStart())
       const deleteIndex: number =
         getState().storeTransaction.detailRows.findIndex(
           (row) => row.productNo === productNo
@@ -172,7 +165,7 @@ export const operations = {
       dispatch(actions.deleteDetailRow({ index: deleteIndex }))
       dispatch(operations.updateTaxInfo())
       dispatch(operations.updateAmountInfo())
-      dispatch(actions.processEnd())
+      dispatch(commonActions.processEnd())
     },
 
   /**

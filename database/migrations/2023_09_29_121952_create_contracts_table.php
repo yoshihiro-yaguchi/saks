@@ -24,7 +24,7 @@ return new class extends Migration
             // 契約日	contract_date	date
             $table->date('contract_date')->comment('契約日');
             // 解約日	cancellation_date	date
-            $table->date('cancellation_date')->comment('解約日');
+            $table->date('cancellation_date')->nullable()->comment('解約日');
             // 解約メモ	cancellation_memo	text
             $table->text('cancellation_memo')->nullable()->comment('解約メモ');
             // 郵便番号	contract_zipcode	varchar	8

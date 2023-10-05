@@ -2,7 +2,6 @@
  * メイン画面フォーム
  */
 export interface StoreTransactionState {
-  processing: boolean
   token: string
   common: Common
   transactionInfo: TransactionInfo
@@ -16,12 +15,10 @@ export interface StoreTransactionState {
  * 共通
  */
 export interface Common {
-  baseUrl: string
   errors: Object
   errorArray: string[]
 }
 export const initCommon: Common = {
-  baseUrl: "",
   errors: [],
   errorArray: [],
 }
@@ -164,7 +161,6 @@ export const initTaxInfo: TaxInfo = {
  */
 export interface initHandle {
   csrfToken: string
-  baseUrl: string
   errors: string[]
   datas: BackendData
 }

@@ -9,15 +9,13 @@ export interface ShowTransactionState {
 
 export interface Common {
   token: string
-  baseUrl: string
   contractId: string
   transactionId: string
 }
 export const initCommon: Common = {
-  token: "",
-  baseUrl: "",
   contractId: "",
   transactionId: "",
+  token: "",
 }
 
 /**

@@ -9,7 +9,7 @@ import { commonApis } from "@resource/ts/src/common/commonApi"
 export const operations = {
   init: (): AppThunk => async (dispatch, getState) => {
     // 共通処理を先に走らせる。共通処理が終わってから後続処理を実行するため、awaitを指定する。
-    await dispatch(commonOperations.init())
+    await dispatch(commonOperations.init("契約情報を入力してください"))
     // 最初に名前はセットしておく
     dispatch(
       actions.onInputHandle({
@@ -47,7 +47,7 @@ export const operations = {
       }
     }
 
-    location.href = "/contractId/transaction/store"
+    location.href = "/redirector"
   },
 
   // 郵便番号アウトフォーカス

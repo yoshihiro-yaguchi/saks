@@ -24,11 +24,11 @@ class StoreContract extends FormRequest
         return [
             'contractCompanyName' => ['nullable', 'max:100'],
             'contractersName' => ['required', 'max:100'],
-            'contractZipcode' => ['nullable', 'max:8'],
-            'contractAddress1' => ['nullable', 'max:10'],
-            'contractAddress2' => ['nullable', 'max:50'],
-            'contractAddress3' => ['nullable', 'max:100'],
-            'contractAddress4' => ['nullable', 'max:100'],
+            'contractZipcode' => ['required', 'nullable', 'max:8'],
+            'contractAddress1' => ['required', 'nullable', 'max:10'],
+            'contractAddress2' => ['required', 'nullable', 'max:50'],
+            'contractAddress3' => ['required', 'nullable', 'max:100'],
+            'contractAddress4' => ['required', 'nullable', 'max:100'],
         ];
     }
 }
