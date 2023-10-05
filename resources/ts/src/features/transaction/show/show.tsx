@@ -27,33 +27,29 @@ import {
 } from "@resource/ts/src/common/Table/Table"
 import styled from "@emotion/styled"
 import { operations } from "./operators"
+import { ParamParseKey, useParams } from "react-router-dom"
+import { TRANSACTION_PATHS } from "../router/router"
 
 const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
   textAlign: "center",
 }))
 
 export const Show = () => {
+  const urlParams = useParams<ParamParseKey<typeof TRANSACTION_PATHS.SHOW>>()
+
   const dispatch = useAppDispatch()
 
-  const transactionInfo = useAppSelector(
-    (s: RootState) => s.showTransaction.transactionInfo
-  )
-
-  const customerInfo = useAppSelector(
-    (s: RootState) => s.showTransaction.customerInfo
+  const transactionHead = useAppSelector(
+    (s: RootState) => s.showTransaction.transactionHead
   )
 
   const detailRows = useAppSelector(
     (s: RootState) => s.showTransaction.detailRows
   )
 
-  const amountInfo = useAppSelector(
-    (s: RootState) => s.showTransaction.amountInfo
-  )
-
   // 画面ロード時処理
   useEffect(() => {
-    dispatch(operations.init())
+    dispatch(operations.init(urlParams))
   }, [])
 
   return (
@@ -134,7 +130,7 @@ export const Show = () => {
                         <H4>件名</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{transactionInfo.transactionTitle}</Typo>
+                        <Typo>{transactionHead.transactionTitle}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引区分 */}
@@ -143,7 +139,7 @@ export const Show = () => {
                         <H4>取引区分</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{transactionInfo.transactionDivision}</Typo>
+                        <Typo>{transactionHead.transactionDivision}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引日付 */}
@@ -152,7 +148,7 @@ export const Show = () => {
                         <H4>取引日付</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{transactionInfo.transactionDate}</Typo>
+                        <Typo>{transactionHead.transactionDate}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引支店 */}
@@ -161,7 +157,7 @@ export const Show = () => {
                         <H4>取引支店</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{transactionInfo.transactionBranch}</Typo>
+                        <Typo>{transactionHead.transactionBranch}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 担当者 */}
@@ -170,7 +166,7 @@ export const Show = () => {
                         <H4>担当者</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{transactionInfo.transactionPicName}</Typo>
+                        <Typo>{transactionHead.transactionPicName}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 取引備考 */}
@@ -179,7 +175,7 @@ export const Show = () => {
                         <H4>取引備考</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{transactionInfo.transactionNote}</Typo>
+                        <Typo>{transactionHead.transactionNote}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
@@ -201,7 +197,7 @@ export const Show = () => {
                         <H4>法人区分</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.corporationDivision}</Typo>
+                        <Typo>{transactionHead.corporationDivision}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 登録番号 */}
@@ -210,7 +206,7 @@ export const Show = () => {
                         <H4>登録番号</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.invoiceNumber}</Typo>
+                        <Typo>{transactionHead.invoiceNumber}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 会社名 */}
@@ -219,7 +215,7 @@ export const Show = () => {
                         <H4>会社名</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerCompany}</Typo>
+                        <Typo>{transactionHead.customerCompany}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 支店名 */}
@@ -228,7 +224,7 @@ export const Show = () => {
                         <H4>支店名</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerBranch}</Typo>
+                        <Typo>{transactionHead.customerBranch}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* お名前 */}
@@ -237,7 +233,7 @@ export const Show = () => {
                         <H4>お名前</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerName}</Typo>
+                        <Typo>{transactionHead.customerName}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 電話番号 */}
@@ -246,7 +242,7 @@ export const Show = () => {
                         <H4>電話番号</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerPhoneNumber}</Typo>
+                        <Typo>{transactionHead.customerPhoneNumber}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
@@ -262,7 +258,7 @@ export const Show = () => {
                         <H4>郵便番号</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerZipCode}</Typo>
+                        <Typo>{transactionHead.customerZipCode}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 都道府県 */}
@@ -271,7 +267,7 @@ export const Show = () => {
                         <H4>都道府県</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerAddress1}</Typo>
+                        <Typo>{transactionHead.customerAddress1}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 市区町村 */}
@@ -280,7 +276,7 @@ export const Show = () => {
                         <H4>市区町村</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerAddress2}</Typo>
+                        <Typo>{transactionHead.customerAddress2}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 町・番地 */}
@@ -289,7 +285,7 @@ export const Show = () => {
                         <H4>町・番地</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerAddress3}</Typo>
+                        <Typo>{transactionHead.customerAddress3}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     {/* 建物名等 */}
@@ -298,7 +294,7 @@ export const Show = () => {
                         <H4>建物名等</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
-                        <Typo>{customerInfo.customerAddress4}</Typo>
+                        <Typo>{transactionHead.customerAddress4}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
@@ -401,7 +397,10 @@ export const Show = () => {
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
                         <Typo>
-                          ￥{Math.floor(amountInfo.subtotal).toLocaleString()}
+                          ￥
+                          {Math.floor(
+                            transactionHead.subtotal
+                          ).toLocaleString()}
                         </Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
@@ -411,7 +410,10 @@ export const Show = () => {
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
                         <Typo>
-                          ￥{Math.floor(amountInfo.taxInclude).toLocaleString()}
+                          ￥
+                          {Math.floor(
+                            transactionHead.taxInclude
+                          ).toLocaleString()}
                         </Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
@@ -421,7 +423,7 @@ export const Show = () => {
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
                         <Typo>
-                          ￥{Math.floor(amountInfo.total).toLocaleString()}
+                          ￥{Math.floor(transactionHead.total).toLocaleString()}
                         </Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>

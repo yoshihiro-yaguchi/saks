@@ -1,9 +1,7 @@
 export interface ShowTransactionState {
   common: Common
-  transactionInfo: TransactionInfo
-  customerInfo: CustomerInfo
+  transactionHead: TransactionHead
   detailRows: DetailRow[]
-  amountInfo: AmountInfo
   taxInfos: TaxInfo[]
 }
 
@@ -19,9 +17,9 @@ export const initCommon: Common = {
 }
 
 /**
- * 取引情報
+ * 取引ヘッダーデータ
  */
-export interface TransactionInfo {
+export interface TransactionHead {
   /** 件名 */
   transactionTitle: string
   /** 取引区分 */
@@ -34,20 +32,6 @@ export interface TransactionInfo {
   transactionPicName: string
   /** 取引備考 */
   transactionNote: string
-}
-export const initTransactionInfo: TransactionInfo = {
-  transactionTitle: "",
-  transactionDivision: "",
-  transactionDate: "",
-  transactionBranch: "",
-  transactionPicName: "",
-  transactionNote: "",
-}
-
-/**
- * お客様情報
- */
-export interface CustomerInfo {
   /** 法人区分 */
   corporationDivision: string
   /** 会社名 */
@@ -70,8 +54,20 @@ export interface CustomerInfo {
   customerAddress3: string
   /** 住所4 建物名等 */
   customerAddress4: string
+  /** 小計 */
+  subtotal: number
+  /** 内消費税 */
+  taxInclude: number
+  /** 合計 */
+  total: number
 }
-export const initCustomerInfo: CustomerInfo = {
+export const initTransactionHead: TransactionHead = {
+  transactionTitle: "",
+  transactionDivision: "",
+  transactionDate: "",
+  transactionBranch: "",
+  transactionPicName: "",
+  transactionNote: "",
   corporationDivision: "",
   customerCompany: "",
   customerBranch: "",
@@ -83,6 +79,9 @@ export const initCustomerInfo: CustomerInfo = {
   customerAddress2: "",
   customerAddress3: "",
   customerAddress4: "",
+  subtotal: 0,
+  taxInclude: 0,
+  total: 0,
 }
 
 /**
@@ -109,23 +108,6 @@ export const initDetailRow: DetailRow = {
   unitPrice: 0,
   taxRate: 0,
   totalPrice: 0,
-}
-
-/**
- * 金額情報
- */
-export interface AmountInfo {
-  /** 小計 */
-  subtotal: number
-  /** 内消費税 */
-  taxInclude: number
-  /** 合計 */
-  total: number
-}
-export const initAmountInfo: AmountInfo = {
-  subtotal: 0,
-  taxInclude: 0,
-  total: 0,
 }
 
 /**

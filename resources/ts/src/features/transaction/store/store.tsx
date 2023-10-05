@@ -39,6 +39,7 @@ import {
   StyledTableRow,
 } from "@resource/ts/src/common/Table/Table"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
+import { useNavigate } from "react-router-dom"
 
 /**
  * 画面
@@ -47,6 +48,8 @@ import { commonFunc } from "@resource/ts/src/common/commonFunc"
  */
 export const Store = () => {
   const dispatch = useAppDispatch()
+
+  const navigate = useNavigate()
 
   // 画面ロード時処理
   useEffect(() => {
@@ -137,7 +140,7 @@ export const Store = () => {
                         type="button"
                         sx={{ margin: "auto 5px" }}
                         onClick={() => {
-                          dispatch(operations.saveTransactionData())
+                          dispatch(operations.saveTransactionData(navigate))
                         }}
                       >
                         保存
@@ -251,11 +254,11 @@ export const Store = () => {
                     </FormControl>
                   </Box>
                 </Grid>
-                <Grid item xs={12} lg={3}>
+                <Grid item xs={12} lg={6}>
                   <Input
-                    id="transactionPicLastName"
-                    name="transactionInfo[transactionPicLastName]"
-                    label="担当者(姓)"
+                    id="transactionPicName"
+                    name="transactionInfo[transactionPicName]"
+                    label="担当者"
                     inputProps={{
                       maxLength: "10",
                     }}
@@ -267,31 +270,9 @@ export const Store = () => {
                         })
                       )
                     }}
-                    value={transactionInfoState.transactionPicLastName}
+                    value={transactionInfoState.transactionPicName}
                     error={commonState.errors.hasOwnProperty(
-                      "transactionInfo.transactionPicLastName"
-                    )}
-                  ></Input>
-                </Grid>
-                <Grid item xs={12} lg={3}>
-                  <Input
-                    id="transactionPicFirstName"
-                    name="transactionInfo[transactionPicFirstName]"
-                    label="担当者(名)"
-                    inputProps={{
-                      maxLength: "10",
-                    }}
-                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      dispatch(
-                        actions.updateTransactionInfoHandle({
-                          name: e.target.id,
-                          value: e.target.value,
-                        })
-                      )
-                    }}
-                    value={transactionInfoState.transactionPicFirstName}
-                    error={commonState.errors.hasOwnProperty(
-                      "transactionInfo.transactionPicFirstName"
+                      "transactionInfo.transactionPicName"
                     )}
                   ></Input>
                 </Grid>
@@ -443,11 +424,11 @@ export const Store = () => {
                 )}
               ></Input>
               <Grid container spacing={1}>
-                <Grid item xs={12} lg={3}>
+                <Grid item xs={12} lg={6}>
                   <Input
-                    id="customerLastName"
-                    name="customerInfo[customerLastName]"
-                    label="お名前(姓)"
+                    id="customerName"
+                    name="customerInfo[customerName]"
+                    label="お名前"
                     inputProps={{
                       maxLength: "10",
                     }}
@@ -459,31 +440,9 @@ export const Store = () => {
                         })
                       )
                     }}
-                    value={customerInfoState.customerLastName}
+                    value={customerInfoState.customerName}
                     error={commonState.errors.hasOwnProperty(
-                      "customerInfo.customerLastName"
-                    )}
-                  ></Input>
-                </Grid>
-                <Grid item xs={12} lg={3}>
-                  <Input
-                    id="customerFirstName"
-                    name="customerInfo[customerFirstName]"
-                    label="お名前(名)"
-                    inputProps={{
-                      maxLength: "10",
-                    }}
-                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      dispatch(
-                        actions.updateCustomerInfoHandle({
-                          name: e.target.id,
-                          value: e.target.value,
-                        })
-                      )
-                    }}
-                    value={customerInfoState.customerFirstName}
-                    error={commonState.errors.hasOwnProperty(
-                      "customerInfo.customerFirstName"
+                      "customerInfo.customerName"
                     )}
                   ></Input>
                 </Grid>

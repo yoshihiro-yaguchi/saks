@@ -66,9 +66,9 @@ Route::middleware('auth')->group(function () {
      * 取引:RESTAPI
      */
     // 取引データ登録
-    Route::post('/api/{contractId}/transaction/store', [TransactionApiController::class, 'storeTransaction']);
+    Route::post('/api/transaction/store', [TransactionApiController::class, 'storeTransaction']);
     // 取引データ取得
-    Route::get('/api/{contractId}/transaction/getTransactionData/{transactionId}', [TransactionApiController::class, 'getTransactionData']);
+    Route::get('/api/transaction/getTransactionData/{transactionId}', [TransactionApiController::class, 'getTransactionData']);
 });
 
 /**

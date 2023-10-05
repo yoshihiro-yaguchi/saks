@@ -1,19 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
   Common,
-  initAmountInfo,
   initCommon,
-  initCustomerInfo,
-  initTransactionInfo,
+  initTransactionHead,
   ShowTransactionState,
 } from "./types"
 
 const initialState: ShowTransactionState = {
   common: initCommon,
-  transactionInfo: initTransactionInfo,
-  customerInfo: initCustomerInfo,
+  transactionHead: initTransactionHead,
   detailRows: [],
-  amountInfo: initAmountInfo,
   taxInfos: [],
 }
 
@@ -44,10 +40,8 @@ export const showTransactionReducer = createSlice({
     ) => {
       const newState = { ...state, ...action.payload.updateData }
       state.common = newState.common
-      state.transactionInfo = newState.transactionInfo
-      state.customerInfo = newState.customerInfo
+      state.transactionHead = newState.transactionHead
       state.detailRows = newState.detailRows
-      state.amountInfo = newState.amountInfo
       state.taxInfos = newState.taxInfos
     },
 

@@ -2,8 +2,9 @@ import { AppThunk } from "@src/app/store"
 import { apis } from "./api"
 import { Common, ShowTransactionState } from "./types"
 import { actions } from "./reducer"
-import { ParamParseKey, useParams } from "react-router-dom"
+import { ParamParseKey, Params, useParams } from "react-router-dom"
 import { TRANSACTION_PATHS } from "../router/router"
+import { commonOperations } from "@resource/ts/src/common/commonOperations"
 
 export const operations = {
   /**
@@ -11,47 +12,39 @@ export const operations = {
    *
    * @returns
    */
-  init: (): AppThunk => async (dispatch, getState) => {
-    // 共通データ
-    // csrfToken
-    const token = document.head.querySelector<HTMLMetaElement>(
-      'meta[name="csrfToken"]'
-    )!.content
-    // metaInitData
-    const metaInitData = JSON.parse(
-      document.head.querySelector<HTMLMetaElement>('meta[name="initData"]')!
-        .content
-    )
-    console.log(useParams<ParamParseKey<typeof TRANSACTION_PATHS.SHOW>>())
-    const commonData: Common = {
-      token: token,
-      contractId: "",
-      transactionId: metaInitData.transactionId,
-    }
+  init:
+    (urlParams: Readonly<Params<string>>): AppThunk =>
+    async (dispatch, getState) => {
+      await dispatch(commonOperations.init("取引詳細"))
 
-    // apiアクセス、データ取得
-    let apiInitResult
-    try {
-      apiInitResult = await apis.doInit(
-        metaInitData.contractId,
-        metaInitData.transactionId
-      )
-    } catch (error) {
-      throw error
-    }
-    const initData = apiInitResult.data["initData"]
+      // 共通データ
+      // csrfToken
+      const token = document.head.querySelector<HTMLMetaElement>(
+        'meta[name="csrfToken"]'
+      )!.content
 
-    const initState: Partial<ShowTransactionState> = {
-      common: commonData,
-      transactionInfo: initData["transactionInfo"],
-      customerInfo: initData["customerInfo"],
-      detailRows: initData["detailRows"],
-      amountInfo: initData["amountInfo"],
-      // taxInfos: [],
-    }
+      const commonData: Common = {
+        token: token,
+        contractId: "",
+        transactionId: urlParams.transactionId!,
+      }
 
-    dispatch(actions.init({ updateData: initState }))
-  },
+      // apiアクセス、データ取得
+      let apiInitResult
+      try {
+        apiInitResult = await apis.doInit(commonData.transactionId)
+      } catch (error) {
+        throw error
+      }
+      const initData = apiInitResult.data["initData"]
+
+      const initState: Partial<ShowTransactionState> = {
+        common: commonData,
+        transactionHead: initData["transactionHead"],
+      }
+
+      dispatch(actions.init({ updateData: initState }))
+    },
   /**
    * サンプル
    */

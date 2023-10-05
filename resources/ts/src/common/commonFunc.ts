@@ -37,14 +37,4 @@ export const commonFunc = {
     }
     return zipCode
   },
-
-  /**
-   * 画面遷移
-   *
-   * @param url
-   */
-  navigate: (url: string) => {
-    const navigate = useNavigate()
-    navigate(url)
-  },
 }

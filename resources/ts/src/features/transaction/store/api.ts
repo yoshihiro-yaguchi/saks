@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const apis = {
   saveTransactionData: async (params: FormData) => {
-    return await axios.post<any>(`/api/dummy/transaction/store`, params)
+    return await axios.post<any>(`/api/transaction/store`, params)
   },
 
   getAddress: async (params: URLSearchParams) => {

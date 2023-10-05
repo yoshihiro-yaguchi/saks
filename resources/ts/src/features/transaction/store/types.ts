@@ -34,10 +34,8 @@ export interface TransactionInfo {
   transactionDate: string
   /** 取引支店 */
   transactionBranch: string
-  /** 担当者(姓) */
-  transactionPicLastName: string
-  /** 担当者(姓) */
-  transactionPicFirstName: string
+  /** 担当者 */
+  transactionPicName: string
   /** 取引備考 */
   transactionNote: string
 }
@@ -47,8 +45,7 @@ export const initTransactionInfo: TransactionInfo = {
   transactionDivision: "1",
   transactionDate: "",
   transactionBranch: "1",
-  transactionPicLastName: "",
-  transactionPicFirstName: "",
+  transactionPicName: "",
   transactionNote: "",
 }
 
@@ -65,9 +62,7 @@ export interface CustomerInfo {
   /** インボイス登録番号 */
   invoiceNumber: string
   /** お名前(姓) */
-  customerLastName: string
-  /** お名前(名) */
-  customerFirstName: string
+  customerName: string
   /** 電話番号 */
   customerPhoneNumber: string
   /** 郵便番号 */
@@ -86,8 +81,7 @@ export const initCustomerInfo: CustomerInfo = {
   customerCompany: "",
   customerBranch: "",
   invoiceNumber: "",
-  customerLastName: "",
-  customerFirstName: "",
+  customerName: "",
   customerPhoneNumber: "",
   zipCode: "",
   customerAddress1: "",

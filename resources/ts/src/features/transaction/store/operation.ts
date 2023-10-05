@@ -16,6 +16,7 @@ import { commonFunc } from "@resource/ts/src/common/commonFunc"
 import { apis } from "./api"
 import { isAxiosError } from "axios"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
+import { NavigateFunction, useNavigate } from "react-router-dom"
 
 export const operations = {
   /**
@@ -44,81 +45,84 @@ export const operations = {
    *
    * @returns
    */
-  saveTransactionData: (): AppThunk => async (dispatch, getState) => {
-    dispatch(commonActions.processStart())
-    const createTransactionState = getState().storeTransaction
+  saveTransactionData:
+    (navigate: NavigateFunction): AppThunk =>
+    async (dispatch, getState) => {
+      dispatch(commonActions.processStart())
+      const createTransactionState = getState().storeTransaction
 
-    let formData = new FormData()
-    // 取引データ
-    Object.keys(createTransactionState.transactionInfo).forEach((key) => {
-      formData.append(
-        `transactionInfo[${key}]`,
-        createTransactionState.transactionInfo[key as keyof TransactionInfo]
-      )
-    })
-
-    // お客様情報
-    Object.keys(createTransactionState.customerInfo).forEach((key) => {
-      formData.append(
-        `customerInfo[${key}]`,
-        createTransactionState.customerInfo[key as keyof CustomerInfo]
-      )
-    })
-
-    // 明細情報
-    Object.keys(createTransactionState.detailRows).forEach((index) => {
-      const detailRow =
-        createTransactionState.detailRows[index as unknown as number]
-      Object.keys(detailRow).forEach((key) => {
-        const value = detailRow[key as keyof DetailRow] as string
-        formData.append(`detailRows[${index}][${key}]`, value)
+      let formData = new FormData()
+      // 取引データ
+      Object.keys(createTransactionState.transactionInfo).forEach((key) => {
+        formData.append(
+          `transactionInfo[${key}]`,
+          createTransactionState.transactionInfo[key as keyof TransactionInfo]
+        )
       })
-    })
 
-    // 会計情報
-    Object.keys(createTransactionState.amountInfo).forEach((key) => {
-      formData.append(
-        `amountInfo[${key}]`,
-        createTransactionState.amountInfo[
-          key as keyof AmountInfo
-        ] as unknown as string
-      )
-    })
-
-    // 税情報
-    Object.keys(createTransactionState.taxInfos).forEach((index) => {
-      const taxInfo =
-        createTransactionState.taxInfos[index as unknown as number]
-      Object.keys(taxInfo).forEach((key) => {
-        const value = taxInfo[key as keyof TaxInfo] as unknown as string
-        formData.append(`taxInfos[${index}][${key}]`, value)
+      // お客様情報
+      Object.keys(createTransactionState.customerInfo).forEach((key) => {
+        formData.append(
+          `customerInfo[${key}]`,
+          createTransactionState.customerInfo[key as keyof CustomerInfo]
+        )
       })
-    })
 
-    let apiResult
-    try {
-      apiResult = await apis.saveTransactionData(formData)
-    } catch (e) {
-      if (
-        isAxiosError(e) &&
-        e.response &&
-        e.response.status === 422 &&
-        e.response.data.errors
-      ) {
-        // laravelでvalidation errorが発生したとき
-        dispatch(operations.putErrors(e.response.data.errors))
-        dispatch(commonActions.processEnd())
-        return
-      } else {
-        dispatch(commonActions.processEnd())
-        throw e
+      // 明細情報
+      Object.keys(createTransactionState.detailRows).forEach((index) => {
+        const detailRow =
+          createTransactionState.detailRows[index as unknown as number]
+        Object.keys(detailRow).forEach((key) => {
+          const value = detailRow[key as keyof DetailRow] as string
+          formData.append(`detailRows[${index}][${key}]`, value)
+        })
+      })
+
+      // 会計情報
+      Object.keys(createTransactionState.amountInfo).forEach((key) => {
+        formData.append(
+          `amountInfo[${key}]`,
+          createTransactionState.amountInfo[
+            key as keyof AmountInfo
+          ] as unknown as string
+        )
+      })
+
+      // 税情報
+      Object.keys(createTransactionState.taxInfos).forEach((index) => {
+        const taxInfo =
+          createTransactionState.taxInfos[index as unknown as number]
+        Object.keys(taxInfo).forEach((key) => {
+          const value = taxInfo[key as keyof TaxInfo] as unknown as string
+          formData.append(`taxInfos[${index}][${key}]`, value)
+        })
+      })
+
+      let apiResult
+      try {
+        apiResult = await apis.saveTransactionData(formData)
+      } catch (e) {
+        if (
+          isAxiosError(e) &&
+          e.response &&
+          e.response.status === 422 &&
+          e.response.data.errors
+        ) {
+          // laravelでvalidation errorが発生したとき
+          dispatch(operations.putErrors(e.response.data.errors))
+          dispatch(commonActions.processEnd())
+          return
+        } else {
+          dispatch(commonActions.processEnd())
+          throw e
+        }
       }
-    }
-    dispatch(commonActions.processEnd())
+      dispatch(commonActions.processEnd())
 
-    // 画面遷移
-    commonFunc.navigate(`/transaction/show/${apiResult.data.transactionId}`)
-  },
+      // 画面遷移
+      console.log(`/transaction/show/${apiResult.data.transactionId}`)
+      navigate(`/transaction/show/${apiResult.data.transactionId}`)
+    },
 
   /**
    * 明細追加

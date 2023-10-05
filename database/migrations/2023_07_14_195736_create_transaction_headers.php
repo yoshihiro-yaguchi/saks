@@ -20,16 +20,14 @@ return new class extends Migration
             $table->unsignedTinyInteger('transaction_division')->comment('取引区分 1-買取 2-販売');
             $table->date('transaction_date')->comment('取引日付');
             $table->string('transaction_branch', 50)->comment('取引支店');
-            $table->string('transaction_pic_last_name', 10)->comment('担当者(姓)');
-            $table->string('transaction_pic_first_name', 10)->comment('担当者(名)');
+            $table->string('transaction_pic_name', 10)->comment('担当者');
             $table->string('transaction_note', 1000)->nullable()->comment('取引備考');
             // お客様情報
             $table->unsignedTinyInteger('corporation_division')->comment('法人区分 1-個人 2-法人');
             $table->string('customer_invoice_number', 14)->nullable()->comment('インボイス登録番号');
             $table->string('customer_company', 50)->nullable()->comment('会社名');
             $table->string('customer_branch', 50)->nullable()->comment('支店名');
-            $table->string('customer_last_name', 10)->comment('お名前(姓)');
-            $table->string('customer_first_name', 10)->comment('お名前(名)');
+            $table->string('customer_name', 10)->comment('お名前');
             $table->string('customer_phone_number', 15)->nullable()->comment('電話番号');
             $table->string('customer_zip_code', 8)->comment('郵便番号');
             $table->string('customer_address1', 10)->comment('住所1 都道府県');

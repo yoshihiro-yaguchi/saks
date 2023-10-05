@@ -6,6 +6,7 @@ use App\Models\TransactionDetail;
 use App\Models\TransactionHead;
 use App\Models\TransactionPrice;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionService
 {
@@ -24,15 +25,13 @@ class TransactionService
             'transaction_division' => $transactionInfo['transactionDivision'],
             'transaction_date' => $transactionInfo['transactionDate'],
             'transaction_branch' => $transactionInfo['transactionBranch'],
-            'transaction_pic_last_name' => $transactionInfo['transactionPicLastName'],
-            'transaction_pic_first_name' => $transactionInfo['transactionPicFirstName'],
+            'transaction_pic_name' => $transactionInfo['transactionPicName'],
             'transaction_note' => $transactionInfo['transactionNote'],
             'corporation_division' => $customerInfo['corporationDivision'],
             'customer_invoice_number' => $customerInfo['invoiceNumber'],
             'customer_company' => $customerInfo['customerCompany'],
             'customer_branch' => $customerInfo['customerBranch'],
-            'customer_last_name' => $customerInfo['customerLastName'],
-            'customer_first_name' => $customerInfo['customerFirstName'],
+            'customer_name' => $customerInfo['customerName'],
             'customer_phone_number' => $customerInfo['customerPhoneNumber'],
             'customer_zip_code' => $customerInfo['zipCode'],
             'customer_address1' => $customerInfo['customerAddress1'],
@@ -107,29 +106,27 @@ class TransactionService
      */
     public function getTransactionData(string $contractId, string $transactionId): array
     {
+        // TODO:取得できなかった場合を考える。
         $transactionHeadData = TransactionHead::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->first();
-        $transactionInfo = [
+
+        $transactionHead = [
             'transactionTitle' => $transactionHeadData->transaction_title,
             'transactionDivision' => TransactionHead::$TRANSACTION_DIV_NAMES[$transactionHeadData->transaction_division],
             'transactionDate' => $transactionHeadData->transaction_date,
             'transactionBranch' => $transactionHeadData->transaction_branch, // TODO: 支店マスタ作ったらデータ見に行くようにする。
-            'transactionPicName' => $transactionHeadData->transaction_pic_last_name.' '.$transactionHeadData->transaction_pic_first_name,
+            'transactionPicName' => $transactionHeadData->transaction_pic_name,
             'transactionNote' => $transactionHeadData->transaction_note,
-        ];
-        $customerInfo = [
             'corporationDivision' => TransactionHead::$CORPORATION_DIV_NAME[$transactionHeadData->corporation_division],
             'invoiceNumber' => $transactionHeadData->customer_invoice_number,
             'customerCompany' => $transactionHeadData->customer_company,
             'customerBranch' => $transactionHeadData->customer_branch,
-            'customerName' => $transactionHeadData->customer_last_name.' '.$transactionHeadData->customer_first_name,
+            'customerName' => $transactionHeadData->customer_name,
             'customerPhoneNumber' => $transactionHeadData->customer_phone_number,
             'customerZipCode' => $transactionHeadData->customer_zip_code,
             'customerAddress1' => $transactionHeadData->customer_address1,
             'customerAddress2' => $transactionHeadData->customer_address2,
             'customerAddress3' => $transactionHeadData->customer_address3,
             'customerAddress4' => $transactionHeadData->customer_address4,
-        ];
-        $amountInfo = [
             'subtotal' => $transactionHeadData->subtotal,
             'taxInclude' => $transactionHeadData->tax_include,
             'total' => $transactionHeadData->total,
@@ -137,9 +134,7 @@ class TransactionService
         $detailRows = $this->getTransactionDetails($contractId, $transactionId);
 
         return [
-            'transactionInfo' => $transactionInfo,
-            'customerInfo' => $customerInfo,
-            'amountInfo' => $amountInfo,
+            'transactionHead' => $transactionHead,
             'detailRows' => $detailRows,
         ];
     }
