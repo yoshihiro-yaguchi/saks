@@ -17,17 +17,14 @@ import {
   TableRow,
   TextField,
 } from "@mui/material"
-import { createRoot } from "react-dom/client"
-import { Provider } from "react-redux"
-import { RootState, store } from "@src/app/store"
-import reportWebVitals from "@src/reportWebVitals"
+import { RootState } from "@src/app/store"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { actions } from "./reducer"
 import { BaseComponent } from "@common/BaseComponent/BaseComponent"
 import { H1, H2, H5, Typo } from "@src/common/Text/Typo"
 import { operations } from "./operation"
 import Paper from "@mui/material/Paper"
-import { DetailRow, AmountInfo, TaxInfo } from "./types"
+import { AmountInfo } from "./types"
 import { Delete } from "@mui/icons-material"
 import { constants } from "./constant"
 import { ErrorAlert } from "@resource/ts/src/common/ErrorAlert/ErrorAlert"
@@ -40,6 +37,7 @@ import {
 } from "@resource/ts/src/common/Table/Table"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
 import { useNavigate } from "react-router-dom"
+import { DetailRow, TaxInfo } from "../TransactionTypes"
 
 /**
  * 画面
@@ -87,7 +85,7 @@ export const Store = () => {
     (s: RootState) => s.storeTransaction.amountInfo
   )
 
-  const taxInfos: TaxInfo[] = useAppSelector(
+  const taxInfos: Array<TaxInfo> = useAppSelector(
     (s: RootState) => s.storeTransaction.taxInfos
   )
 

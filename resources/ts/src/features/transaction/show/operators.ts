@@ -2,9 +2,10 @@ import { AppThunk } from "@src/app/store"
 import { apis } from "./api"
 import { Common, ShowTransactionState } from "./types"
 import { actions } from "./reducer"
-import { ParamParseKey, Params, useParams } from "react-router-dom"
-import { TRANSACTION_PATHS } from "../router/router"
+import { Params } from "react-router-dom"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
+import { commonFunc } from "@resource/ts/src/common/commonFunc"
+import { TaxInfo } from "../TransactionTypes"
 
 export const operations = {
   /**
@@ -41,10 +42,13 @@ export const operations = {
       const initState: Partial<ShowTransactionState> = {
         common: commonData,
         transactionHead: initData["transactionHead"],
+        detailRows: initData["detailRows"],
+        taxInfos: commonFunc.transactionCulcTax(initData["detailRows"]),
       }
 
       dispatch(actions.init({ updateData: initState }))
     },
+
   /**
    * サンプル
    */

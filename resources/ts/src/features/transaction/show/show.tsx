@@ -29,6 +29,7 @@ import styled from "@emotion/styled"
 import { operations } from "./operators"
 import { ParamParseKey, useParams } from "react-router-dom"
 import { TRANSACTION_PATHS } from "../router/router"
+import { TaxInfo } from "../TransactionTypes"
 
 const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
   textAlign: "center",
@@ -45,6 +46,10 @@ export const Show = () => {
 
   const detailRows = useAppSelector(
     (s: RootState) => s.showTransaction.detailRows
+  )
+
+  const taxInfos: Array<TaxInfo> = useAppSelector(
+    (s: RootState) => s.showTransaction.taxInfos
   )
 
   // 画面ロード時処理
@@ -431,6 +436,86 @@ export const Show = () => {
                 </Table>
               </TableContainer>
             </Box>
+            {(() => {
+              if (taxInfos.length > 0) {
+                return (
+                  <>
+                    <Box sx={{ height: "32px" }}></Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <TableContainer component={Paper} sx={{ width: "500px" }}>
+                        <Table size="small" sx={{ width: "500px" }}>
+                          <TableBody>
+                            {taxInfos.map((taxInfo, index) => (
+                              <StyledTableRow key={index}>
+                                <StyledTableRowCell
+                                  sx={{
+                                    width: "20%",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  <H5>{taxInfo.taxRate}%対象</H5>
+                                  <input
+                                    type="hidden"
+                                    name={`taxInfo[${taxInfo.taxRate}][taxRate]`}
+                                    value={taxInfo.taxRate}
+                                    readOnly
+                                  />
+                                </StyledTableRowCell>
+                                <StyledTableRowCell
+                                  sx={{
+                                    width: "30%",
+                                    textAlign: "right",
+                                  }}
+                                >
+                                  <Typo>
+                                    ￥{taxInfo.taxableAmout.toLocaleString()}
+                                  </Typo>
+                                  <input
+                                    type="hidden"
+                                    name={`taxInfo[${taxInfo.taxRate}][taxableAmout]`}
+                                    value={taxInfo.taxableAmout}
+                                    readOnly
+                                  />
+                                </StyledTableRowCell>
+                                <StyledTableRowCell
+                                  sx={{
+                                    width: "20%",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  <H5>消費税</H5>
+                                </StyledTableRowCell>
+                                <StyledTableRowCell
+                                  sx={{
+                                    width: "30%",
+                                    textAlign: "right",
+                                  }}
+                                >
+                                  <Typo>
+                                    ￥{taxInfo.taxAmout.toLocaleString()}
+                                  </Typo>
+                                  <input
+                                    type="hidden"
+                                    name={`taxInfo[${taxInfo.taxRate}][taxAmout]`}
+                                    value={taxInfo.taxAmout}
+                                    readOnly
+                                  />
+                                </StyledTableRowCell>
+                              </StyledTableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+                  </>
+                )
+              }
+            })()}
           </LinedContainerBox>
         </Box>
 

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import { DetailRow, TaxInfo } from "../features/transaction/TransactionTypes"
 
 export const commonFunc = {
   /**
@@ -36,5 +37,31 @@ export const commonFunc = {
       return zipCode.slice(0, 3) + "-" + zipCode.slice(3)
     }
     return zipCode
+  },
+
+  transactionCulcTax: (detailRows: Array<DetailRow>) => {
+    const taxInfos: Array<TaxInfo> = []
+
+    detailRows.forEach((detailRow) => {
+      if (detailRow.taxRate in taxInfos) {
+        taxInfos[detailRow.taxRate].taxableAmout += Math.floor(
+          detailRow.totalPrice
+        )
+      } else {
+        const taxInfo: TaxInfo = {
+          taxRate: Math.floor(detailRow.taxRate),
+          taxableAmout: Math.floor(detailRow.totalPrice),
+          taxAmout: 0,
+        }
+        taxInfos.push(taxInfo)
+      }
+    })
+    taxInfos.forEach((taxInfo) => {
+      taxInfo.taxAmout = commonFunc.culcTaxIncludeAmount(
+        taxInfo.taxableAmout,
+        taxInfo.taxRate
+      )
+    })
+    return taxInfos
   },
 }

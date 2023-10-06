@@ -1,7 +1,5 @@
 import { AppThunk } from "@src/app/store"
 import {
-  DetailRow,
-  TaxInfo,
   AmountInfo,
   StoreTransactionState,
   TransactionInfo,
@@ -17,6 +15,7 @@ import { apis } from "./api"
 import { isAxiosError } from "axios"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
 import { NavigateFunction, useNavigate } from "react-router-dom"
+import { DetailRow, TaxInfo } from "../TransactionTypes"
 
 export const operations = {
   /**

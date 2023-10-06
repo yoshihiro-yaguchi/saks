@@ -5,6 +5,7 @@ import {
   initTransactionHead,
   ShowTransactionState,
 } from "./types"
+import { TaxInfo } from "../TransactionTypes"
 
 const initialState: ShowTransactionState = {
   common: initCommon,
@@ -43,6 +44,21 @@ export const showTransactionReducer = createSlice({
       state.transactionHead = newState.transactionHead
       state.detailRows = newState.detailRows
       state.taxInfos = newState.taxInfos
+    },
+
+    /**
+     * 税情報更新
+     *
+     * @param state
+     * @param action
+     */
+    updateTaxInfoHandle: (
+      state,
+      action: PayloadAction<{
+        taxInfo: TaxInfo[]
+      }>
+    ) => {
+      state.taxInfos = action.payload.taxInfo
     },
 
     // テキストインプット時のハンドラ
