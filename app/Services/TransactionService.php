@@ -160,21 +160,6 @@ class TransactionService
         return $detailDatas;
     }
 
-    private function getTransactionPrices(string $contractId, string $transactionId): array
-    {
-        $transactionPriceDatas = TransactionPrice::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->get();
-        $taxInfos = [];
-        foreach ($transactionPriceDatas as $priceData) {
-            $taxInfos[] = [
-                'taxRate' => $priceData->tax_rate,
-                'taxableAmout' => $priceData->taxable_amount,
-                'taxAmout' => $priceData->tax_include,
-            ];
-        }
-
-        return $taxInfos;
-    }
-
     /**
      * トランザクション内の金額計算を行う。
      */
