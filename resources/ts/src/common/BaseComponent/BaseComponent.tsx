@@ -36,11 +36,6 @@ export const BaseComponent = (props: Props) => {
   const { children, processing } = props
   const dispatch = useAppDispatch()
 
-  // 画面ロード時処理
-  useEffect(() => {
-    dispatch(commonOperations.init())
-  }, [])
-
   // 共通ステート
   const commonState = useAppSelector((s: RootState) => s.common)
 

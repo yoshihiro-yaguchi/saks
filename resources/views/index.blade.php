@@ -8,7 +8,7 @@
   @viteReactRefresh
   @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/ts/src/index.tsx'])
 </head>
-<body>
-  <div id="root"></div>
+<body class="maxHeight">
+  <div class="maxHeight" id="root"></div>
 </body>
 </html>

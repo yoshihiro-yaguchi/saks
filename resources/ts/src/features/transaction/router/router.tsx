@@ -9,7 +9,7 @@ import reportWebVitals from "@resource/ts/src/reportWebVitals"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Store } from "../store/store"
 import { Show } from "../show/show"
-import { Update } from "@mui/icons-material"
+import { Update } from "../update/update"
 
 export const TRANSACTION_PATHS = {
   STORE: "/transaction/store",

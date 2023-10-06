@@ -12,7 +12,7 @@
     ])
   <title>Document</title>
 </head>
-<body>
-  <div id="index"></div>
+<body class="maxHeight">
+  <div class="maxHeight" id="index"></div>
 </body>
 </html>

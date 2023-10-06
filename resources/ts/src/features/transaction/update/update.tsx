@@ -1,3 +1,5 @@
+import { BaseComponent } from "@resource/ts/src/common/BaseComponent/BaseComponent"
+import { H1 } from "@resource/ts/src/common/Text/Typo"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { RootState } from "@src/app/store"
 import { useNavigate, useParams } from "react-router-dom"
@@ -18,5 +20,13 @@ export const Update = () => {
   // const onInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   dispatch(contactActions.onInputHandle({ name: e.target.name, value: e.target.value }))
   // }
-  return <></>
+  const commonState = useAppSelector((s: RootState) => s.common)
+
+  return (
+    <>
+      <BaseComponent processing={false}>
+        <H1>こんにちは</H1>
+      </BaseComponent>
+    </>
+  )
 }

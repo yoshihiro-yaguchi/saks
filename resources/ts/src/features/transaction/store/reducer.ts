@@ -1,17 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import {
   CustomerInfo,
-  DetailRow,
   initCommon,
   initCustomerInfo,
   initTransactionInfo,
   initAmountInfo,
-  TaxInfo,
   TransactionInfo,
   StoreTransactionState,
   AmountInfo,
   Common,
 } from "./types"
+import { DetailRow, TaxInfo } from "../TransactionTypes"
 
 const initialState: StoreTransactionState = {
   token: "",

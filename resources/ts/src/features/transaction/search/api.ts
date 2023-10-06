@@ -1,14 +1,10 @@
-import axios from 'axios'
+import axios from "axios"
 
-export const contactApi = {
+export const apis = {
   doInit: async (params: URLSearchParams) => {
     return await axios.get<string>(`sample/getMethod?${params.toString()}`)
   },
   doPost: async (params: URLSearchParams) => {
     return await axios.post<string>(`sample/postMethod`, params)
-  },
-  // 送信ボタン押下時
-  doSend: async (params: URLSearchParams) => {
-    return await axios.post<boolean>(`contact/doSend`, params)
   },
 }
