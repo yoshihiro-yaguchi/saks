@@ -7,9 +7,9 @@ import { Provider } from "react-redux"
 import React, { useEffect } from "react"
 import reportWebVitals from "@resource/ts/src/reportWebVitals"
 import { Box, Button, Paper } from "@mui/material"
-import { H1 } from "@resource/ts/src/common/Text/Typo"
-import { Input } from "@resource/ts/src/common/Input/Input"
-import { ErrorAlert } from "@resource/ts/src/common/ErrorAlert/ErrorAlert"
+import { H1 } from "@resource/ts/src/common/Component/Typo"
+import { FullWidthInput } from "@resource/ts/src/common/Component/Input"
+import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
 import { actions } from "./reducer"
 import { operations } from "./operation"
@@ -59,7 +59,7 @@ export const Index = () => {
             <H1 fontSize={"10px"}>契約者情報</H1>
             <form>
               <Box sx={{ margin: "10px" }}>
-                <Input
+                <FullWidthInput
                   label="契約法人名"
                   name="contractCompanyName"
                   value={inputState.contractCompanyName}
@@ -70,8 +70,8 @@ export const Index = () => {
                     "contractCompanyName"
                   )}
                   inputProps={{ maxLength: 100 }}
-                ></Input>
-                <Input
+                ></FullWidthInput>
+                <FullWidthInput
                   label="契約者名"
                   name="contractersName"
                   value={inputState.contractersName}
@@ -81,8 +81,8 @@ export const Index = () => {
                   error={commonState.errors.hasOwnProperty("contractersName")}
                   required
                   inputProps={{ maxLength: 100 }}
-                ></Input>
-                <Input
+                ></FullWidthInput>
+                <FullWidthInput
                   label="郵便番号"
                   name="contractZipcode"
                   value={commonFunc.zipCodeHyphen(inputState.contractZipcode)}
@@ -93,8 +93,8 @@ export const Index = () => {
                   onBlur={() => dispatch(operations.zipCodeOnBlur())}
                   error={commonState.errors.hasOwnProperty("contractZipcode")}
                   inputProps={{ maxLength: 8 }}
-                ></Input>
-                <Input
+                ></FullWidthInput>
+                <FullWidthInput
                   label="契約者住所 都道府県"
                   name="contractAddress1"
                   value={inputState.contractAddress1}
@@ -103,8 +103,8 @@ export const Index = () => {
                   }
                   error={commonState.errors.hasOwnProperty("contractAddress1")}
                   inputProps={{ maxLength: 10 }}
-                ></Input>
-                <Input
+                ></FullWidthInput>
+                <FullWidthInput
                   label="契約者住所 市区町村"
                   name="contractAddress2"
                   value={inputState.contractAddress2}
@@ -113,8 +113,8 @@ export const Index = () => {
                   }
                   error={commonState.errors.hasOwnProperty("contractAddress2")}
                   inputProps={{ maxLength: 50 }}
-                ></Input>
-                <Input
+                ></FullWidthInput>
+                <FullWidthInput
                   label="契約者住所 町・番地"
                   name="contractAddress3"
                   value={inputState.contractAddress3}
@@ -123,8 +123,8 @@ export const Index = () => {
                   }
                   error={commonState.errors.hasOwnProperty("contractAddress3")}
                   inputProps={{ maxLength: 100 }}
-                ></Input>
-                <Input
+                ></FullWidthInput>
+                <FullWidthInput
                   label="契約者住所 建物名等"
                   name="contractAddress4"
                   value={inputState.contractAddress4}
@@ -133,7 +133,7 @@ export const Index = () => {
                   }
                   error={commonState.errors.hasOwnProperty("contractAddress4")}
                   inputProps={{ maxLength: 100 }}
-                ></Input>
+                ></FullWidthInput>
               </Box>
               <Box sx={{ height: "15px" }}></Box>
               <Button

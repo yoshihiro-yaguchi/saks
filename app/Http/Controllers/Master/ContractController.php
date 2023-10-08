@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Http\Controllers\Controller;
 use App\Models\AffiliationContracts;
 use Illuminate\Support\Facades\Auth;
 

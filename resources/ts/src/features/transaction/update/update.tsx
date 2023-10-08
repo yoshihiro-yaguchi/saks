@@ -1,5 +1,5 @@
-import { BaseComponent } from "@resource/ts/src/common/BaseComponent/BaseComponent"
-import { H1 } from "@resource/ts/src/common/Text/Typo"
+import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
+import { H1 } from "@resource/ts/src/common/Component/Typo"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { RootState } from "@src/app/store"
 import { useNavigate, useParams } from "react-router-dom"

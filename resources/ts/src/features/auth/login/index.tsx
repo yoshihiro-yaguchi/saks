@@ -6,11 +6,11 @@ import { Provider } from "react-redux"
 import React, { useEffect } from "react"
 import reportWebVitals from "@resource/ts/src/reportWebVitals"
 import { Box, Button, Paper } from "@mui/material"
-import { H1, Typo } from "@resource/ts/src/common/Text/Typo"
-import { Input } from "@resource/ts/src/common/Input/Input"
+import { H1, Typo } from "@resource/ts/src/common/Component/Typo"
+import { FullWidthInput } from "@resource/ts/src/common/Component/Input"
 import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material"
 import { operations } from "./operations"
-import { ErrorAlert } from "@resource/ts/src/common/ErrorAlert/ErrorAlert"
+import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
 
 export const Index = () => {
@@ -58,12 +58,15 @@ export const Index = () => {
               <Box>
                 <H1>ログイン</H1>
 
-                <Input name="email" label="メールアドレス"></Input>
-                <Input
+                <FullWidthInput
+                  name="email"
+                  label="メールアドレス"
+                ></FullWidthInput>
+                <FullWidthInput
                   name="password"
                   label="パスワード"
                   type="password"
-                ></Input>
+                ></FullWidthInput>
               </Box>
               <Box sx={{ marginTop: "30px" }}>
                 <Button

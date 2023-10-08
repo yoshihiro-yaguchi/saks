@@ -37,13 +37,13 @@ export const operations = {
       } catch (error) {
         throw error
       }
-      const initData = apiInitResult.data["initData"]
+      const initData = apiInitResult.data.transactionData
 
       const initState: Partial<ShowTransactionState> = {
         common: commonData,
-        transactionHead: initData["transactionHead"],
-        detailRows: initData["detailRows"],
-        taxInfos: commonFunc.transactionCulcTax(initData["detailRows"]),
+        transactionHead: initData.transactionHead,
+        detailRows: initData.detailRows,
+        taxInfos: commonFunc.transactionCulcTax(initData.detailRows),
       }
 
       dispatch(actions.init({ updateData: initState }))

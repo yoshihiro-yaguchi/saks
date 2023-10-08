@@ -6,11 +6,11 @@ import { Provider } from "react-redux"
 import React, { useEffect } from "react"
 import reportWebVitals from "@resource/ts/src/reportWebVitals"
 import { Box, Button, Paper } from "@mui/material"
-import { H1, Typo } from "@resource/ts/src/common/Text/Typo"
-import { Input } from "@resource/ts/src/common/Input/Input"
+import { H1, Typo } from "@resource/ts/src/common/Component/Typo"
+import { FullWidthInput } from "@resource/ts/src/common/Component/Input"
 import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material"
 import { operations } from "./operations"
-import { ErrorAlert } from "@resource/ts/src/common/ErrorAlert/ErrorAlert"
+import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
 import { actions } from "./reducer"
 
 export const Index = () => {
@@ -60,32 +60,36 @@ export const Index = () => {
             <Box>
               <H1>ユーザー登録</H1>
 
-              <Input
+              <FullWidthInput
                 name="name"
                 label="お名前"
                 value={registerState.name}
                 onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch(actions.putName({ value: e.target.value }))
                 }
-              ></Input>
-              <Input
+              ></FullWidthInput>
+              <FullWidthInput
                 name="email"
                 label="メールアドレス"
                 value={registerState.email}
                 onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch(actions.putEmail({ value: e.target.value }))
                 }
-              ></Input>
-              <Input name="password" label="パスワード" type="password"></Input>
+              ></FullWidthInput>
+              <FullWidthInput
+                name="password"
+                label="パスワード"
+                type="password"
+              ></FullWidthInput>
               <Box>
                 <InfoOutlined sx={{ float: "left" }}></InfoOutlined>
                 <Typo>パスワードは6文字以上の半角英数字で入力してください</Typo>
               </Box>
-              <Input
+              <FullWidthInput
                 name="password_confirmation"
                 label="もう一度パスワードを入力してください"
                 type="password"
-              ></Input>
+              ></FullWidthInput>
             </Box>
             <Box sx={{ marginTop: "30px" }}>
               <Button type="submit" variant="contained" sx={{ width: "100%" }}>

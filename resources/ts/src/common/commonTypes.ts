@@ -1,3 +1,5 @@
+import { AxiosHeaders } from "axios"
+
 export interface CommonTypes {
   csrfToken: string
   errorArray: string[]
@@ -27,4 +29,11 @@ export const initCommonTypes: CommonTypes = {
 // バリデーションエラーの型
 export interface ValidateError {
   [key: string]: Array<string>
+}
+
+/**
+ * キーバリューのオブジェクト用型
+ */
+export interface keyValueObject {
+  [key: string]: string
 }

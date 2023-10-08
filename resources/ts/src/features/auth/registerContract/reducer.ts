@@ -26,7 +26,7 @@ export const registerContractReducer = createSlice({
     // インプット項目指定項目一括更新
     inputItemsBulkUpdate: (
       state,
-      action: PayloadAction<{ value: Partial<InputState> }>
+      action: PayloadAction<{ value: Partial<FullWidthInputState> }>
     ) => {
       state.inputState = { ...state.inputState, ...action.payload.value }
     },

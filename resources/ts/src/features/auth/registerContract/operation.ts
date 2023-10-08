@@ -73,7 +73,7 @@ export const operations = {
     // TODO: 1つの郵便番号に紐づく住所が2つ以上ある場合を考慮する。
     const address = apiResult.data["results"][0]
 
-    const newCustomerInfo: Partial<InputState> = {
+    const newCustomerInfo: Partial<FullWidthInputState> = {
       contractAddress1: address["address1"],
       contractAddress2: address["address2"],
       contractAddress3: address["address3"],

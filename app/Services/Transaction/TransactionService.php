@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Transaction;
 
 use App\Models\TransactionDetail;
 use App\Models\TransactionHead;
-use App\Models\TransactionPrice;
+use App\Services\Transaction\Beans\SearchTransactionBean;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class TransactionService
 {
@@ -77,31 +78,6 @@ class TransactionService
     }
 
     /**
-     * 取引金額保存
-     *
-     * @return void
-     */
-    public function saveTransactionPrices(string $contractId, string $transactionId, array $taxInfos)
-    {
-        $saveData = [];
-
-        $nowDate = new Carbon();
-
-        foreach ($taxInfos as $taxInfo) {
-            $saveData[] = [
-                'contract_id' => $contractId,
-                'transaction_id' => $transactionId,
-                'tax_rate' => $taxInfo['taxRate'],
-                'taxable_amount' => $taxInfo['taxableAmount'],
-                'tax_include' => $taxInfo['taxAmount'],
-                'created_at' => $nowDate,
-                'updated_at' => $nowDate,
-            ];
-        }
-        TransactionPrice::insert($saveData);
-    }
-
-    /**
      * 取引データ取得
      */
     public function getTransactionData(string $contractId, string $transactionId): array
@@ -136,6 +112,74 @@ class TransactionService
         return [
             'transactionHead' => $transactionHead,
             'detailRows' => $detailRows,
+        ];
+    }
+
+    public function searchTransactionData(string $contractId, SearchTransactionBean $condition): array
+    {
+        $query = DB::table('transaction_headers')
+            ->select(
+                [
+                    'transaction_id as id',
+                    'transaction_title as transactionTitle',
+                    'transaction_division as transactionDivision',
+                    'transaction_date as transactionDate',
+                    'transaction_branch as transactionBranch',
+                    'transaction_pic_name as transactionPicName',
+                    'corporation_division as corporationDivision',
+                    'customer_company as customerCompany',
+                    'customer_name as customerName',
+                ]
+            )
+            ->where('contract_id', '=', $contractId);
+        // 取引ID
+        if ($condition->id !== null) {
+            $query->where('transaction_id', '=', $condition->id);
+        }
+        // 取引タイトル
+        if ($condition->transactionTitle !== null) {
+            $query->where('transaction_title', 'LIKE', "%{$condition->transactionTitle}%");
+        }
+        // 取引区分
+        if ($condition->transactionDivision !== null) {
+            $query->where('transaction_division', '=', $condition->transactionDivision);
+        }
+        // 取引日付From
+        if ($condition->transactionDateFrom !== null) {
+            $query->where('transaction_date', '>=', $condition->transactionDateFrom);
+        }
+        // 取引日付To
+        if ($condition->transactionDateTo !== null) {
+            $query->where('transaction_date', '<=', $condition->transactionDateTo);
+        }
+        // 取引支店
+        if ($condition->transactionBranch !== null) {
+            $query->where('transaction_branch', '=', $condition->transactionBranch);
+        }
+        // 法人区分
+        if ($condition->corporationDivision !== null) {
+            $query->where('corporation_division', '=', $condition->corporationDivision);
+        }
+        // お客様会社名
+        if ($condition->customerCompany !== null) {
+            $query->where('customer_company', 'LIKE', "%{$condition->customerCompany}%");
+        }
+        // お客様名
+        if ($condition->customerName !== null) {
+            $query->where('customer_name', 'LIKE', "%{$condition->customerName}%");
+        }
+
+        $count = $query->count();
+        if ($count === 0) {
+            return [
+                'count' => $count,
+                'transactions' => [],
+            ];
+        }
+
+        return [
+            'count' => $count,
+            'transactions' => $query->forPage($condition->page, $condition->itemsPerPage)->orderByDesc('transaction_date')->get()
         ];
     }
 

@@ -10,11 +10,18 @@ export const Input = function (props: TextFieldProps) {
           size="small"
           variant="outlined"
           InputLabelProps={{ shrink: true }}
-          fullWidth
           sx={{ fontFamily: "Noto Sans JP" }}
           {...props}
         ></TextField>
       </Box>
+    </>
+  )
+}
+
+export const FullWidthInput = function (props: TextFieldProps) {
+  return (
+    <>
+      <Input fullWidth {...props}></Input>
     </>
   )
 }

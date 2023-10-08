@@ -7,8 +7,8 @@ import { Provider } from "react-redux"
 import React from "react"
 import reportWebVitals from "@resource/ts/src/reportWebVitals"
 import { Box, Button, Grid, Paper } from "@mui/material"
-import { H1, Typo } from "@resource/ts/src/common/Text/Typo"
-import { Input } from "@resource/ts/src/common/Input/Input"
+import { H1, Typo } from "@resource/ts/src/common/Component/Typo"
+import { FullWidthInput } from "@resource/ts/src/common/Component/Input"
 
 export const Index = () => {
   const dispatch = useAppDispatch()

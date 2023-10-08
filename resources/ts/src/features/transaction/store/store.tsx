@@ -20,21 +20,21 @@ import {
 import { RootState } from "@src/app/store"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { actions } from "./reducer"
-import { BaseComponent } from "@common/BaseComponent/BaseComponent"
-import { H1, H2, H5, Typo } from "@src/common/Text/Typo"
+import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
+import { H1, H2, H5, Typo } from "@resource/ts/src/common/Component/Typo"
 import { operations } from "./operation"
 import Paper from "@mui/material/Paper"
 import { AmountInfo } from "./types"
 import { Delete } from "@mui/icons-material"
 import { constants } from "./constant"
-import { ErrorAlert } from "@resource/ts/src/common/ErrorAlert/ErrorAlert"
-import { LinedContainerBox } from "@src/common/Box/LinedContainerBox"
-import { Input } from "@src/common/Input/Input"
+import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
+import { LinedContainerBox } from "@resource/ts/src/common/Component/LinedContainerBox"
+import { FullWidthInput } from "@resource/ts/src/common/Component/Input"
 import {
   StyledTableHeadCell,
   StyledTableRowCell,
   StyledTableRow,
-} from "@resource/ts/src/common/Table/Table"
+} from "@resource/ts/src/common/Component/Table"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
 import { useNavigate } from "react-router-dom"
 import { DetailRow, TaxInfo } from "../TransactionTypes"
@@ -96,7 +96,7 @@ export const Store = () => {
   return (
     <>
       <BaseComponent processing={processing}>
-        <input type="hidden" name="_token" value={csrfToken} />
+        <FullWidthInput type="hidden" name="_token" value={csrfToken} />
         {/* ページ内ヘッダー */}
         <Box>
           <Grid container spacing={4}>
@@ -157,7 +157,7 @@ export const Store = () => {
             {/* 取引情報 */}
             <LinedContainerBox>
               <H2>取引情報</H2>
-              <Input
+              <FullWidthInput
                 id="transactionTitle"
                 name="transactionInfo[transactionTitle]"
                 label="件名"
@@ -176,7 +176,7 @@ export const Store = () => {
                 error={commonState.errors.hasOwnProperty(
                   "transactionInfo.transactionTitle"
                 )}
-              ></Input>
+              ></FullWidthInput>
               <Grid container spacing={1}>
                 <Grid item xs={12} lg={6}>
                   <Box sx={{ padding: "8px 8px 8px 0" }}>
@@ -205,7 +205,7 @@ export const Store = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <Input
+                  <FullWidthInput
                     id="transactionDate"
                     name="transactionInfo[transactionDate]"
                     label="取引日付"
@@ -222,7 +222,7 @@ export const Store = () => {
                     error={commonState.errors.hasOwnProperty(
                       "transactionInfo.transactionDate"
                     )}
-                  ></Input>
+                  ></FullWidthInput>
                 </Grid>
               </Grid>
               <Grid container spacing={1}>
@@ -253,7 +253,7 @@ export const Store = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <Input
+                  <FullWidthInput
                     id="transactionPicName"
                     name="transactionInfo[transactionPicName]"
                     label="担当者"
@@ -272,10 +272,10 @@ export const Store = () => {
                     error={commonState.errors.hasOwnProperty(
                       "transactionInfo.transactionPicName"
                     )}
-                  ></Input>
+                  ></FullWidthInput>
                 </Grid>
               </Grid>
-              <Input
+              <FullWidthInput
                 id="transactionNote"
                 name="transactionInfo[transactionNote]"
                 label="取引備考"
@@ -297,7 +297,7 @@ export const Store = () => {
                 error={commonState.errors.hasOwnProperty(
                   "transactionInfo.transactionNote"
                 )}
-              ></Input>
+              ></FullWidthInput>
             </LinedContainerBox>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -355,7 +355,7 @@ export const Store = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <Input
+                  <FullWidthInput
                     id="invoiceNumber"
                     name="customerInfo[invoiceNumber]"
                     label="登録番号"
@@ -374,10 +374,10 @@ export const Store = () => {
                     error={commonState.errors.hasOwnProperty(
                       "customerInfo.invoiceNumber"
                     )}
-                  ></Input>
+                  ></FullWidthInput>
                 </Grid>
               </Grid>
-              <Input
+              <FullWidthInput
                 id="customerCompany"
                 name="customerInfo[customerCompany]"
                 hidden={isCorporation ? false : true}
@@ -398,8 +398,8 @@ export const Store = () => {
                 error={commonState.errors.hasOwnProperty(
                   "customerInfo.customerCompany"
                 )}
-              ></Input>
-              <Input
+              ></FullWidthInput>
+              <FullWidthInput
                 id="customerBranch"
                 name="customerInfo[customerBranch]"
                 hidden={isCorporation ? false : true}
@@ -420,10 +420,10 @@ export const Store = () => {
                 error={commonState.errors.hasOwnProperty(
                   "customerInfo.customerBranch"
                 )}
-              ></Input>
+              ></FullWidthInput>
               <Grid container spacing={1}>
                 <Grid item xs={12} lg={6}>
-                  <Input
+                  <FullWidthInput
                     id="customerName"
                     name="customerInfo[customerName]"
                     label="お名前"
@@ -442,10 +442,10 @@ export const Store = () => {
                     error={commonState.errors.hasOwnProperty(
                       "customerInfo.customerName"
                     )}
-                  ></Input>
+                  ></FullWidthInput>
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <Input
+                  <FullWidthInput
                     id="customerPhoneNumber"
                     name="customerInfo[customerPhoneNumber]"
                     label="電話番号"
@@ -464,12 +464,12 @@ export const Store = () => {
                     error={commonState.errors.hasOwnProperty(
                       "customerInfo.customerPhoneNumber"
                     )}
-                  ></Input>
+                  ></FullWidthInput>
                 </Grid>
               </Grid>
               <Grid container spacing={1} sx={{ marginTop: "8px" }}>
                 <Grid item xs={12} lg={6}>
-                  <Input
+                  <FullWidthInput
                     id="zipCode"
                     name="customerInfo[zipCode]"
                     label="郵便番号"
@@ -492,10 +492,10 @@ export const Store = () => {
                     error={commonState.errors.hasOwnProperty(
                       "customerInfo.zipCode"
                     )}
-                  ></Input>
+                  ></FullWidthInput>
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <Input
+                  <FullWidthInput
                     id="customerAddress1"
                     name="customerInfo[customerAddress1]"
                     label="都道府県"
@@ -514,10 +514,10 @@ export const Store = () => {
                     error={commonState.errors.hasOwnProperty(
                       "customerInfo.customerAddress1"
                     )}
-                  ></Input>
+                  ></FullWidthInput>
                 </Grid>
               </Grid>
-              <Input
+              <FullWidthInput
                 id="customerAddress2"
                 name="customerInfo[customerAddress2]"
                 label="市区町村"
@@ -536,8 +536,8 @@ export const Store = () => {
                 error={commonState.errors.hasOwnProperty(
                   "customerInfo.customerAddress2"
                 )}
-              ></Input>
-              <Input
+              ></FullWidthInput>
+              <FullWidthInput
                 id="customerAddress3"
                 name="customerInfo[customerAddress3]"
                 label="町・番地"
@@ -556,8 +556,8 @@ export const Store = () => {
                 error={commonState.errors.hasOwnProperty(
                   "customerInfo.customerAddress3"
                 )}
-              ></Input>
-              <Input
+              ></FullWidthInput>
+              <FullWidthInput
                 id="customerAddress4"
                 name="customerInfo[customerAddress4]"
                 label="建物名等"
@@ -576,7 +576,7 @@ export const Store = () => {
                 error={commonState.errors.hasOwnProperty(
                   "customerInfo.customerAddress4"
                 )}
-              ></Input>
+              ></FullWidthInput>
             </LinedContainerBox>
           </Grid>
         </Grid>
@@ -673,22 +673,10 @@ export const Store = () => {
                       {/* 商品番号 */}
                       <StyledTableRowCell>
                         <Typo>{row.productNo}</Typo>
-                        <input
-                          readOnly
-                          hidden
-                          name={`detailRows[${index}][productNo]`}
-                          value={row.productNo ?? ""}
-                        />
                       </StyledTableRowCell>
                       {/* 商品名 */}
                       <StyledTableRowCell>
                         <Typo>{row.productName}</Typo>
-                        <input
-                          readOnly
-                          hidden
-                          name={`detailRows[${index}][productName]`}
-                          value={row.productName ?? ""}
-                        />
                       </StyledTableRowCell>
                       {/* 数量(重量) */}
                       <StyledTableRowCell>
@@ -786,12 +774,6 @@ export const Store = () => {
                       {/* 金額 */}
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
                         <Typo>￥{row.totalPrice.toLocaleString()}</Typo>
-                        <input
-                          readOnly
-                          hidden
-                          name={`detailRows[${index}][totalPrice]`}
-                          value={row.totalPrice ?? 0}
-                        />
                       </StyledTableRowCell>
                     </StyledTableRow>
                   ))}
@@ -815,12 +797,6 @@ export const Store = () => {
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
                         <Typo>￥{amountInfo.subtotal.toLocaleString()}</Typo>
-                        <input
-                          type="hidden"
-                          name="amountInfo[subtotal]"
-                          value={amountInfo.subtotal}
-                          readOnly
-                        />
                       </StyledTableRowCell>
                     </StyledTableRow>
                     <StyledTableRow>
@@ -829,12 +805,6 @@ export const Store = () => {
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
                         <Typo>￥{amountInfo.taxInclude.toLocaleString()}</Typo>
-                        <input
-                          type="hidden"
-                          name="amountInfo[taxInclude]"
-                          value={amountInfo.taxInclude}
-                          readOnly
-                        />
                       </StyledTableRowCell>
                     </StyledTableRow>
                     <StyledTableRow>
@@ -843,12 +813,6 @@ export const Store = () => {
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
                         <Typo>￥{amountInfo.total.toLocaleString()}</Typo>
-                        <input
-                          type="hidden"
-                          name="amountInfo[total]"
-                          value={amountInfo.total}
-                          readOnly
-                        />
                       </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
@@ -879,12 +843,6 @@ export const Store = () => {
                                   }}
                                 >
                                   <H5>{taxInfo.taxRate}%対象</H5>
-                                  <input
-                                    type="hidden"
-                                    name={`taxInfo[${taxInfo.taxRate}][taxRate]`}
-                                    value={taxInfo.taxRate}
-                                    readOnly
-                                  />
                                 </StyledTableRowCell>
                                 <StyledTableRowCell
                                   sx={{
@@ -895,12 +853,6 @@ export const Store = () => {
                                   <Typo>
                                     ￥{taxInfo.taxableAmout.toLocaleString()}
                                   </Typo>
-                                  <input
-                                    type="hidden"
-                                    name={`taxInfo[${taxInfo.taxRate}][taxableAmout]`}
-                                    value={taxInfo.taxableAmout}
-                                    readOnly
-                                  />
                                 </StyledTableRowCell>
                                 <StyledTableRowCell
                                   sx={{
@@ -919,12 +871,6 @@ export const Store = () => {
                                   <Typo>
                                     ￥{taxInfo.taxAmout.toLocaleString()}
                                   </Typo>
-                                  <input
-                                    type="hidden"
-                                    name={`taxInfo[${taxInfo.taxRate}][taxAmout]`}
-                                    value={taxInfo.taxAmout}
-                                    readOnly
-                                  />
                                 </StyledTableRowCell>
                               </StyledTableRow>
                             ))}

@@ -6,7 +6,7 @@ import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import React, { useEffect } from "react"
 import reportWebVitals from "@src/reportWebVitals"
-import { BaseComponent } from "@resource/ts/src/common/BaseComponent/BaseComponent"
+import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
 import {
   Box,
   Button,
@@ -18,16 +18,16 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material"
-import { LinedContainerBox } from "@resource/ts/src/common/Box/LinedContainerBox"
-import { H1, H2, H4, H5, Typo } from "@resource/ts/src/common/Text/Typo"
+import { LinedContainerBox } from "@resource/ts/src/common/Component/LinedContainerBox"
+import { H1, H2, H4, H5, Typo } from "@resource/ts/src/common/Component/Typo"
 import {
   StyledTableHeadCell,
   StyledTableRow,
   StyledTableRowCell,
-} from "@resource/ts/src/common/Table/Table"
+} from "@resource/ts/src/common/Component/Table"
 import styled from "@emotion/styled"
 import { operations } from "./operators"
-import { ParamParseKey, useParams } from "react-router-dom"
+import { ParamParseKey, useNavigate, useParams } from "react-router-dom"
 import { TRANSACTION_PATHS } from "../router/router"
 import { TaxInfo } from "../TransactionTypes"
 
@@ -39,6 +39,8 @@ export const Show = () => {
   const urlParams = useParams<ParamParseKey<typeof TRANSACTION_PATHS.SHOW>>()
 
   const dispatch = useAppDispatch()
+
+  const navigator = useNavigate()
 
   const transactionHead = useAppSelector(
     (s: RootState) => s.showTransaction.transactionHead
@@ -91,6 +93,7 @@ export const Show = () => {
                         color="primary"
                         type="button"
                         sx={{ margin: "auto 5px" }}
+                        onClick={() => navigator(`/transaction/search`)}
                       >
                         一覧へ戻る
                       </Button>
@@ -459,12 +462,6 @@ export const Show = () => {
                                   }}
                                 >
                                   <H5>{taxInfo.taxRate}%対象</H5>
-                                  <input
-                                    type="hidden"
-                                    name={`taxInfo[${taxInfo.taxRate}][taxRate]`}
-                                    value={taxInfo.taxRate}
-                                    readOnly
-                                  />
                                 </StyledTableRowCell>
                                 <StyledTableRowCell
                                   sx={{
@@ -475,12 +472,6 @@ export const Show = () => {
                                   <Typo>
                                     ￥{taxInfo.taxableAmout.toLocaleString()}
                                   </Typo>
-                                  <input
-                                    type="hidden"
-                                    name={`taxInfo[${taxInfo.taxRate}][taxableAmout]`}
-                                    value={taxInfo.taxableAmout}
-                                    readOnly
-                                  />
                                 </StyledTableRowCell>
                                 <StyledTableRowCell
                                   sx={{
@@ -499,12 +490,6 @@ export const Show = () => {
                                   <Typo>
                                     ￥{taxInfo.taxAmout.toLocaleString()}
                                   </Typo>
-                                  <input
-                                    type="hidden"
-                                    name={`taxInfo[${taxInfo.taxRate}][taxAmout]`}
-                                    value={taxInfo.taxAmout}
-                                    readOnly
-                                  />
                                 </StyledTableRowCell>
                               </StyledTableRow>
                             ))}

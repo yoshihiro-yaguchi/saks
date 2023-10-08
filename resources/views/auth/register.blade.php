@@ -13,10 +13,10 @@
 </head>
 <body>
   @if ($errors->any())
-  <input type="hidden" id="errors" value="{{json_encode($errors->all())}}">
+  <FullWidthInput type="hidden" id="errors" value="{{json_encode($errors->all())}}">
   @endif
-  <input type="hidden" id="oldName" value="{{old('name')}}">
-  <input type="hidden" id="oldEmail" value="{{old('email')}}">
+  <FullWidthInput type="hidden" id="oldName" value="{{old('name')}}">
+  <FullWidthInput type="hidden" id="oldEmail" value="{{old('email')}}">
   <form class="maxHeight" action="{{url()->current()}}" method="post">
     @csrf
     <div class="maxHeight" id="registerForm"></div>

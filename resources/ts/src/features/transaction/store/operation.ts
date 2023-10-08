@@ -14,7 +14,7 @@ import { commonFunc } from "@resource/ts/src/common/commonFunc"
 import { apis } from "./api"
 import { isAxiosError } from "axios"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
-import { NavigateFunction, useNavigate } from "react-router-dom"
+import { NavigateFunction } from "react-router-dom"
 import { DetailRow, TaxInfo } from "../TransactionTypes"
 
 export const operations = {

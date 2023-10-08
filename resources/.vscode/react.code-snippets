@@ -131,7 +131,7 @@
             "   * @returns",
             "   */",
             "  init: (): AppThunk => async (dispatch, getState) => {",
-            "    dispatch(commonOperations.init(#{画面タイトル}))"
+            "    await cdispatch(commonOperations.init(#{画面タイトル}))"
             "  },",
             "}"
         ],

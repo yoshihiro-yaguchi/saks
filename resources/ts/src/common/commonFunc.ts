@@ -64,4 +64,6 @@ export const commonFunc = {
     })
     return taxInfos
   },
+
+  getDivisionName: (key: string, value: string) => {},
 }

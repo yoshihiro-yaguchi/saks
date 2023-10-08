@@ -7,19 +7,6 @@ import { userInfo } from "os"
 
 export const commonOperations = {
   /**
-   * サンプル
-   */
-  // sample: (): AppThunk => async (dispatch, getState) => {
-  //   const target = getState().#{STATES_NAME}.#{STATE_NAME}
-
-  //   let params = new URLSearchParams()
-  //   params.append('companyName', target.#{target1})
-
-  //   const result = await apis.doPost(params)
-  //   dispatch(#{actions})
-  // },
-
-  /**
    * 初期処理
    */
   init:
@@ -30,6 +17,7 @@ export const commonOperations = {
         'meta[name="csrfToken"]'
       )!.content
 
+      await dispatch(actions.reset())
       dispatch(actions.updateCsrfToken({ csrfToken: token }))
 
       const userInfoResult = await commonApis.fetchUserInfo()

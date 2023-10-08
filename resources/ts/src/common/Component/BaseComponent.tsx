@@ -14,7 +14,7 @@ import {
   Typography,
   styled,
 } from "@mui/material"
-import { Loading } from "@common/Loading/Loading"
+import { Loading } from "@resource/ts/src/common/Component/Loading"
 import { commonOperations } from "../commonOperations"
 // import logo from "../../../public/image-logo.svg"
 

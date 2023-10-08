@@ -85,3 +85,12 @@ export const initTransactionHead: TransactionHead = {
   taxInclude: 0,
   total: 0,
 }
+
+// 初期処理API型
+export interface ApiDoInit {
+  transactionData: TransactionData
+}
+export interface TransactionData {
+  transactionHead: TransactionHead
+  detailRows: Array<DetailRow>
+}

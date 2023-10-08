@@ -1,12 +1,10 @@
 import axios from "axios"
+import { ApiDoInit } from "./types"
 
 export const apis = {
   doInit: async (transactionId: string) => {
-    return await axios.get<any>(
+    return await axios.get<ApiDoInit>(
       `/api/transaction/getTransactionData/${transactionId}`
     )
-  },
-  doPost: async (params: URLSearchParams) => {
-    return await axios.post<string>(`sample/postMethod`, params)
   },
 }
