@@ -7,4 +7,11 @@ export const apis = {
       `/api/transaction/getTransactionData/${transactionId}`
     )
   },
+
+  printPurchaseInvoice: async (params: URLSearchParams) => {
+    return await axios.get(
+      `/api/transaction/pdf/print-purchase-invoice?${params.toString()}`,
+      { responseType: "blob" }
+    )
+  },
 }

@@ -96,7 +96,6 @@ export const Store = () => {
   return (
     <>
       <BaseComponent processing={processing}>
-        <FullWidthInput type="hidden" name="_token" value={csrfToken} />
         {/* ページ内ヘッダー */}
         <Box>
           <Grid container spacing={4}>
@@ -129,6 +128,7 @@ export const Store = () => {
                         color="primary"
                         type="button"
                         sx={{ margin: "auto 5px" }}
+                        onClick={() => navigate("/transaction/search")}
                       >
                         一覧へ戻る
                       </Button>

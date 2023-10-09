@@ -119,7 +119,6 @@ export const operations = {
       dispatch(commonActions.processEnd())
 
       // 画面遷移
-      console.log(`/transaction/show/${apiResult.data.transactionId}`)
       navigate(`/transaction/show/${apiResult.data.transactionId}`)
     },
 

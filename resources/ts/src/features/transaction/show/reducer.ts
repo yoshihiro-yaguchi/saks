@@ -60,11 +60,6 @@ export const showTransactionReducer = createSlice({
     ) => {
       state.taxInfos = action.payload.taxInfo
     },
-
-    // テキストインプット時のハンドラ
-    // onInputHandle: (state, action: PayloadAction<{ name: string; value: string }>) => {
-    //   state.#{STATE_NAME}[action.payload.name as keyof ShowTransactionState] = action.payload.value
-    // },
   },
 })
 export const { actions } = showTransactionReducer

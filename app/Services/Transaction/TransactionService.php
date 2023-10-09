@@ -179,7 +179,7 @@ class TransactionService
 
         return [
             'count' => $count,
-            'transactions' => $query->forPage($condition->page, $condition->itemsPerPage)->orderByDesc('transaction_date')->get()
+            'transactions' => $query->forPage($condition->page, $condition->itemsPerPage)->orderByDesc('created_at')->get()
         ];
     }
 

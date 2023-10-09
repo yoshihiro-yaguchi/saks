@@ -5,7 +5,7 @@ import { actions } from "./reducer"
 import { Params } from "react-router-dom"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
-import { TaxInfo } from "../TransactionTypes"
+import FileSaver from "file-saver"
 
 export const operations = {
   /**
@@ -50,13 +50,25 @@ export const operations = {
     },
 
   /**
-   * サンプル
+   * 買取明細書・依頼書PDF
+   *
+   * @param urlParams
+   * @returns
    */
-  // sample: (): AppThunk => async (dispatch, getState) => {
-  //   const target = getState().#{STATES_NAME}.#{STATE_NAME}
-  //   let params = new URLSearchParams()
-  //   params.append('companyName', target.#{target1})
-  //   const result = await api.doPost(params)
-  //   dispatch(#{actions})
-  // },
+  printPurchaseInvoice:
+    (urlParams: Readonly<Params<string>>): AppThunk =>
+    async (dispatch, getState) => {
+      let params = new URLSearchParams()
+      params.append("transactionId", urlParams.transactionId!)
+
+      let result
+      try {
+        result = await apis.printPurchaseInvoice(params)
+      } catch (error) {
+        throw error
+      }
+      let mineType = result.headers["content-type"]
+      const blob = new Blob([result.data], { type: mineType })
+      FileSaver.saveAs(blob, "買取明細書・依頼書.pdf")
+    },
 }

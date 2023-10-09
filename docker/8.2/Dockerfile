@@ -13,6 +13,20 @@ ENV TZ=UTC
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+# フォントの準備
+COPY packages/NotoSansJP-VariableFont_wght.ttf /usr/share/fonts
+
+# worktopdfの準備
+WORKDIR /var/tmp
+# arm64チップ
+COPY packages/wkhtmltox_0.12.6.1-2.jammy_arm64.deb /var/tmp
+RUN apt update \
+    && apt install -y gdebi \
+    && gdebi -n wkhtmltox_0.12.6.1-2.jammy_arm64.deb \
+    && rm -rf wkhtmltox_0.12.6.1-2.jammy_arm64.deb
+
+WORKDIR /var/www/html
+
 RUN apt-get update \
     && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 dnsutils \
     && curl -sS 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x14aa40ec0831756756d7f66c4f4ea0aae5267a6c' | gpg --dearmor | tee /etc/apt/keyrings/ppa_ondrej_php.gpg > /dev/null \
@@ -52,6 +66,20 @@ COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
+
+# フォントの準備
+COPY packages/NotoSansJP-VariableFont_wght.ttf /usr/share/fonts
+
+# worktopdfの準備
+WORKDIR /var/tmp
+# arm64チップ
+COPY packages/wkhtmltox_0.12.6.1-2.jammy_arm64.deb /var/tmp
+RUN apt update \
+    && apt install -y gdebi \
+    && gdebi -n wkhtmltox_0.12.6.1-2.jammy_arm64.deb \
+    && rm -rf wkhtmltox_0.12.6.1-2.jammy_arm64.deb
+
+WORKDIR /var/www/html
 
 EXPOSE 8000
 

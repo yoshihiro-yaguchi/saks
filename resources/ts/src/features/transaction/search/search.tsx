@@ -65,6 +65,7 @@ export const Search = () => {
     dispatch(operations.changePerPage(perPage))
   }
 
+  // ページ変更
   const changePage = (page: number) => {
     dispatch(operations.changePage(page))
   }
@@ -72,6 +73,20 @@ export const Search = () => {
   return (
     <>
       <BaseComponent processing={commonState.processing}>
+        {/* 画面ないヘッダー */}
+        <Box>
+          <LinedContainerBox>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                variant="outlined"
+                onClick={() => navigate("/transaction/store")}
+              >
+                取引作成
+              </Button>
+            </Box>
+          </LinedContainerBox>
+        </Box>
+        <Specer />
         {/* 検索条件 */}
         <Box>
           <LinedContainerBox>

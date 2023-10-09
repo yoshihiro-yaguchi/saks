@@ -1,16 +1,13 @@
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
-import { RootState, store } from "@src/app/store"
-// import { actions } from './reducer'
-// import { operations } from './operations'
-import { createRoot } from "react-dom/client"
-import { Provider } from "react-redux"
+import { RootState } from "@src/app/store"
 import React, { useEffect } from "react"
-import reportWebVitals from "@src/reportWebVitals"
 import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
 import {
   Box,
   Button,
   Grid,
+  Menu,
+  MenuItem,
   Paper,
   Table,
   TableBody,
@@ -59,6 +56,22 @@ export const Show = () => {
     dispatch(operations.init(urlParams))
   }, [])
 
+  // 伝票メニュー制御
+  const [slipMenuAnchorEl, setSlipMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null)
+  const isSlipMenuOpen = Boolean(slipMenuAnchorEl)
+  const handleClickSlipMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setSlipMenuAnchorEl(event.currentTarget)
+  }
+  const handleCloseSlipMenu = () => {
+    setSlipMenuAnchorEl(null)
+  }
+
+  // 買取明細書・依頼書PDF
+  const printPurchaseInvoice = () => {
+    dispatch(operations.printPurchaseInvoice(urlParams))
+  }
+
   return (
     <>
       <BaseComponent processing={false}>
@@ -98,13 +111,71 @@ export const Show = () => {
                         一覧へ戻る
                       </Button>
                       <Button
-                        variant="contained"
-                        color="secondary"
+                        id="slipButton"
+                        variant="outlined"
                         type="button"
                         sx={{ margin: "auto 5px" }}
+                        aria-controls={isSlipMenuOpen ? "slipMenu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={isSlipMenuOpen ? "true" : undefined}
+                        onClick={handleClickSlipMenu}
                       >
                         伝票を発行
                       </Button>
+
+                      {(() => {
+                        if (transactionHead.transactionDivision == "買取") {
+                          return (
+                            <>
+                              <Menu
+                                id="slipMenu"
+                                anchorEl={slipMenuAnchorEl}
+                                open={isSlipMenuOpen}
+                                MenuListProps={{
+                                  "aria-labelledby": "slipButton",
+                                }}
+                                onClose={() => handleCloseSlipMenu()}
+                              >
+                                <MenuItem
+                                  onClick={() => printPurchaseInvoice()}
+                                >
+                                  買取明細書・依頼書
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={() => printPurchaseInvoice()}
+                                >
+                                  買取明細書・依頼書(お客様控え)
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={() => printPurchaseInvoice()}
+                                >
+                                  領収書
+                                </MenuItem>
+                              </Menu>
+                            </>
+                          )
+                        } else {
+                          return (
+                            <>
+                              <Menu
+                                id="slipMenu"
+                                anchorEl={slipMenuAnchorEl}
+                                open={isSlipMenuOpen}
+                                MenuListProps={{
+                                  "aria-labelledby": "slipButton",
+                                }}
+                                onClose={() => handleCloseSlipMenu()}
+                              >
+                                <MenuItem
+                                  onClick={() => printPurchaseInvoice()}
+                                >
+                                  請求書
+                                </MenuItem>
+                              </Menu>
+                            </>
+                          )
+                        }
+                      })()}
                       <Button
                         variant="contained"
                         color="primary"
@@ -506,19 +577,9 @@ export const Show = () => {
 
         {/* ページ内フッター */}
       </BaseComponent>
+
+      {/* 以下、PDF用のForm */}
+      <form id="pdfType1" method="get" action="/pdf"></form>
     </>
   )
 }
-
-// const container = document.getElementById("showTransaction")!
-// const root = createRoot(container)
-
-// root.render(
-//   <React.StrictMode>
-//     <Provider store={store}>
-//       <Show />
-//     </Provider>
-//   </React.StrictMode>
-// )
-
-// reportWebVitals()

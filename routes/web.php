@@ -5,6 +5,7 @@ use App\Http\Controllers\Master\Api\ContractApiController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\Transaction\Api\TransactionApiController;
+use App\Http\Controllers\Transaction\Api\TransactionSlipController;
 use Illuminate\Support\Facades\Route;
 
 // 認証チェック
@@ -70,6 +71,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/transaction/getTransactionData/{transactionId}', [TransactionApiController::class, 'getTransactionData']);
     // 取引データ検索
     Route::get('/api/transaction/searchTransactionData', [TransactionApiController::class, 'searchTransactionData']);
+
+    // 買取明細書・依頼書PDF
+    Route::get('/api/transaction/pdf/print-purchase-invoice', [TransactionSlipController::class, 'printPurchaseInvoice']);
+    // 買取明細書・依頼書(お客様控え)PDF
+    // 領収書PDF
+    // 請求書PDF
 });
 
 /**
@@ -81,8 +88,6 @@ Route::post('/transaction/test', [TransactionApiController::class, 'testPost']);
 Route::get('/test/bootstrap', function () {
     return view('test.bootstrap');
 });
-
-Route::get('/pdf', [PdfController::class, 'viewPdf'])->name('viewPdf');
 
 Route::get('/pdfPreview', function () {
     return view('pdf.document');
