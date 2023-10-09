@@ -11,6 +11,16 @@ export interface StoreTransactionState {
   detailRows: Array<DetailRow>
   amountInfo: AmountInfo
   taxInfos: Array<TaxInfo>
+  offices: Array<Office>
+}
+
+export interface Office {
+  officeCode: string
+  officeName: string
+}
+
+export interface InitApiResult {
+  offices: Array<Office>
 }
 
 /**

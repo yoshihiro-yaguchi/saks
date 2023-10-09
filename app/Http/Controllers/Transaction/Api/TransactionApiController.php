@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Transaction\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiSearchTransaction;
 use App\Http\Requests\StoreTransaction;
+use App\Models\Office;
 use App\Services\CommonService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use App\Services\Transaction\TransactionService;
+use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,10 +18,29 @@ class TransactionApiController extends Controller
 {
     /** @var TransactionService */
     public $transactionService;
+    public $commonService;
 
     public function __construct()
     {
         $this->transactionService = new TransactionService();
+        $this->commonService = new CommonService();
+    }
+
+    /**
+     * 取引作成画面初期処理
+     *
+     * @return void
+     */
+    public function initStoreTransaction()
+    {
+        $contract_id = $this->commonService->getContractId();
+
+        $offices = Office::query()->where('contract_id', '=', $contract_id)->get(['office_code as officeCode', 'office_name as officeName']);
+
+        return response()->json(
+            ['offices' => $offices],
+            200
+        );
     }
 
     /**
@@ -38,7 +59,6 @@ class TransactionApiController extends Controller
         $detailRows = $request->input('detailRows');
         $culcResult = $this->transactionService->culcTransaction($detailRows);
         $amountInfo = $culcResult['amountInfo'];
-        $taxInfos = $culcResult['taxInfos'];
 
         // 契約ID
         $commonService = new CommonService();

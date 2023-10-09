@@ -7,12 +7,14 @@ import {
   Common,
   initCommon,
   ValidateError,
+  Office,
+  InitApiResult,
 } from "./types"
 import { actions } from "./reducer"
 import { actions as commonActions } from "@resource/ts/src/common/commonReducer"
 import { commonFunc } from "@resource/ts/src/common/commonFunc"
 import { apis } from "./api"
-import { isAxiosError } from "axios"
+import { AxiosResponse, isAxiosError } from "axios"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
 import { NavigateFunction } from "react-router-dom"
 import { DetailRow, TaxInfo } from "../TransactionTypes"
@@ -36,7 +38,23 @@ export const operations = {
     partialState.token = document.head.querySelector<HTMLMetaElement>(
       'meta[name="csrfToken"]'
     )!.content
-    dispatch(actions.initHandle({ param: partialState }))
+
+    // 初期処理API実行
+    let result: AxiosResponse<InitApiResult>
+    try {
+      result = await apis.init()
+    } catch (error) {
+      throw error
+    }
+
+    dispatch(
+      actions.initHandle({
+        param: partialState,
+        name: getState().common.user.name,
+        offices: result.data.offices,
+        initOffice: result.data.offices[0].officeCode,
+      })
+    )
     dispatch(commonActions.processEnd())
   },
   /**
@@ -215,20 +233,23 @@ export const operations = {
 
     detailRows.forEach((detailRow) => {
       if (detailRow.taxRate in taxInfos) {
-        taxInfos[detailRow.taxRate].taxableAmout += detailRow.totalPrice
+        taxInfos[detailRow.taxRate].taxableAmount += detailRow.totalPrice
       } else {
         const taxInfo: TaxInfo = {
           taxRate: detailRow.taxRate,
-          taxableAmout: detailRow.totalPrice,
-          taxAmout: 0,
+          taxableAmount: detailRow.totalPrice,
+          taxAmount: 0,
         }
         taxInfos[detailRow.taxRate] = taxInfo
       }
     })
 
+    console.log(taxInfos)
+
     taxInfos.forEach((taxInfo) => {
-      taxInfo.taxAmout = commonFunc.culcTaxIncludeAmount(
-        taxInfo.taxableAmout,
+      console.log("foreach")
+      taxInfo.taxAmount = commonFunc.culcTaxIncludeAmount(
+        taxInfo.taxableAmount,
         taxInfo.taxRate
       )
     })
@@ -247,9 +268,9 @@ export const operations = {
     let taxInclude: number = 0
     let total: number = 0
     taxInfos.forEach((taxInfo) => {
-      subTotal += taxInfo.taxableAmout
-      taxInclude += taxInfo.taxAmout
-      total += taxInfo.taxableAmout
+      subTotal += taxInfo.taxableAmount
+      taxInclude += taxInfo.taxAmount
+      total += taxInfo.taxableAmount
     })
 
     const amountInfo: AmountInfo = {

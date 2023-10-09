@@ -24,7 +24,7 @@ import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
 import { H1, H2, H5, Typo } from "@resource/ts/src/common/Component/Typo"
 import { operations } from "./operation"
 import Paper from "@mui/material/Paper"
-import { AmountInfo } from "./types"
+import { AmountInfo, Office } from "./types"
 import { Delete } from "@mui/icons-material"
 import { constants } from "./constant"
 import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
@@ -87,6 +87,10 @@ export const Store = () => {
 
   const taxInfos: Array<TaxInfo> = useAppSelector(
     (s: RootState) => s.storeTransaction.taxInfos
+  )
+
+  const offices: Array<Office> = useAppSelector(
+    (s: RootState) => s.storeTransaction.offices
   )
 
   // 法人区分が法人である
@@ -246,8 +250,11 @@ export const Store = () => {
                           )
                         }}
                       >
-                        <MenuItem value={"1"}>本社工場</MenuItem>
-                        <MenuItem value={"2"}>高崎工場</MenuItem>
+                        {offices.map((office, index) => (
+                          <MenuItem value={office.officeCode} key={index}>
+                            {office.officeName}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </Box>
@@ -317,14 +324,14 @@ export const Store = () => {
                   }}
                 >
                   <Box>
-                    <Button
+                    {/* <Button
                       variant="outlined"
                       type="button"
                       color="primary"
                       onClick={() => {}}
                     >
                       お客様検索
-                    </Button>
+                    </Button> */}
                   </Box>
                 </Grid>
               </Grid>
@@ -851,7 +858,7 @@ export const Store = () => {
                                   }}
                                 >
                                   <Typo>
-                                    ￥{taxInfo.taxableAmout.toLocaleString()}
+                                    ￥{taxInfo.taxableAmount.toLocaleString()}
                                   </Typo>
                                 </StyledTableRowCell>
                                 <StyledTableRowCell
@@ -869,7 +876,7 @@ export const Store = () => {
                                   }}
                                 >
                                   <Typo>
-                                    ￥{taxInfo.taxAmout.toLocaleString()}
+                                    ￥{taxInfo.taxAmount.toLocaleString()}
                                   </Typo>
                                 </StyledTableRowCell>
                               </StyledTableRow>

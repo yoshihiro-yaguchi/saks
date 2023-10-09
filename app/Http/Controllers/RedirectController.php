@@ -21,6 +21,6 @@ class RedirectController extends Controller
             return redirect('/register_contract');
         }
 
-        return redirect('/transaction/store');
+        return redirect('/transaction/search');
     }
 }

@@ -39,26 +39,35 @@ export const commonFunc = {
     return zipCode
   },
 
+  /**
+   * 取引金額計算
+   *
+   * @param detailRows
+   * @returns
+   */
   transactionCulcTax: (detailRows: Array<DetailRow>) => {
-    const taxInfos: Array<TaxInfo> = []
+    const taxInfos: TaxInfo[] = []
 
     detailRows.forEach((detailRow) => {
       if (detailRow.taxRate in taxInfos) {
-        taxInfos[detailRow.taxRate].taxableAmout += Math.floor(
+        taxInfos[detailRow.taxRate].taxableAmount += Math.floor(
           detailRow.totalPrice
         )
       } else {
         const taxInfo: TaxInfo = {
           taxRate: Math.floor(detailRow.taxRate),
-          taxableAmout: Math.floor(detailRow.totalPrice),
-          taxAmout: 0,
+          taxableAmount: Math.floor(detailRow.totalPrice),
+          taxAmount: 0,
         }
-        taxInfos.push(taxInfo)
+        taxInfos[detailRow.taxRate] = taxInfo
       }
     })
+
+    console.log(taxInfos)
+
     taxInfos.forEach((taxInfo) => {
-      taxInfo.taxAmout = commonFunc.culcTaxIncludeAmount(
-        taxInfo.taxableAmout,
+      taxInfo.taxAmount = commonFunc.culcTaxIncludeAmount(
+        taxInfo.taxableAmount,
         taxInfo.taxRate
       )
     })

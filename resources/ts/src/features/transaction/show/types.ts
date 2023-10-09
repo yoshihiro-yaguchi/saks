@@ -1,10 +1,10 @@
-import { DetailRow, TaxInfo } from "../TransactionTypes"
+import { DetailRow, TaxInfo, TaxInfos } from "../TransactionTypes"
 
 export interface ShowTransactionState {
   common: Common
   transactionHead: TransactionHead
   detailRows: Array<DetailRow>
-  taxInfos: Array<TaxInfo>
+  taxInfos: TaxInfos
 }
 
 export interface Common {
@@ -93,4 +93,5 @@ export interface ApiDoInit {
 export interface TransactionData {
   transactionHead: TransactionHead
   detailRows: Array<DetailRow>
+  taxInfos: TaxInfos
 }

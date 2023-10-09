@@ -5,15 +5,19 @@ export interface TaxInfo {
   /** 税率 */
   taxRate: number
   /** 税率対象額 */
-  taxableAmout: number
+  taxableAmount: number
   /** 税額 */
-  taxAmout: number
+  taxAmount: number
 }
 export const initTaxInfo: TaxInfo = {
   taxRate: 0,
-  taxableAmout: 0,
-  taxAmout: 0,
+  taxableAmount: 0,
+  taxAmount: 0,
 }
+export interface TaxInfos {
+  [key: string]: TaxInfo
+}
+
 /**
  * 明細行
  */

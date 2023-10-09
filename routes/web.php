@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
     /**
      * 取引:RESTAPI
      */
+    // 取引データ登録画面初期処理
+    Route::get('/api/transaction/store/init', [TransactionApiController::class, 'initStoreTransaction']);
     // 取引データ登録
     Route::post('/api/transaction/store', [TransactionApiController::class, 'storeTransaction']);
     // 取引データ取得

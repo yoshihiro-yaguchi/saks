@@ -9,6 +9,7 @@ import {
   StoreTransactionState,
   AmountInfo,
   Common,
+  Office,
 } from "./types"
 import { DetailRow, TaxInfo } from "../TransactionTypes"
 
@@ -20,6 +21,7 @@ const initialState: StoreTransactionState = {
   detailRows: [],
   amountInfo: initAmountInfo,
   taxInfos: [],
+  offices: [],
 }
 
 export const storeTransactionReducer = createSlice({
@@ -32,11 +34,19 @@ export const storeTransactionReducer = createSlice({
     // 初期表示時
     initHandle: (
       state,
-      action: PayloadAction<{ param: Partial<StoreTransactionState> }>
+      action: PayloadAction<{
+        param: Partial<StoreTransactionState>
+        name: string
+        offices: Array<Office>
+        initOffice: string
+      }>
     ) => {
       // トークン情報
       state.token = action.payload.param.token ?? ""
       state.common = { ...state.common, ...action.payload.param.common }
+      state.transactionInfo.transactionPicName = action.payload.name
+      state.transactionInfo.transactionBranch = action.payload.initOffice
+      state.offices = action.payload.offices
     },
 
     // 取引情報変更時ハンドラ

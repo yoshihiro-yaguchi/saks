@@ -5,13 +5,13 @@ import {
   initTransactionHead,
   ShowTransactionState,
 } from "./types"
-import { TaxInfo } from "../TransactionTypes"
+import { TaxInfo, TaxInfos } from "../TransactionTypes"
 
 const initialState: ShowTransactionState = {
   common: initCommon,
   transactionHead: initTransactionHead,
   detailRows: [],
-  taxInfos: [],
+  taxInfos: Object(),
 }
 
 export const showTransactionReducer = createSlice({
@@ -55,7 +55,7 @@ export const showTransactionReducer = createSlice({
     updateTaxInfoHandle: (
       state,
       action: PayloadAction<{
-        taxInfo: TaxInfo[]
+        taxInfo: TaxInfos
       }>
     ) => {
       state.taxInfos = action.payload.taxInfo

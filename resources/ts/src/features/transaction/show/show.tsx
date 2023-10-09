@@ -26,7 +26,7 @@ import styled from "@emotion/styled"
 import { operations } from "./operators"
 import { ParamParseKey, useNavigate, useParams } from "react-router-dom"
 import { TRANSACTION_PATHS } from "../router/router"
-import { TaxInfo } from "../TransactionTypes"
+import { TaxInfo, TaxInfos } from "../TransactionTypes"
 
 const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
   textAlign: "center",
@@ -47,7 +47,7 @@ export const Show = () => {
     (s: RootState) => s.showTransaction.detailRows
   )
 
-  const taxInfos: Array<TaxInfo> = useAppSelector(
+  const taxInfos: TaxInfos = useAppSelector(
     (s: RootState) => s.showTransaction.taxInfos
   )
 
@@ -511,7 +511,7 @@ export const Show = () => {
               </TableContainer>
             </Box>
             {(() => {
-              if (taxInfos.length > 0) {
+              if (Object.keys(taxInfos).length > 0) {
                 return (
                   <>
                     <Box sx={{ height: "32px" }}></Box>
@@ -524,46 +524,57 @@ export const Show = () => {
                       <TableContainer component={Paper} sx={{ width: "500px" }}>
                         <Table size="small" sx={{ width: "500px" }}>
                           <TableBody>
-                            {taxInfos.map((taxInfo, index) => (
-                              <StyledTableRow key={index}>
-                                <StyledTableRowCell
-                                  sx={{
-                                    width: "20%",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  <H5>{taxInfo.taxRate}%対象</H5>
-                                </StyledTableRowCell>
-                                <StyledTableRowCell
-                                  sx={{
-                                    width: "30%",
-                                    textAlign: "right",
-                                  }}
-                                >
-                                  <Typo>
-                                    ￥{taxInfo.taxableAmout.toLocaleString()}
-                                  </Typo>
-                                </StyledTableRowCell>
-                                <StyledTableRowCell
-                                  sx={{
-                                    width: "20%",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  <H5>消費税</H5>
-                                </StyledTableRowCell>
-                                <StyledTableRowCell
-                                  sx={{
-                                    width: "30%",
-                                    textAlign: "right",
-                                  }}
-                                >
-                                  <Typo>
-                                    ￥{taxInfo.taxAmout.toLocaleString()}
-                                  </Typo>
-                                </StyledTableRowCell>
-                              </StyledTableRow>
-                            ))}
+                            {Object.keys(taxInfos).map((key, index) => {
+                              return (
+                                <StyledTableRow key={index}>
+                                  <StyledTableRowCell
+                                    sx={{
+                                      width: "20%",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    <H5>
+                                      {Math.floor(
+                                        taxInfos[key].taxRate
+                                      ).toLocaleString()}
+                                      %対象
+                                    </H5>
+                                  </StyledTableRowCell>
+                                  <StyledTableRowCell
+                                    sx={{
+                                      width: "30%",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    <Typo>
+                                      ￥
+                                      {taxInfos[
+                                        key
+                                      ].taxableAmount.toLocaleString()}
+                                    </Typo>
+                                  </StyledTableRowCell>
+                                  <StyledTableRowCell
+                                    sx={{
+                                      width: "20%",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    <H5>消費税</H5>
+                                  </StyledTableRowCell>
+                                  <StyledTableRowCell
+                                    sx={{
+                                      width: "30%",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    <Typo>
+                                      ￥
+                                      {taxInfos[key].taxAmount.toLocaleString()}
+                                    </Typo>
+                                  </StyledTableRowCell>
+                                </StyledTableRow>
+                              )
+                            })}
                           </TableBody>
                         </Table>
                       </TableContainer>

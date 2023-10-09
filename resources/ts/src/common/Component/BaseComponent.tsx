@@ -16,6 +16,7 @@ import {
 } from "@mui/material"
 import { Loading } from "@resource/ts/src/common/Component/Loading"
 import { commonOperations } from "../commonOperations"
+import { Spacer } from "./Spacer"
 // import logo from "../../../public/image-logo.svg"
 
 // styledBox
@@ -49,39 +50,25 @@ export const BaseComponent = (props: Props) => {
             height: "55px",
             backgroundColor: "#1cc1cc",
             borderBottom: "1px solid #dddddd",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          <form action="/logout" method="post">
-            <input type="hidden" name="_token" value={commonState.csrfToken} />
-            <Button type="submit">ログアウト</Button>
-          </form>
+          <Box sx={{ minWidth: "1024px" }}>
+            <form action="/logout" method="post">
+              <input
+                type="hidden"
+                name="_token"
+                value={commonState.csrfToken}
+              />
+              <Button type="submit">ログアウト</Button>
+            </form>
+          </Box>
         </Box>
-        <Grid container spacing={4} sx={{ height: "100%" }}>
-          {/* 左メニュー */}
-          <Grid item xs={0} sm={3} md={2}>
-            <Box
-              sx={{
-                height: "100%",
-                borderRight: "1px solid #1cc1cc",
-              }}
-            >
-              <Box height={"32px"}></Box>
-            </Box>
-          </Grid>
-          {/* コンテンツ */}
-          <Grid item xs={12} sm={9} md={8}>
-            <StyledBox>
-              <Box height={"32px"}></Box>
-              {children}
-            </StyledBox>
-          </Grid>
-          {/* 右メニュー */}
-          <Grid item xs={0} sm={0} md={2}>
-            <Box sx={{ height: "100%", borderLeft: "1px solid #1cc1cc" }}>
-              <Box height={"32px"}></Box>
-            </Box>
-          </Grid>
-        </Grid>
+        <Spacer />
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box sx={{ width: "1024px", margin: "0 5px" }}>{children}</Box>
+        </Box>
       </Box>
     </>
   )

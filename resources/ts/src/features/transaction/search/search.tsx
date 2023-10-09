@@ -26,7 +26,7 @@ import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
 import { LinedContainerBox } from "@resource/ts/src/common/Component/LinedContainerBox"
 import { H1, Typo } from "@resource/ts/src/common/Component/Typo"
 import { FullWidthInput, Input } from "@resource/ts/src/common/Component/Input"
-import { Specer } from "@resource/ts/src/common/Component/Spacer"
+import { Spacer } from "@resource/ts/src/common/Component/Spacer"
 import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
 import { useNavigate } from "react-router-dom"
@@ -73,7 +73,7 @@ export const Search = () => {
   return (
     <>
       <BaseComponent processing={commonState.processing}>
-        {/* 画面ないヘッダー */}
+        {/* 画面内ヘッダー */}
         <Box>
           <LinedContainerBox>
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -86,7 +86,7 @@ export const Search = () => {
             </Box>
           </LinedContainerBox>
         </Box>
-        <Specer />
+        <Spacer />
         {/* 検索条件 */}
         <Box>
           <LinedContainerBox>
@@ -268,7 +268,7 @@ export const Search = () => {
             </Box>
           </LinedContainerBox>
         </Box>
-        <Specer />
+        <Spacer />
         {/* 検索結果 */}
         <Box>
           <LinedContainerBox>
@@ -276,66 +276,100 @@ export const Search = () => {
               if (state.transactions.length > 0) {
                 return (
                   <>
+                    <Grid container spacing={1}>
+                      <Grid item xs={6}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "flex-start",
+                            verticalAlign: "end",
+                            marginTop: "16px",
+                          }}
+                        >
+                          <Button
+                            color="error"
+                            variant="outlined"
+                            sx={{ margin: "auto 0" }}
+                          >
+                            削除
+                          </Button>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            marginTop: "16px",
+                          }}
+                        >
+                          {/* 1ページあたりの表示量 */}
+                          <Select
+                            value={state.paginate.itemsPerPage}
+                            onChange={(e: SelectChangeEvent<number>) =>
+                              changePerPage(e.target.value as unknown as number)
+                            }
+                          >
+                            <MenuItem value={1}>1</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={25}>25</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                          </Select>
+                          <Pagination
+                            sx={{ display: "flex", alignContent: "center" }}
+                            page={state.paginate.pages}
+                            count={state.paginate.maxPages}
+                            onChange={(e: React.ChangeEvent<unknown>, page) =>
+                              changePage(page)
+                            }
+                          ></Pagination>
+                        </Box>
+                      </Grid>
+                    </Grid>
+
                     <Box
                       sx={{
                         display: "flex",
                         justifyContent: "flex-end",
                         marginBottom: "16px",
                       }}
-                    >
-                      <Button color="error" variant="outlined">
-                        削除
-                      </Button>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        marginBottom: "16px",
-                      }}
-                    >
-                      {/* 1ページあたりの表示量 */}
-                      <Select
-                        value={state.paginate.itemsPerPage}
-                        onChange={(e: SelectChangeEvent<number>) =>
-                          changePerPage(e.target.value as unknown as number)
-                        }
-                      >
-                        <MenuItem value={1}>1</MenuItem>
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={25}>25</MenuItem>
-                        <MenuItem value={50}>50</MenuItem>
-                      </Select>
-                      <Pagination
-                        sx={{ display: "flex", alignContent: "center" }}
-                        page={state.paginate.pages}
-                        count={state.paginate.maxPages}
-                        onChange={(e: React.ChangeEvent<unknown>, page) =>
-                          changePage(page)
-                        }
-                      />
-                    </Box>
+                    ></Box>
                     <TableContainer component={Paper}>
-                      <Table sx={{ width: "950px" }}>
+                      <Table sx={{ minWidth: "950px" }}>
                         <TableHead>
                           <TableRow>
                             <TableCell width={"25px"}></TableCell>
-                            <TableCell width={"50px"}>
+                            <TableCell
+                              width={"50px"}
+                              sx={{ textAlign: "center" }}
+                            >
                               <Typo>ID</Typo>
                             </TableCell>
-                            <TableCell width={"150px"}>
+                            <TableCell sx={{ textAlign: "center" }}>
                               <Typo>件名</Typo>
                             </TableCell>
-                            <TableCell width={"80px"}>
+                            <TableCell
+                              width={"120px"}
+                              sx={{ textAlign: "center" }}
+                            >
                               <Typo>区分</Typo>
                             </TableCell>
-                            <TableCell width={"150px"}>
+                            <TableCell
+                              width={"250px"}
+                              sx={{ textAlign: "center" }}
+                            >
                               <Typo>お客様名</Typo>
                             </TableCell>
-                            <TableCell width={"100px"}>
+                            <TableCell
+                              width={"100px"}
+                              sx={{ textAlign: "center" }}
+                            >
                               <Typo>担当者</Typo>
                             </TableCell>
-                            <TableCell width={"100px"}>
+                            <TableCell
+                              width={"120px"}
+                              sx={{ textAlign: "center" }}
+                            >
                               <Typo>取引日付</Typo>
                             </TableCell>
                           </TableRow>

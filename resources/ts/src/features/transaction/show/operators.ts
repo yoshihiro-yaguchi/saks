@@ -43,7 +43,7 @@ export const operations = {
         common: commonData,
         transactionHead: initData.transactionHead,
         detailRows: initData.detailRows,
-        taxInfos: commonFunc.transactionCulcTax(initData.detailRows),
+        taxInfos: initData.taxInfos,
       }
 
       dispatch(actions.init({ updateData: initState }))
@@ -69,6 +69,8 @@ export const operations = {
       }
       let mineType = result.headers["content-type"]
       const blob = new Blob([result.data], { type: mineType })
-      FileSaver.saveAs(blob, "買取明細書・依頼書.pdf")
+      const fileUrl = URL.createObjectURL(blob)
+      window.open(fileUrl)
+      // FileSaver.saveAs(blob, "買取明細書・依頼書.pdf")
     },
 }

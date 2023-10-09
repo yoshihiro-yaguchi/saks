@@ -5,6 +5,8 @@ export interface RegisterContractTypes {
 export interface InputState {
   contractCompanyName: string
   contractersName: string
+  invoiceNumber: string
+  hqPhoneNumber: string
   contractZipcode: string
   contractAddress1: string
   contractAddress2: string
@@ -20,6 +22,8 @@ export const initInputItems: InputState = {
   contractAddress2: "",
   contractAddress3: "",
   contractAddress4: "",
+  invoiceNumber: "",
+  hqPhoneNumber: "",
 }
 
 export const initRegisterContractTypes: RegisterContractTypes = {

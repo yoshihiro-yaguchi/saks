@@ -6,8 +6,8 @@ import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import React, { useEffect } from "react"
 import reportWebVitals from "@resource/ts/src/reportWebVitals"
-import { Box, Button, Paper } from "@mui/material"
-import { H1 } from "@resource/ts/src/common/Component/Typo"
+import { Box, Button, Grid, Paper } from "@mui/material"
+import { H1, H3, Typo } from "@resource/ts/src/common/Component/Typo"
 import { FullWidthInput } from "@resource/ts/src/common/Component/Input"
 import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
@@ -51,90 +51,132 @@ export const Index = () => {
         className="maxHeight"
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <Paper
-          elevation={3}
-          sx={{ display: "inline-block", height: "550px", width: "300px" }}
-        >
-          <Box sx={{ margin: "10px" }}>
-            <H1 fontSize={"10px"}>契約者情報</H1>
-            <form>
-              <Box sx={{ margin: "10px" }}>
-                <FullWidthInput
-                  label="契約法人名"
-                  name="contractCompanyName"
-                  value={inputState.contractCompanyName}
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    updateInputState(e.target.name, e.target.value)
-                  }
-                  error={commonState.errors.hasOwnProperty(
-                    "contractCompanyName"
-                  )}
-                  inputProps={{ maxLength: 100 }}
-                ></FullWidthInput>
-                <FullWidthInput
-                  label="契約者名"
-                  name="contractersName"
-                  value={inputState.contractersName}
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    updateInputState(e.target.name, e.target.value)
-                  }
-                  error={commonState.errors.hasOwnProperty("contractersName")}
-                  required
-                  inputProps={{ maxLength: 100 }}
-                ></FullWidthInput>
-                <FullWidthInput
-                  label="郵便番号"
-                  name="contractZipcode"
-                  value={commonFunc.zipCodeHyphen(inputState.contractZipcode)}
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    const zipCode = e.target.value.replace("-", "")
-                    updateInputState(e.target.name, zipCode)
-                  }}
-                  onBlur={() => dispatch(operations.zipCodeOnBlur())}
-                  error={commonState.errors.hasOwnProperty("contractZipcode")}
-                  inputProps={{ maxLength: 8 }}
-                ></FullWidthInput>
-                <FullWidthInput
-                  label="契約者住所 都道府県"
-                  name="contractAddress1"
-                  value={inputState.contractAddress1}
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    updateInputState(e.target.name, e.target.value)
-                  }
-                  error={commonState.errors.hasOwnProperty("contractAddress1")}
-                  inputProps={{ maxLength: 10 }}
-                ></FullWidthInput>
-                <FullWidthInput
-                  label="契約者住所 市区町村"
-                  name="contractAddress2"
-                  value={inputState.contractAddress2}
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    updateInputState(e.target.name, e.target.value)
-                  }
-                  error={commonState.errors.hasOwnProperty("contractAddress2")}
-                  inputProps={{ maxLength: 50 }}
-                ></FullWidthInput>
-                <FullWidthInput
-                  label="契約者住所 町・番地"
-                  name="contractAddress3"
-                  value={inputState.contractAddress3}
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    updateInputState(e.target.name, e.target.value)
-                  }
-                  error={commonState.errors.hasOwnProperty("contractAddress3")}
-                  inputProps={{ maxLength: 100 }}
-                ></FullWidthInput>
-                <FullWidthInput
-                  label="契約者住所 建物名等"
-                  name="contractAddress4"
-                  value={inputState.contractAddress4}
-                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    updateInputState(e.target.name, e.target.value)
-                  }
-                  error={commonState.errors.hasOwnProperty("contractAddress4")}
-                  inputProps={{ maxLength: 100 }}
-                ></FullWidthInput>
-              </Box>
+        <Paper elevation={3} sx={{ display: "inline-block", height: "750px" }}>
+          <form>
+            <Box sx={{ margin: "10px" }}>
+              <H1>情報を入力してください。</H1>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sx={{ width: "300px", margin: "10px" }}>
+                  <Typo>契約者本人について教えてください。</Typo>
+                  <Box sx={{ margin: "10px" }}>
+                    <FullWidthInput
+                      label="契約法人名"
+                      name="contractCompanyName"
+                      value={inputState.contractCompanyName}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateInputState(e.target.name, e.target.value)
+                      }
+                      error={commonState.errors.hasOwnProperty(
+                        "contractCompanyName"
+                      )}
+                      inputProps={{ maxLength: 100 }}
+                    ></FullWidthInput>
+                    <FullWidthInput
+                      label="契約者名"
+                      name="contractersName"
+                      value={inputState.contractersName}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateInputState(e.target.name, e.target.value)
+                      }
+                      error={commonState.errors.hasOwnProperty(
+                        "contractersName"
+                      )}
+                      required
+                      inputProps={{ maxLength: 100 }}
+                    ></FullWidthInput>
+                    <FullWidthInput
+                      label="登録番号"
+                      name="invoiceNumber"
+                      value={inputState.invoiceNumber}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateInputState(e.target.name, e.target.value)
+                      }
+                      error={commonState.errors.hasOwnProperty("invoiceNumber")}
+                      inputProps={{ maxLength: 14 }}
+                    ></FullWidthInput>
+                    <FullWidthInput
+                      label="代表電話番号"
+                      name="hqPhoneNumber"
+                      value={inputState.hqPhoneNumber}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateInputState(e.target.name, e.target.value)
+                      }
+                      error={commonState.errors.hasOwnProperty("hqPhoneNumber")}
+                      required
+                      inputProps={{ maxLength: 15 }}
+                    ></FullWidthInput>
+                    <FullWidthInput
+                      label="郵便番号"
+                      name="contractZipcode"
+                      value={commonFunc.zipCodeHyphen(
+                        inputState.contractZipcode
+                      )}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const zipCode = e.target.value.replace("-", "")
+                        updateInputState(e.target.name, zipCode)
+                      }}
+                      onBlur={() => dispatch(operations.zipCodeOnBlur())}
+                      error={commonState.errors.hasOwnProperty(
+                        "contractZipcode"
+                      )}
+                      inputProps={{ maxLength: 8 }}
+                    ></FullWidthInput>
+                    <FullWidthInput
+                      label="契約者住所 都道府県"
+                      name="contractAddress1"
+                      value={inputState.contractAddress1}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateInputState(e.target.name, e.target.value)
+                      }
+                      required
+                      error={commonState.errors.hasOwnProperty(
+                        "contractAddress1"
+                      )}
+                      inputProps={{ maxLength: 10 }}
+                    ></FullWidthInput>
+                    <FullWidthInput
+                      label="契約者住所 市区町村"
+                      name="contractAddress2"
+                      value={inputState.contractAddress2}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateInputState(e.target.name, e.target.value)
+                      }
+                      error={commonState.errors.hasOwnProperty(
+                        "contractAddress2"
+                      )}
+                      required
+                      inputProps={{ maxLength: 50 }}
+                    ></FullWidthInput>
+                    <FullWidthInput
+                      label="契約者住所 町・番地"
+                      name="contractAddress3"
+                      value={inputState.contractAddress3}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateInputState(e.target.name, e.target.value)
+                      }
+                      error={commonState.errors.hasOwnProperty(
+                        "contractAddress3"
+                      )}
+                      required
+                      inputProps={{ maxLength: 100 }}
+                    ></FullWidthInput>
+                    <FullWidthInput
+                      label="契約者住所 建物名等"
+                      name="contractAddress4"
+                      value={inputState.contractAddress4}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        updateInputState(e.target.name, e.target.value)
+                      }
+                      error={commonState.errors.hasOwnProperty(
+                        "contractAddress4"
+                      )}
+                      inputProps={{ maxLength: 100 }}
+                    ></FullWidthInput>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box sx={{ margin: "0 10px 10px 10px" }}>
               <Box sx={{ height: "15px" }}></Box>
               <Button
                 variant="contained"
@@ -143,8 +185,8 @@ export const Index = () => {
               >
                 登録する
               </Button>
-            </form>
-          </Box>
+            </Box>
+          </form>
         </Paper>
       </Box>
       {(() => {

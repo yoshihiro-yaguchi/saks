@@ -37,7 +37,7 @@ return [
         'enabled' => true,
         'binary'  => env('WKHTML_PDF_BINARY'),
         'timeout' => false,
-        'options' => [],
+        'options' => ['enable-local-file-access' => true, 'encoding' => 'utf-8'],
         'env'     => [],
     ],
 
@@ -45,7 +45,7 @@ return [
         'enabled' => true,
         'binary'  => env('WKHTML_IMG_BINARY'),
         'timeout' => false,
-        'options' => [],
+        'options' => ['enable-local-file-access' => true, 'encoding' => 'utf-8'],
         'env'     => [],
     ],
 

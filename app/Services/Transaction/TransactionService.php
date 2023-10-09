@@ -112,6 +112,7 @@ class TransactionService
         return [
             'transactionHead' => $transactionHead,
             'detailRows' => $detailRows,
+            'taxInfos' => $this->culcTransaction($detailRows)['taxInfos']
         ];
     }
 
