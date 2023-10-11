@@ -12,6 +12,7 @@ export interface StoreTransactionState {
   amountInfo: AmountInfo
   taxInfos: Array<TaxInfo>
   offices: Array<Office>
+  modal: ModalState
 }
 
 export interface Office {
@@ -147,4 +148,70 @@ export const initBackendData: BackendData = {
 // バリデーションエラーの型
 export interface ValidateError {
   [key: string]: Array<string>
+}
+
+// モーダルステート
+export interface ModalState {
+  isOpen: boolean
+  searchCondition: ModalSearchCondition
+  searchResult: Array<ModalSearchResult>
+  input: ModalInput
+  paginate: ModalPaginate
+}
+export interface ModalInput {
+  [key: string]: string | number
+  productionCode: string
+  productionName: string
+  quantity: number
+  unitPrice: number
+  unit: string
+  taxRate: number
+}
+export const initModalInput: ModalInput = {
+  productionCode: "",
+  productionName: "",
+  quantity: 1,
+  unitPrice: 0,
+  unit: "",
+  taxRate: 10,
+}
+export interface ModalSearchCondition {
+  productionCode: string
+  productionName: string
+}
+export const initModalSearchCondition: ModalSearchCondition = {
+  productionCode: "",
+  productionName: "",
+}
+
+export interface ModalPaginate {
+  count: number
+  maxPages: number
+  pages: number
+  itemsPerPage: number
+}
+export const initModalPaginate: ModalPaginate = {
+  count: 0,
+  maxPages: 0,
+  pages: 1,
+  itemsPerPage: 25,
+}
+export interface ModalSearchResult {
+  productionCode: string
+  productionName: string
+  unitPrice: number
+  unit: string
+  taxRate: number
+}
+export const initModal: ModalState = {
+  isOpen: false,
+  searchCondition: initModalSearchCondition,
+  searchResult: [],
+  input: initModalInput,
+  paginate: initModalPaginate,
+}
+
+export interface ModalApiSearchResult {
+  count: number
+  products: Array<ModalSearchResult>
 }

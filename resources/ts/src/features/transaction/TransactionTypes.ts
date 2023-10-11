@@ -30,6 +30,8 @@ export interface DetailRow {
   quantity: number
   /** 単価 */
   unitPrice: number
+  /** 単位 */
+  unit: string
   /** 税率 */
   taxRate: number
   /** 金額 */
@@ -42,4 +44,5 @@ export const initDetailRow: DetailRow = {
   unitPrice: 0,
   taxRate: 0,
   totalPrice: 0,
+  unit: "",
 }

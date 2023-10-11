@@ -7,11 +7,15 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  Link,
   MenuItem,
+  Modal,
+  Pagination,
   Select,
   SelectChangeEvent,
   Table,
   TableBody,
+  TableCell,
   TableContainer,
   TableHead,
   TableRow,
@@ -20,17 +24,16 @@ import {
 import { RootState } from "@src/app/store"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { actions } from "./reducer"
-import { actions as commonActions } from "@resource/ts/src/common/commonReducer"
 import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
 import { H1, H2, H5, Typo } from "@resource/ts/src/common/Component/Typo"
 import { operations } from "./operation"
 import Paper from "@mui/material/Paper"
-import { AmountInfo, Office } from "./types"
+import { AmountInfo, ModalState, Office } from "./types"
 import { Delete } from "@mui/icons-material"
 import { constants } from "./constant"
 import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
 import { LinedContainerBox } from "@resource/ts/src/common/Component/LinedContainerBox"
-import { FullWidthInput } from "@resource/ts/src/common/Component/Input"
+import { FullWidthInput, Input } from "@resource/ts/src/common/Component/Input"
 import {
   StyledTableHeadCell,
   StyledTableRowCell,
@@ -86,12 +89,19 @@ export const Store = () => {
     (s: RootState) => s.storeTransaction.amountInfo
   )
 
+  // 税情報
   const taxInfos: Array<TaxInfo> = useAppSelector(
     (s: RootState) => s.storeTransaction.taxInfos
   )
 
+  // 事業所情報
   const offices: Array<Office> = useAppSelector(
     (s: RootState) => s.storeTransaction.offices
+  )
+
+  // モーダル
+  const modalState: ModalState = useAppSelector(
+    (s: RootState) => s.storeTransaction.modal
   )
 
   // 法人区分が法人である
@@ -615,13 +625,9 @@ export const Store = () => {
                       variant="outlined"
                       type="button"
                       color="primary"
-                      onClick={() =>
-                        dispatch(
-                          operations.addDetailRow(
-                            transactionInfoState.transactionDate
-                          )
-                        )
-                      }
+                      onClick={() => {
+                        dispatch(actions.openModal())
+                      }}
                     >
                       明細追加
                     </Button>
@@ -664,7 +670,7 @@ export const Store = () => {
                 </TableHead>
                 <TableBody>
                   {detailRows.map((row, index) => (
-                    <StyledTableRow key={row.productNo}>
+                    <StyledTableRow key={index}>
                       {/* 削除ボタン */}
                       <StyledTableRowCell sx={{ padding: "6px 6px" }}>
                         <Box sx={{ display: "inline-block" }}>
@@ -702,7 +708,9 @@ export const Store = () => {
                           }}
                           InputProps={{
                             endAdornment: (
-                              <InputAdornment position="end">個</InputAdornment>
+                              <InputAdornment position="end">
+                                {row.unit}
+                              </InputAdornment>
                             ),
                           }}
                           value={row.quantity ?? 0}
@@ -737,7 +745,7 @@ export const Store = () => {
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
-                                ￥
+                                &yen;
                               </InputAdornment>
                             ),
                           }}
@@ -784,7 +792,7 @@ export const Store = () => {
                       </StyledTableRowCell>
                       {/* 金額 */}
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
-                        <Typo>￥{row.totalPrice.toLocaleString()}</Typo>
+                        <Typo>&yen;{row.totalPrice.toLocaleString()}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                   ))}
@@ -807,7 +815,7 @@ export const Store = () => {
                         <H5>小計</H5>
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
-                        <Typo>￥{amountInfo.subtotal.toLocaleString()}</Typo>
+                        <Typo>&yen;{amountInfo.subtotal.toLocaleString()}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     <StyledTableRow>
@@ -815,7 +823,9 @@ export const Store = () => {
                         <H5>(内消費税)</H5>
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
-                        <Typo>￥{amountInfo.taxInclude.toLocaleString()}</Typo>
+                        <Typo>
+                          &yen;{amountInfo.taxInclude.toLocaleString()}
+                        </Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                     <StyledTableRow>
@@ -823,7 +833,7 @@ export const Store = () => {
                         <H5>合計</H5>
                       </StyledTableRowCell>
                       <StyledTableRowCell sx={{ textAlign: "right" }}>
-                        <Typo>￥{amountInfo.total.toLocaleString()}</Typo>
+                        <Typo>&yen;{amountInfo.total.toLocaleString()}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
@@ -862,7 +872,8 @@ export const Store = () => {
                                   }}
                                 >
                                   <Typo>
-                                    ￥{taxInfo.taxableAmount.toLocaleString()}
+                                    &yen;
+                                    {taxInfo.taxableAmount.toLocaleString()}
                                   </Typo>
                                 </StyledTableRowCell>
                                 <StyledTableRowCell
@@ -880,7 +891,7 @@ export const Store = () => {
                                   }}
                                 >
                                   <Typo>
-                                    ￥{taxInfo.taxAmount.toLocaleString()}
+                                    &yen;{taxInfo.taxAmount.toLocaleString()}
                                   </Typo>
                                 </StyledTableRowCell>
                               </StyledTableRow>
@@ -905,6 +916,341 @@ export const Store = () => {
         </Box>
         <Box sx={{ height: "32px" }}></Box>
       </BaseComponent>
+
+      {/* 商品追加モーダル */}
+      <Modal
+        open={modalState.isOpen}
+        onClose={() => dispatch(actions.closeModal())}
+      >
+        <Box
+          sx={{
+            width: "750px",
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            borderRadius: "5px",
+            padding: "16px",
+          }}
+        >
+          {/* ヘッダー */}
+          <Box sx={{ borderBottom: "1px solid #dddddd" }}>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <H1>商品検索</H1>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  verticalAlign: "center",
+                }}
+              >
+                <Input
+                  label="商品コード"
+                  value={modalState.searchCondition.productionCode}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch(
+                      actions.modalInputCondition({
+                        key: "productionCode",
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                ></Input>
+                <Input
+                  label="商品名"
+                  value={modalState.searchCondition.productionName}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch(
+                      actions.modalInputCondition({
+                        key: "productionName",
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                ></Input>
+                <Box sx={{ padding: "8px 8px 8px 0" }}>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    sx={{ height: "40px" }}
+                    onClick={() => dispatch(operations.modalSearch())}
+                  >
+                    検索
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+          {/* 検索結果表示 */}
+          <Box
+            sx={{
+              borderBottom: "1px solid #dddddd",
+              height: "150px",
+              overflow: "scroll",
+            }}
+          >
+            {(() => {
+              if (modalState.searchResult.length > 0) {
+                return (
+                  <>
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Pagination
+                        size="small"
+                        sx={{ display: "flex", alignContent: "center" }}
+                        page={modalState.paginate.pages}
+                        count={modalState.paginate.maxPages}
+                        onChange={(e: React.ChangeEvent<unknown>, page) =>
+                          dispatch(operations.modalPerPage(page))
+                        }
+                      ></Pagination>
+                    </Box>
+                    <Box sx={{ margin: "8px" }}>
+                      <TableContainer component={Paper}>
+                        <Table sx={{ width: "100%" }}>
+                          <TableHead>
+                            <TableRow>
+                              <TableCell
+                                sx={{ width: "40%", textAlign: "center" }}
+                              >
+                                <Typo>商品コード</Typo>
+                              </TableCell>
+                              <TableCell
+                                sx={{ width: "60%", textAlign: "center" }}
+                              >
+                                <Typo>商品名</Typo>
+                              </TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {modalState.searchResult.map((row, index) => (
+                              <TableRow key={row.productionCode}>
+                                <TableCell
+                                  sx={{ textAlign: "center" }}
+                                  onClick={() =>
+                                    dispatch(
+                                      operations.modalRowClickHandle(index)
+                                    )
+                                  }
+                                >
+                                  <Link
+                                    onClick={() =>
+                                      dispatch(
+                                        operations.modalRowClickHandle(index)
+                                      )
+                                    }
+                                  >
+                                    <Typo>{row.productionCode}</Typo>
+                                  </Link>
+                                </TableCell>
+                                <TableCell
+                                  sx={{ textAlign: "center" }}
+                                  onClick={() =>
+                                    dispatch(
+                                      operations.modalRowClickHandle(index)
+                                    )
+                                  }
+                                >
+                                  <Link
+                                    onClick={() =>
+                                      dispatch(
+                                        operations.modalRowClickHandle(index)
+                                      )
+                                    }
+                                  >
+                                    <Typo>{row.productionName}</Typo>
+                                  </Link>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Pagination
+                        size="small"
+                        sx={{ display: "flex", alignContent: "center" }}
+                        page={modalState.paginate.pages}
+                        count={modalState.paginate.maxPages}
+                        onChange={(e: React.ChangeEvent<unknown>, page) =>
+                          dispatch(operations.modalPerPage(page))
+                        }
+                      ></Pagination>
+                    </Box>
+                  </>
+                )
+              } else {
+                return <Typo>データが見つかりませんでした。</Typo>
+              }
+            })()}
+          </Box>
+          {/* 詳細入力 */}
+          <Box>
+            <Grid container spacing={1}>
+              <Grid item xs={8}>
+                <FullWidthInput
+                  label="商品名"
+                  value={modalState.input.productionName}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch(
+                      actions.modalInputData({
+                        key: "productionName",
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                ></FullWidthInput>
+              </Grid>
+              <Grid item xs={2}>
+                <Box sx={{ padding: "8px 8px 8px 0" }}>
+                  <Button
+                    variant="contained"
+                    sx={{ width: "105px", height: "40px" }}
+                    onClick={() =>
+                      dispatch(operations.modalContinueAddDetailRow())
+                    }
+                  >
+                    連続で追加
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid item xs={2}>
+                <Box sx={{ padding: "8px 8px 8px 0" }}>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    sx={{ width: "105px", height: "40px" }}
+                    onClick={() => dispatch(actions.modalResetInputData())}
+                  >
+                    クリア
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+              <Grid item xs={2.2}>
+                <FullWidthInput
+                  label="数量(重量)"
+                  value={modalState.input.quantity}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.value.length > 9) {
+                      return false
+                    }
+                    dispatch(
+                      actions.modalInputData({
+                        key: "quantity",
+                        value: e.target.value,
+                      })
+                    )
+                  }}
+                ></FullWidthInput>
+              </Grid>
+              <Grid item xs={1.5}>
+                <FullWidthInput
+                  label="単位"
+                  value={modalState.input.unit}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dispatch(
+                      actions.modalInputData({
+                        key: "unit",
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                ></FullWidthInput>
+              </Grid>
+              <Grid item xs={2.5}>
+                <FullWidthInput
+                  label="単価"
+                  type="number"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">&yen;</InputAdornment>
+                    ),
+                  }}
+                  value={modalState.input.unitPrice}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.value.length > 13) {
+                      return false
+                    }
+                    dispatch(
+                      actions.modalInputData({
+                        key: "unitPrice",
+                        value: e.target.value,
+                      })
+                    )
+                  }}
+                ></FullWidthInput>
+              </Grid>
+              <Grid item xs={1.8}>
+                <Box sx={{ padding: "8px 8px 8px 0" }}>
+                  <FormControl fullWidth>
+                    <InputLabel>税率</InputLabel>
+                    <Select
+                      labelId="taxRate"
+                      value={modalState.input.taxRate}
+                      size="small"
+                      variant="outlined"
+                      label="税率"
+                      onChange={(e: SelectChangeEvent<number>) => {
+                        dispatch(
+                          actions.modalInputData({
+                            key: "taxRate",
+                            value: e.target.value,
+                          })
+                        )
+                      }}
+                    >
+                      <MenuItem value={8}>8%</MenuItem>
+                      <MenuItem value={10}>10%</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                sx={{
+                  display: "flex",
+                  verticalAlign: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Box sx={{ padding: "8px 8px 8px 0" }}>
+                  <Button
+                    variant="contained"
+                    sx={{ width: "105px", height: "40px" }}
+                    onClick={() => dispatch(operations.modalAddDetailRow())}
+                  >
+                    明細に追加
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                sx={{ display: "flex", verticalAlign: "center" }}
+              >
+                <Box sx={{ padding: "8px 8px 8px 0" }}>
+                  <Button
+                    variant="outlined"
+                    sx={{ width: "105px", height: "40px" }}
+                    onClick={() => dispatch(actions.closeModal())}
+                  >
+                    閉じる
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Modal>
+
       {(() => {
         if (commonState.errorArray.length > 0) {
           return (
@@ -929,16 +1275,3 @@ export const Store = () => {
     </>
   )
 }
-
-// const container = document.getElementById("storeTransaction")!
-// const root = createRoot(container)
-
-// root.render(
-//   <React.StrictMode>
-//     <Provider store={store}>
-//       <Store />
-//     </Provider>
-//   </React.StrictMode>
-// )
-
-// reportWebVitals()

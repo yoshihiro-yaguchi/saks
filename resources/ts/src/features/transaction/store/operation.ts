@@ -44,6 +44,7 @@ export const operations = {
     try {
       result = await apis.init()
     } catch (error) {
+      dispatch(commonOperations.processEnd())
       throw error
     }
 
@@ -138,33 +139,6 @@ export const operations = {
 
       // 画面遷移
       navigate(`/transaction/show/${apiResult.data.transactionId}`)
-    },
-
-  /**
-   * 明細追加
-   *
-   * @param productName
-   * @returns
-   */
-  addDetailRow:
-    (productName: string): AppThunk =>
-    async (dispatch, getState) => {
-      dispatch(commonOperations.processStart())
-      const key = Math.random().toString(32).substring(2)
-      const row: DetailRow = {
-        productNo: key,
-        productName: productName,
-        quantity: 10,
-        unitPrice: 500,
-        taxRate: 10,
-        totalPrice: 0,
-      }
-      row.totalPrice = row.quantity * row.unitPrice
-
-      dispatch(actions.addDetailRow({ value: row }))
-      dispatch(operations.updateTaxInfo())
-      dispatch(operations.updateAmountInfo())
-      dispatch(commonOperations.processEnd())
     },
 
   /**
@@ -333,16 +307,191 @@ export const operations = {
     dispatch(actions.updateCustomerInfo({ newCustomerInfo: newCustomerInfo }))
   },
 
+  modalSearch: (): AppThunk => async (dispatch, getState) => {
+    await dispatch(commonOperations.processStart())
+
+    const modal = getState().storeTransaction.modal
+    const condition = new URLSearchParams()
+
+    condition.append("productionCode", modal.searchCondition.productionCode)
+    condition.append("productionName", modal.searchCondition.productionName)
+    condition.append("productionName", modal.searchCondition.productionName)
+
+    condition.append("page", modal.paginate.pages.toString())
+    condition.append("itemsPerPage", modal.paginate.itemsPerPage.toString())
+
+    // データ取得
+    let result
+    try {
+      result = await apis.getProducts(condition)
+    } catch (e) {
+      if (
+        isAxiosError(e) &&
+        e.response &&
+        e.response.status === 422 &&
+        e.response.data.errors
+      ) {
+        // laravelでvalidation errorが発生したとき
+        await dispatch(commonOperations.putErrors(e.response.data.errors))
+        dispatch(commonOperations.processEnd())
+        return
+      } else {
+        dispatch(commonOperations.processEnd())
+        throw e
+      }
+    }
+    await dispatch(commonOperations.errorAlertClose())
+    await dispatch(
+      actions.modalUpdateSearchResult({ data: result.data.products })
+    )
+    await dispatch(
+      actions.modalBuldUpdatePaginate({
+        data: {
+          count: result.data.count,
+          maxPages: Math.ceil(
+            result.data.count /
+              getState().storeTransaction.modal.paginate.itemsPerPage
+          ),
+          pages: 1,
+        },
+      })
+    )
+    dispatch(commonOperations.processEnd())
+  },
+
+  // ページ変更
+  modalPerPage:
+    (page: number): AppThunk =>
+    async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
+      await dispatch(
+        actions.modalBuldUpdatePaginate({
+          data: {
+            pages: page,
+          },
+        })
+      )
+
+      const modal = getState().storeTransaction.modal
+      const condition = new URLSearchParams()
+
+      condition.append("productionCode", modal.searchCondition.productionCode)
+      condition.append("productionName", modal.searchCondition.productionName)
+      condition.append("productionName", modal.searchCondition.productionName)
+
+      condition.append("page", modal.paginate.pages.toString())
+      condition.append("itemsPerPage", modal.paginate.itemsPerPage.toString())
+
+      // データ取得
+      let result
+      try {
+        result = await apis.getProducts(condition)
+      } catch (e) {
+        if (
+          isAxiosError(e) &&
+          e.response &&
+          e.response.status === 422 &&
+          e.response.data.errors
+        ) {
+          // laravelでvalidation errorが発生したとき
+          await dispatch(commonOperations.putErrors(e.response.data.errors))
+          dispatch(commonOperations.processEnd())
+          return
+        } else {
+          dispatch(commonOperations.processEnd())
+          throw e
+        }
+      }
+      await dispatch(commonOperations.errorAlertClose())
+      await dispatch(
+        actions.modalUpdateSearchResult({ data: result.data.products })
+      )
+      await dispatch(
+        actions.modalBuldUpdatePaginate({
+          data: {
+            count: result.data.count,
+            maxPages: Math.ceil(
+              result.data.count /
+                getState().storeTransaction.modal.paginate.itemsPerPage
+            ),
+          },
+        })
+      )
+      dispatch(commonOperations.processEnd())
+    },
+
+  // モーダル内行クリック時の処理
+  modalRowClickHandle:
+    (index: number): AppThunk =>
+    async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
+      const clickData = getState().storeTransaction.modal.searchResult[index]
+      const updateData = {
+        productionCode: clickData.productionCode,
+        productionName: clickData.productionName,
+        quantity: 0,
+        unitPrice: Math.floor(clickData.unitPrice),
+        unit: clickData.unit,
+        taxRate: Math.floor(clickData.taxRate),
+      }
+      await dispatch(actions.modalBulkInputData({ data: updateData }))
+      dispatch(commonOperations.processEnd())
+    },
+
   /**
-   * サンプル
+   * 明細追加
+   *
+   * @param productName
+   * @returns
    */
-  // sample: (): AppThunk => async (dispatch, getState) => {
-  //   const target = getState().#{STATES_NAME}.#{STATE_NAME}
+  modalAddDetailRow: (): AppThunk => async (dispatch, getState) => {
+    dispatch(commonOperations.processStart())
+    const key = Math.random().toString(32).substring(2)
+    const modalInput = getState().storeTransaction.modal.input
+    const row: DetailRow = {
+      productNo: modalInput.productionCode,
+      productName: modalInput.productionName,
+      quantity: modalInput.quantity,
+      unitPrice: modalInput.unitPrice,
+      taxRate: modalInput.taxRate,
+      totalPrice: 0,
+      unit: modalInput.unit,
+    }
 
-  //   let params = new URLSearchParams()
-  //   params.append('companyName', target.#{target1})
+    row.totalPrice = row.quantity * row.unitPrice
 
-  //   const result = await api.doPost(params)
-  //   dispatch(#{actions})
-  // },
+    await dispatch(actions.addDetailRow({ value: row }))
+    await dispatch(operations.updateTaxInfo())
+    await dispatch(operations.updateAmountInfo())
+    await dispatch(actions.closeModal())
+    dispatch(commonOperations.processEnd())
+  },
+  /**
+   * 明細追加
+   *
+   * @param productName
+   * @returns
+   */
+  modalContinueAddDetailRow: (): AppThunk => async (dispatch, getState) => {
+    dispatch(commonOperations.processStart())
+    const key = Math.random().toString(32).substring(2)
+    const modalInput = getState().storeTransaction.modal.input
+    const row: DetailRow = {
+      productNo: modalInput.productionCode,
+      productName: modalInput.productionName,
+      quantity: modalInput.quantity,
+      unitPrice: modalInput.unitPrice,
+      taxRate: modalInput.taxRate,
+      totalPrice: 0,
+      unit: modalInput.unit,
+    }
+
+    row.totalPrice = row.quantity * row.unitPrice
+
+    await dispatch(actions.addDetailRow({ value: row }))
+    await dispatch(operations.updateTaxInfo())
+    await dispatch(operations.updateAmountInfo())
+    await dispatch(actions.modalResetInputData())
+    dispatch(commonOperations.processEnd())
+  },
 }

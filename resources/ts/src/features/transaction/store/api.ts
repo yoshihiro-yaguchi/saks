@@ -1,5 +1,5 @@
 import axios from "axios"
-import { Office, InitApiResult } from "./types"
+import { Office, InitApiResult, ModalApiSearchResult } from "./types"
 
 export const apis = {
   // 初期処理
@@ -16,6 +16,13 @@ export const apis = {
   getAddress: async (params: URLSearchParams) => {
     return await axios.get<any>(
       `https://zipcloud.ibsnet.co.jp/api/search?${params.toString()}`
+    )
+  },
+
+  // 商品検索
+  getProducts: async (params: URLSearchParams) => {
+    return await axios.get<ModalApiSearchResult>(
+      `/api/product/search?${params.toString()}`
     )
   },
 }

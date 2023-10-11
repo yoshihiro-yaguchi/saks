@@ -1,23 +1,22 @@
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
-import { RootState, store } from "@src/app/store"
-// import { actions } from './reducer'
-// import { operations } from './operations'
-import { createRoot } from "react-dom/client"
-import { Provider } from "react-redux"
-import React, { useEffect } from "react"
+import { RootState } from "@src/app/store"
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   BoxProps,
   Button,
-  Grid,
-  Paper,
-  Typography,
+  Drawer,
+  Tooltip,
   styled,
 } from "@mui/material"
 import { Loading } from "@resource/ts/src/common/Component/Loading"
-import { commonOperations } from "../commonOperations"
 import { Spacer } from "./Spacer"
-// import logo from "../../../public/image-logo.svg"
+import { actions } from "../commonReducer"
+import { H2, H5 } from "./Typo"
+import DehazeIcon from "@mui/icons-material/Dehaze"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
 // styledBox
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -65,10 +64,120 @@ export const BaseComponent = (props: Props) => {
           </Box>
         </Box>
         <Spacer />
+        {/* データ */}
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Box sx={{ width: "1024px", margin: "0 5px" }}>{children}</Box>
         </Box>
       </Box>
+      {/* ドロワー開くボタン */}
+      <Box sx={{ position: "fixed", left: "0px", bottom: "30px" }}>
+        <Tooltip title="メニューを開く" placement="right">
+          <Button onClick={() => dispatch(actions.openDrawer())}>
+            <DehazeIcon sx={{ color: "#000" }} />
+          </Button>
+        </Tooltip>
+      </Box>
+      {/* drawer */}
+      <Drawer
+        anchor="left"
+        open={commonState.isOpenDrawer}
+        onClose={() => dispatch(actions.closeDrawer())}
+        PaperProps={{ style: { width: "250px", backgroundColor: "#1cc1cc" } }}
+      >
+        <Box sx={{ margin: "16px", color: "#fff" }}>
+          {/* 取引メニュー */}
+          <H2>メニュー</H2>
+          <Accordion sx={{ backgroundColor: "#effeff" }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <H5>取引</H5>
+            </AccordionSummary>
+            <AccordionDetails>
+              {/* 取引一覧 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/transaction/search")}
+                >
+                  取引一覧
+                </Button>
+              </Box>
+              {/* 取引作成 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/transaction/store")}
+                >
+                  取引新規登録
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion sx={{ backgroundColor: "#effeff" }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+            >
+              <H5>商品</H5>
+            </AccordionSummary>
+            <AccordionDetails>
+              {/* 取引一覧 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/product/search")}
+                >
+                  商品一覧
+                </Button>
+              </Box>
+              {/* 取引作成 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/product/store")}
+                >
+                  商品新規登録
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion sx={{ backgroundColor: "#effeff" }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+            >
+              <H5>事業所</H5>
+            </AccordionSummary>
+            <AccordionDetails>
+              {/* 取引一覧 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/product/search")}
+                  disabled
+                >
+                  事業所一覧
+                </Button>
+              </Box>
+              {/* 取引作成 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/product/store")}
+                  disabled
+                >
+                  事業所新規登録
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+      </Drawer>
     </>
   )
 }

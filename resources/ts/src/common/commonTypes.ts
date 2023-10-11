@@ -6,6 +6,7 @@ export interface CommonTypes {
   errors: Object
   user: UserTypes
   processing: boolean
+  isOpenDrawer: boolean
 }
 
 /**
@@ -24,6 +25,7 @@ export const initCommonTypes: CommonTypes = {
   user: initUserTypes,
   errors: [],
   processing: false,
+  isOpenDrawer: false,
 }
 
 // バリデーションエラーの型

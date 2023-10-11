@@ -28,7 +28,8 @@ class ProductApiController extends Controller
         $query = DB::table('products')->select(
             'production_code as productionCode',
             'production_name as productionName',
-            'unit_price as unitPrice' ,
+            'unit_price as unitPrice',
+            'unit as unit' ,
             'tax_division as taxDivision',
             'tax_rate as taxRate'
         )->where('contract_id', '=' ,$contractId);
@@ -37,7 +38,7 @@ class ProductApiController extends Controller
             $query->where('production_code', '=', $request->input('productionCode'));
         }
         if ($request->input('productionName') !== null) {
-            $query->where('production_name', '=', $request->input('productionName'));
+            $query->where('production_name', 'like', "%{$request->input('productionName')}%");
         }
         if ($request->input('taxDivision') !== null) {
             $query->where('tax_division', '=', $request->input('taxDivision'));

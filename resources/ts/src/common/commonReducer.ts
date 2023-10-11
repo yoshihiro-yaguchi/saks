@@ -53,6 +53,13 @@ export const commonReducer = createSlice({
     processEnd: (state) => {
       state.processing = false
     },
+
+    openDrawer: (state) => {
+      state.isOpenDrawer = true
+    },
+    closeDrawer: (state) => {
+      state.isOpenDrawer = false
+    },
   },
 })
 export const { actions } = commonReducer

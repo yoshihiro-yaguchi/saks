@@ -10,6 +10,12 @@ import {
   AmountInfo,
   Common,
   Office,
+  initModal,
+  ModalSearchCondition,
+  ModalInput,
+  ModalPaginate,
+  ModalSearchResult,
+  initModalInput,
 } from "./types"
 import { DetailRow, TaxInfo } from "../TransactionTypes"
 
@@ -22,6 +28,7 @@ const initialState: StoreTransactionState = {
   amountInfo: initAmountInfo,
   taxInfos: [],
   offices: [],
+  modal: initModal,
 }
 
 export const storeTransactionReducer = createSlice({
@@ -139,6 +146,7 @@ export const storeTransactionReducer = createSlice({
       state.common = { ...state.common, ...action.payload.common }
     },
 
+    // お客様情報の更新
     updateCustomerInfo: (
       state,
       action: PayloadAction<{ newCustomerInfo: Partial<CustomerInfo> }>
@@ -147,6 +155,62 @@ export const storeTransactionReducer = createSlice({
         ...state.customerInfo,
         ...action.payload.newCustomerInfo,
       }
+    },
+
+    // モーダル開く
+    openModal: (state) => {
+      state.modal.isOpen = true
+    },
+
+    // モーダル閉じる
+    closeModal: (state) => {
+      state.modal.isOpen = false
+    },
+
+    // モーダルの検索条件
+    modalInputCondition: (
+      state,
+      action: PayloadAction<{ key: string; value: string }>
+    ) => {
+      state.modal.searchCondition[
+        action.payload.key as keyof ModalSearchCondition
+      ] = action.payload.value
+    },
+    // モーダルのデータ入力
+    modalInputData: (
+      state,
+      action: PayloadAction<{ key: string; value: string | number }>
+    ) => {
+      state.modal.input[action.payload.key] = action.payload.value
+    },
+
+    // モーダルインプット一括更新
+    modalBulkInputData: (
+      state,
+      action: PayloadAction<{ data: ModalInput }>
+    ) => {
+      state.modal.input = { ...state.modal.input, ...action.payload.data }
+    },
+
+    // モーダルインプットリセット
+    modalResetInputData: (state) => {
+      state.modal.input = initModalInput
+    },
+
+    // ページネーションデータの更新
+    modalBuldUpdatePaginate: (
+      state,
+      action: PayloadAction<{ data: Partial<ModalPaginate> }>
+    ) => {
+      state.modal.paginate = { ...state.modal.paginate, ...action.payload.data }
+    },
+
+    // 検索結果反映
+    modalUpdateSearchResult: (
+      state,
+      action: PayloadAction<{ data: Array<ModalSearchResult> }>
+    ) => {
+      state.modal.searchResult = action.payload.data
     },
   },
 })
