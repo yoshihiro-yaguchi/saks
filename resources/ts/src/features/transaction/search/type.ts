@@ -5,6 +5,7 @@ export interface TransactionSearch {
   transactions: Array<TransactionData>
   inputs: Inputs
   paginate: Paginate
+  offices: Array<Office>
 }
 
 /**
@@ -43,6 +44,7 @@ export interface Inputs {
   transactionDateFrom: string
   transactionDateTo: string
   transactionBranch: string
+  transactionPicName: string
   corporationDivision: string
   customerCompany: string
   customerName: string
@@ -53,7 +55,8 @@ export const initInputs: Inputs = {
   transactionDivision: "0",
   transactionDateFrom: "",
   transactionDateTo: "",
-  transactionBranch: "",
+  transactionBranch: "0",
+  transactionPicName: "",
   corporationDivision: "0",
   customerCompany: "",
   customerName: "",
@@ -70,6 +73,17 @@ export const initPaginate: Paginate = {
   maxPages: 0,
   pages: 1,
   itemsPerPage: 10,
+}
+
+export interface Office {
+  officeCode: string
+  officeName: string
+}
+
+export interface ApiInitResult {
+  count: number
+  transactions: Array<TransactionData>
+  offices: Array<Office>
 }
 
 /**

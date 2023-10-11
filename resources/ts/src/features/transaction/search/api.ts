@@ -1,17 +1,16 @@
 import axios from "axios"
-import { ApiSearchResult, TransactionData } from "./type"
+import { ApiInitResult, ApiSearchResult, TransactionData } from "./type"
 
 export const apis = {
   doInit: async (params: URLSearchParams) => {
-    return await axios.get<string>(`sample/getMethod?${params.toString()}`)
-  },
-  doPost: async (params: URLSearchParams) => {
-    return await axios.post<string>(`sample/postMethod`, params)
+    return await axios.get<ApiInitResult>(
+      `/api/transaction/search/init?${params.toString()}`
+    )
   },
 
   search: async (params: URLSearchParams) => {
     return await axios.get<ApiSearchResult>(
-      `/api/transaction/searchTransactionData?${params.toString()}`
+      `/api/transaction/search?${params.toString()}`
     )
   },
 }

@@ -63,8 +63,6 @@ export const commonFunc = {
       }
     })
 
-    console.log(taxInfos)
-
     taxInfos.forEach((taxInfo) => {
       taxInfo.taxAmount = commonFunc.culcTaxIncludeAmount(
         taxInfo.taxableAmount,

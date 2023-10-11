@@ -51,4 +51,38 @@ export const commonOperations = {
   errorAlertClose: (): AppThunk => async (dispatch, getState) => {
     dispatch(actions.deleteErrorArray())
   },
+
+  /**
+   * 処理開始
+   *
+   * @returns
+   */
+  processStart: (): AppThunk => async (dispatch, getState) => {
+    dispatch(actions.processStart())
+    // 画面ロック
+    let lock_screen = document.createElement("div")
+    lock_screen.id = "screenLock"
+
+    lock_screen.style.height = "100%"
+    lock_screen.style.left = "0px"
+    lock_screen.style.position = "fixed"
+    lock_screen.style.top = "0px"
+    lock_screen.style.width = "100%"
+    lock_screen.style.zIndex = "9999"
+    lock_screen.style.opacity = "0"
+
+    let objBody = document.getElementsByTagName("body").item(0)
+    objBody!.appendChild(lock_screen)
+  },
+
+  /**
+   * 処理終了
+   *
+   * @returns
+   */
+  processEnd: (): AppThunk => async (dispatch, getState) => {
+    dispatch(actions.processEnd())
+    let screenLock = document.getElementById("screenLock")!
+    screenLock.parentNode!.removeChild(screenLock)
+  },
 }

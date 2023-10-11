@@ -23,7 +23,6 @@ export const operations = {
     let errors = document.body.querySelector<HTMLInputElement>("#errors")?.value
     if (errors !== undefined) {
       let errorArray = JSON.parse(errors)
-      console.log(errorArray)
       dispatch(commonActions.putErrors({ value: errorArray }))
     }
 

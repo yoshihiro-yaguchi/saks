@@ -1,5 +1,4 @@
 import { Box, TextField, TextFieldProps } from "@mui/material"
-import "@src/font/textFont.css"
 
 export const Input = function (props: TextFieldProps) {
   const { hidden } = props
@@ -10,7 +9,6 @@ export const Input = function (props: TextFieldProps) {
           size="small"
           variant="outlined"
           InputLabelProps={{ shrink: true }}
-          sx={{ fontFamily: "Noto Sans JP" }}
           {...props}
         ></TextField>
       </Box>

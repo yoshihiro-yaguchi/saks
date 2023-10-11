@@ -32,7 +32,7 @@ class TransactionSlipController extends Controller
         ];
         //ここでviewに$dataを送っているけど、
         //今回$dataはviewで使わない
-        $pdf = PDF::loadView('transaction.pdf.purchaseInvoice', $data);
+        $pdf = PDF::loadView('feature.transaction.purchaseInvoice', $data);
 
         // 表示させる場合
         // return $pdf->inline('document.pdf');

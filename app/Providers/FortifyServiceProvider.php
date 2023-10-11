@@ -71,10 +71,5 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::registerView(function () {
             return view('auth.register');
         });
-
-        // メール認証後
-        // Fortify::verifyEmailView(function () {
-        //     return view('auth.comfirm_mail');
-        // });
     }
 }

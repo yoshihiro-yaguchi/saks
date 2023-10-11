@@ -2,9 +2,9 @@ import { AppThunk } from "@src/app/store"
 import { apis } from "./api"
 import { Common, ShowTransactionState } from "./types"
 import { actions } from "./reducer"
+
 import { Params } from "react-router-dom"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
-import { commonFunc } from "@resource/ts/src/common/commonFunc"
 import FileSaver from "file-saver"
 
 export const operations = {
@@ -16,16 +16,13 @@ export const operations = {
   init:
     (urlParams: Readonly<Params<string>>): AppThunk =>
     async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
       await dispatch(commonOperations.init("取引詳細"))
 
       // 共通データ
-      // csrfToken
-      const token = document.head.querySelector<HTMLMetaElement>(
-        'meta[name="csrfToken"]'
-      )!.content
 
       const commonData: Common = {
-        token: token,
+        token: "",
         contractId: "",
         transactionId: urlParams.transactionId!,
       }
@@ -33,8 +30,9 @@ export const operations = {
       // apiアクセス、データ取得
       let apiInitResult
       try {
-        apiInitResult = await apis.doInit(commonData.transactionId)
+        apiInitResult = await apis.doInit(urlParams.transactionId!)
       } catch (error) {
+        dispatch(commonOperations.processEnd())
         throw error
       }
       const initData = apiInitResult.data.transactionData
@@ -46,7 +44,8 @@ export const operations = {
         taxInfos: initData.taxInfos,
       }
 
-      dispatch(actions.init({ updateData: initState }))
+      await dispatch(actions.init({ updateData: initState }))
+      dispatch(commonOperations.processEnd())
     },
 
   /**
@@ -58,6 +57,7 @@ export const operations = {
   printPurchaseInvoice:
     (urlParams: Readonly<Params<string>>): AppThunk =>
     async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
       let params = new URLSearchParams()
       params.append("transactionId", urlParams.transactionId!)
 
@@ -71,6 +71,7 @@ export const operations = {
       const blob = new Blob([result.data], { type: mineType })
       const fileUrl = URL.createObjectURL(blob)
       window.open(fileUrl)
+      dispatch(commonOperations.processEnd())
       // FileSaver.saveAs(blob, "買取明細書・依頼書.pdf")
     },
 }

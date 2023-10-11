@@ -5,9 +5,7 @@ export const BoldTypo = (props: TypographyProps) => {
   const { children } = props
   return (
     <>
-      <Typography {...props} fontFamily={"Noto Sans JP"}>
-        {children}
-      </Typography>
+      <Typography {...props}>{children}</Typography>
     </>
   )
 }

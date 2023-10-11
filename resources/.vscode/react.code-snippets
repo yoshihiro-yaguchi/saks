@@ -22,8 +22,7 @@
             "import { useAppDispatch, useAppSelector } from '@src/app/hooks'",
             "import { RootState } from '@src/app/store'",
             "import { useEffect } from 'react'",
-            "// import { actions } from './reducer'",
-            "// import { operations } from './operations'",
+            " import { operations } from './operations'",
             "",
             "export const #{COMPONENT_NAME} = () => {",
             "  const dispatch = useAppDispatch()",
@@ -32,8 +31,7 @@
             "",
             "  // 画面ロード時処理",
             "  useEffect(() => {",
-            "  // 値入力時ハンドラ",
-            "    console.log('init')",
+            "   dispatch(operations.init())",
             "  }, [])",
             "",
             "  return <></>",
@@ -131,7 +129,9 @@
             "   * @returns",
             "   */",
             "  init: (): AppThunk => async (dispatch, getState) => {",
-            "    await cdispatch(commonOperations.init(#{画面タイトル}))"
+            "    await dispatch(commonOperations.processStart())",
+            "    await dispatch(commonOperations.init(#{画面タイトル}))",
+            "    dispatch(commonOperations.processEnd())",
             "  },",
             "}"
         ],
@@ -152,5 +152,14 @@
             "}"
         ],
         "description": "react-api"
+    },
+    "react-operate": {
+        "prefix": "react-operate",
+        "body": [
+            "  operate: ():AppThunk => async (dispatch, getState) => {",
+            "    await dispatch(commonOperations.processStart())",
+            "    dispatch(commonOperations.processEnd())",
+            "  }",
+        ]
     }
 }

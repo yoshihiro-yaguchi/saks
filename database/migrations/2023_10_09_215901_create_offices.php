@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             // 契約ID	contract_id	varchar	8
             $table->string('contract_id', 8)->comment('契約ID');
-            // 事業所ID	office_id	varchar	8
-            $table->string('office_code', 8)->comment('事業所ID');
-            // 事業所名	office_name	varchar	50
-            $table->string('office_name', 50)->comment('事業所名');
+            // 事業所ID	office_id	varchar	50
+            $table->string('office_code', 50)->comment('事業所ID');
+            // 事業所名	office_name	varchar	100
+            $table->string('office_name', 100)->comment('事業所名');
             // 電話番号	phone_number	varchar	15
             $table->string('phone_number', 15)->comment('電話番号');
             // 郵便番号	zipcode	varchar	8

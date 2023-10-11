@@ -1,17 +1,11 @@
 import styled from "@emotion/styled"
 import { Typography, TypographyProps } from "@mui/material"
-import "@src/font/textFont.css"
 
 export const Typo = (props: TypographyProps) => {
   const { children } = props
   return (
     <>
-      <Typography
-        fontSize={14}
-        {...props}
-        fontFamily={"Noto Sans JP"}
-        sx={{ overflow: "auto" }}
-      >
+      <Typography fontSize={14} {...props} sx={{ overflow: "auto" }}>
         {children}
       </Typography>
     </>

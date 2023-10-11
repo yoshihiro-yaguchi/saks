@@ -83,28 +83,59 @@ class TransactionService
     public function getTransactionData(string $contractId, string $transactionId): array
     {
         // TODO:取得できなかった場合を考える。
-        $transactionHeadData = TransactionHead::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->first();
+        $transactionHeadData = DB::table('transaction_headers as T1')
+            ->select(
+                [
+                    'T1.transaction_title as transactionTitle',
+                    'T1.transaction_division as transactionDivision',
+                    'T1.transaction_date as transactionDate',
+                    'T2.office_name as transactionBranch',
+                    'T1.transaction_pic_name as transactionPicName',
+                    'T1.transaction_note as transactionNote',
+                    'T1.corporation_division as corporationDivision',
+                    'T1.customer_invoice_number as invoiceNumber',
+                    'T1.customer_company as customerCompany',
+                    'T1.customer_branch as customerBranch',
+                    'T1.customer_name as customerName',
+                    'T1.customer_phone_number as customerPhoneNumber',
+                    'T1.customer_zip_code as customerZipCode',
+                    'T1.customer_address1 as customerAddress1',
+                    'T1.customer_address2 as customerAddress2',
+                    'T1.customer_address3 as customerAddress3',
+                    'T1.customer_address4 as customerAddress4',
+                    'T1.subtotal as subtotal',
+                    'T1.tax_include as taxInclude',
+                    'T1.total as total',
+                ]
+            )
+            ->join('offices as T2', function($join) {
+                /** @var Illuminate\Database\Query\Builder::join $join */
+                $join->on('T1.contract_id', '=', 'T2.contract_id')->on('T1.transaction_branch', '=', 'T2.office_code');
+            })
+            ->where('T1.contract_id', '=', $contractId)
+            ->where('T1.transaction_id', '=', $transactionId)
+            ->first();
 
         $transactionHead = [
-            'transactionTitle' => $transactionHeadData->transaction_title,
-            'transactionDivision' => TransactionHead::$TRANSACTION_DIV_NAMES[$transactionHeadData->transaction_division],
-            'transactionDate' => $transactionHeadData->transaction_date,
-            'transactionBranch' => $transactionHeadData->transaction_branch, // TODO: 支店マスタ作ったらデータ見に行くようにする。
-            'transactionPicName' => $transactionHeadData->transaction_pic_name,
-            'transactionNote' => $transactionHeadData->transaction_note,
-            'corporationDivision' => TransactionHead::$CORPORATION_DIV_NAME[$transactionHeadData->corporation_division],
-            'invoiceNumber' => $transactionHeadData->customer_invoice_number,
-            'customerCompany' => $transactionHeadData->customer_company,
-            'customerBranch' => $transactionHeadData->customer_branch,
-            'customerName' => $transactionHeadData->customer_name,
-            'customerPhoneNumber' => $transactionHeadData->customer_phone_number,
-            'customerZipCode' => $transactionHeadData->customer_zip_code,
-            'customerAddress1' => $transactionHeadData->customer_address1,
-            'customerAddress2' => $transactionHeadData->customer_address2,
-            'customerAddress3' => $transactionHeadData->customer_address3,
-            'customerAddress4' => $transactionHeadData->customer_address4,
+            'transactionTitle' => $transactionHeadData->transactionTitle,
+            'transactionDivision' => TransactionHead::$TRANSACTION_DIV_NAMES[$transactionHeadData->transactionDivision],
+            'transactionDate' => $transactionHeadData->transactionDate,
+            'transactionBranch' => $transactionHeadData->transactionBranch,
+            'transactionPicName' => $transactionHeadData->transactionPicName,
+            'transactionNote' => $transactionHeadData->transactionNote,
+            'corporationDivision' => TransactionHead::$CORPORATION_DIV_NAME[$transactionHeadData->corporationDivision],
+            'invoiceNumber' => $transactionHeadData->invoiceNumber,
+            'customerCompany' => $transactionHeadData->customerCompany,
+            'customerBranch' => $transactionHeadData->customerBranch,
+            'customerName' => $transactionHeadData->customerName,
+            'customerPhoneNumber' => $transactionHeadData->customerPhoneNumber,
+            'customerZipCode' => $transactionHeadData->customerZipCode,
+            'customerAddress1' => $transactionHeadData->customerAddress1,
+            'customerAddress2' => $transactionHeadData->customerAddress2,
+            'customerAddress3' => $transactionHeadData->customerAddress3,
+            'customerAddress4' => $transactionHeadData->customerAddress4,
             'subtotal' => $transactionHeadData->subtotal,
-            'taxInclude' => $transactionHeadData->tax_include,
+            'taxInclude' => $transactionHeadData->taxInclude,
             'total' => $transactionHeadData->total,
         ];
         $detailRows = $this->getTransactionDetails($contractId, $transactionId);
@@ -116,6 +147,13 @@ class TransactionService
         ];
     }
 
+    /**
+     * 取引検索
+     *
+     * @param string $contractId
+     * @param SearchTransactionBean $condition
+     * @return array
+     */
     public function searchTransactionData(string $contractId, SearchTransactionBean $condition): array
     {
         $query = DB::table('transaction_headers')

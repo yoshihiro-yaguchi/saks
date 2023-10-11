@@ -93,7 +93,7 @@ export const Search = () => {
             <H1>取引検索</H1>
             <Box sx={{ marginTop: "8px", marginLeft: "8px" }}>
               <Grid container spacing={1}>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={2}>
                   <FullWidthInput
                     label="取引ID"
                     name="id"
@@ -102,9 +102,98 @@ export const Search = () => {
                       updateInput(e.target.name, e.target.value)
                     }
                     sx={{ marginRight: "8px" }}
+                    error={commonState.errors.hasOwnProperty("id")}
                   ></FullWidthInput>
                 </Grid>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12} md={10}>
+                  <FullWidthInput
+                    label="取引件名"
+                    name="transactionTitle"
+                    value={state.inputs.transactionTitle}
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateInput(e.target.name, e.target.value)
+                    }
+                    error={commonState.errors.hasOwnProperty(
+                      "transactionTitle"
+                    )}
+                  ></FullWidthInput>
+                </Grid>
+              </Grid>
+              <Grid container spacing={1}>
+                <Grid item xs={12} md={2}>
+                  <Box sx={{ padding: "8px 8px 8px 0" }}>
+                    <FormControl fullWidth>
+                      <InputLabel>取引区分</InputLabel>
+                      <Select
+                        onChange={(e: SelectChangeEvent<string>) =>
+                          dispatch(
+                            actions.updateInputs({
+                              data: {
+                                transactionDivision: e.target.value,
+                              },
+                            })
+                          )
+                        }
+                        value={state.inputs.transactionDivision}
+                        size="small"
+                        label="取引区分"
+                        error={commonState.errors.hasOwnProperty(
+                          "transactionDivision"
+                        )}
+                      >
+                        <MenuItem value={"0"}>　</MenuItem>
+                        <MenuItem value={"1"}>買取</MenuItem>
+                        <MenuItem value={"2"}>販売</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={2}>
+                  <Box sx={{ padding: "8px 8px 8px 0" }}>
+                    <FormControl fullWidth>
+                      <InputLabel>取引支店</InputLabel>
+                      <Select
+                        onChange={(e: SelectChangeEvent<string>) =>
+                          dispatch(
+                            actions.updateInputs({
+                              data: {
+                                transactionBranch: e.target.value,
+                              },
+                            })
+                          )
+                        }
+                        value={state.inputs.transactionBranch}
+                        size="small"
+                        fullWidth
+                        label="取引支店"
+                        error={commonState.errors.hasOwnProperty(
+                          "transactionBranch"
+                        )}
+                      >
+                        <MenuItem value={"0"}>　</MenuItem>
+                        {state.offices.map((office, index) => (
+                          <MenuItem value={office.officeCode} key={index}>
+                            {office.officeName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={2}>
+                  <FullWidthInput
+                    label="取引担当者"
+                    name="transactionPicName"
+                    value={state.inputs.transactionPicName}
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateInput(e.target.name, e.target.value)
+                    }
+                    error={commonState.errors.hasOwnProperty(
+                      "transactionPicName"
+                    )}
+                  ></FullWidthInput>
+                </Grid>
+                <Grid item xs={12} md={6}>
                   <Grid container spacing={1}>
                     <Grid item xs={12} md={5}>
                       <FullWidthInput
@@ -115,6 +204,9 @@ export const Search = () => {
                           updateInput(e.target.name, e.target.value)
                         }
                         type="date"
+                        error={commonState.errors.hasOwnProperty(
+                          "transactionDateFrom"
+                        )}
                       ></FullWidthInput>
                     </Grid>
                     <Grid
@@ -151,56 +243,12 @@ export const Search = () => {
                           updateInput(e.target.name, e.target.value)
                         }
                         type="date"
+                        error={commonState.errors.hasOwnProperty(
+                          "transactionDateTo"
+                        )}
                       ></FullWidthInput>
                     </Grid>
                   </Grid>
-                </Grid>
-              </Grid>
-              <Grid container spacing={1}>
-                <Grid item xs={12} md={2}>
-                  <Box sx={{ padding: "8px 8px 8px 0" }}>
-                    <FormControl fullWidth>
-                      <InputLabel>取引区分</InputLabel>
-                      <Select
-                        onChange={(e: SelectChangeEvent<string>) =>
-                          dispatch(
-                            actions.updateInputs({
-                              data: {
-                                transactionDivision: e.target.value,
-                              },
-                            })
-                          )
-                        }
-                        value={state.inputs.transactionDivision}
-                        size="small"
-                        label="取引区分"
-                      >
-                        <MenuItem value={"0"}></MenuItem>
-                        <MenuItem value={"1"}>買取</MenuItem>
-                        <MenuItem value={"2"}>販売</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={5}>
-                  <FullWidthInput
-                    label="取引件名"
-                    name="transactionTitle"
-                    value={state.inputs.transactionTitle}
-                    onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateInput(e.target.name, e.target.value)
-                    }
-                  ></FullWidthInput>
-                </Grid>
-                <Grid item xs={12} md={5}>
-                  <FullWidthInput
-                    label="取引支店"
-                    name="transactionBranch"
-                    value={state.inputs.transactionBranch}
-                    onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateInput(e.target.name, e.target.value)
-                    }
-                  ></FullWidthInput>
                 </Grid>
               </Grid>
               <Grid container spacing={1}>
@@ -222,8 +270,11 @@ export const Search = () => {
                         size="small"
                         fullWidth
                         label="法人区分"
+                        error={commonState.errors.hasOwnProperty(
+                          "corporationDivision"
+                        )}
                       >
-                        <MenuItem value={"0"}></MenuItem>
+                        <MenuItem value={"0"}>　</MenuItem>
                         <MenuItem value={"1"}>個人</MenuItem>
                         <MenuItem value={"2"}>法人</MenuItem>
                       </Select>
@@ -238,6 +289,7 @@ export const Search = () => {
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateInput(e.target.name, e.target.value)
                     }
+                    error={commonState.errors.hasOwnProperty("customerCompany")}
                   ></FullWidthInput>
                 </Grid>
                 <Grid item xs={12} md={5}>
@@ -248,6 +300,7 @@ export const Search = () => {
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateInput(e.target.name, e.target.value)
                     }
+                    error={commonState.errors.hasOwnProperty("customerName")}
                   ></FullWidthInput>
                 </Grid>
               </Grid>
@@ -305,6 +358,7 @@ export const Search = () => {
                         >
                           {/* 1ページあたりの表示量 */}
                           <Select
+                            size="small"
                             value={state.paginate.itemsPerPage}
                             onChange={(e: SelectChangeEvent<number>) =>
                               changePerPage(e.target.value as unknown as number)
@@ -379,9 +433,7 @@ export const Search = () => {
                             <TableRow key={row.id}>
                               <TableCell></TableCell>
                               {/* ID */}
-                              <TableCell
-                                onClick={() => onClickSearchResult(row.id)}
-                              >
+                              <TableCell sx={{ textAlign: "center" }}>
                                 <Typo>
                                   <Link
                                     onClick={() => onClickSearchResult(row.id)}
@@ -392,6 +444,7 @@ export const Search = () => {
                               </TableCell>
                               {/* 件名 */}
                               <TableCell
+                                sx={{ textAlign: "center" }}
                                 onClick={() => onClickSearchResult(row.id)}
                               >
                                 <Typo>
@@ -403,19 +456,19 @@ export const Search = () => {
                                 </Typo>
                               </TableCell>
                               {/* 区分 */}
-                              <TableCell>
+                              <TableCell sx={{ textAlign: "center" }}>
                                 <Typo>{operations.getDivName(row)}</Typo>
                               </TableCell>
                               {/* お客様名 */}
-                              <TableCell>
+                              <TableCell sx={{ textAlign: "center" }}>
                                 <Typo>{operations.getCustomerName(row)}</Typo>
                               </TableCell>
                               {/* 担当者 */}
-                              <TableCell>
+                              <TableCell sx={{ textAlign: "center" }}>
                                 <Typo>{row.transactionPicName}</Typo>
                               </TableCell>
                               {/* 取引日付 */}
-                              <TableCell>
+                              <TableCell sx={{ textAlign: "center" }}>
                                 <Typo>{row.transactionDate}</Typo>
                               </TableCell>
                             </TableRow>
@@ -432,6 +485,7 @@ export const Search = () => {
                     >
                       {/* 1ページあたりの表示量 */}
                       <Select
+                        size="small"
                         value={state.paginate.itemsPerPage}
                         onChange={(e: SelectChangeEvent<number>) =>
                           changePerPage(e.target.value as unknown as number)

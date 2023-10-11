@@ -48,10 +48,9 @@ export const BaseComponent = (props: Props) => {
         <Box
           sx={{
             height: "55px",
-            backgroundColor: "#1cc1cc",
-            borderBottom: "1px solid #dddddd",
             display: "flex",
             justifyContent: "center",
+            borderBottom: "1px solid #dddddd",
           }}
         >
           <Box sx={{ minWidth: "1024px" }}>

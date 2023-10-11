@@ -27,7 +27,7 @@ export const operations = {
    */
   init: (): AppThunk => async (dispatch, getState) => {
     await dispatch(commonOperations.init("取引作成"))
-    dispatch(commonActions.processStart())
+    dispatch(commonOperations.processStart())
 
     let partialState: Partial<StoreTransactionState> = {
       token: "",
@@ -55,7 +55,7 @@ export const operations = {
         initOffice: result.data.offices[0].officeCode,
       })
     )
-    dispatch(commonActions.processEnd())
+    dispatch(commonOperations.processEnd())
   },
   /**
    * 保存処理
@@ -65,7 +65,7 @@ export const operations = {
   saveTransactionData:
     (navigate: NavigateFunction): AppThunk =>
     async (dispatch, getState) => {
-      dispatch(commonActions.processStart())
+      dispatch(commonOperations.processStart())
       const createTransactionState = getState().storeTransaction
 
       let formData = new FormData()
@@ -127,14 +127,14 @@ export const operations = {
         ) {
           // laravelでvalidation errorが発生したとき
           dispatch(operations.putErrors(e.response.data.errors))
-          dispatch(commonActions.processEnd())
+          dispatch(commonOperations.processEnd())
           return
         } else {
-          dispatch(commonActions.processEnd())
+          dispatch(commonOperations.processEnd())
           throw e
         }
       }
-      dispatch(commonActions.processEnd())
+      dispatch(commonOperations.processEnd())
 
       // 画面遷移
       navigate(`/transaction/show/${apiResult.data.transactionId}`)
@@ -149,7 +149,7 @@ export const operations = {
   addDetailRow:
     (productName: string): AppThunk =>
     async (dispatch, getState) => {
-      dispatch(commonActions.processStart())
+      dispatch(commonOperations.processStart())
       const key = Math.random().toString(32).substring(2)
       const row: DetailRow = {
         productNo: key,
@@ -164,7 +164,7 @@ export const operations = {
       dispatch(actions.addDetailRow({ value: row }))
       dispatch(operations.updateTaxInfo())
       dispatch(operations.updateAmountInfo())
-      dispatch(commonActions.processEnd())
+      dispatch(commonOperations.processEnd())
     },
 
   /**
@@ -176,7 +176,7 @@ export const operations = {
   deleteDetailRow:
     (productNo: string): AppThunk =>
     async (dispatch, getState) => {
-      dispatch(commonActions.processStart())
+      dispatch(commonOperations.processStart())
       const deleteIndex: number =
         getState().storeTransaction.detailRows.findIndex(
           (row) => row.productNo === productNo
@@ -185,7 +185,7 @@ export const operations = {
       dispatch(actions.deleteDetailRow({ index: deleteIndex }))
       dispatch(operations.updateTaxInfo())
       dispatch(operations.updateAmountInfo())
-      dispatch(commonActions.processEnd())
+      dispatch(commonOperations.processEnd())
     },
 
   /**
@@ -244,10 +244,7 @@ export const operations = {
       }
     })
 
-    console.log(taxInfos)
-
     taxInfos.forEach((taxInfo) => {
-      console.log("foreach")
       taxInfo.taxAmount = commonFunc.culcTaxIncludeAmount(
         taxInfo.taxableAmount,
         taxInfo.taxRate

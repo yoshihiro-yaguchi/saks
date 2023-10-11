@@ -26,7 +26,7 @@ import styled from "@emotion/styled"
 import { operations } from "./operators"
 import { ParamParseKey, useNavigate, useParams } from "react-router-dom"
 import { TRANSACTION_PATHS } from "../router/router"
-import { TaxInfo, TaxInfos } from "../TransactionTypes"
+import { TaxInfos } from "../TransactionTypes"
 
 const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
   textAlign: "center",

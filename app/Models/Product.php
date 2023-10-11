@@ -10,4 +10,14 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'products';
+
+    protected $fillable = [
+        'contract_id',
+        'production_code',
+        'production_name',
+        'unit_price',
+        'tax_division',
+        'tax_rate',
+        'unit',
+    ];
 }

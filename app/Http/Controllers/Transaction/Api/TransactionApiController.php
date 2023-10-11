@@ -118,6 +118,50 @@ class TransactionApiController extends Controller
         return $response;
     }
 
+    /**
+     * 取引作成画面初期処理
+     *
+     * @param ApiSearchTransaction $request
+     * @return void
+     */
+    public function initSearchTransaction(ApiSearchTransaction $request)
+    {
+        $contractId = $this->commonService->getContractId();
+
+        // 事業所一覧取得
+        $offices = Office::query()->where('contract_id', '=', $contractId)->get(['office_code as officeCode', 'office_name as officeName']);
+
+        // 条件設定
+        $condition = new SearchTransactionBean();
+        $condition->id = $request->input('id');
+        $condition->transactionTitle = $request->input('transactionTitle');
+        $condition->transactionDivision = $request->input('transactionDivision');
+        $condition->transactionDateFrom = $request->input('transactionDateFrom');
+        $condition->transactionDateTo = $request->input('transactionDateTo');
+        $condition->transactionBranch = $request->input('transactionBranch');
+        $condition->transactionPicName = $request->input('transactionPicName');
+        $condition->corporationDivision = $request->input('corporationDivision');
+        $condition->customerCompany = $request->input('customerCompany');
+        $condition->customerName = $request->input('customerName');
+        $condition->page = $request->input('page');
+        $condition->itemsPerPage = $request->input('itemsPerPage');
+        $searchResult = $this->transactionService->searchTransactionData($contractId, $condition);
+        return response()->json(
+            [
+                'offices' => $offices,
+                'count' => $searchResult['count'],
+                'transactions' => $searchResult['transactions']
+            ],
+            200
+        );
+    }
+
+    /**
+     * 取引検索
+     *
+     * @param ApiSearchTransaction $request
+     * @return void
+     */
     public function searchTransactionData(ApiSearchTransaction $request)
     {
         Log::info('TransactionApiController.searchTransactionData : START');

@@ -2,7 +2,7 @@ import { AppThunk } from "@src/app/store"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
 import { apis } from "./api"
 import { isAxiosError } from "axios"
-import { Inputs, TransactionData } from "./type"
+import { Inputs, TransactionData, TransactionSearch } from "./type"
 import { actions } from "./reducer"
 import {
   corporationDivName,
@@ -17,38 +17,17 @@ export const operations = {
    * @returns
    */
   init: (): AppThunk => async (dispatch, getState) => {
+    await dispatch(commonOperations.processStart())
     await dispatch(commonOperations.init("取引検索"))
-  },
-  /**
-   * 検索処理
-   *
-   * @returns
-   */
-  search: (): AppThunk => async (dispatch, getState) => {
+
+    // 検索条件
     const state = getState().searchTransaction
-
-    // 検索条件設定
-    let params = new URLSearchParams()
-    Object.keys(state.inputs).forEach((key) => {
-      if (
-        !(
-          (key === "transactionDivision" || key === "corporationDivision") &&
-          state.inputs[key as keyof Inputs] === "0"
-        )
-      ) {
-        params.append(key, state.inputs[key as keyof Inputs])
-      }
-    })
-
-    // ページ数
-    params.append("page", state.paginate.pages.toString())
-    // 一ページあたりの表示数
-    params.append("itemsPerPage", state.paginate.itemsPerPage.toString())
+    const condition = operations.__setCondition(state)
 
     // データ取得
     let result
     try {
-      result = await apis.search(params)
+      result = await apis.doInit(condition)
     } catch (e) {
       if (
         isAxiosError(e) &&
@@ -57,14 +36,49 @@ export const operations = {
         e.response.data.errors
       ) {
         // laravelでvalidation errorが発生したとき
-        dispatch(commonOperations.putErrors(e.response.data.errors))
+        await dispatch(commonOperations.putErrors(e.response.data.errors))
+        dispatch(commonOperations.processEnd())
+        return
+      } else {
+        throw e
+      }
+    }
+    await dispatch(actions.init({ data: result.data }))
+    dispatch(commonOperations.processEnd())
+  },
+  /**
+   * 検索処理
+   *
+   * @returns
+   */
+  search: (): AppThunk => async (dispatch, getState) => {
+    await dispatch(commonOperations.processStart())
+    // 検索条件
+    const state = getState().searchTransaction
+    const condition = operations.__setCondition(state)
+
+    // データ取得
+    let result
+    try {
+      result = await apis.search(condition)
+    } catch (e) {
+      if (
+        isAxiosError(e) &&
+        e.response &&
+        e.response.status === 422 &&
+        e.response.data.errors
+      ) {
+        // laravelでvalidation errorが発生したとき
+        await dispatch(commonOperations.putErrors(e.response.data.errors))
+        dispatch(commonOperations.processEnd())
         return
       } else {
         throw e
       }
     }
     await dispatch(commonOperations.errorAlertClose())
-    dispatch(actions.updateTransactionData({ data: result.data }))
+    await dispatch(actions.updateTransactionData({ data: result.data }))
+    dispatch(commonOperations.processEnd())
   },
 
   /**
@@ -115,6 +129,7 @@ export const operations = {
   changePerPage:
     (perPage: number): AppThunk =>
     async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
       await dispatch(
         actions.updatePaginate({
           data: {
@@ -123,7 +138,8 @@ export const operations = {
           },
         })
       )
-      dispatch(operations.search())
+      await dispatch(operations.search())
+      dispatch(commonOperations.processEnd())
     },
 
   /**
@@ -135,6 +151,7 @@ export const operations = {
   changePage:
     (page: number): AppThunk =>
     async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
       await dispatch(
         actions.updatePaginate({
           data: {
@@ -143,6 +160,55 @@ export const operations = {
         })
       )
 
-      dispatch(operations.search())
+      await dispatch(operations.search())
+      dispatch(commonOperations.processEnd())
     },
+
+  /**
+   * 入力項目更新
+   *
+   * @param name
+   * @param value
+   * @returns
+   */
+  updateInput:
+    (name: string, value: string): AppThunk =>
+    async (dispatch, getState) => {
+      dispatch(
+        actions.updateInputs({
+          data: {
+            [name]: value,
+          },
+        })
+      )
+    },
+
+  /**
+   * 検索条件を設定したURLParamsを返却する
+   *
+   * @param state
+   * @returns
+   */
+  __setCondition: (state: TransactionSearch) => {
+    let params = new URLSearchParams()
+    Object.keys(state.inputs).forEach((key) => {
+      if (
+        !(
+          (key === "transactionDivision" ||
+            key === "corporationDivision" ||
+            key === "transactionBranch") &&
+          state.inputs[key as keyof Inputs] === "0"
+        )
+      ) {
+        params.append(key, state.inputs[key as keyof Inputs])
+      }
+    })
+
+    // ページ数
+    params.append("page", state.paginate.pages.toString())
+    // 一ページあたりの表示数
+    params.append("itemsPerPage", state.paginate.itemsPerPage.toString())
+
+    return params
+  },
 }

@@ -20,6 +20,7 @@ import {
 import { RootState } from "@src/app/store"
 import { useAppDispatch, useAppSelector } from "@src/app/hooks"
 import { actions } from "./reducer"
+import { actions as commonActions } from "@resource/ts/src/common/commonReducer"
 import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
 import { H1, H2, H5, Typo } from "@resource/ts/src/common/Component/Typo"
 import { operations } from "./operation"
@@ -234,28 +235,31 @@ export const Store = () => {
                   <Box sx={{ padding: "8px 8px 8px 0" }}>
                     <FormControl fullWidth>
                       <InputLabel>取引支店</InputLabel>
-                      <Select
-                        id="transactionBranch"
-                        name="transactionInfo[transactionBranch]"
-                        size="small"
-                        labelId="transactionBranch"
-                        value={transactionInfoState.transactionBranch}
-                        label="取引支店"
-                        onChange={(e: SelectChangeEvent<string>) => {
-                          dispatch(
-                            actions.updateTransactionInfoHandle({
-                              name: "transactionBranch",
-                              value: e.target.value,
-                            })
-                          )
-                        }}
-                      >
-                        {offices.map((office, index) => (
-                          <MenuItem value={office.officeCode} key={index}>
-                            {office.officeName}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      {offices.length > 0 && (
+                        <Select
+                          id="transactionBranch"
+                          name="transactionInfo[transactionBranch]"
+                          size="small"
+                          labelId="transactionBranch"
+                          value={transactionInfoState.transactionBranch}
+                          label="取引支店"
+                          defaultValue=""
+                          onChange={(e: SelectChangeEvent<string>) => {
+                            dispatch(
+                              actions.updateTransactionInfoHandle({
+                                name: "transactionBranch",
+                                value: e.target.value,
+                              })
+                            )
+                          }}
+                        >
+                          {offices.map((office, index) => (
+                            <MenuItem value={office.officeCode} key={index}>
+                              {office.officeName}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      )}
                     </FormControl>
                   </Box>
                 </Grid>
