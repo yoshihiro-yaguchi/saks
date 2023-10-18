@@ -8,6 +8,7 @@ import {
   BoxProps,
   Button,
   Drawer,
+  Grid,
   Tooltip,
   styled,
 } from "@mui/material"
@@ -52,15 +53,43 @@ export const BaseComponent = (props: Props) => {
             borderBottom: "1px solid #dddddd",
           }}
         >
-          <Box sx={{ minWidth: "1024px" }}>
-            <form action="/logout" method="post">
-              <input
-                type="hidden"
-                name="_token"
-                value={commonState.csrfToken}
-              />
-              <Button type="submit">ログアウト</Button>
-            </form>
+          <Box
+            sx={{
+              minWidth: "1024px",
+              margin: "auto 0",
+            }}
+          >
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                {/* ドロワー開くボタン */}
+                <Box>
+                  <Tooltip title="メニューを開く" placement="right">
+                    <Button onClick={() => dispatch(actions.openDrawer())}>
+                      <DehazeIcon sx={{ color: "#000" }} />
+                    </Button>
+                  </Tooltip>
+                </Box>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Box>
+                  <form action="/logout" method="post">
+                    <input
+                      type="hidden"
+                      name="_token"
+                      value={commonState.csrfToken}
+                    />
+                    <Button type="submit">ログアウト</Button>
+                  </form>
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
         <Spacer />
@@ -68,14 +97,6 @@ export const BaseComponent = (props: Props) => {
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Box sx={{ width: "1024px", margin: "0 5px" }}>{children}</Box>
         </Box>
-      </Box>
-      {/* ドロワー開くボタン */}
-      <Box sx={{ position: "fixed", left: "0px", bottom: "30px" }}>
-        <Tooltip title="メニューを開く" placement="right">
-          <Button onClick={() => dispatch(actions.openDrawer())}>
-            <DehazeIcon sx={{ color: "#000" }} />
-          </Button>
-        </Tooltip>
       </Box>
       {/* drawer */}
       <Drawer
