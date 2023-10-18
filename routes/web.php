@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
 
     // リダイレクト
-    Route::get('/', [RedirectController::class, 'index']);
+    Route::get('/', [RedirectController::class, 'authRedirector']);
     Route::get('/redirector', [RedirectController::class, 'authRedirector']);
 
     /**
