@@ -151,7 +151,7 @@ return [
      * リダイレクト先定義
      */
     'redirects' => [
-        'login' => null,
+        'login' => "/redirector",
         'logout' => null,
         'password-confirmation' => null,
         'register' => '/redirector',

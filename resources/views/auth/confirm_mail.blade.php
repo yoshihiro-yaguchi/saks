@@ -12,7 +12,7 @@
     <title>メールを確認してください</title>
 </head>
 <body class="maxHeight">
-    <FullWidthInput id="email" type="hidden" value="{{Auth::user()->email}}">
+    <input id="email" type="hidden" value="{{Auth::user()->email}}">
     <form class="maxHeight" method="post" action="/email/verification-notification">
         @csrf
         <div class="maxHeight" id="confirm_mail"></div>

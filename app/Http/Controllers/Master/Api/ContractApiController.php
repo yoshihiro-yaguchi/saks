@@ -25,7 +25,7 @@ class ContractApiController extends Controller
         $isUniqueContractId = false;
         while (! $isUniqueContractId) {
             $contractId = Str::random(8);
-            $count = Contracts::where('contract_id', '=', $isUniqueContractId)->count();
+            $count = Contracts::where('contract_id', '=', $contractId)->count();
             if ($count === 0) {
                 $isUniqueContractId = true;
             }

@@ -13,7 +13,7 @@
 </head>
 <body>
   @if ($errors->any())
-  <FullWidthInput type="hidden" id="errors" value="{{json_encode($errors->all())}}">
+  <input type="hidden" id="errors" value="{{json_encode($errors->all())}}">
   @endif
   <form class="maxHeight" action="{{url()->current()}}" method="post">
     @csrf
