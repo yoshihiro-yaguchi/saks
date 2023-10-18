@@ -30,7 +30,7 @@ return new class extends Migration
             // 住所 町・番地	address3	varchar	100
             $table->string('address3', 100)->comment('町・番地');
             // 住所 建物名等	address4	varchar	100
-            $table->string('address4', 100)->comment('建物名等');
+            $table->string('address4', 100)->nullable()->comment('建物名等');
             $table->timestamps();
 
             $table->unique(['contract_id', 'office_code'], 'offices_uk1');
