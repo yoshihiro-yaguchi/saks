@@ -6,9 +6,9 @@ import { commonReducer } from "../common/commonReducer"
 import { registerContractReducer } from "../features/auth/registerContract/reducer"
 import { transactionSearchState } from "../features/transaction/search/reducer"
 import { productSearchState } from "../features/product/search/readucer"
-import { productShowState } from "../features/product/show/readucer"
 import { productStoreState } from "../features/product/store/readucer"
 import { productUpdateState } from "../features/product/update/readucer"
+import { updateTransactionReducer } from "../features/transaction/update/reducer"
 
 export const store = configureStore({
   reducer: {
@@ -28,12 +28,12 @@ export const store = configureStore({
     storeTransaction: storeTransactionReducer.reducer,
     // 詳細
     showTransaction: showTransactionReducer.reducer,
+    // 更新
+    updateTransaction: updateTransactionReducer.reducer,
 
     // 商品マスタ
     // 検索
     searchProduct: productSearchState.reducer,
-    // 詳細
-    showProduct: productShowState.reducer,
     // 登録
     storeProduct: productStoreState.reducer,
     // 更新

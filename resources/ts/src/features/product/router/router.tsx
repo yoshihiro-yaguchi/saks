@@ -5,15 +5,13 @@ import React from "react"
 import reportWebVitals from "@resource/ts/src/reportWebVitals"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Search } from "../search/search"
-import { Show } from "../show/show"
 import { Store } from "../store/store"
 import { Update } from "../update/update"
 
 export const PRODUCT_PATHS = {
   SEARCH: "/product/search",
   STORE: "/product/store",
-  SHOW: "/product/show/:productId",
-  UPDATE: "/product/update/:productId",
+  UPDATE: "/product/update/:productCode",
 }
 
 export const Router = () => {
@@ -23,7 +21,6 @@ export const Router = () => {
         <Routes>
           <Route path={PRODUCT_PATHS.SEARCH} element={<Search />} />
           <Route path={PRODUCT_PATHS.STORE} element={<Store />} />
-          <Route path={PRODUCT_PATHS.SHOW} element={<Show />} />
           <Route path={PRODUCT_PATHS.UPDATE} element={<Update />} />
         </Routes>
       </BrowserRouter>

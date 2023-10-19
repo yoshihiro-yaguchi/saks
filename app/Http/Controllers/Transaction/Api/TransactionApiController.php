@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Transaction\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiSearchTransaction;
 use App\Http\Requests\StoreTransaction;
+use App\Http\Requests\Transaction\Api\ApiInitUpdateTransaction;
 use App\Models\Office;
 use App\Services\CommonService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use App\Services\Transaction\TransactionService;
 use Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -193,5 +195,36 @@ class TransactionApiController extends Controller
         Log::info('TransactionApiController.searchTransactionData : END');
 
         return $response;
+    }
+
+    /**
+     * 取引作成画面初期処理
+     *
+     * @return void
+     */
+    public function initUpdateTransaction(ApiInitUpdateTransaction $request)
+    {
+        Log::info('TransactionApiController.initUpdateTransaction : START');
+        $contract_id = $this->commonService->getContractId();
+
+        $offices = Office::query()->where('contract_id', '=', $contract_id)->get(['office_code as officeCode', 'office_name as officeName']);
+
+        $transactionId = $request->input('transactionId');
+
+        // 契約IDと取引IDでデータを引っ張ってくる。
+        $commonService = new CommonService();
+        $transactionData = $this->transactionService->getUpdateTransactionData($commonService->getContractId(), $request->input('transactionId'));
+
+        Log::info('TransactionApiController.initUpdateTransaction : END');
+
+        return response()->json(
+            [
+                'offices' => $offices,
+                'transactionHead' => $transactionData['transactionHead'],
+                'detailRows' => $transactionData['detailRows'],
+                'taxInfos' => $transactionData['taxInfos'],
+            ],
+            200
+        );
     }
 }

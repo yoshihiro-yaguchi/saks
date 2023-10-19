@@ -122,7 +122,6 @@ export const Show = () => {
                       >
                         伝票を発行
                       </Button>
-
                       {(() => {
                         if (transactionHead.transactionDivision == "買取") {
                           return (
@@ -181,6 +180,11 @@ export const Show = () => {
                         color="primary"
                         type="button"
                         sx={{ margin: "auto 5px" }}
+                        onClick={() =>
+                          navigator(
+                            `/transaction/update/${urlParams.transactionId!}`
+                          )
+                        }
                       >
                         編集する
                       </Button>
@@ -426,7 +430,7 @@ export const Show = () => {
                 </TableHead>
                 <TableBody>
                   {detailRows.map((row, index) => (
-                    <StyledTableRow key={row.productNo}>
+                    <StyledTableRow key={index}>
                       {/* 商品番号 */}
                       <StyledTableRowCell>
                         <Typo>{row.productNo}</Typo>

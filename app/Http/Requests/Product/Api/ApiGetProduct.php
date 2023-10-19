@@ -5,7 +5,7 @@ namespace App\Http\Requests\Product\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApiSearchProduct extends FormRequest
+class ApiGetProduct extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,7 @@ class ApiSearchProduct extends FormRequest
     public function rules(): array
     {
         return [
-            'productionCode' => ['nullable', 'max:50'],
-            'productionName' => ['nullable', 'max:100'],
-            'taxDivision' => ['nullable'],
-            // 'taxRate' => ['nullable', 'regex:/((^[0-9]{0,5})(\.[0-9]{0,3}$))|(^[0-9]{0,5}$)/'],
-            'taxRate' => ['nullable', 'max:5'],
+            'productionCode' => ['required', 'max:50'],
         ];
     }
 
@@ -35,11 +31,6 @@ class ApiSearchProduct extends FormRequest
     {
         return [
             'productionCode' => '商品コード',
-            'productionName' => '商品名',
-            'unitPrice' => '単価',
-            'taxDivision' => '税区分',
-            'taxRate' => '税率',
-            'unit' => '単位',
         ];
     }
 }

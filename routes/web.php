@@ -76,6 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/transaction/search/init', [TransactionApiController::class, 'initSearchTransaction']);
     // 検索
     Route::get('/api/transaction/search', [TransactionApiController::class, 'searchTransactionData']);
+    // 更新画面初期処理
+    Route::get('/api/transaction/update/init', [TransactionApiController::class, 'initUpdateTransaction']);
 
     // 買取明細書・依頼書PDF
     Route::get('/api/transaction/pdf/print-purchase-invoice', [TransactionSlipController::class, 'printPurchaseInvoice']);
@@ -96,19 +98,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/product/store', [ProductApiController::class, 'store']);
     // 検索
     Route::get('/api/product/search', [ProductApiController::class, 'search']);
+    // 商品取得
+    Route::get('/api/product/getProduct', [ProductApiController::class, 'getProduct']);
+    // 更新
+    Route::post('/api/product/update', [ProductApiController::class, 'update']);
 
-});
-
-/**
- * テスト
- */
-Route::post('/transaction/test', [TransactionApiController::class, 'testPost']);
-
-// 明細書発行
-Route::get('/test/bootstrap', function () {
-    return view('test.bootstrap');
-});
-
-Route::get('/pdfPreview', function () {
-    return view('pdf.document');
 });

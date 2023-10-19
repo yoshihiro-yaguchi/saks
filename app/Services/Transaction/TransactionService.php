@@ -67,6 +67,7 @@ class TransactionService
                 'product_no' => $detailRow['productNo'],
                 'product_name' => $detailRow['productName'],
                 'quantity' => $detailRow['quantity'],
+                'unit' => $detailRow['unit'],
                 'unit_price' => $detailRow['unitPrice'],
                 'tax_rate' => $detailRow['taxRate'],
                 'total_price' => $detailRow['totalPrice'],
@@ -124,6 +125,78 @@ class TransactionService
             'transactionPicName' => $transactionHeadData->transactionPicName,
             'transactionNote' => $transactionHeadData->transactionNote,
             'corporationDivision' => TransactionHead::$CORPORATION_DIV_NAME[$transactionHeadData->corporationDivision],
+            'invoiceNumber' => $transactionHeadData->invoiceNumber,
+            'customerCompany' => $transactionHeadData->customerCompany,
+            'customerBranch' => $transactionHeadData->customerBranch,
+            'customerName' => $transactionHeadData->customerName,
+            'customerPhoneNumber' => $transactionHeadData->customerPhoneNumber,
+            'customerZipCode' => $transactionHeadData->customerZipCode,
+            'customerAddress1' => $transactionHeadData->customerAddress1,
+            'customerAddress2' => $transactionHeadData->customerAddress2,
+            'customerAddress3' => $transactionHeadData->customerAddress3,
+            'customerAddress4' => $transactionHeadData->customerAddress4,
+            'subtotal' => $transactionHeadData->subtotal,
+            'taxInclude' => $transactionHeadData->taxInclude,
+            'total' => $transactionHeadData->total,
+        ];
+        $detailRows = $this->getTransactionDetails($contractId, $transactionId);
+
+        return [
+            'transactionHead' => $transactionHead,
+            'detailRows' => $detailRows,
+            'taxInfos' => $this->culcTransaction($detailRows)['taxInfos']
+        ];
+    }
+
+    /**
+     * 取引データ取得
+     */
+    public function getUpdateTransactionData(string $contractId, string $transactionId): array
+    {
+        // TODO:取得できなかった場合を考える。
+        $transactionHeadData = DB::table('transaction_headers as T1')
+            ->select(
+                [
+                    'T1.transaction_id as transactionId',
+                    'T1.transaction_title as transactionTitle',
+                    'T1.transaction_division as transactionDivision',
+                    'T1.transaction_date as transactionDate',
+                    'T1.transaction_branch as transactionBranch',
+                    'T1.transaction_pic_name as transactionPicName',
+                    'T1.transaction_note as transactionNote',
+                    'T1.corporation_division as corporationDivision',
+                    'T1.customer_invoice_number as invoiceNumber',
+                    'T1.customer_company as customerCompany',
+                    'T1.customer_branch as customerBranch',
+                    'T1.customer_name as customerName',
+                    'T1.customer_phone_number as customerPhoneNumber',
+                    'T1.customer_zip_code as customerZipCode',
+                    'T1.customer_address1 as customerAddress1',
+                    'T1.customer_address2 as customerAddress2',
+                    'T1.customer_address3 as customerAddress3',
+                    'T1.customer_address4 as customerAddress4',
+                    'T1.subtotal as subtotal',
+                    'T1.tax_include as taxInclude',
+                    'T1.total as total',
+                ]
+            )
+            ->join('offices as T2', function($join) {
+                /** @var Illuminate\Database\Query\Builder::join $join */
+                $join->on('T1.contract_id', '=', 'T2.contract_id')->on('T1.transaction_branch', '=', 'T2.office_code');
+            })
+            ->where('T1.contract_id', '=', $contractId)
+            ->where('T1.transaction_id', '=', $transactionId)
+            ->first();
+
+        $transactionHead = [
+            'transactionId' => $transactionHeadData->transactionId,
+            'transactionTitle' => $transactionHeadData->transactionTitle,
+            'transactionDivision' => $transactionHeadData->transactionDivision,
+            'transactionDate' => $transactionHeadData->transactionDate,
+            'transactionBranch' => $transactionHeadData->transactionBranch,
+            'transactionPicName' => $transactionHeadData->transactionPicName,
+            'transactionNote' => $transactionHeadData->transactionNote,
+            'corporationDivision' => $transactionHeadData->corporationDivision,
             'invoiceNumber' => $transactionHeadData->invoiceNumber,
             'customerCompany' => $transactionHeadData->customerCompany,
             'customerBranch' => $transactionHeadData->customerBranch,
@@ -234,6 +307,7 @@ class TransactionService
                 'productNo' => $detailData->product_no,
                 'productName' => $detailData->product_name,
                 'quantity' => $detailData->quantity,
+                'unit' => $detailData->unit,
                 'unitPrice' => $detailData->unit_price,
                 'taxRate' => $detailData->tax_rate,
                 'totalPrice' => $detailData->total_price,

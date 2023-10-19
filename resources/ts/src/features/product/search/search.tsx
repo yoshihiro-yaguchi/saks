@@ -10,6 +10,7 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  Link,
   MenuItem,
   Pagination,
   Paper,
@@ -24,7 +25,7 @@ import {
 } from "@mui/material"
 import { Spacer } from "@resource/ts/src/common/Component/Spacer"
 import { LinedContainerBox } from "@resource/ts/src/common/Component/LinedContainerBox"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { ContainerBox } from "@resource/ts/src/common/Component/ContainerBox"
 import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
@@ -44,6 +45,14 @@ export const Search = () => {
     dispatch(operations.init())
   }, [])
 
+  const onClickSearchResult = (productCode: string) => {
+    navigate(`/product/update/${productCode}`)
+  }
+
+  const handleInput = (name: string, value: string) => {
+    dispatch(operations.handleInput(name, value))
+  }
+
   return (
     <>
       <BaseComponent processing={commonState.processing}>
@@ -60,15 +69,17 @@ export const Search = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "flex-end",
-                  verticalAlign: "center",
+                  alignItems: "center",
                 }}
               >
-                <Button
-                  variant="outlined"
-                  onClick={() => navigate("/product/store")}
-                >
-                  商品を作成
-                </Button>
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => navigate("/product/store")}
+                  >
+                    商品を作成
+                  </Button>
+                </Box>
               </Grid>
             </Grid>
           </ContainerBox>
@@ -108,12 +119,7 @@ export const Search = () => {
                         name="productionName"
                         value={state.input.productionName}
                         onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          dispatch(
-                            operations.handleInput(
-                              e.target.name,
-                              e.target.value
-                            )
-                          )
+                          handleInput(e.target.name, e.target.value)
                         }
                         error={commonState.errors.hasOwnProperty(
                           "productionName"
@@ -213,10 +219,12 @@ export const Search = () => {
                             marginTop: "16px",
                           }}
                         >
+                          {/* TODO: 削除機能を実装する */}
                           <Button
                             color="error"
                             variant="outlined"
                             sx={{ margin: "auto 0" }}
+                            hidden
                           >
                             削除
                           </Button>
@@ -309,7 +317,17 @@ export const Search = () => {
                               <TableCell></TableCell>
                               {/* 商品コード */}
                               <TableCell sx={{ textAlign: "center" }}>
-                                <Typo>{row.productionCode}</Typo>
+                                <Typo>
+                                  <Button size="small">
+                                    <Link
+                                      onClick={() =>
+                                        onClickSearchResult(row.productionCode)
+                                      }
+                                    >
+                                      {row.productionCode}
+                                    </Link>
+                                  </Button>
+                                </Typo>
                               </TableCell>
                               {/* 商品名 */}
                               <TableCell sx={{ textAlign: "center" }}>

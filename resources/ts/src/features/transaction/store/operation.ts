@@ -429,7 +429,7 @@ export const operations = {
       const updateData = {
         productionCode: clickData.productionCode,
         productionName: clickData.productionName,
-        quantity: 0,
+        quantity: 1,
         unitPrice: Math.floor(clickData.unitPrice),
         unit: clickData.unit,
         taxRate: Math.floor(clickData.taxRate),

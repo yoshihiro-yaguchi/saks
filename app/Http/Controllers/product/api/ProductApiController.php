@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\product\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\Api\ApiGetProduct;
 use App\Http\Requests\Product\Api\ApiSearchProduct;
 use App\Http\Requests\Product\Api\ApiStoreRequest;
+use App\Http\Requests\Product\Api\ApiUpdateRequest;
 use App\Models\Product;
 use App\Services\CommonService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -92,6 +93,79 @@ class ProductApiController extends Controller
         ])->save();
 
         Log::info('ProductApiController.store END');
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'id' => $productModel->production_code
+            ],
+            '200'
+        );
+    }
+
+    /**
+     * 商品取得
+     *
+     * @param ApiGetProduct $request
+     * @return void
+     */
+    public function getProduct (ApiGetProduct $request) {
+        Log::info('ProductApiController.getProduct START');
+        $commonService = new CommonService();
+        $contractId = $commonService->getContractId();
+
+        $query = DB::table('products')->select(
+            'production_code as productionCode',
+            'production_name as productionName',
+            'unit_price as unitPrice',
+            'unit as unit' ,
+            'tax_division as taxDivision',
+            'tax_rate as taxRate'
+        )->where('contract_id', '=' ,$contractId)->where('production_code', '=', $request->input('productionCode'));
+
+        $count = $query->count();
+        if ($count === 0) {
+            return response()->json(
+                [
+                    'count' => $count,
+                    'products' => null,
+                ],
+                200
+            );
+        }
+        Log::info('ProductApiController.getProduct END');
+        return response()->json(
+            [
+                'count' => $count,
+                'product' => $query->forPage($request->input('page'), $request->input('itemsPerPage'))->orderBy('created_at')->first()
+            ],
+            200
+        );
+    }
+
+    /**
+     * 商品更新
+     *
+     * @param ApiStoreRequest $request
+     * @return void
+     */
+    public function update (ApiUpdateRequest $request) {
+        Log::info('ProductApiController.update START');
+
+        $productModel = new Product();
+
+        $commonService = new CommonService();
+        $contractId = $commonService->getContractId();
+
+        DB::table('products')->where('contract_id', '=', $contractId)->where('production_code', '=', $request->input('productionCode'))->update([
+            'production_name' => $request->input('productionName'),
+            'unit_price' => $request->input('unitPrice'),
+            'tax_division' => $request->input('taxDivision'),
+            'tax_rate' => $request->input('taxRate'),
+            'unit' => $request->input('unit')
+        ]);
+
+        Log::info('ProductApiController.update END');
 
         return response()->json(
             [

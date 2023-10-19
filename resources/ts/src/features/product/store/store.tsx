@@ -59,17 +59,24 @@ export const Store = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "flex-end",
-                  verticalAlign: "center",
+                  alignItems: "center",
                 }}
               >
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    navigate("/product/search")
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
                   }}
                 >
-                  一覧へ戻る
-                </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      navigate("/product/search")
+                    }}
+                  >
+                    一覧へ戻る
+                  </Button>
+                </Box>
               </Grid>
             </Grid>
           </ContainerBox>

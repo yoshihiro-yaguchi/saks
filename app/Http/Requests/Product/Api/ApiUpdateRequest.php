@@ -1,20 +1,11 @@
 <?php
+
 namespace App\Http\Requests\Product\Api;
 
-
-use App\Rules\product\ValidateDuplicateProductionCode;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApiStoreRequest extends FormRequest
+class ApiUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,7 +14,6 @@ class ApiStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'productionCode' => ['required' ,'max:50', new ValidateDuplicateProductionCode(), 'regex:/^[a-z0-9-]+$/i'],
             'productionName' => ['required' ,'max:100'],
             // 'unitPrice' => ['required' , 'regex:/((^[0-9]{0,9})(\.[0-9]{0,3}$))|(^[0-9]{0,9}$)/'],
             'unitPrice' => ['required' , 'max:9'],
@@ -37,7 +27,6 @@ class ApiStoreRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'productionCode' => '商品コード',
             'productionName' => '商品名',
             'unitPrice' => '単価',
             'taxDivision' => '税区分',
@@ -55,4 +44,5 @@ class ApiStoreRequest extends FormRequest
 
         ];
     }
+
 }

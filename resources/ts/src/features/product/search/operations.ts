@@ -112,9 +112,7 @@ export const operations = {
   handleInput:
     (key: string, value: string): AppThunk =>
     async (dispatch, getState) => {
-      await dispatch(commonOperations.processStart())
       await dispatch(actions.updateInput({ key: key, value: value }))
-      dispatch(commonOperations.processEnd())
     },
 
   /**

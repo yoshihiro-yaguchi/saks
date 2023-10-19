@@ -103,12 +103,12 @@ export const BaseComponent = (props: Props) => {
         anchor="left"
         open={commonState.isOpenDrawer}
         onClose={() => dispatch(actions.closeDrawer())}
-        PaperProps={{ style: { width: "250px", backgroundColor: "#1cc1cc" } }}
+        PaperProps={{ style: { width: "250px", backgroundColor: "#eff" } }}
       >
-        <Box sx={{ margin: "16px", color: "#fff" }}>
+        <Box sx={{ margin: "16px", color: "#000" }}>
           {/* 取引メニュー */}
           <H2>メニュー</H2>
-          <Accordion sx={{ backgroundColor: "#effeff" }}>
+          <Accordion sx={{ backgroundColor: "#fff" }}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <H5>取引</H5>
             </AccordionSummary>
@@ -135,7 +135,7 @@ export const BaseComponent = (props: Props) => {
               </Box>
             </AccordionDetails>
           </Accordion>
-          <Accordion sx={{ backgroundColor: "#effeff" }}>
+          <Accordion sx={{ backgroundColor: "#fff" }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -165,7 +165,7 @@ export const BaseComponent = (props: Props) => {
               </Box>
             </AccordionDetails>
           </Accordion>
-          <Accordion sx={{ backgroundColor: "#effeff" }}>
+          <Accordion sx={{ backgroundColor: "#fff" }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
