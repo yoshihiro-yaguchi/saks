@@ -40,14 +40,16 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v $(pwd):/var/www/html \
     -w /var/www/html \
-    laravelsail/php81-composer:latest \
+    laravelsail/php82-composer:latest \
     composer install --ignore-platform-reqs
 ```
-コマンド実行時にエラーになるときは、venderディレクトリを削除する。
+
+コマンド実行時にエラーになるときは、vender ディレクトリを削除する。
 
 ## エイリアスの設定
 
 ### bash
+
 エイリアス設定ファイルを開く
 
 ```
@@ -71,16 +73,21 @@ source ~/.bashrc
 ### zsh
 
 エイリアス設定ファイルを開く
+
 ```
 vim ~/.zshrc
 ```
+
 I キーを押して適当な場所に
+
 ```
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 ```
+
 と打ち込む。その後、`esc` -> `:wq` -> エンターキーで保存して終了
 
 `~/.zshrc`に記載したコマンドを反映
+
 ```
 source ~/.zshrc
 ```
@@ -124,24 +131,32 @@ server: {
 `npm run build`
 リリース用にビルドするコマンドで、開発時と違い CSS ファイルや JS ファイルが圧縮されて書き出されます。
 
-
 # 追加パッケージ
+
 ## mPDF
+
 ### 参考
-* [Laravel超初心者がMpdfでpdfを生成するまで](https://zenn.dev/chromel/articles/6edadcdcce19fa)<br>
-* [LaravelでPDFを出力する](https://qiita.com/yukieeeee/items/2085aad47f73aae3889e)
+
+-   [Laravel 超初心者が Mpdf で pdf を生成するまで](https://zenn.dev/chromel/articles/6edadcdcce19fa)<br>
+-   [Laravel で PDF を出力する](https://qiita.com/yukieeeee/items/2085aad47f73aae3889e)
+
 ### インストール方法
+
 1. パッケージ追加
+
 ```
 sail composer require carlos-meneses/laravel-mpdf
 ```
-2. PDF用コントローラー作成
+
+2. PDF 用コントローラー作成
+
 ```
 sail php artisan make:controller PdfController
 ```
 
 3. `./config/app.php`に設定を追加する。
-aliasesに設定しても動作しなかった。`LaravelMpdf`を直接呼び出すとうまくいったので、それを使う。
+   aliases に設定しても動作しなかった。`LaravelMpdf`を直接呼び出すとうまくいったので、それを使う。
+
 ```
 'providers' => [
 Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
@@ -151,7 +166,9 @@ Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
 'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
 ])->toArray(),
 ```
+
 4. 2.で作成したコントローラーに下記設定をする。
+
 ```php
 <?php
 
@@ -178,10 +195,12 @@ class PdfController extends Controller
     }
 }
 ```
-5. 日本語化対応のために、ipafontをダウンロードする。
-   [IPAexフォントおよびIPAフォントについて](https://moji.or.jp/ipafont/)
+
+5. 日本語化対応のために、ipafont をダウンロードする。
+   [IPAex フォントおよび IPA フォントについて](https://moji.or.jp/ipafont/)
 6. ダウンロードしたファイルを回答し、`ipae.ttf`または`ipaexg.ttf`ファイルを`resources/fonts`に配置する。
-7. `config/pdf.php`のcustom_font_dataに以下の設定を追加する。
+7. `config/pdf.php`の custom_font_data に以下の設定を追加する。
+
 ```php
 'custom_font_data'         => [
     'ipafont' => [
@@ -189,10 +208,15 @@ class PdfController extends Controller
     ]
 ],
 ```
+
 8. `web.php`にルーティングの設定をしてリンクにアクセスしてみる。
+
 ## react-typescript-redux
+
 ### 参考
-1. node,npm,npxがインストールされていることを確認
+
+1. node,npm,npx がインストールされていることを確認
+
 ```
 sail node --version
 # v18.16.0
@@ -201,24 +225,31 @@ sail npm --version
 sail npx --version
 # 9.6.7
 ```
-2. vitejsのReactモジュールを追加
+
+2. vitejs の React モジュールを追加
+
 ```
 sail npm install -d @vitejs/plugin-react
 ```
-3. react-typescript-reduxのテンプレートを作成
+
+3. react-typescript-redux のテンプレートを作成
+
 ```
 sail npx create-react-app resources/ts --template redux-typescript
 ```
-4. ts/package.jsonから、ルートディレクトリ/package.jsonに依存関係をコピーする
 
-5. ts/public, ts/src以外のtsフォルダ配下のファイルを削除する
+4. ts/package.json から、ルートディレクトリ/package.json に依存関係をコピーする
 
-6. npmの依存関係を更新する
+5. ts/public, ts/src 以外の ts フォルダ配下のファイルを削除する
+
+6. npm の依存関係を更新する
+
 ```shell
 sail npm install --legacy-peer-deps
 ```
 
-7. vite.config.jsに以下を追加する。
+7. vite.config.js に以下を追加する。
+
 ```javascript
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
@@ -231,7 +262,7 @@ export default defineConfig({
                 "resources/sass/app.scss",
                 "resources/css/app.css",
                 "resources/js/app.js",
-                'resources/ts/src/index.tsx', //<-追加
+                "resources/ts/src/index.tsx", //<-追加
             ],
 
             refresh: true,
@@ -247,14 +278,15 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            vue: 'vue/dist/vue.esm-bundler.js',
+            vue: "vue/dist/vue.esm-bundler.js",
             $: "jQuery",
         },
     },
 });
 ```
 
-8. index.blade.phpの作成
+8. index.blade.php の作成
+
 ```resouces/views/index.blade.php
 <!DOCTYPE html>
 <html lang="en">
@@ -272,15 +304,17 @@ export default defineConfig({
 </html>
 ```
 
-9. web.phpの変更
-以下を追加
+9. web.php の変更
+   以下を追加
+
 ```
 Route::get('/', function () {
     return view('index');
 });
 ```
 
-10. npmを起動
+10. npm を起動
+
 ```
 sail npm run dev
 ```
