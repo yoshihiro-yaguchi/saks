@@ -41,8 +41,8 @@ class StoreTransaction extends FormRequest
             'customerInfo.customerAddress4' => ['nullable', 'max:100'],
             // 明細情報
             'detailRows' => ['bail', 'required'],
-            'detailRows.*.quantity' => ['required', 'max:99999', 'numeric'],
-            'detailRows.*.unitPrice' => ['required', 'max:999999999', 'numeric'],
+            'detailRows.*.quantity' => ['required', 'max:5', 'numeric'],
+            'detailRows.*.unitPrice' => ['required', 'max:9', 'numeric'],
         ];
     }
 

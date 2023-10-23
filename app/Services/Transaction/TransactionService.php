@@ -6,6 +6,7 @@ use App\Models\TransactionDetail;
 use App\Models\TransactionHead;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -49,6 +50,16 @@ class TransactionService
     }
 
     /**
+     * 取引ヘッダー保存
+     *
+     * @return int
+     */
+    public function updateTransactionHead(string $transactionId, string $contractId, array $updateData)
+    {
+        return DB::table('transaction_headers')->where('transaction_id', '=', $transactionId)->where('contract_id', '=', $contractId)->update($updateData);;
+    }
+
+    /**
      * 取引明細保存
      *
      * @return TransactionDetail model
@@ -64,7 +75,7 @@ class TransactionService
             $saveData[] = [
                 'contract_id' => $contractId,
                 'transaction_id' => $transactionId,
-                'product_no' => $detailRow['productNo'],
+                'product_no' => $detailRow['productNo'] == null ? "" : $detailRow['productNo'],
                 'product_name' => $detailRow['productName'],
                 'quantity' => $detailRow['quantity'],
                 'unit' => $detailRow['unit'],

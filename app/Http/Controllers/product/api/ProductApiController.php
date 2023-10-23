@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\product\api;
+namespace App\Http\Controllers\Product\Api;
+
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\Api\ApiGetProduct;

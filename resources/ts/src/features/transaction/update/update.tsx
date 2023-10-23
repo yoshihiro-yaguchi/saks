@@ -143,10 +143,10 @@ export const Update = () => {
                         type="button"
                         sx={{ margin: "auto 5px" }}
                         onClick={() => {
-                          dispatch(operations.saveTransactionData(navigate))
+                          dispatch(operations.updateTransactionData(navigate))
                         }}
                       >
-                        保存
+                        更新
                       </Button>
                     </Box>
                   </Grid>
@@ -178,9 +178,7 @@ export const Update = () => {
                   )
                 }}
                 value={transactionHead.transactionTitle}
-                error={commonState.errors.hasOwnProperty(
-                  "transactionInfo.transactionTitle"
-                )}
+                error={commonState.errors.hasOwnProperty("transactionTitle")}
               ></FullWidthInput>
               <Grid container spacing={1}>
                 <Grid item xs={12} lg={6}>
@@ -224,9 +222,7 @@ export const Update = () => {
                       )
                     }}
                     value={transactionHead.transactionDate}
-                    error={commonState.errors.hasOwnProperty(
-                      "transactionInfo.transactionDate"
-                    )}
+                    error={commonState.errors.hasOwnProperty("transactionDate")}
                   ></FullWidthInput>
                 </Grid>
               </Grid>
@@ -281,7 +277,7 @@ export const Update = () => {
                     }}
                     value={transactionHead.transactionPicName}
                     error={commonState.errors.hasOwnProperty(
-                      "transactionInfo.transactionPicName"
+                      "transactionPicName"
                     )}
                   ></FullWidthInput>
                 </Grid>
@@ -305,9 +301,7 @@ export const Update = () => {
                   )
                 }}
                 value={transactionHead.transactionNote}
-                error={commonState.errors.hasOwnProperty(
-                  "transactionInfo.transactionNote"
-                )}
+                error={commonState.errors.hasOwnProperty("transactionNote")}
               ></FullWidthInput>
             </LinedContainerBox>
           </Grid>
@@ -384,9 +378,7 @@ export const Update = () => {
                       )
                     }}
                     value={transactionHead.invoiceNumber}
-                    error={commonState.errors.hasOwnProperty(
-                      "customerInfo.invoiceNumber"
-                    )}
+                    error={commonState.errors.hasOwnProperty("invoiceNumber")}
                   ></FullWidthInput>
                 </Grid>
               </Grid>
@@ -408,9 +400,7 @@ export const Update = () => {
                   )
                 }}
                 value={transactionHead.customerCompany}
-                error={commonState.errors.hasOwnProperty(
-                  "customerInfo.customerCompany"
-                )}
+                error={commonState.errors.hasOwnProperty("customerCompany")}
               ></FullWidthInput>
               <FullWidthInput
                 id="customerBranch"
@@ -430,9 +420,7 @@ export const Update = () => {
                   )
                 }}
                 value={transactionHead.customerBranch}
-                error={commonState.errors.hasOwnProperty(
-                  "customerInfo.customerBranch"
-                )}
+                error={commonState.errors.hasOwnProperty("customerBranch")}
               ></FullWidthInput>
               <Grid container spacing={1}>
                 <Grid item xs={12} lg={6}>
@@ -452,9 +440,7 @@ export const Update = () => {
                       )
                     }}
                     value={transactionHead.customerName}
-                    error={commonState.errors.hasOwnProperty(
-                      "customerInfo.customerName"
-                    )}
+                    error={commonState.errors.hasOwnProperty("customerName")}
                   ></FullWidthInput>
                 </Grid>
                 <Grid item xs={12} lg={6}>
@@ -475,7 +461,7 @@ export const Update = () => {
                     }}
                     value={transactionHead.customerPhoneNumber}
                     error={commonState.errors.hasOwnProperty(
-                      "customerInfo.customerPhoneNumber"
+                      "customerPhoneNumber"
                     )}
                   ></FullWidthInput>
                 </Grid>
@@ -504,9 +490,7 @@ export const Update = () => {
                     value={commonFunc.zipCodeHyphen(
                       transactionHead.customerZipCode
                     )}
-                    error={commonState.errors.hasOwnProperty(
-                      "customerInfo.zipCode"
-                    )}
+                    error={commonState.errors.hasOwnProperty("zipCode")}
                   ></FullWidthInput>
                 </Grid>
                 <Grid item xs={12} lg={6}>
@@ -527,7 +511,7 @@ export const Update = () => {
                     }}
                     value={transactionHead.customerAddress1}
                     error={commonState.errors.hasOwnProperty(
-                      "customerInfo.customerAddress1"
+                      "customerAddress1"
                     )}
                   ></FullWidthInput>
                 </Grid>
@@ -548,9 +532,7 @@ export const Update = () => {
                   )
                 }}
                 value={transactionHead.customerAddress2}
-                error={commonState.errors.hasOwnProperty(
-                  "customerInfo.customerAddress2"
-                )}
+                error={commonState.errors.hasOwnProperty("customerAddress2")}
               ></FullWidthInput>
               <FullWidthInput
                 id="customerAddress3"
@@ -568,9 +550,7 @@ export const Update = () => {
                   )
                 }}
                 value={transactionHead.customerAddress3}
-                error={commonState.errors.hasOwnProperty(
-                  "customerInfo.customerAddress3"
-                )}
+                error={commonState.errors.hasOwnProperty("customerAddress3")}
               ></FullWidthInput>
               <FullWidthInput
                 id="customerAddress4"
@@ -588,9 +568,7 @@ export const Update = () => {
                   )
                 }}
                 value={transactionHead.customerAddress4}
-                error={commonState.errors.hasOwnProperty(
-                  "customerInfo.customerAddress4"
-                )}
+                error={commonState.errors.hasOwnProperty("customerAddress4")}
               ></FullWidthInput>
             </LinedContainerBox>
           </Grid>

@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Transaction\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiSearchTransaction;
+use App\Http\Requests\Product\Api\ApiUpdateRequest;
 use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\Transaction\Api\ApiInitUpdateTransaction;
+use App\Http\Requests\Transaction\Api\ApiUpdateTransaction;
 use App\Models\Office;
+use App\Models\TransactionDetail;
 use App\Services\CommonService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use App\Services\Transaction\TransactionService;
@@ -227,4 +230,78 @@ class TransactionApiController extends Controller
             200
         );
     }
+
+    /**
+     * 取引作成
+     *
+     * @return JsonResponse response
+     */
+    public function updateTransaction(ApiUpdateTransaction $request)
+    {
+        Log::info('TransactionApiController.storeTransaction : START');
+
+        $service = new TransactionService();
+
+        $detailRows = $request->input('detailRows');
+        $culcResult = $this->transactionService->culcTransaction($detailRows);
+        $amountInfo = $culcResult['amountInfo'];
+
+        // 更新データ
+        $updateData = [
+            'transaction_title' => $request->input('transactionTitle'),
+            'transaction_division' => $request->input('transactionDivision'),
+            'transaction_date' => $request->input('transactionDate'),
+            'transaction_branch' => $request->input('transactionBranch'),
+            'transaction_pic_name' => $request->input('transactionPicName'),
+            'transaction_note' => $request->input('transactionNote'),
+            'corporation_division' => $request->input('corporationDivision'),
+            'customer_invoice_number' => $request->input('invoiceNumber'),
+            'customer_company' => $request->input('customerCompany'),
+            'customer_branch' => $request->input('customerBranch'),
+            'customer_name' => $request->input('customerName'),
+            'customer_phone_number' => $request->input('customerPhoneNumber'),
+            'customer_zip_code' => $request->input('customerZipCode'),
+            'customer_address1' => $request->input('customerAddress1'),
+            'customer_address2' => $request->input('customerAddress2'),
+            'customer_address3' => $request->input('customerAddress3'),
+            'customer_address4' => $request->input('customerAddress4'),
+            'subtotal' => $amountInfo['subtotal'],
+            'tax_include' => $amountInfo['taxInclude'],
+            'total' => $amountInfo['total'],
+        ];
+
+        // 契約ID
+        $commonService = new CommonService();
+        $contractId = $commonService->getContractId();
+
+        // 取引データ作成
+        DB::beginTransaction();
+        try {
+            $service->updateTransactionHead($request->input('transactionId'), $contractId, $updateData);
+            // 明細をdeleteする。
+            TransactionDetail::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $request->input('transactionId'))->delete();
+            $service->saveTransactionDetails($contractId, $request->input('transactionId'), $detailRows);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('取引データ登録処理でエラー発生');
+
+            throw $e;
+        }
+        DB::commit();
+
+        $response = response()->json(
+            [
+                'status' => 'success',
+                'contractId' => $contractId,
+                'transactionId' => $request->input('transactionId'),
+            ],
+            200,
+        );
+
+        Log::info('response: '.$response);
+        Log::info('TransactionApiController.storeTransaction : END');
+
+        return $response;
+    }
+
 }

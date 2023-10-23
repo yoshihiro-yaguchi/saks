@@ -52,11 +52,11 @@ export const operations = {
       dispatch(commonOperations.processEnd())
     },
   /**
-   * 保存処理
+   * 更新処理
    *
    * @returns
    */
-  saveTransactionData:
+  updateTransactionData:
     (navigate: NavigateFunction): AppThunk =>
     async (dispatch, getState) => {
       dispatch(commonOperations.processStart())
@@ -65,8 +65,13 @@ export const operations = {
       let formData = new FormData()
       // 取引ヘッダー
       Object.keys(createTransactionState.transactionHead).forEach((key) => {
+        console.log(
+          `key: ${key}, value: ${
+            createTransactionState.transactionHead[key as keyof TransactionHead]
+          }`
+        )
         formData.append(
-          `transactionInfo[${key}]`,
+          `${key}`,
           createTransactionState.transactionHead[
             key as keyof TransactionHead
           ] as unknown as string
@@ -78,6 +83,11 @@ export const operations = {
         const detailRow =
           createTransactionState.detailRows[index as unknown as number]
         Object.keys(detailRow).forEach((key) => {
+          console.log(
+            `key: detailRows[${index}][${key}], value: ${
+              detailRow[key as keyof DetailRow] as string
+            }`
+          )
           const value = detailRow[key as keyof DetailRow] as string
           formData.append(`detailRows[${index}][${key}]`, value)
         })
@@ -95,7 +105,7 @@ export const operations = {
 
       let apiResult
       try {
-        apiResult = await apis.saveTransactionData(formData)
+        apiResult = await apis.updateTransactionData(formData)
       } catch (e) {
         if (
           isAxiosError(e) &&
@@ -104,6 +114,7 @@ export const operations = {
           e.response.data.errors
         ) {
           // laravelでvalidation errorが発生したとき
+          console.log(e.response.data.errors)
           dispatch(operations.putErrors(e.response.data.errors))
           dispatch(commonOperations.processEnd())
           return

@@ -10,8 +10,8 @@ export const apis = {
   },
 
   // 取引登録
-  saveTransactionData: async (params: FormData) => {
-    return await axios.post<any>(`/api/transaction/store`, params)
+  updateTransactionData: async (params: FormData) => {
+    return await axios.post<any>(`/api/transaction/update`, params)
   },
 
   // 郵便番号から住所を取得する
