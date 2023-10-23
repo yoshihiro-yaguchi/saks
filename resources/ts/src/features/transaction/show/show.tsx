@@ -140,16 +140,6 @@ export const Show = () => {
                                 >
                                   買取明細書・依頼書
                                 </MenuItem>
-                                <MenuItem
-                                  onClick={() => printPurchaseInvoice()}
-                                >
-                                  買取明細書・依頼書(お客様控え)
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={() => printPurchaseInvoice()}
-                                >
-                                  領収書
-                                </MenuItem>
                               </Menu>
                             </>
                           )

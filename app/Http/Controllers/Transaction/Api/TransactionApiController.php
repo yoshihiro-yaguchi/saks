@@ -238,7 +238,7 @@ class TransactionApiController extends Controller
      */
     public function updateTransaction(ApiUpdateTransaction $request)
     {
-        Log::info('TransactionApiController.storeTransaction : START');
+        Log::info('TransactionApiController.updateTransaction : START');
 
         $service = new TransactionService();
 
@@ -299,7 +299,7 @@ class TransactionApiController extends Controller
         );
 
         Log::info('response: '.$response);
-        Log::info('TransactionApiController.storeTransaction : END');
+        Log::info('TransactionApiController.updateTransaction : END');
 
         return $response;
     }
