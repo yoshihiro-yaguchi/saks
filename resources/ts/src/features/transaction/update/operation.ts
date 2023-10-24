@@ -43,12 +43,13 @@ export const operations = {
         throw error
       }
 
-      dispatch(
+      await dispatch(
         actions.initHandle({
           param: partialState,
           transactionData: result.data,
         })
       )
+      await dispatch(operations.updateTaxInfo())
       dispatch(commonOperations.processEnd())
     },
   /**

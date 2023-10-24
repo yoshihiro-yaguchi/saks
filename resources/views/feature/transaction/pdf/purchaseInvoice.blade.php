@@ -168,7 +168,7 @@
                                         </td>
                                         <td style="text-align: center; border-bottom: 2px solid #3CC6CC; width: 70%;">
                                             <p style="font-size: 24px;">
-                                                ￥{{ number_format($transactionHead['total']) }}</p>
+                                                &yen;{{ number_format($transactionHead['total']) }}</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -178,17 +178,18 @@
                         {{-- 会社情報 --}}
                         <td style="width: 50%; text-align: left; padding: 16px 8px;">
                             {{-- 会社名<br /> 事業所名 --}}
-                            <p style="font-size: 20px">株式会社会社サンプル<br /><span style="font-size: 16px">大阪本社</span></p>
+                            <p style="font-size: 20px">{{$companyInfo['companyName']}}<br /><span style="font-size: 16px">{{$companyInfo['branchName']}}</span></p>
                             <div style="margin-left: 8px">
                                 {{-- 郵便番号<br />住所 都道府県 市区町村 町・番地 <br /> 建物名など --}}
-                                <p style="font-size: 14px">〒530-0011<br />秋田県北秋田郡上小阿仁村大字沖田面字小蒲野下タ川原<br />グランフロント大阪 南館 3F
+                                <p style="font-size: 14px">〒{{$companyInfo['zipcode']}}<br />{{"{$companyInfo['address1']}{$companyInfo['address2']}{$companyInfo['address3']}"}}<br />{{$companyInfo['address4']}}
                                 </p>
                                 {{-- 担当  <br /> email <br /> 電話番号 --}}
-                                <p style="font-size: 14px; margin-top: 10px">担当 佐藤サンプル<br />email
-                                    sample@company.co.jp<br />TEL
-                                    0000-0000-0000</p>
+                                <p style="font-size: 14px; margin-top: 10px">担当 {{$companyInfo['pinName']}}<br />
+                                    email {{$companyInfo['email']}}<br />
+                                    TEL {{$companyInfo['tel']}}
+                                </p>
                                 {{-- 登録番号 --}}
-                                <p style="font-size: 14px; margin-top: 10px">登録番号 T1122334455667788</p>
+                                <p style="font-size: 14px; margin-top: 10px">登録番号 {{$companyInfo['invoiceNumber']}}</p>
                                 <p></p>
                             </div>
                         </td>

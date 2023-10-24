@@ -97,7 +97,7 @@ export const updateTransactionReducer = createSlice({
           productName: detailRow.productName,
           quantity: Math.floor(detailRow.quantity),
           unitPrice: Math.floor(detailRow.unitPrice),
-          unit: detailRow.unit,
+          unit: detailRow.unit ?? "",
           taxRate: Math.floor(detailRow.taxRate),
           totalPrice: Math.floor(detailRow.totalPrice),
         }

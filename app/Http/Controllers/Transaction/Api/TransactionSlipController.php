@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Transaction\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contracts;
+use App\Models\Office;
 use App\Services\CommonService;
 use App\Services\Transaction\TransactionService;
 use Auth;
@@ -17,9 +19,12 @@ class TransactionSlipController extends Controller
         $transactionId = $request->input('transactionId');
         $service = new TransactionService();
 
-        $contractId = (new CommonService)->getContractId(Auth::user()->email);
+        $contractId = (new CommonService())->getContractId(Auth::user()->email);
         $transactionData = $service->getTransactionData($contractId, $transactionId);
         $cultTransactionResult = $service->culcTransaction($transactionData['detailRows']);
+
+        $contractInfo = (new Contracts())->query()->where('contract_id', '=', $contractId)->first();
+        $branchInfo = (new Office())->query()->where('contract_id', '=', $contractId)->where('office_code', '=', $transactionData['transactionHead']['officeCode'])->first();
 
         $transactionDate = new Carbon($transactionData['transactionHead']['transactionDate']);
         $data = [
@@ -29,14 +34,23 @@ class TransactionSlipController extends Controller
             'taxInfos' => $cultTransactionResult['taxInfos'],
             'transactionDate' => $transactionDate,
             'id' => $transactionId,
+            'companyInfo' => [
+                'companyName' => $contractInfo->contract_company_name,
+                'branchName' => $branchInfo->office_name,
+                'zipcode' => $branchInfo->zipcode,
+                'address1' => $branchInfo->address1,
+                'address2' => $branchInfo->address2,
+                'address3' => $branchInfo->address3,
+                'address4' => $branchInfo->address4,
+                'pinName' => $transactionData['transactionHead']['transactionPicName'],
+                'email' => Auth::user()->email,
+                'tel' => $branchInfo->phone_number,
+                'invoiceNumber' => $contractInfo->invoice_number,
+            ]
         ];
-        //ここでviewに$dataを送っているけど、
-        //今回$dataはviewで使わない
+
         $pdf = PDF::loadView('feature.transaction.pdf.purchaseInvoice', $data);
 
-        // 表示させる場合
-        // return $pdf->inline('document.pdf');
-
-        return $pdf->download(); //生成されるファイル名
+        return $pdf->download();
     }
 }
