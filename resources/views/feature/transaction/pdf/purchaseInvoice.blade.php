@@ -226,11 +226,11 @@
                         </td>
                         {{-- 数量(重量) --}}
                         <td class="detailRowsBody number">
-                            <p>{{ number_format($detailRow['quantity']) }}</p>
+                            <p>{{ number_format($detailRow['quantity']) }}{{$detailRow['unit']}}</p>
                         </td>
                         {{-- 単価 --}}
                         <td class="detailRowsBody number">
-                            <p>{{ number_format($detailRow['unitPrice']) }}</p>
+                            <p>&yen;{{ number_format($detailRow['unitPrice']) }}</p>
                         </td>
                         {{-- 税率 --}}
                         <td class="detailRowsBody number">
@@ -238,7 +238,7 @@
                         </td>
                         {{-- 金額 --}}
                         <td class="detailRowsBody number">
-                            <p>{{ number_format($detailRow['totalPrice']) }}</p>
+                            <p>&yen;{{ number_format($detailRow['totalPrice']) }}</p>
                         </td>
                     </tr>
                 @endforeach
@@ -272,7 +272,7 @@
                     </td>
                     <td class="detailRowsBody number">
                         <p>
-                            {{ number_format($amountInfo['subtotal']) }}
+                            &yen;{{ number_format($amountInfo['subtotal']) }}
                         </p>
                     </td>
                 </tr>
@@ -298,7 +298,7 @@
                     </td>
                     <td class="detailRowsBody number">
                         <p>
-                            {{ number_format($amountInfo['total']) }}
+                            &yen;{{ number_format($amountInfo['total']) }}
                         </p>
                     </td>
                 </tr>
@@ -316,14 +316,14 @@
                         </td>
                         {{-- 対象金額 --}}
                         <td class="detailRowsBody number" style="width: 15%">
-                            <p>{{ number_format($taxInfo['taxableAmount']) }}</p>
+                            <p>&yen;{{ number_format($taxInfo['taxableAmount']) }}</p>
                         </td>
                         <td class="detailRowsBody tableTitle" style="width: 10%;">
                             <p>消費税</p>
                         </td>
                         {{-- 消費税額 --}}
                         <td class="detailRowsBody number" style="width: 15%">
-                            <p>{{ number_format($taxInfo['taxAmount']) }}</p>
+                            <p>&yen;{{ number_format($taxInfo['taxAmount']) }}</p>
                         </td>
                     </tr>
                 @endforeach
