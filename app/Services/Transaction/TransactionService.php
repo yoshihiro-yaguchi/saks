@@ -6,8 +6,6 @@ use App\Models\TransactionDetail;
 use App\Models\TransactionHead;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class TransactionService
@@ -56,7 +54,7 @@ class TransactionService
      */
     public function updateTransactionHead(string $transactionId, string $contractId, array $updateData)
     {
-        return DB::table('transaction_headers')->where('transaction_id', '=', $transactionId)->where('contract_id', '=', $contractId)->update($updateData);;
+        return DB::table('transaction_headers')->where('transaction_id', '=', $transactionId)->where('contract_id', '=', $contractId)->update($updateData);
     }
 
     /**
@@ -75,10 +73,10 @@ class TransactionService
             $saveData[] = [
                 'contract_id' => $contractId,
                 'transaction_id' => $transactionId,
-                'product_no' => $detailRow['productNo'] == null ? "" : $detailRow['productNo'],
+                'product_no' => $detailRow['productNo'] == null ? '' : $detailRow['productNo'],
                 'product_name' => $detailRow['productName'],
                 'quantity' => $detailRow['quantity'],
-                'unit' => $detailRow['unit'] == null ? "" : $detailRow['unit'],
+                'unit' => $detailRow['unit'] == null ? '' : $detailRow['unit'],
                 'unit_price' => $detailRow['unitPrice'],
                 'tax_rate' => $detailRow['taxRate'],
                 'total_price' => $detailRow['totalPrice'],
@@ -121,7 +119,7 @@ class TransactionService
                     'T1.total as total',
                 ]
             )
-            ->join('offices as T2', function($join) {
+            ->join('offices as T2', function ($join) {
                 /** @var Illuminate\Database\Query\Builder::join $join */
                 $join->on('T1.contract_id', '=', 'T2.contract_id')->on('T1.transaction_branch', '=', 'T2.office_code');
             })
@@ -159,7 +157,7 @@ class TransactionService
         return [
             'transactionHead' => $transactionHead,
             'detailRows' => $detailRows,
-            'taxInfos' => $this->culcTransaction($detailRows)['taxInfos']
+            'taxInfos' => $this->culcTransaction($detailRows)['taxInfos'],
         ];
     }
 
@@ -195,7 +193,7 @@ class TransactionService
                     'T1.total as total',
                 ]
             )
-            ->join('offices as T2', function($join) {
+            ->join('offices as T2', function ($join) {
                 /** @var Illuminate\Database\Query\Builder::join $join */
                 $join->on('T1.contract_id', '=', 'T2.contract_id')->on('T1.transaction_branch', '=', 'T2.office_code');
             })
@@ -231,16 +229,12 @@ class TransactionService
         return [
             'transactionHead' => $transactionHead,
             'detailRows' => $detailRows,
-            'taxInfos' => $this->culcTransaction($detailRows)['taxInfos']
+            'taxInfos' => $this->culcTransaction($detailRows)['taxInfos'],
         ];
     }
 
     /**
      * 取引検索
-     *
-     * @param string $contractId
-     * @param SearchTransactionBean $condition
-     * @return array
      */
     public function searchTransactionData(string $contractId, SearchTransactionBean $condition): array
     {
@@ -306,7 +300,7 @@ class TransactionService
 
         return [
             'count' => $count,
-            'transactions' => $query->forPage($condition->page, $condition->itemsPerPage)->orderByDesc('created_at')->get()
+            'transactions' => $query->forPage($condition->page, $condition->itemsPerPage)->orderByDesc('created_at')->get(),
         ];
     }
 
@@ -388,6 +382,7 @@ class TransactionService
         $exclusionTaxableAmount = bcdiv($taxableAmount, bcadd(1, $effectiveTaxRate, 2), 5);
 
         $taxInclude = bcmul($effectiveTaxRate, $exclusionTaxableAmount, 5);
+
         // TODO: 丸め方式をどこかに持つ必要性あり。
         return ceil($taxInclude);
     }

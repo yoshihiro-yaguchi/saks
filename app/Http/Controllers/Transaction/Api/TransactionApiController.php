@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Transaction\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiSearchTransaction;
-use App\Http\Requests\Product\Api\ApiUpdateRequest;
 use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\Transaction\Api\ApiInitUpdateTransaction;
 use App\Http\Requests\Transaction\Api\ApiUpdateTransaction;
@@ -13,9 +12,7 @@ use App\Models\TransactionDetail;
 use App\Services\CommonService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use App\Services\Transaction\TransactionService;
-use Auth;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -23,6 +20,7 @@ class TransactionApiController extends Controller
 {
     /** @var TransactionService */
     public $transactionService;
+
     public $commonService;
 
     public function __construct()
@@ -126,7 +124,6 @@ class TransactionApiController extends Controller
     /**
      * 取引作成画面初期処理
      *
-     * @param ApiSearchTransaction $request
      * @return void
      */
     public function initSearchTransaction(ApiSearchTransaction $request)
@@ -151,11 +148,12 @@ class TransactionApiController extends Controller
         $condition->page = $request->input('page');
         $condition->itemsPerPage = $request->input('itemsPerPage');
         $searchResult = $this->transactionService->searchTransactionData($contractId, $condition);
+
         return response()->json(
             [
                 'offices' => $offices,
                 'count' => $searchResult['count'],
-                'transactions' => $searchResult['transactions']
+                'transactions' => $searchResult['transactions'],
             ],
             200
         );
@@ -164,7 +162,6 @@ class TransactionApiController extends Controller
     /**
      * 取引検索
      *
-     * @param ApiSearchTransaction $request
      * @return void
      */
     public function searchTransactionData(ApiSearchTransaction $request)
@@ -303,5 +300,4 @@ class TransactionApiController extends Controller
 
         return $response;
     }
-
 }

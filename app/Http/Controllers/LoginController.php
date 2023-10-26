@@ -20,6 +20,7 @@ class LoginController extends Controller
         if ($result->has('failed')) {
             $returnData['logicErrors'] = $result->get('failed');
         }
+
         // 渡された情報で認証
         // 認証に成功した時はセッションにデータを登録する
         // 認証に失敗した時はlogicErrorsをauth.loginに返す

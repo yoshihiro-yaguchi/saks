@@ -24,7 +24,7 @@ return new class extends Migration
             // 契約日	contract_date	date
             $table->date('contract_date')->comment('契約日');
             // 代表電話番号	hq_phone_number	varchar	15
-            $table->string('hq_phone_number',15)->nullable()->comment('代表電話番号');
+            $table->string('hq_phone_number', 15)->nullable()->comment('代表電話番号');
             // 登録番号	invoice_number	varchar	14
             $table->string('incoice_number')->nullable()->comment('登録番号');
             // 解約日	cancellation_date	date

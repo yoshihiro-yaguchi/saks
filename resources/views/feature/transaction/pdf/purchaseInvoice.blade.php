@@ -134,7 +134,7 @@
                                 @isset($transactionHead['customerPhoneNumber'])
                                     <p style="font-size: 14px">TEL {{ $transactionHead['customerPhoneNumber'] }}</p>
                                 @endisset
-                                @isset($transactionHead['invoiceNumber'])
+                                @isset($transactionHead['invoiceNumber'] && $transactionHead['invoiceNumber'] !== null && $transactionHead['invoiceNumber'] !== '')
                                     <p style="font-size: 14px">登録番号 {{ $transactionHead['invoiceNumber'] }}</p>
                                 @endisset
                             </div>

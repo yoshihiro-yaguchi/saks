@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\CommonApiController;
 use App\Http\Controllers\Master\Api\ContractApiController;
-use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Product\Api\ProductApiController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\Transaction\Api\TransactionApiController;
@@ -79,7 +78,7 @@ Route::middleware('auth')->group(function () {
     // 更新画面初期処理
     Route::get('/api/transaction/update/init', [TransactionApiController::class, 'initUpdateTransaction']);
     // 更新
-    Route::post('/api/transaction/update',[TransactionApiController::class, 'updateTransaction']);
+    Route::post('/api/transaction/update', [TransactionApiController::class, 'updateTransaction']);
 
     // 買取明細書・依頼書PDF
     Route::get('/api/transaction/pdf/print-purchase-invoice', [TransactionSlipController::class, 'printPurchaseInvoice']);

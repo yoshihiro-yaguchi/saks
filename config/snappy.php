@@ -35,18 +35,18 @@ return [
 
     'pdf' => [
         'enabled' => true,
-        'binary'  => env('WKHTML_PDF_BINARY'),
+        'binary' => env('WKHTML_PDF_BINARY'),
         'timeout' => false,
         'options' => ['enable-local-file-access' => true, 'encoding' => 'utf-8'],
-        'env'     => [],
+        'env' => [],
     ],
 
     'image' => [
         'enabled' => true,
-        'binary'  => env('WKHTML_IMG_BINARY'),
+        'binary' => env('WKHTML_IMG_BINARY'),
         'timeout' => false,
         'options' => ['enable-local-file-access' => true, 'encoding' => 'utf-8'],
-        'env'     => [],
+        'env' => [],
     ],
 
 ];

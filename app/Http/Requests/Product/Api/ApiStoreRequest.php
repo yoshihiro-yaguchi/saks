@@ -1,6 +1,6 @@
 <?php
-namespace App\Http\Requests\Product\Api;
 
+namespace App\Http\Requests\Product\Api;
 
 use App\Rules\product\ValidateDuplicateProductionCode;
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,14 +23,14 @@ class ApiStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'productionCode' => ['required' ,'max:50', new ValidateDuplicateProductionCode(), 'regex:/^[a-z0-9-]+$/i'],
-            'productionName' => ['required' ,'max:100'],
+            'productionCode' => ['required', 'max:50', new ValidateDuplicateProductionCode(), 'regex:/^[a-z0-9-]+$/i'],
+            'productionName' => ['required', 'max:100'],
             // 'unitPrice' => ['required' , 'regex:/((^[0-9]{0,9})(\.[0-9]{0,3}$))|(^[0-9]{0,9}$)/'],
-            'unitPrice' => ['required' , 'max:9'],
+            'unitPrice' => ['required', 'max:9'],
             'taxDivision' => ['required'],
             // 'taxRate' => ['required' , 'regex:/((^[0-9]{0,5})(\.[0-9]{0,3}$))|(^[0-9]{0,5}$)/'],
-            'taxRate' => ['required' , 'max:5'],
-            'unit' => ['required' ,'max:5'],
+            'taxRate' => ['required', 'max:5'],
+            'unit' => ['required', 'max:5'],
         ];
     }
 
@@ -46,12 +46,12 @@ class ApiStoreRequest extends FormRequest
         ];
     }
 
-    public function messages() : array
+    public function messages(): array
     {
         return [
             'productionCode.regex' => ':attributeは半角英数字のみ入力してください。',
             'unitPrice.regex' => ':attributeは整数部9桁、少数部3桁までで入力してください。',
-            'taxRate.regex' => ':attributeは整数部5桁、少数部3桁までで入力してください。'
+            'taxRate.regex' => ':attributeは整数部5桁、少数部3桁までで入力してください。',
 
         ];
     }

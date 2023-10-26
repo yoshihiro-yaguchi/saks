@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Product\Api;
 
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\Api\ApiGetProduct;
 use App\Http\Requests\Product\Api\ApiSearchProduct;
@@ -14,16 +13,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProductApiController extends Controller
-
 {
-
     /**
      * 商品検索
      *
-     * @param ApiSearchProduct $request
      * @return void
      */
-    public function search (ApiSearchProduct $request) {
+    public function search(ApiSearchProduct $request)
+    {
         $commonService = new CommonService();
         $contractId = $commonService->getContractId();
 
@@ -31,10 +28,10 @@ class ProductApiController extends Controller
             'production_code as productionCode',
             'production_name as productionName',
             'unit_price as unitPrice',
-            'unit as unit' ,
+            'unit as unit',
             'tax_division as taxDivision',
             'tax_rate as taxRate'
-        )->where('contract_id', '=' ,$contractId);
+        )->where('contract_id', '=', $contractId);
         // 条件設定
         if ($request->input('productionCode') !== null) {
             $query->where('production_code', '=', $request->input('productionCode'));
@@ -63,7 +60,7 @@ class ProductApiController extends Controller
         return response()->json(
             [
                 'count' => $count,
-                'products' => $query->forPage($request->input('page'), $request->input('itemsPerPage'))->orderBy('created_at')->get()
+                'products' => $query->forPage($request->input('page'), $request->input('itemsPerPage'))->orderBy('created_at')->get(),
             ],
             200
         );
@@ -72,10 +69,10 @@ class ProductApiController extends Controller
     /**
      * 商品登録
      *
-     * @param ApiStoreRequest $request
      * @return void
      */
-    public function store (ApiStoreRequest $request) {
+    public function store(ApiStoreRequest $request)
+    {
         Log::info('ProductApiController.store START');
 
         $productModel = new Product();
@@ -98,7 +95,7 @@ class ProductApiController extends Controller
         return response()->json(
             [
                 'status' => 'success',
-                'id' => $productModel->production_code
+                'id' => $productModel->production_code,
             ],
             '200'
         );
@@ -107,10 +104,10 @@ class ProductApiController extends Controller
     /**
      * 商品取得
      *
-     * @param ApiGetProduct $request
      * @return void
      */
-    public function getProduct (ApiGetProduct $request) {
+    public function getProduct(ApiGetProduct $request)
+    {
         Log::info('ProductApiController.getProduct START');
         $commonService = new CommonService();
         $contractId = $commonService->getContractId();
@@ -119,10 +116,10 @@ class ProductApiController extends Controller
             'production_code as productionCode',
             'production_name as productionName',
             'unit_price as unitPrice',
-            'unit as unit' ,
+            'unit as unit',
             'tax_division as taxDivision',
             'tax_rate as taxRate'
-        )->where('contract_id', '=' ,$contractId)->where('production_code', '=', $request->input('productionCode'));
+        )->where('contract_id', '=', $contractId)->where('production_code', '=', $request->input('productionCode'));
 
         $count = $query->count();
         if ($count === 0) {
@@ -135,10 +132,11 @@ class ProductApiController extends Controller
             );
         }
         Log::info('ProductApiController.getProduct END');
+
         return response()->json(
             [
                 'count' => $count,
-                'product' => $query->forPage($request->input('page'), $request->input('itemsPerPage'))->orderBy('created_at')->first()
+                'product' => $query->forPage($request->input('page'), $request->input('itemsPerPage'))->orderBy('created_at')->first(),
             ],
             200
         );
@@ -147,10 +145,11 @@ class ProductApiController extends Controller
     /**
      * 商品更新
      *
-     * @param ApiStoreRequest $request
+     * @param  ApiStoreRequest  $request
      * @return void
      */
-    public function update (ApiUpdateRequest $request) {
+    public function update(ApiUpdateRequest $request)
+    {
         Log::info('ProductApiController.update START');
 
         $productModel = new Product();
@@ -163,7 +162,7 @@ class ProductApiController extends Controller
             'unit_price' => $request->input('unitPrice'),
             'tax_division' => $request->input('taxDivision'),
             'tax_rate' => $request->input('taxRate'),
-            'unit' => $request->input('unit')
+            'unit' => $request->input('unit'),
         ]);
 
         Log::info('ProductApiController.update END');
@@ -171,7 +170,7 @@ class ProductApiController extends Controller
         return response()->json(
             [
                 'status' => 'success',
-                'id' => $productModel->production_code
+                'id' => $productModel->production_code,
             ],
             '200'
         );

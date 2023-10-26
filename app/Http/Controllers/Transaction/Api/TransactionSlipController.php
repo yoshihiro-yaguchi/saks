@@ -10,12 +10,12 @@ use App\Services\Transaction\TransactionService;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf;
 use PDF;
 
 class TransactionSlipController extends Controller
 {
-    public function printPurchaseInvoice (Request $request) {
+    public function printPurchaseInvoice(Request $request)
+    {
         $transactionId = $request->input('transactionId');
         $service = new TransactionService();
 
@@ -46,7 +46,7 @@ class TransactionSlipController extends Controller
                 'email' => Auth::user()->email,
                 'tel' => $branchInfo->phone_number,
                 'invoiceNumber' => $contractInfo->invoice_number,
-            ]
+            ],
         ];
 
         $pdf = PDF::loadView('feature.transaction.pdf.purchaseInvoice', $data);

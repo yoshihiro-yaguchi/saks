@@ -22,7 +22,7 @@ return new class extends Migration
             // 単価	unit_price	decimal
             $table->decimal('unit_price', 12, 3)->comment('単価');
             // 税区分	tax_division	tinyint unsigned
-            $table->tinyInteger('tax_division',false, true)->comment('税区分');
+            $table->tinyInteger('tax_division', false, true)->comment('税区分');
             // 税率	tax_rate	decimal
             $table->decimal('tax_rate', 8, 3)->comment('税率');
             // 単位	unit	varchar	5

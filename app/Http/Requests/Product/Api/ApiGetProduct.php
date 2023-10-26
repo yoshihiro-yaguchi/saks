@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Product\Api;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class ApiGetProduct extends FormRequest
