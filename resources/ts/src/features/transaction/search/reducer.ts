@@ -77,7 +77,6 @@ export const transactionSearchState = createSlice({
       state.paginate.maxPages = Math.ceil(
         state.paginate.count / state.paginate.itemsPerPage
       )
-      state.paginate.pages = 1
     },
 
     /**

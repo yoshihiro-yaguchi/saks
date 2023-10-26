@@ -312,7 +312,7 @@ export const Search = () => {
                 }}
               >
                 <Button
-                  onClick={() => dispatch(operations.search())}
+                  onClick={() => dispatch(operations.search(true))}
                   variant="outlined"
                 >
                   取引検索
@@ -339,10 +339,12 @@ export const Search = () => {
                             marginTop: "16px",
                           }}
                         >
+                          {/* TODO: 削除機能の実装 */}
                           <Button
                             color="error"
                             variant="outlined"
                             sx={{ margin: "auto 0" }}
+                            hidden
                           >
                             削除
                           </Button>

@@ -52,36 +52,43 @@ export const operations = {
    *
    * @returns
    */
-  search: (): AppThunk => async (dispatch, getState) => {
-    await dispatch(commonOperations.processStart())
-    // 検索条件
-    const state = getState().searchTransaction
-    const condition = operations.__setCondition(state)
+  search:
+    (isSearchButton: boolean = false): AppThunk =>
+    async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
 
-    // データ取得
-    let result
-    try {
-      result = await apis.search(condition)
-    } catch (e) {
-      if (
-        isAxiosError(e) &&
-        e.response &&
-        e.response.status === 422 &&
-        e.response.data.errors
-      ) {
-        // laravelでvalidation errorが発生したとき
-        await dispatch(commonOperations.putErrors(e.response.data.errors))
-        dispatch(commonOperations.processEnd())
-        return
-      } else {
-        dispatch(commonOperations.processEnd())
-        throw e
+      // 検索ボタンから呼び出された時は、ページ情報を1に更新
+      if (isSearchButton) {
+        await dispatch(actions.updatePaginate({ data: { pages: 1 } }))
       }
-    }
-    await dispatch(commonOperations.errorAlertClose())
-    await dispatch(actions.updateTransactionData({ data: result.data }))
-    dispatch(commonOperations.processEnd())
-  },
+      // 検索条件
+      const state = getState().searchTransaction
+      const condition = operations.__setCondition(state)
+
+      // データ取得
+      let result
+      try {
+        result = await apis.search(condition)
+      } catch (e) {
+        if (
+          isAxiosError(e) &&
+          e.response &&
+          e.response.status === 422 &&
+          e.response.data.errors
+        ) {
+          // laravelでvalidation errorが発生したとき
+          await dispatch(commonOperations.putErrors(e.response.data.errors))
+          dispatch(commonOperations.processEnd())
+          return
+        } else {
+          dispatch(commonOperations.processEnd())
+          throw e
+        }
+      }
+      await dispatch(commonOperations.errorAlertClose())
+      await dispatch(actions.updateTransactionData({ data: result.data }))
+      dispatch(commonOperations.processEnd())
+    },
 
   /**
    * 区分値の日本語名を取得
