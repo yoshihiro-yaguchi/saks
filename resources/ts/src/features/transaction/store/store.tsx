@@ -957,6 +957,7 @@ export const Store = () => {
                       })
                     )
                   }
+                  onBlur={() => dispatch(operations.modalSearch())}
                 ></Input>
                 <Input
                   label="商品名"
