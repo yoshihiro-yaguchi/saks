@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Transaction\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -32,12 +32,12 @@ class StoreTransaction extends FormRequest
             'customerInfo.invoiceNumber' => ['nullable', 'max:14'],
             'customerInfo.customerCompany' => ['nullable', 'max:50'],
             'customerInfo.customerBranch' => ['nullable', 'max:50'],
-            'customerInfo.customerName' => ['required', 'max:10'],
+            'customerInfo.customerName' => ['nullable', 'max:10'],
             'customerInfo.customerPhoneNumber' => ['nullable', 'max:15'],
-            'customerInfo.zipCode' => ['required', 'max:8'],
-            'customerInfo.customerAddress1' => ['required', 'max:10'],
-            'customerInfo.customerAddress2' => ['required', 'max:50'],
-            'customerInfo.customerAddress3' => ['required', 'max:100'],
+            'customerInfo.zipCode' => ['nullable', 'max:8'],
+            'customerInfo.customerAddress1' => ['nullable', 'max:10'],
+            'customerInfo.customerAddress2' => ['nullable', 'max:50'],
+            'customerInfo.customerAddress3' => ['nullable', 'max:100'],
             'customerInfo.customerAddress4' => ['nullable', 'max:100'],
             // 明細情報
             'detailRows' => ['bail', 'required'],

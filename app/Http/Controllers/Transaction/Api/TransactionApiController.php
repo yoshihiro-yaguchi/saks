@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Transaction\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ApiSearchTransaction;
-use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\Transaction\Api\ApiInitUpdateTransaction;
+use App\Http\Requests\Transaction\Api\ApiSearchTransaction;
 use App\Http\Requests\Transaction\Api\ApiUpdateTransaction;
+use App\Http\Requests\Transaction\Api\StoreTransaction;
 use App\Models\Office;
 use App\Models\TransactionDetail;
 use App\Services\CommonService;
@@ -229,7 +229,7 @@ class TransactionApiController extends Controller
     }
 
     /**
-     * 取引作成
+     * 取引更新
      *
      * @return JsonResponse response
      */
