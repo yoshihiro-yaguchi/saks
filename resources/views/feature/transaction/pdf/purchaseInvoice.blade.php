@@ -112,48 +112,6 @@
                     <tr>
                         {{-- お客様情報 --}}
                         <td style="width: 50%; text-align: left; padding: 16px 8px;">
-                            {{-- 会社名<br /> 事業所名 --}}
-                            @if ($transactionHead['corporationDivision'] === '法人')
-                                <p style="font-size: 20px">{{ $transactionHead['customerCompany'] }}<br /><span
-                                        style="font-size: 16px">{{ $transactionHead['customerBranch'] }}</span>
-                                </p>
-                            @endif
-                            <div style="margin-left: 8px; height:180px">
-                                {{-- 郵便番号<br />住所 都道府県 市区町村 町・番地 <br /> 建物名など --}}
-                                <p style="font-size: 14px">
-                                    〒{{ substr_replace($transactionHead['customerZipCode'], '-', 3, 0) }}</p>
-                                <p style="font-size: 14px">
-                                    {{ "{$transactionHead['customerAddress1']}{$transactionHead['customerAddress2']}{$transactionHead['customerAddress3']}" }}
-                                </p>
-                                @isset($transactionHead['customerAddress4'])
-                                    <p style="font-size: 14px">{{ $transactionHead['customerAddress4'] }}</p>
-                                @endisset
-
-                                </p>
-                                {{-- 電話番号 <br /> 登録番号 --}}
-                                @isset($transactionHead['customerPhoneNumber'])
-                                    <p style="font-size: 14px">TEL {{ $transactionHead['customerPhoneNumber'] }}</p>
-                                @endisset
-                                @isset($transactionHead['invoiceNumber'])
-                                    @if ($transactionHead['invoiceNumber'] !== null && $transactionHead['invoiceNumber'] !== '')
-                                        <p style="font-size: 14px">登録番号 {{ $transactionHead['invoiceNumber'] }}</p>
-                                    @endif
-                                @endisset
-                            </div>
-                            {{-- お客様名 --}}
-                            <table style="width: 90%; margin-top: 10px">
-                                <tbody>
-                                    <tr>
-                                        <td style="text-align: center; width: 90%; border-bottom: 2px solid #3CC6CC;">
-                                            <p style="font-size: 28px; ">
-                                                {{ $transactionHead['customerName'] }}</p>
-                                        </td>
-                                        <td style="text-align: end; width: 10%; border-bottom: 2px solid #3CC6CC;">
-                                            <p style="font-size: 20px;">様</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                             {{-- 合計金額 --}}
                             <table style="width: 90%; margin-top: 10px;">
                                 <tbody>
