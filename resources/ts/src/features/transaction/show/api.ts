@@ -14,4 +14,11 @@ export const apis = {
       { responseType: "blob" }
     )
   },
+
+  printReceipt: async (params: URLSearchParams) => {
+    return await axios.get(
+      `/api/transaction/pdf/print-receipt?${params.toString()}`,
+      { responseType: "blob" }
+    )
+  },
 }

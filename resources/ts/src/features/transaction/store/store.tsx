@@ -506,9 +506,6 @@ export const Store = () => {
                         })
                       )
                     }}
-                    onBlur={() => {
-                      dispatch(operations.zipCodeOnBlur())
-                    }}
                     value={commonFunc.zipCodeHyphen(customerInfoState.zipCode)}
                     error={commonState.errors.hasOwnProperty(
                       "customerInfo.zipCode"

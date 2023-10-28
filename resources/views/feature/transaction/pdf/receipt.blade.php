@@ -90,7 +90,7 @@
                 <tbody>
                     <tr>
                         <td style="text-align: left; vertical-align: center;">
-                            <p class="font-color font-weight-light" style="font-size: 36px;">買取明細書・依頼書</p>
+                            <p class="font-color font-weight-light" style="font-size: 36px;">領収書</p>
                         </td>
                         <td style="text-align: right; vertical-align: center;">
                             {{-- 取引年月日 --}}
@@ -112,44 +112,40 @@
                     <tr>
                         {{-- お客様情報 --}}
                         <td style="width: 50%; text-align: left; padding: 16px 8px;">
-                            {{-- 会社名<br /> 事業所名 --}}
-                            @if ($transactionHead['corporationDivision'] === '法人')
-                                <p style="font-size: 20px">{{ $transactionHead['customerCompany'] }}<br /><span
-                                        style="font-size: 16px">{{ $transactionHead['customerBranch'] }}</span>
-                                </p>
-                            @endif
-                            <div style="margin-left: 8px; height:180px">
-                                {{-- 郵便番号<br />住所 都道府県 市区町村 町・番地 <br /> 建物名など --}}
-                                <p style="font-size: 14px">
-                                    〒{{ substr_replace($transactionHead['customerZipCode'], '-', 3, 0) }}</p>
-                                <p style="font-size: 14px">
-                                    {{ "{$transactionHead['customerAddress1']}{$transactionHead['customerAddress2']}{$transactionHead['customerAddress3']}" }}
-                                </p>
-                                @isset($transactionHead['customerAddress4'])
-                                    <p style="font-size: 14px">{{ $transactionHead['customerAddress4'] }}</p>
-                                @endisset
+                            {{-- 住所 --}}
+                            <table style="width: 90%; margin-top: 10px">
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align: center; width: 20%; border-bottom: 2px solid #3CC6CC;">
+                                            <p style="font-size: 20px;">住所</p>
 
-                                </p>
-                                {{-- 電話番号 <br /> 登録番号 --}}
-                                @isset($transactionHead['customerPhoneNumber'])
-                                    <p style="font-size: 14px">TEL {{ $transactionHead['customerPhoneNumber'] }}</p>
-                                @endisset
-                                @isset($transactionHead['invoiceNumber'])
-                                    @if ($transactionHead['invoiceNumber'] !== null && $transactionHead['invoiceNumber'] !== '')
-                                        <p style="font-size: 14px">登録番号 {{ $transactionHead['invoiceNumber'] }}</p>
-                                    @endif
-                                @endisset
-                            </div>
+                                        </td>
+                                        <td style="text-align: end; width: 80%; border-bottom: 2px solid #3CC6CC;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            {{-- 登録番号 --}}
+                            <table style="width: 90%; margin-top: 10px">
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align: center; width: 20%; border-bottom: 2px solid #3CC6CC;">
+                                            <p style="font-size: 20px;">登録番号</p>
+
+                                        </td>
+                                        <td style="text-align: end; width: 80%; border-bottom: 2px solid #3CC6CC;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             {{-- お客様名 --}}
                             <table style="width: 90%; margin-top: 10px">
                                 <tbody>
                                     <tr>
-                                        <td style="text-align: center; width: 90%; border-bottom: 2px solid #3CC6CC;">
-                                            <p style="font-size: 28px; ">
-                                                {{ $transactionHead['customerName'] }}</p>
+                                        <td style="text-align: center; width: 20%; border-bottom: 2px solid #3CC6CC;">
+                                            <p style="font-size: 20px;">会社名 お客様名</p>
                                         </td>
-                                        <td style="text-align: end; width: 10%; border-bottom: 2px solid #3CC6CC;">
-                                            <p style="font-size: 20px;">様</p>
+                                        <td style="text-align: end; width: 80%; border-bottom: 2px solid #3CC6CC;">
                                         </td>
                                     </tr>
                                 </tbody>

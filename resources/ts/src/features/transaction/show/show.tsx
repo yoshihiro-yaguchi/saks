@@ -70,6 +70,13 @@ export const Show = () => {
   // 買取明細書・依頼書PDF
   const printPurchaseInvoice = () => {
     dispatch(operations.printPurchaseInvoice(urlParams))
+    handleCloseSlipMenu()
+  }
+
+  // 領収書PDF
+  const printReceipt = () => {
+    dispatch(operations.printReceipt(urlParams))
+    handleCloseSlipMenu()
   }
 
   return (
@@ -139,6 +146,9 @@ export const Show = () => {
                                   onClick={() => printPurchaseInvoice()}
                                 >
                                   買取明細書・依頼書
+                                </MenuItem>
+                                <MenuItem onClick={() => printReceipt()}>
+                                  領収書
                                 </MenuItem>
                               </Menu>
                             </>

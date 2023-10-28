@@ -275,38 +275,6 @@ export const operations = {
       dispatch(actions.updateCommon({ common: common }))
     },
 
-  // 郵便番号アウトフォーカス
-  zipCodeOnBlur: (): AppThunk => async (dispatch, getState) => {
-    const zipCode = getState().storeTransaction.customerInfo.zipCode
-    if (zipCode.length !== 7) {
-      return
-    }
-
-    let params = new URLSearchParams()
-    params.append("zipcode", zipCode)
-    let apiResult
-    try {
-      apiResult = await apis.getAddress(params)
-    } catch (error) {
-      throw error
-    }
-
-    if (!Array.isArray(apiResult.data["results"])) {
-      // 住所検索にヒットしなかった場合(ヒットしなかった場合、resultsは配列では帰ってこない)
-      return
-    }
-    // TODO: 1つの郵便番号に紐づく住所が2つ以上ある場合を考慮する。
-    const address = apiResult.data["results"][0]
-
-    const newCustomerInfo: Partial<CustomerInfo> = {
-      customerAddress1: address["address1"],
-      customerAddress2: address["address2"],
-      customerAddress3: address["address3"],
-    }
-
-    dispatch(actions.updateCustomerInfo({ newCustomerInfo: newCustomerInfo }))
-  },
-
   modalSearch: (): AppThunk => async (dispatch, getState) => {
     await dispatch(commonOperations.processStart())
 

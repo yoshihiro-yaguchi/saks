@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/transaction/pdf/print-purchase-invoice', [TransactionSlipController::class, 'printPurchaseInvoice']);
     // 買取明細書・依頼書(お客様控え)PDF
     // 領収書PDF
+    Route::get('/api/transaction/pdf/print-receipt', [TransactionSlipController::class, 'printReceipt']);
     // 請求書PDF
 
     /**
