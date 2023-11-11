@@ -14,6 +14,7 @@ import { AxiosResponse, isAxiosError } from "axios"
 import { commonOperations } from "@resource/ts/src/common/commonOperations"
 import { NavigateFunction } from "react-router-dom"
 import { DetailRow, TaxInfo } from "../TransactionTypes"
+import { modalSearchProductOperations } from "@resource/ts/src/features/transaction/common/modalSearchProduction/operations"
 
 export const operations = {
   /**
@@ -136,16 +137,11 @@ export const operations = {
    * @param productNo
    * @returns
    */
-  deleteDetailRow:
-    (productNo: string): AppThunk =>
+  clearRowButtonHandle:
+    (index: number): AppThunk =>
     async (dispatch, getState) => {
       dispatch(commonOperations.processStart())
-      const deleteIndex: number =
-        getState().updateTransaction.detailRows.findIndex(
-          (row) => row.productNo === productNo
-        )
-
-      dispatch(actions.deleteDetailRow({ index: deleteIndex }))
+      dispatch(actions.clearDetailRow({ index: index }))
       dispatch(operations.updateTaxInfo())
       dispatch(operations.updateAmountInfo())
       dispatch(commonOperations.processEnd())
@@ -264,121 +260,64 @@ export const operations = {
       dispatch(actions.updateCommon({ common: common }))
     },
 
-  // 郵便番号アウトフォーカス
-  zipCodeOnBlur: (): AppThunk => async (dispatch, getState) => {
-    const zipCode = getState().updateTransaction.transactionHead.customerZipCode
-    if (zipCode.length !== 7) {
-      return
-    }
-
-    let params = new URLSearchParams()
-    params.append("zipcode", zipCode)
-    let apiResult
-    try {
-      apiResult = await apis.getAddress(params)
-    } catch (error) {
-      throw error
-    }
-
-    if (!Array.isArray(apiResult.data["results"])) {
-      // 住所検索にヒットしなかった場合(ヒットしなかった場合、resultsは配列では帰ってこない)
-      return
-    }
-    // TODO: 1つの郵便番号に紐づく住所が2つ以上ある場合を考慮する。
-    const address = apiResult.data["results"][0]
-
-    const newCustomerInfo: Partial<TransactionHead> = {
-      customerAddress1: address["address1"],
-      customerAddress2: address["address2"],
-      customerAddress3: address["address3"],
-    }
-
-    dispatch(
-      actions.bulkUpdateTransactionHeadHandle({
-        data: newCustomerInfo,
-      })
-    )
-  },
-
-  modalSearch: (): AppThunk => async (dispatch, getState) => {
-    await dispatch(commonOperations.processStart())
-
-    const modal = getState().updateTransaction.modal
-    const condition = new URLSearchParams()
-
-    condition.append("productionCode", modal.searchCondition.productionCode)
-    condition.append("productionName", modal.searchCondition.productionName)
-    condition.append("productionName", modal.searchCondition.productionName)
-
-    condition.append("page", modal.paginate.pages.toString())
-    condition.append("itemsPerPage", modal.paginate.itemsPerPage.toString())
-
-    // データ取得
-    let result
-    try {
-      result = await apis.getProducts(condition)
-    } catch (e) {
-      if (
-        isAxiosError(e) &&
-        e.response &&
-        e.response.status === 422 &&
-        e.response.data.errors
-      ) {
-        // laravelでvalidation errorが発生したとき
-        await dispatch(commonOperations.putErrors(e.response.data.errors))
-        dispatch(commonOperations.processEnd())
-        return
-      } else {
-        dispatch(commonOperations.processEnd())
-        throw e
-      }
-    }
-    await dispatch(commonOperations.errorAlertClose())
-    await dispatch(
-      actions.modalUpdateSearchResult({ data: result.data.products })
-    )
-    await dispatch(
-      actions.modalBuldUpdatePaginate({
-        data: {
-          count: result.data.count,
-          maxPages: Math.ceil(
-            result.data.count /
-              getState().updateTransaction.modal.paginate.itemsPerPage
-          ),
-          pages: 1,
-        },
-      })
-    )
-    dispatch(commonOperations.processEnd())
-  },
-
-  // ページ変更
-  modalPerPage:
-    (page: number): AppThunk =>
+  /**
+   * 商品検索モーダルからのデータ受け取り
+   *
+   * @returns
+   */
+  receiveModalTransactionSearchProduct:
+    (index: number): AppThunk =>
     async (dispatch, getState) => {
-      await dispatch(commonOperations.processStart())
+      const inputState = getState().transactionModalSearchProduction.input
+      const row: DetailRow = {
+        productNo: inputState.productionCode,
+        productName: inputState.productionName,
+        quantity: inputState.quantity,
+        unitPrice: inputState.unitPrice,
+        taxRate: inputState.taxRate,
+        totalPrice: 0,
+        unit: inputState.unit,
+      }
+      row.totalPrice = row.quantity * row.unitPrice
+
+      const newDetailRow = {
+        ...getState().updateTransaction.detailRows[index],
+        ...row,
+      }
+
       await dispatch(
-        actions.modalBuldUpdatePaginate({
-          data: {
-            pages: page,
-          },
+        actions.updateDetailRowHandle({
+          index: index,
+          params: newDetailRow,
         })
       )
+    },
+  /**
+   * 商品検索モーダル
+   *
+   * @returns
+   */
+  openModalTransactionSearchProduct:
+    (index: number): AppThunk =>
+    async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
+      await dispatch(modalSearchProductOperations.open(index))
+      dispatch(commonOperations.processEnd())
+    },
 
-      const modal = getState().updateTransaction.modal
-      const condition = new URLSearchParams()
+  // 明細行商品Noブラーハンドル
+  productNoBlurHandle:
+    (index: number): AppThunk =>
+    async (dispatch, getState) => {
+      await dispatch(commonOperations.processStart())
 
-      condition.append("productionCode", modal.searchCondition.productionCode)
-      condition.append("productionName", modal.searchCondition.productionName)
-      condition.append("productionName", modal.searchCondition.productionName)
+      const oldInfo = getState().updateTransaction.detailRows[index]
+      const condtion = new URLSearchParams()
 
-      condition.append("page", modal.paginate.pages.toString())
-      condition.append("itemsPerPage", modal.paginate.itemsPerPage.toString())
-
-      // データ取得
+      condtion.append("productionCode", oldInfo.productNo)
       let result
       try {
-        result = await apis.getProducts(condition)
+        result = await apis.getProductByCode(condtion)
       } catch (e) {
         if (
           isAxiosError(e) &&
@@ -395,96 +334,57 @@ export const operations = {
           throw e
         }
       }
-      await dispatch(commonOperations.errorAlertClose())
-      await dispatch(
-        actions.modalUpdateSearchResult({ data: result.data.products })
-      )
-      await dispatch(
-        actions.modalBuldUpdatePaginate({
-          data: {
-            count: result.data.count,
-            maxPages: Math.ceil(
-              result.data.count /
-                getState().updateTransaction.modal.paginate.itemsPerPage
-            ),
-          },
-        })
-      )
-      dispatch(commonOperations.processEnd())
-    },
+      if (result.data.product !== null) {
+        const product = result.data.product
+        const updateData: Partial<DetailRow> = {
+          productName: product.productionName,
+          unit: product.unit,
+          unitPrice: Math.floor(product.unitPrice),
+          taxRate: Math.floor(product.taxRate),
+        }
 
-  // モーダル内行クリック時の処理
-  modalRowClickHandle:
-    (index: number): AppThunk =>
-    async (dispatch, getState) => {
-      await dispatch(commonOperations.processStart())
-      const clickData = getState().updateTransaction.modal.searchResult[index]
-      const updateData = {
-        productionCode: clickData.productionCode,
-        productionName: clickData.productionName,
-        quantity: 1,
-        unitPrice: Math.floor(clickData.unitPrice),
-        unit: clickData.unit,
-        taxRate: Math.floor(clickData.taxRate),
+        let newDetailRow = {
+          ...oldInfo,
+          ...updateData,
+        }
+
+        // 合計金額更新
+        newDetailRow.totalPrice = newDetailRow.quantity * newDetailRow.unitPrice
+
+        await dispatch(
+          actions.updateDetailRowHandle({
+            index: index,
+            params: newDetailRow,
+          })
+        )
+      } else {
+        const updateData: Partial<DetailRow> = {
+          productName: "",
+          unit: "",
+          unitPrice: 0,
+          taxRate: 10,
+        }
+
+        let newDetailRow = {
+          ...oldInfo,
+          ...updateData,
+        }
+
+        // 合計金額更新
+        newDetailRow.totalPrice = newDetailRow.quantity * newDetailRow.unitPrice
+
+        await dispatch(
+          actions.updateDetailRowHandle({
+            index: index,
+            params: newDetailRow,
+          })
+        )
       }
-      await dispatch(actions.modalBulkInputData({ data: updateData }))
+
+      dispatch(operations.updateTaxInfo())
+      dispatch(operations.updateAmountInfo())
+      dispatch(commonOperations.errorAlertClose())
+
       dispatch(commonOperations.processEnd())
     },
-
-  /**
-   * 明細追加
-   *
-   * @param productName
-   * @returns
-   */
-  modalAddDetailRow: (): AppThunk => async (dispatch, getState) => {
-    dispatch(commonOperations.processStart())
-    const key = Math.random().toString(32).substring(2)
-    const modalInput = getState().updateTransaction.modal.input
-    const row: DetailRow = {
-      productNo: modalInput.productionCode,
-      productName: modalInput.productionName,
-      quantity: modalInput.quantity,
-      unitPrice: modalInput.unitPrice,
-      taxRate: modalInput.taxRate,
-      totalPrice: 0,
-      unit: modalInput.unit,
-    }
-
-    row.totalPrice = row.quantity * row.unitPrice
-
-    await dispatch(actions.addDetailRow({ value: row }))
-    await dispatch(operations.updateTaxInfo())
-    await dispatch(operations.updateAmountInfo())
-    await dispatch(actions.closeModal())
-    dispatch(commonOperations.processEnd())
-  },
-  /**
-   * 明細追加
-   *
-   * @param productName
-   * @returns
-   */
-  modalContinueAddDetailRow: (): AppThunk => async (dispatch, getState) => {
-    dispatch(commonOperations.processStart())
-    const key = Math.random().toString(32).substring(2)
-    const modalInput = getState().updateTransaction.modal.input
-    const row: DetailRow = {
-      productNo: modalInput.productionCode,
-      productName: modalInput.productionName,
-      quantity: modalInput.quantity,
-      unitPrice: modalInput.unitPrice,
-      taxRate: modalInput.taxRate,
-      totalPrice: 0,
-      unit: modalInput.unit,
-    }
-
-    row.totalPrice = row.quantity * row.unitPrice
-
-    await dispatch(actions.addDetailRow({ value: row }))
-    await dispatch(operations.updateTaxInfo())
-    await dispatch(operations.updateAmountInfo())
-    await dispatch(actions.modalResetInputData())
-    dispatch(commonOperations.processEnd())
-  },
 }

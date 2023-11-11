@@ -18,9 +18,6 @@ export interface TransactionData {
   transactionDate: string
   transactionBranch: string
   transactionPicName: string
-  corporationDivision: string
-  customerCompany: string
-  customerName: string
 }
 export const initTransactionData: TransactionData = {
   id: "",
@@ -29,9 +26,6 @@ export const initTransactionData: TransactionData = {
   transactionDate: "",
   transactionBranch: "",
   transactionPicName: "",
-  corporationDivision: "",
-  customerCompany: "",
-  customerName: "",
 }
 
 /**
@@ -45,9 +39,6 @@ export interface Inputs {
   transactionDateTo: string
   transactionBranch: string
   transactionPicName: string
-  corporationDivision: string
-  customerCompany: string
-  customerName: string
 }
 export const initInputs: Inputs = {
   id: "",
@@ -57,9 +48,6 @@ export const initInputs: Inputs = {
   transactionDateTo: "",
   transactionBranch: "0",
   transactionPicName: "",
-  corporationDivision: "0",
-  customerCompany: "",
-  customerName: "",
 }
 
 export interface Paginate {

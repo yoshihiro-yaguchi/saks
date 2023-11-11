@@ -21,9 +21,9 @@ export const initUserTypes: UserTypes = {
 
 export const initCommonTypes: CommonTypes = {
   csrfToken: "",
-  errorArray: [],
+  errorArray: new Array(),
   user: initUserTypes,
-  errors: [],
+  errors: new Array(),
   processing: false,
   isOpenDrawer: false,
 }

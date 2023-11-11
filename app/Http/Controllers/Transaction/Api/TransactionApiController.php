@@ -58,7 +58,6 @@ class TransactionApiController extends Controller
         $service = new TransactionService();
 
         $transactionInfo = $request->input('transactionInfo');
-        $customerInfo = $request->input('customerInfo');
         $detailRows = $request->input('detailRows');
         $culcResult = $this->transactionService->culcTransaction($detailRows);
         $amountInfo = $culcResult['amountInfo'];
@@ -70,7 +69,7 @@ class TransactionApiController extends Controller
         // 取引データ作成
         DB::beginTransaction();
         try {
-            $saveHeadResult = $service->insertTransactionHead($contractId, $transactionInfo, $customerInfo, $amountInfo);
+            $saveHeadResult = $service->insertTransactionHead($contractId, $transactionInfo, $amountInfo);
             $service->saveTransactionDetails($contractId, $saveHeadResult->transaction_id, $detailRows);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -250,18 +249,6 @@ class TransactionApiController extends Controller
             'transaction_date' => $request->input('transactionDate'),
             'transaction_branch' => $request->input('transactionBranch'),
             'transaction_pic_name' => $request->input('transactionPicName'),
-            'transaction_note' => $request->input('transactionNote'),
-            'corporation_division' => $request->input('corporationDivision'),
-            'customer_invoice_number' => $request->input('invoiceNumber'),
-            'customer_company' => $request->input('customerCompany'),
-            'customer_branch' => $request->input('customerBranch'),
-            'customer_name' => $request->input('customerName'),
-            'customer_phone_number' => $request->input('customerPhoneNumber'),
-            'customer_zip_code' => $request->input('customerZipCode'),
-            'customer_address1' => $request->input('customerAddress1'),
-            'customer_address2' => $request->input('customerAddress2'),
-            'customer_address3' => $request->input('customerAddress3'),
-            'customer_address4' => $request->input('customerAddress4'),
             'subtotal' => $amountInfo['subtotal'],
             'tax_include' => $amountInfo['taxInclude'],
             'total' => $amountInfo['total'],

@@ -251,59 +251,6 @@ export const Search = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid container spacing={1}>
-                <Grid item xs={12} md={2}>
-                  <Box sx={{ padding: "8px 8px 8px 0" }}>
-                    <FormControl fullWidth>
-                      <InputLabel>法人区分</InputLabel>
-                      <Select
-                        onChange={(e: SelectChangeEvent<string>) =>
-                          dispatch(
-                            actions.updateInputs({
-                              data: {
-                                corporationDivision: e.target.value,
-                              },
-                            })
-                          )
-                        }
-                        value={state.inputs.corporationDivision}
-                        size="small"
-                        fullWidth
-                        label="法人区分"
-                        error={commonState.errors.hasOwnProperty(
-                          "corporationDivision"
-                        )}
-                      >
-                        <MenuItem value={"0"}>　</MenuItem>
-                        <MenuItem value={"1"}>個人</MenuItem>
-                        <MenuItem value={"2"}>法人</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={5}>
-                  <FullWidthInput
-                    label="お客様 会社名"
-                    name="customerCompany"
-                    value={state.inputs.customerCompany}
-                    onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateInput(e.target.name, e.target.value)
-                    }
-                    error={commonState.errors.hasOwnProperty("customerCompany")}
-                  ></FullWidthInput>
-                </Grid>
-                <Grid item xs={12} md={5}>
-                  <FullWidthInput
-                    label="お客様名"
-                    name="customerName"
-                    value={state.inputs.customerName}
-                    onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateInput(e.target.name, e.target.value)
-                    }
-                    error={commonState.errors.hasOwnProperty("customerName")}
-                  ></FullWidthInput>
-                </Grid>
-              </Grid>
               <Box
                 sx={{
                   display: "flex",
@@ -411,12 +358,6 @@ export const Search = () => {
                               <Typo>区分</Typo>
                             </TableCell>
                             <TableCell
-                              width={"250px"}
-                              sx={{ textAlign: "center" }}
-                            >
-                              <Typo>お客様名</Typo>
-                            </TableCell>
-                            <TableCell
                               width={"100px"}
                               sx={{ textAlign: "center" }}
                             >
@@ -460,10 +401,6 @@ export const Search = () => {
                               {/* 区分 */}
                               <TableCell sx={{ textAlign: "center" }}>
                                 <Typo>{operations.getDivName(row)}</Typo>
-                              </TableCell>
-                              {/* お客様名 */}
-                              <TableCell sx={{ textAlign: "center" }}>
-                                <Typo>{operations.getCustomerName(row)}</Typo>
                               </TableCell>
                               {/* 担当者 */}
                               <TableCell sx={{ textAlign: "center" }}>

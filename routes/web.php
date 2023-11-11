@@ -100,6 +100,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/product/store', [ProductApiController::class, 'store']);
     // 検索
     Route::get('/api/product/search', [ProductApiController::class, 'search']);
+    // 商品コードで1件取得
+    Route::get('/api/product/search-product-by-product-code', [ProductApiController::class, 'searchProductByCode']);
     // 商品取得
     Route::get('/api/product/getProduct', [ProductApiController::class, 'getProduct']);
     // 更新

@@ -16,7 +16,7 @@ import {
   TransactionHead,
   InitApiResult,
 } from "./types"
-import { DetailRow, TaxInfo } from "../TransactionTypes"
+import { DetailRow, TaxInfo, initDetailRow } from "../TransactionTypes"
 
 const initialState: StoreTransactionState = {
   token: "",
@@ -62,28 +62,6 @@ export const updateTransactionReducer = createSlice({
         transactionHead.transactionBranch ?? ""
       state.transactionHead.transactionPicName =
         transactionHead.transactionPicName ?? ""
-      state.transactionHead.transactionNote =
-        transactionHead.transactionNote ?? ""
-      state.transactionHead.corporationDivision =
-        transactionHead.corporationDivision ?? ""
-      state.transactionHead.customerCompany =
-        transactionHead.customerCompany ?? ""
-      state.transactionHead.customerBranch =
-        transactionHead.customerBranch ?? ""
-      state.transactionHead.invoiceNumber = transactionHead.invoiceNumber ?? ""
-      state.transactionHead.customerName = transactionHead.customerName ?? ""
-      state.transactionHead.customerPhoneNumber =
-        transactionHead.customerPhoneNumber ?? ""
-      state.transactionHead.customerZipCode =
-        transactionHead.customerZipCode ?? ""
-      state.transactionHead.customerAddress1 =
-        transactionHead.customerAddress1 ?? ""
-      state.transactionHead.customerAddress2 =
-        transactionHead.customerAddress2 ?? ""
-      state.transactionHead.customerAddress3 =
-        transactionHead.customerAddress3 ?? ""
-      state.transactionHead.customerAddress4 =
-        transactionHead.customerAddress4 ?? ""
       state.transactionHead.subtotal = Math.floor(transactionHead.subtotal) ?? 0
       state.transactionHead.taxInclude =
         Math.floor(transactionHead.taxInclude) ?? 0
@@ -94,7 +72,7 @@ export const updateTransactionReducer = createSlice({
       transactionData.detailRows.forEach((detailRow) => {
         let detailRowData: DetailRow = {
           productNo: detailRow.productNo,
-          productName: detailRow.productName,
+          productName: detailRow.productName ?? "",
           quantity: Math.floor(detailRow.quantity),
           unitPrice: Math.floor(detailRow.unitPrice),
           unit: detailRow.unit ?? "",
@@ -167,8 +145,8 @@ export const updateTransactionReducer = createSlice({
     },
 
     // 明細行削除
-    deleteDetailRow: (state, action: PayloadAction<{ index: number }>) => {
-      state.detailRows.splice(action.payload.index, 1)
+    clearDetailRow: (state, action: PayloadAction<{ index: number }>) => {
+      state.detailRows[action.payload.index] = initDetailRow
     },
 
     // エラー削除

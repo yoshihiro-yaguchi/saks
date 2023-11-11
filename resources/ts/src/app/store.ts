@@ -9,6 +9,7 @@ import { productSearchState } from "../features/product/search/readucer"
 import { productStoreState } from "../features/product/store/readucer"
 import { productUpdateState } from "../features/product/update/readucer"
 import { updateTransactionReducer } from "../features/transaction/update/reducer"
+import { transactionModalSearchProduction } from "../features/transaction/common/modalSearchProduction/reducer"
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +22,11 @@ export const store = configureStore({
     // 契約情報登録
     registerContract: registerContractReducer.reducer,
 
-    // 取引
+    /**
+     * ---------------------------------------
+     * 取引管理
+     * ---------------------------------------
+     */
     // 検索
     searchTransaction: transactionSearchState.reducer,
     // 作成
@@ -31,13 +36,25 @@ export const store = configureStore({
     // 更新
     updateTransaction: updateTransactionReducer.reducer,
 
-    // 商品マスタ
+    /**
+     * ---------------------------------------
+     * 商品管理
+     * ---------------------------------------
+     */
     // 検索
     searchProduct: productSearchState.reducer,
     // 登録
     storeProduct: productStoreState.reducer,
     // 更新
     updateProduct: productUpdateState.reducer,
+
+    /**
+     * ---------------------------------------
+     * モーダル
+     * ---------------------------------------
+     */
+    // 取引 - 商品検索モーダル
+    transactionModalSearchProduction: transactionModalSearchProduction.reducer,
   },
 })
 

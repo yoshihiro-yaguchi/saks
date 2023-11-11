@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Product\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\Api\ApiGetProduct;
 use App\Http\Requests\Product\Api\ApiSearchProduct;
+use App\Http\Requests\Product\Api\ApiSearchProductByCode;
 use App\Http\Requests\Product\Api\ApiStoreRequest;
 use App\Http\Requests\Product\Api\ApiUpdateRequest;
 use App\Models\Product;
@@ -61,6 +62,41 @@ class ProductApiController extends Controller
             [
                 'count' => $count,
                 'products' => $query->forPage($request->input('page'), $request->input('itemsPerPage'))->orderBy('created_at')->get(),
+            ],
+            200
+        );
+    }
+
+    public function searchProductByCode(ApiSearchProductByCode $request)
+    {
+        // プロダクションコードがnullか空文字の場合はnullでデータを返す
+        if ($request->input('productionCode') === null || $request->input('productionCode') === '') {
+            return response()->json(
+                [
+                    'product' => null,
+                ],
+                200
+            );
+        }
+        $commonService = new CommonService();
+        $contractId = $commonService->getContractId();
+
+        $query = DB::table('products')->select(
+            'production_code as productionCode',
+            'production_name as productionName',
+            'unit_price as unitPrice',
+            'unit as unit',
+            'tax_division as taxDivision',
+            'tax_rate as taxRate'
+        )->where('contract_id', '=', $contractId);
+        // 条件設定
+        if ($request->input('productionCode') !== null) {
+            $query->where('production_code', '=', $request->input('productionCode'));
+        }
+
+        return response()->json(
+            [
+                'product' => $query->first(),
             ],
             200
         );

@@ -97,36 +97,13 @@ export const operations = {
    * @returns
    */
   getDivName: (params: TransactionData) => {
-    const corporationDivision: string = params.corporationDivision
-    let corporateDivisionName = ""
-    if (corporationDivision in corporationDivName) {
-      corporateDivisionName = corporationDivName[corporationDivision]
-    }
-
     const transactionDivision: string = params.transactionDivision
     let transactionDivisionName = ""
     if (transactionDivision in transactionDivName) {
       transactionDivisionName = transactionDivName[transactionDivision]
     }
 
-    return `${corporateDivisionName} - ${transactionDivisionName}`
-  },
-
-  /**
-   * お客様名を取得
-   *
-   * @param params
-   * @returns
-   */
-  getCustomerName: (params: TransactionData) => {
-    if (
-      params.corporationDivision ==
-      transactionConstants.CORPORATION_DIV_CORPORATE
-    ) {
-      return `${params.customerCompany} ${params.customerName}`
-    } else {
-      return `${params.customerName}`
-    }
+    return `${transactionDivisionName}`
   },
 
   /**

@@ -7,12 +7,10 @@ export interface StoreTransactionState {
   token: string
   common: Common
   transactionInfo: TransactionInfo
-  customerInfo: CustomerInfo
   detailRows: Array<DetailRow>
   amountInfo: AmountInfo
   taxInfos: Array<TaxInfo>
   offices: Array<Office>
-  modal: ModalState
 }
 
 export interface Office {
@@ -63,47 +61,6 @@ export const initTransactionInfo: TransactionInfo = {
 }
 
 /**
- * お客様情報
- */
-export interface CustomerInfo {
-  /** 法人区分 */
-  corporationDivision: string
-  /** 会社名 */
-  customerCompany: string
-  /** 支店名 */
-  customerBranch: string
-  /** インボイス登録番号 */
-  invoiceNumber: string
-  /** お名前(姓) */
-  customerName: string
-  /** 電話番号 */
-  customerPhoneNumber: string
-  /** 郵便番号 */
-  zipCode: string
-  /** 住所1 都道府県 */
-  customerAddress1: string
-  /** 住所2 市区町村 */
-  customerAddress2: string
-  /** 住所3 町・番地 */
-  customerAddress3: string
-  /** 住所4 建物名等 */
-  customerAddress4: string
-}
-export const initCustomerInfo: CustomerInfo = {
-  corporationDivision: "1",
-  customerCompany: "",
-  customerBranch: "",
-  invoiceNumber: "",
-  customerName: "",
-  customerPhoneNumber: "",
-  zipCode: "",
-  customerAddress1: "",
-  customerAddress2: "",
-  customerAddress3: "",
-  customerAddress4: "",
-}
-
-/**
  * 金額情報
  */
 export interface AmountInfo {
@@ -132,86 +89,30 @@ export interface initHandle {
 // バックエンドからのデータ
 export interface BackendData {
   transactionInfo: TransactionInfo
-  customerInfo: CustomerInfo
   detailRows: DetailRow[]
   amountInfo: AmountInfo
   taxInfo: TaxInfo[]
 }
 export const initBackendData: BackendData = {
   transactionInfo: initTransactionInfo,
-  customerInfo: initCustomerInfo,
   detailRows: [],
   amountInfo: initAmountInfo,
   taxInfo: [],
 }
 
+export interface ApiGetProductByCode {
+  product: ApiGetProduct | null
+}
+
+export interface ApiGetProduct {
+  productionCode: string
+  productionName: string
+  unitPrice: number
+  unit: string
+  taxRate: number
+}
+
 // バリデーションエラーの型
 export interface ValidateError {
   [key: string]: Array<string>
-}
-
-// モーダルステート
-export interface ModalState {
-  isOpen: boolean
-  searchCondition: ModalSearchCondition
-  searchResult: Array<ModalSearchResult>
-  input: ModalInput
-  paginate: ModalPaginate
-}
-export interface ModalInput {
-  [key: string]: string | number
-  productionCode: string
-  productionName: string
-  quantity: number
-  unitPrice: number
-  unit: string
-  taxRate: number
-}
-export const initModalInput: ModalInput = {
-  productionCode: "",
-  productionName: "",
-  quantity: 1,
-  unitPrice: 0,
-  unit: "",
-  taxRate: 10,
-}
-export interface ModalSearchCondition {
-  productionCode: string
-  productionName: string
-}
-export const initModalSearchCondition: ModalSearchCondition = {
-  productionCode: "",
-  productionName: "",
-}
-
-export interface ModalPaginate {
-  count: number
-  maxPages: number
-  pages: number
-  itemsPerPage: number
-}
-export const initModalPaginate: ModalPaginate = {
-  count: 0,
-  maxPages: 0,
-  pages: 1,
-  itemsPerPage: 25,
-}
-export interface ModalSearchResult {
-  productionCode: string
-  productionName: string
-  unitPrice: number
-  unit: string
-  taxRate: number
-}
-export const initModal: ModalState = {
-  isOpen: false,
-  searchCondition: initModalSearchCondition,
-  searchResult: [],
-  input: initModalInput,
-  paginate: initModalPaginate,
-}
-
-export interface ModalApiSearchResult {
-  count: number
-  products: Array<ModalSearchResult>
 }

@@ -1,5 +1,10 @@
 import axios from "axios"
-import { Office, InitApiResult, ModalApiSearchResult } from "./types"
+import {
+  Office,
+  InitApiResult,
+  ModalApiSearchResult,
+  ApiGetProductByCode,
+} from "./types"
 
 export const apis = {
   // 初期処理
@@ -25,6 +30,13 @@ export const apis = {
   getProducts: async (params: URLSearchParams) => {
     return await axios.get<ModalApiSearchResult>(
       `/api/product/search?${params.toString()}`
+    )
+  },
+
+  // 商品コードで商品1件取得
+  getProductByCode: async (params: URLSearchParams) => {
+    return await axios.get<ApiGetProductByCode>(
+      `/api/product/search-product-by-product-code?${params.toString()}`
     )
   },
 }

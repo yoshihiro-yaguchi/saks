@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import {
-  CustomerInfo,
   initCommon,
-  initCustomerInfo,
   initTransactionInfo,
   initAmountInfo,
   TransactionInfo,
@@ -10,25 +8,22 @@ import {
   AmountInfo,
   Common,
   Office,
-  initModal,
-  ModalSearchCondition,
-  ModalInput,
-  ModalPaginate,
-  ModalSearchResult,
-  initModalInput,
 } from "./types"
-import { DetailRow, TaxInfo } from "../TransactionTypes"
+import { DetailRow, TaxInfo, initDetailRow } from "../TransactionTypes"
+
+let initDetailRows: Array<DetailRow> = []
+for (let index = 0; index < 10; index++) {
+  initDetailRows.push(initDetailRow)
+}
 
 const initialState: StoreTransactionState = {
   token: "",
   common: initCommon,
   transactionInfo: initTransactionInfo,
-  customerInfo: initCustomerInfo,
-  detailRows: [],
+  detailRows: initDetailRows,
   amountInfo: initAmountInfo,
   taxInfos: [],
   offices: [],
-  modal: initModal,
 }
 
 export const storeTransactionReducer = createSlice({
@@ -65,17 +60,6 @@ export const storeTransactionReducer = createSlice({
         [action.payload.name]: action.payload.value,
       }
       state.transactionInfo = { ...state.transactionInfo, ...updateData }
-    },
-
-    // お客様情報変更時ハンドラ
-    updateCustomerInfoHandle: (
-      state,
-      action: PayloadAction<{ name: string; value: string }>
-    ) => {
-      const updateData: Partial<CustomerInfo> = {
-        [action.payload.name]: action.payload.value,
-      }
-      state.customerInfo = { ...state.customerInfo, ...updateData }
     },
 
     // 明細情報変更時ハンドラ
@@ -128,9 +112,9 @@ export const storeTransactionReducer = createSlice({
       state.detailRows.push(action.payload.value)
     },
 
-    // 明細行削除
-    deleteDetailRow: (state, action: PayloadAction<{ index: number }>) => {
-      state.detailRows.splice(action.payload.index, 1)
+    // 明細行クリア
+    clearRow: (state, action: PayloadAction<{ index: number }>) => {
+      state.detailRows[action.payload.index] = initDetailRow
     },
 
     // エラー削除
@@ -144,73 +128,6 @@ export const storeTransactionReducer = createSlice({
       action: PayloadAction<{ common: Partial<Common> }>
     ) => {
       state.common = { ...state.common, ...action.payload.common }
-    },
-
-    // お客様情報の更新
-    updateCustomerInfo: (
-      state,
-      action: PayloadAction<{ newCustomerInfo: Partial<CustomerInfo> }>
-    ) => {
-      state.customerInfo = {
-        ...state.customerInfo,
-        ...action.payload.newCustomerInfo,
-      }
-    },
-
-    // モーダル開く
-    openModal: (state) => {
-      state.modal.isOpen = true
-    },
-
-    // モーダル閉じる
-    closeModal: (state) => {
-      state.modal.isOpen = false
-    },
-
-    // モーダルの検索条件
-    modalInputCondition: (
-      state,
-      action: PayloadAction<{ key: string; value: string }>
-    ) => {
-      state.modal.searchCondition[
-        action.payload.key as keyof ModalSearchCondition
-      ] = action.payload.value
-    },
-    // モーダルのデータ入力
-    modalInputData: (
-      state,
-      action: PayloadAction<{ key: string; value: string | number }>
-    ) => {
-      state.modal.input[action.payload.key] = action.payload.value
-    },
-
-    // モーダルインプット一括更新
-    modalBulkInputData: (
-      state,
-      action: PayloadAction<{ data: ModalInput }>
-    ) => {
-      state.modal.input = { ...state.modal.input, ...action.payload.data }
-    },
-
-    // モーダルインプットリセット
-    modalResetInputData: (state) => {
-      state.modal.input = initModalInput
-    },
-
-    // ページネーションデータの更新
-    modalBuldUpdatePaginate: (
-      state,
-      action: PayloadAction<{ data: Partial<ModalPaginate> }>
-    ) => {
-      state.modal.paginate = { ...state.modal.paginate, ...action.payload.data }
-    },
-
-    // 検索結果反映
-    modalUpdateSearchResult: (
-      state,
-      action: PayloadAction<{ data: Array<ModalSearchResult> }>
-    ) => {
-      state.modal.searchResult = action.payload.data
     },
   },
 })

@@ -95,7 +95,10 @@ export const BaseComponent = (props: Props) => {
         <Spacer />
         {/* データ */}
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Box sx={{ width: "1024px", margin: "0 5px" }}>{children}</Box>
+          <Box sx={{ width: "1024px", margin: "0 5px" }}>
+            {children}
+            <Spacer />
+          </Box>
         </Box>
       </Box>
       {/* drawer */}
@@ -110,7 +113,7 @@ export const BaseComponent = (props: Props) => {
           <H2>メニュー</H2>
           <Accordion sx={{ backgroundColor: "#fff" }}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <H5>取引</H5>
+              <H5>取引管理</H5>
             </AccordionSummary>
             <AccordionDetails>
               {/* 取引一覧 */}
@@ -140,7 +143,7 @@ export const BaseComponent = (props: Props) => {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
             >
-              <H5>商品</H5>
+              <H5>商品管理</H5>
             </AccordionSummary>
             <AccordionDetails>
               {/* 取引一覧 */}
@@ -170,7 +173,37 @@ export const BaseComponent = (props: Props) => {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
             >
-              <H5>事業所</H5>
+              <H5>在庫管理</H5>
+            </AccordionSummary>
+            <AccordionDetails>
+              {/* 取引一覧 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/product/search")}
+                >
+                  在庫一覧
+                </Button>
+              </Box>
+              {/* 取引作成 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/product/store")}
+                >
+                  在庫一括登録
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion sx={{ backgroundColor: "#fff" }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+            >
+              <H5>事業所管理</H5>
             </AccordionSummary>
             <AccordionDetails>
               {/* 取引一覧 */}

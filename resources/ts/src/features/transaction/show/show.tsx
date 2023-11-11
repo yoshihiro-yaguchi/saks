@@ -27,6 +27,7 @@ import { operations } from "./operators"
 import { ParamParseKey, useNavigate, useParams } from "react-router-dom"
 import { TRANSACTION_PATHS } from "../router/router"
 import { TaxInfos } from "../TransactionTypes"
+import { Spacer } from "@resource/ts/src/common/Component/Spacer"
 
 const TextCenterdTableCell = styled(StyledTableRowCell)(({ theme }) => ({
   textAlign: "center",
@@ -199,7 +200,7 @@ export const Show = () => {
         <Box sx={{ height: "32px" }}></Box>
 
         <Grid container spacing={4}>
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12}>
             {/* 取引情報 */}
             <LinedContainerBox>
               <H2>取引情報</H2>
@@ -207,177 +208,45 @@ export const Show = () => {
               <TableContainer component={Paper}>
                 <Table size="small" sx={{ tableLayout: "fixed" }}>
                   <TableBody>
-                    {/* 件名 */}
+                    {/* 1行目 */}
                     <StyledTableRow>
-                      <TextCenterdTableCell sx={{ width: "130px" }}>
-                        <H4>件名</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.transactionTitle}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 取引区分 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>取引区分</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.transactionDivision}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 取引日付 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
+                      {/* 取引日付 */}
+                      <TextCenterdTableCell width={"12%"}>
                         <H4>取引日付</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell>
+                      <StyledTableRowCell width={"21%"}>
                         <Typo>{transactionHead.transactionDate}</Typo>
                       </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 取引支店 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
+                      {/* 取引区分 */}
+                      <TextCenterdTableCell width={"12%"}>
+                        <H4>取引区分</H4>
+                      </TextCenterdTableCell>
+                      <StyledTableRowCell width={"21%"}>
+                        <Typo>{transactionHead.transactionDivision}</Typo>
+                      </StyledTableRowCell>
+                      {/* 取引支店 */}
+                      <TextCenterdTableCell width={"12%"}>
                         <H4>取引支店</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell>
+                      <StyledTableRowCell width={"21%"}>
                         <Typo>{transactionHead.transactionBranch}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
-                    {/* 担当者 */}
+                    {/* 2行目 */}
                     <StyledTableRow>
+                      {/* 担当者 */}
                       <TextCenterdTableCell>
                         <H4>担当者</H4>
                       </TextCenterdTableCell>
                       <StyledTableRowCell>
                         <Typo>{transactionHead.transactionPicName}</Typo>
                       </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 取引備考 */}
-                    <StyledTableRow sx={{ height: "280px" }}>
-                      <TextCenterdTableCell>
-                        <H4>取引備考</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.transactionNote}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </LinedContainerBox>
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            {/* お客様情報 */}
-            <LinedContainerBox>
-              <H2>お客様情報</H2>
-              <Box sx={{ height: "16px" }}></Box>
-              <TableContainer component={Paper}>
-                <Table size="small" sx={{ tableLayout: "fixed" }}>
-                  <TableBody>
-                    {/* 法人区分 */}
-                    <StyledTableRow>
+                      {/* 件名 */}
                       <TextCenterdTableCell sx={{ width: "130px" }}>
-                        <H4>法人区分</H4>
+                        <H4>件名</H4>
                       </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.corporationDivision}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 登録番号 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>登録番号</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.invoiceNumber}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 会社名 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>会社名</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerCompany}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 支店名 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>支店名</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerBranch}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* お名前 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>お名前</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerName}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 電話番号 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>電話番号</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerPhoneNumber}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <Box sx={{ height: "16px" }}></Box>
-              <TableContainer component={Paper}>
-                <Table size="small" sx={{ tableLayout: "fixed" }}>
-                  <TableBody>
-                    {/* 郵便番号 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell sx={{ width: "130px" }}>
-                        <H4>郵便番号</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerZipCode}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 都道府県 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>都道府県</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerAddress1}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 市区町村 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>市区町村</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerAddress2}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 町・番地 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>町・番地</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerAddress3}</Typo>
-                      </StyledTableRowCell>
-                    </StyledTableRow>
-                    {/* 建物名等 */}
-                    <StyledTableRow>
-                      <TextCenterdTableCell>
-                        <H4>建物名等</H4>
-                      </TextCenterdTableCell>
-                      <StyledTableRowCell>
-                        <Typo>{transactionHead.customerAddress4}</Typo>
+                      <StyledTableRowCell colSpan={3}>
+                        <Typo>{transactionHead.transactionTitle}</Typo>
                       </StyledTableRowCell>
                     </StyledTableRow>
                   </TableBody>
@@ -591,6 +460,106 @@ export const Show = () => {
         </Box>
 
         {/* ページ内フッター */}
+        <Spacer />
+        <Box>
+          <LinedContainerBox>
+            <Grid container spacing={1}>
+              <Grid
+                item
+                xs
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    type="button"
+                    sx={{ margin: "auto 5px" }}
+                    onClick={() => navigator(`/transaction/search`)}
+                  >
+                    一覧へ戻る
+                  </Button>
+                  <Button
+                    id="slipButton"
+                    variant="outlined"
+                    type="button"
+                    sx={{ margin: "auto 5px" }}
+                    aria-controls={isSlipMenuOpen ? "slipMenu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={isSlipMenuOpen ? "true" : undefined}
+                    onClick={handleClickSlipMenu}
+                  >
+                    伝票を発行
+                  </Button>
+                  {(() => {
+                    if (transactionHead.transactionDivision == "買取") {
+                      return (
+                        <>
+                          <Menu
+                            id="slipMenu"
+                            anchorEl={slipMenuAnchorEl}
+                            open={isSlipMenuOpen}
+                            MenuListProps={{
+                              "aria-labelledby": "slipButton",
+                            }}
+                            onClose={() => handleCloseSlipMenu()}
+                          >
+                            <MenuItem onClick={() => printPurchaseInvoice()}>
+                              買取明細書・依頼書
+                            </MenuItem>
+                            <MenuItem onClick={() => printReceipt()}>
+                              領収書
+                            </MenuItem>
+                          </Menu>
+                        </>
+                      )
+                    } else {
+                      return (
+                        <>
+                          <Menu
+                            id="slipMenu"
+                            anchorEl={slipMenuAnchorEl}
+                            open={isSlipMenuOpen}
+                            MenuListProps={{
+                              "aria-labelledby": "slipButton",
+                            }}
+                            onClose={() => handleCloseSlipMenu()}
+                          >
+                            <MenuItem onClick={() => printPurchaseInvoice()}>
+                              請求書
+                            </MenuItem>
+                          </Menu>
+                        </>
+                      )
+                    }
+                  })()}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="button"
+                    sx={{ margin: "auto 5px" }}
+                    onClick={() =>
+                      navigator(
+                        `/transaction/update/${urlParams.transactionId!}`
+                      )
+                    }
+                  >
+                    編集する
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </LinedContainerBox>
+        </Box>
       </BaseComponent>
 
       {/* 以下、PDF用のForm */}

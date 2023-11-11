@@ -15,7 +15,7 @@ class TransactionService
      *
      * @return TransactionHead model
      */
-    public function insertTransactionHead(string $contractId, array $transactionInfo, array $customerInfo, array $amountInfo)
+    public function insertTransactionHead(string $contractId, array $transactionInfo, array $amountInfo)
     {
         $transactionHeadModel = new TransactionHead();
         $transactionHeadModel->fill([
@@ -26,18 +26,6 @@ class TransactionService
             'transaction_date' => $transactionInfo['transactionDate'],
             'transaction_branch' => $transactionInfo['transactionBranch'],
             'transaction_pic_name' => $transactionInfo['transactionPicName'],
-            'transaction_note' => $transactionInfo['transactionNote'],
-            'corporation_division' => $customerInfo['corporationDivision'],
-            'customer_invoice_number' => $customerInfo['invoiceNumber'],
-            'customer_company' => $customerInfo['customerCompany'],
-            'customer_branch' => $customerInfo['customerBranch'],
-            'customer_name' => $customerInfo['customerName'],
-            'customer_phone_number' => $customerInfo['customerPhoneNumber'],
-            'customer_zip_code' => $customerInfo['zipCode'],
-            'customer_address1' => $customerInfo['customerAddress1'],
-            'customer_address2' => $customerInfo['customerAddress2'],
-            'customer_address3' => $customerInfo['customerAddress3'],
-            'customer_address4' => $customerInfo['customerAddress4'],
             'subtotal' => $amountInfo['subtotal'],
             'tax_include' => $amountInfo['taxInclude'],
             'total' => $amountInfo['total'],
@@ -74,7 +62,7 @@ class TransactionService
                 'contract_id' => $contractId,
                 'transaction_id' => $transactionId,
                 'product_no' => $detailRow['productNo'] == null ? '' : $detailRow['productNo'],
-                'product_name' => $detailRow['productName'],
+                'product_name' => $detailRow['productName']  == null ? '' : $detailRow['productName'],
                 'quantity' => $detailRow['quantity'],
                 'unit' => $detailRow['unit'] == null ? '' : $detailRow['unit'],
                 'unit_price' => $detailRow['unitPrice'],
@@ -102,18 +90,6 @@ class TransactionService
                     'T2.office_name as transactionBranch',
                     'T2.office_code as office_code',
                     'T1.transaction_pic_name as transactionPicName',
-                    'T1.transaction_note as transactionNote',
-                    'T1.corporation_division as corporationDivision',
-                    'T1.customer_invoice_number as invoiceNumber',
-                    'T1.customer_company as customerCompany',
-                    'T1.customer_branch as customerBranch',
-                    'T1.customer_name as customerName',
-                    'T1.customer_phone_number as customerPhoneNumber',
-                    'T1.customer_zip_code as customerZipCode',
-                    'T1.customer_address1 as customerAddress1',
-                    'T1.customer_address2 as customerAddress2',
-                    'T1.customer_address3 as customerAddress3',
-                    'T1.customer_address4 as customerAddress4',
                     'T1.subtotal as subtotal',
                     'T1.tax_include as taxInclude',
                     'T1.total as total',
@@ -135,19 +111,6 @@ class TransactionService
             'transactionBranch' => $transactionHeadData->transactionBranch,
             'officeCode' => $transactionHeadData->office_code,
             'transactionPicName' => $transactionHeadData->transactionPicName,
-            'transactionNote' => $transactionHeadData->transactionNote,
-            'corporationDivision' => TransactionHead::$CORPORATION_DIV_NAME[$transactionHeadData->corporationDivision],
-            'corporationDivisionId' => $transactionHeadData->corporationDivision,
-            'invoiceNumber' => $transactionHeadData->invoiceNumber,
-            'customerCompany' => $transactionHeadData->customerCompany,
-            'customerBranch' => $transactionHeadData->customerBranch,
-            'customerName' => $transactionHeadData->customerName,
-            'customerPhoneNumber' => $transactionHeadData->customerPhoneNumber,
-            'customerZipCode' => $transactionHeadData->customerZipCode,
-            'customerAddress1' => $transactionHeadData->customerAddress1,
-            'customerAddress2' => $transactionHeadData->customerAddress2,
-            'customerAddress3' => $transactionHeadData->customerAddress3,
-            'customerAddress4' => $transactionHeadData->customerAddress4,
             'subtotal' => $transactionHeadData->subtotal,
             'taxInclude' => $transactionHeadData->taxInclude,
             'total' => $transactionHeadData->total,
@@ -176,18 +139,6 @@ class TransactionService
                     'T1.transaction_date as transactionDate',
                     'T1.transaction_branch as transactionBranch',
                     'T1.transaction_pic_name as transactionPicName',
-                    'T1.transaction_note as transactionNote',
-                    'T1.corporation_division as corporationDivision',
-                    'T1.customer_invoice_number as invoiceNumber',
-                    'T1.customer_company as customerCompany',
-                    'T1.customer_branch as customerBranch',
-                    'T1.customer_name as customerName',
-                    'T1.customer_phone_number as customerPhoneNumber',
-                    'T1.customer_zip_code as customerZipCode',
-                    'T1.customer_address1 as customerAddress1',
-                    'T1.customer_address2 as customerAddress2',
-                    'T1.customer_address3 as customerAddress3',
-                    'T1.customer_address4 as customerAddress4',
                     'T1.subtotal as subtotal',
                     'T1.tax_include as taxInclude',
                     'T1.total as total',
@@ -208,18 +159,6 @@ class TransactionService
             'transactionDate' => $transactionHeadData->transactionDate,
             'transactionBranch' => $transactionHeadData->transactionBranch,
             'transactionPicName' => $transactionHeadData->transactionPicName,
-            'transactionNote' => $transactionHeadData->transactionNote,
-            'corporationDivision' => $transactionHeadData->corporationDivision,
-            'invoiceNumber' => $transactionHeadData->invoiceNumber,
-            'customerCompany' => $transactionHeadData->customerCompany,
-            'customerBranch' => $transactionHeadData->customerBranch,
-            'customerName' => $transactionHeadData->customerName,
-            'customerPhoneNumber' => $transactionHeadData->customerPhoneNumber,
-            'customerZipCode' => $transactionHeadData->customerZipCode,
-            'customerAddress1' => $transactionHeadData->customerAddress1,
-            'customerAddress2' => $transactionHeadData->customerAddress2,
-            'customerAddress3' => $transactionHeadData->customerAddress3,
-            'customerAddress4' => $transactionHeadData->customerAddress4,
             'subtotal' => $transactionHeadData->subtotal,
             'taxInclude' => $transactionHeadData->taxInclude,
             'total' => $transactionHeadData->total,
@@ -247,9 +186,6 @@ class TransactionService
                     'transaction_date as transactionDate',
                     'transaction_branch as transactionBranch',
                     'transaction_pic_name as transactionPicName',
-                    'corporation_division as corporationDivision',
-                    'customer_company as customerCompany',
-                    'customer_name as customerName',
                 ]
             )
             ->where('contract_id', '=', $contractId);
@@ -276,18 +212,6 @@ class TransactionService
         // 取引支店
         if ($condition->transactionBranch !== null) {
             $query->where('transaction_branch', '=', $condition->transactionBranch);
-        }
-        // 法人区分
-        if ($condition->corporationDivision !== null) {
-            $query->where('corporation_division', '=', $condition->corporationDivision);
-        }
-        // お客様会社名
-        if ($condition->customerCompany !== null) {
-            $query->where('customer_company', 'LIKE', "%{$condition->customerCompany}%");
-        }
-        // お客様名
-        if ($condition->customerName !== null) {
-            $query->where('customer_name', 'LIKE', "%{$condition->customerName}%");
         }
 
         $count = $query->count();

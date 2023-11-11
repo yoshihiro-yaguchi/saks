@@ -42,7 +42,7 @@ export const initDetailRow: DetailRow = {
   productName: "",
   quantity: 0,
   unitPrice: 0,
-  taxRate: 0,
+  taxRate: 10,
   totalPrice: 0,
   unit: "",
 }

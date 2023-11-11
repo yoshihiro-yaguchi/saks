@@ -5,7 +5,7 @@ import {
   initTransactionHead,
   ShowTransactionState,
 } from "./types"
-import { TaxInfo, TaxInfos } from "../TransactionTypes"
+import { TaxInfos } from "../TransactionTypes"
 
 const initialState: ShowTransactionState = {
   common: initCommon,

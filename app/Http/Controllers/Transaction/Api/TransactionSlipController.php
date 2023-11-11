@@ -54,7 +54,7 @@ class TransactionSlipController extends Controller
         return $pdf->download();
     }
 
-        public function printReceipt(Request $request)
+    public function printReceipt(Request $request)
     {
         $transactionId = $request->input('transactionId');
         $service = new TransactionService();
