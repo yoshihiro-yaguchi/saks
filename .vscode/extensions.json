@@ -1,0 +1,29 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
+    // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
+
+    // List of extensions which should be recommended for users of this workspace.
+    "recommendations": [
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
+        "ryannaddy.laravel-artisan",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "ms-vscode.live-server",
+        "ritwickdey.LiveServer",
+        "ms-vsliveshare.vsliveshare",
+        "yzhang.markdown-all-in-one",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "xdebug.php-debug",
+        "bmewburn.vscode-intelephense-client",
+        "esbenp.prettier-vscode",
+        "jasonnutter.search-node-modules",
+        "redhat.vscode-yaml",
+        "onecentlin.laravel5-snippets",
+        "xabikos.ReactSnippets",
+        "vscode-icons-team.vscode-icons",
+        "xabikos.JavaScriptSnippets"
+    ],
+    // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
+    "unwantedRecommendations": []
+}

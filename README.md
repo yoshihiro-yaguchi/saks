@@ -1,66 +1,320 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 初回環境構築方法
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## php の依存関係のインストール(実行済みの場合は不要)
 
-## About Laravel
+```
+sudo apt update -y
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+```
+sudo apt install curl php-cli php-mbstring git unzip
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<!-- ## composerのインストール
+> php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+> php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 
-## Learning Laravel
+> curl -sS https://getcomposer.org/installer | php
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+> sudo mv composer.phar /usr/local/bin/composer
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+> sudo chmod +x /usr/local/bin/composer
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+> source ~/.bashrc
 
-## Laravel Sponsors
+> php composer-setup.php
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+> php -r "unlink('composer-setup.php');" -->
 
-### Premium Partners
+## `.env.example`をコピーして`.env`ファイルを作成する<br>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```
+cp .env.example .env
+```
 
-## Contributing
+## パッケージのインストール
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```shell
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php82-composer:latest \
+    composer install --ignore-platform-reqs
+```
 
-## Code of Conduct
+コマンド実行時にエラーになるときは、vender ディレクトリを削除する。
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## エイリアスの設定
 
-## Security Vulnerabilities
+### bash
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+エイリアス設定ファイルを開く
 
-## License
+```
+vim ~/.bashrc
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+I キーを押して適当な場所に
+
+```
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+```
+
+と打ち込む。その後、`esc` -> `:wq` -> エンターキーで保存して終了
+
+`~/.bashrc`に記載したコマンドを反映
+
+```
+source ~/.bashrc
+```
+
+### zsh
+
+エイリアス設定ファイルを開く
+
+```
+vim ~/.zshrc
+```
+
+I キーを押して適当な場所に
+
+```
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+```
+
+と打ち込む。その後、`esc` -> `:wq` -> エンターキーで保存して終了
+
+`~/.zshrc`に記載したコマンドを反映
+
+```
+source ~/.zshrc
+```
+
+## 環境の操作
+
+-   起動
+
+```
+sail up -d
+```
+
+## npm の初期設定
+
+```
+sail npm install
+```
+
+## vite(laravel-mix に変わるやつ)
+
+### WSL で開発する場合
+
+`vite.config.js`に以下を設定する。
+
+```javascript
+// Windows、WSL上で実行するときだけ必要か
+server: {
+    hmr: {
+        host: "localhost",
+    },
+},
+```
+
+### 開発時用ビルド
+
+`npm run dev`
+開発時にビルドしたい時に使用するコマンドです。
+
+### リリース用ビルド
+
+`npm run build`
+リリース用にビルドするコマンドで、開発時と違い CSS ファイルや JS ファイルが圧縮されて書き出されます。
+
+# 追加パッケージ
+
+## mPDF
+
+### 参考
+
+-   [Laravel 超初心者が Mpdf で pdf を生成するまで](https://zenn.dev/chromel/articles/6edadcdcce19fa)<br>
+-   [Laravel で PDF を出力する](https://qiita.com/yukieeeee/items/2085aad47f73aae3889e)
+
+### インストール方法
+
+1. パッケージ追加
+
+```
+sail composer require carlos-meneses/laravel-mpdf
+```
+
+2. PDF 用コントローラー作成
+
+```
+sail php artisan make:controller PdfController
+```
+
+3. `./config/app.php`に設定を追加する。
+   aliases に設定しても動作しなかった。`LaravelMpdf`を直接呼び出すとうまくいったので、それを使う。
+
+```
+'providers' => [
+Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
+],
+'aliases' => Facade::defaultAliases()->merge([
+// 'ExampleClass' => App\Example\ExampleClass::class,
+'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
+])->toArray(),
+```
+
+4. 2.で作成したコントローラーに下記設定をする。
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf;
+
+class PdfController extends Controller
+{
+    public function viewPdf()
+    {
+        $data = [
+            'foo' => 'bar'
+        ];
+    	//ここでviewに$dataを送っているけど、
+    	//今回$dataはviewで使わない
+        $pdf = LaravelMpdf::loadView('pdf.document', $data);
+
+        // 表示させる場合
+        // return $pdf->stream('document.pdf');
+
+        return $pdf->download('document.pdf');//生成されるファイル名
+    }
+}
+```
+
+5. 日本語化対応のために、ipafont をダウンロードする。
+   [IPAex フォントおよび IPA フォントについて](https://moji.or.jp/ipafont/)
+6. ダウンロードしたファイルを回答し、`ipae.ttf`または`ipaexg.ttf`ファイルを`resources/fonts`に配置する。
+7. `config/pdf.php`の custom_font_data に以下の設定を追加する。
+
+```php
+'custom_font_data'         => [
+    'ipafont' => [
+        'R' => 'ipaexg.ttf' // 6.で配置したファイル名
+    ]
+],
+```
+
+8. `web.php`にルーティングの設定をしてリンクにアクセスしてみる。
+
+## react-typescript-redux
+
+### 参考
+
+1. node,npm,npx がインストールされていることを確認
+
+```
+sail node --version
+# v18.16.0
+sail npm --version
+# 9.6.7
+sail npx --version
+# 9.6.7
+```
+
+2. vitejs の React モジュールを追加
+
+```
+sail npm install -d @vitejs/plugin-react
+```
+
+3. react-typescript-redux のテンプレートを作成
+
+```
+sail npx create-react-app resources/ts --template redux-typescript
+```
+
+4. ts/package.json から、ルートディレクトリ/package.json に依存関係をコピーする
+
+5. ts/public, ts/src 以外の ts フォルダ配下のファイルを削除する
+
+6. npm の依存関係を更新する
+
+```shell
+sail npm install --legacy-peer-deps
+```
+
+7. vite.config.js に以下を追加する。
+
+```javascript
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import react from "@vitejs/plugin-react"; //<-追加
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                "resources/sass/app.scss",
+                "resources/css/app.css",
+                "resources/js/app.js",
+                "resources/ts/src/index.tsx", //<-追加
+            ],
+
+            refresh: true,
+        }),
+        react(), //<-追加
+    ],
+    // Windows、WSL上で実行するときだけ必要か
+    server: {
+        hmr: {
+            host: "localhost",
+        },
+    },
+
+    resolve: {
+        alias: {
+            vue: "vue/dist/vue.esm-bundler.js",
+            $: "jQuery",
+        },
+    },
+});
+```
+
+8. index.blade.php の作成
+
+```resouces/views/index.blade.php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  @viteReactRefresh <!-- @viteの前に絶対入れる。 -->
+  @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/ts/src/index.tsx'])
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
+```
+
+9. web.php の変更
+   以下を追加
+
+```
+Route::get('/', function () {
+    return view('index');
+});
+```
+
+10. npm を起動
+
+```
+sail npm run dev
+```
