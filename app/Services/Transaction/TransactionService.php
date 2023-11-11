@@ -62,7 +62,7 @@ class TransactionService
                 'contract_id' => $contractId,
                 'transaction_id' => $transactionId,
                 'product_no' => $detailRow['productNo'] == null ? '' : $detailRow['productNo'],
-                'product_name' => $detailRow['productName']  == null ? '' : $detailRow['productName'],
+                'product_name' => $detailRow['productName'] == null ? '' : $detailRow['productName'],
                 'quantity' => $detailRow['quantity'],
                 'unit' => $detailRow['unit'] == null ? '' : $detailRow['unit'],
                 'unit_price' => $detailRow['unitPrice'],
