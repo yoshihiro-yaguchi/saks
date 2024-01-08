@@ -117,5 +117,4 @@ Route::middleware('auth')->group(function () {
     // 在庫変動履歴検索(リスト返却・ページングあり)
     // 在庫変動登録
 
-
 });

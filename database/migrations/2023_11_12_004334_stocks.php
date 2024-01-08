@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stocks', function(Blueprint $table) {
+        Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             // 契約ID	contract_id	varchar	8
             $table->string('contract_id', 8)->comment('契約ID');
