@@ -25,7 +25,7 @@ return new class extends Migration
             // 在庫数	quantity_of_stock	number
             $table->decimal('quantity_of_stock', 12, 3)->comment('在庫数');
             // メモ	memo	text
-            $table->text('memo')->comment('メモ');
+            $table->text('memo')->comment('メモ')->nullable();
             $table->timestamps();
 
             $table->unique(['contract_id', 'production_code', 'created_at'], 'stocks_change_history_uk1');

@@ -107,4 +107,15 @@ Route::middleware('auth')->group(function () {
     // 更新
     Route::post('/api/product/update', [ProductApiController::class, 'update']);
 
+    /**
+     * 在庫
+     */
+    /**
+     * 在庫:RESTAPI
+     */
+    // 在庫検索(リスト返却・ページングあり)
+    // 在庫変動履歴検索(リスト返却・ページングあり)
+    // 在庫変動登録
+
+
 });
