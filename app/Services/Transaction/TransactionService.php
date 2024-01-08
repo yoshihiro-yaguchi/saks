@@ -42,7 +42,7 @@ class TransactionService
      */
     public function updateTransactionHead(string $transactionId, string $contractId, array $updateData)
     {
-        return DB::table('transaction_headers')->where('transaction_id', '=', $transactionId)->where('contract_id', '=', $contractId)->update($updateData);
+        return DB::table('transaction_heads')->where('transaction_id', '=', $transactionId)->where('contract_id', '=', $contractId)->update($updateData);
     }
 
     /**
@@ -81,7 +81,7 @@ class TransactionService
     public function getTransactionData(string $contractId, string $transactionId): array
     {
         // TODO:取得できなかった場合を考える。
-        $transactionHeadData = DB::table('transaction_headers as T1')
+        $transactionHeadData = DB::table('transaction_heads as T1')
             ->select(
                 [
                     'T1.transaction_title as transactionTitle',
@@ -130,7 +130,7 @@ class TransactionService
     public function getUpdateTransactionData(string $contractId, string $transactionId): array
     {
         // TODO:取得できなかった場合を考える。
-        $transactionHeadData = DB::table('transaction_headers as T1')
+        $transactionHeadData = DB::table('transaction_heads as T1')
             ->select(
                 [
                     'T1.transaction_id as transactionId',
@@ -177,7 +177,7 @@ class TransactionService
      */
     public function searchTransactionData(string $contractId, SearchTransactionBean $condition): array
     {
-        $query = DB::table('transaction_headers')
+        $query = DB::table('transaction_heads')
             ->select(
                 [
                     'transaction_id as id',

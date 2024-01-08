@@ -33,7 +33,7 @@ class TransactionHead extends Model
 
     use HasFactory;
 
-    protected $table = 'transaction_headers';
+    protected $table = 'transaction_heads';
 
     protected $primaryKey = 'id';
 
