@@ -10,6 +10,7 @@ import { productStoreState } from "../features/product/store/readucer"
 import { productUpdateState } from "../features/product/update/readucer"
 import { updateTransactionReducer } from "../features/transaction/update/reducer"
 import { transactionModalSearchProduction } from "../features/transaction/common/modalSearchProduction/reducer"
+import { transactionSettingState } from "../features/transaction/setting/reducer"
 
 export const store = configureStore({
   reducer: {
@@ -35,6 +36,8 @@ export const store = configureStore({
     showTransaction: showTransactionReducer.reducer,
     // 更新
     updateTransaction: updateTransactionReducer.reducer,
+    // 設定
+    settingTransaction: transactionSettingState.reducer,
 
     /**
      * ---------------------------------------

@@ -22,7 +22,7 @@
             "import { useAppDispatch, useAppSelector } from '@src/app/hooks'",
             "import { RootState } from '@src/app/store'",
             "import { useEffect } from 'react'",
-            " import { operations } from './operations'",
+            " import { operations } from './operation'",
             "",
             "export const #{COMPONENT_NAME} = () => {",
             "  const dispatch = useAppDispatch()",

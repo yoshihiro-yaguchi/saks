@@ -136,6 +136,16 @@ export const BaseComponent = (props: Props) => {
                   取引新規登録
                 </Button>
               </Box>
+              {/* 取引設定 */}
+              <Box sx={{ borderTop: "1px solid #ddd", padding: "5px 5px" }}>
+                <Button
+                  variant="text"
+                  fullWidth
+                  onClick={() => (location.href = "/transaction/setting")}
+                >
+                  取引設定
+                </Button>
+              </Box>
             </AccordionDetails>
           </Accordion>
           <Accordion sx={{ backgroundColor: "#fff" }}>
