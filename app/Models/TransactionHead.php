@@ -48,9 +48,4 @@ class TransactionHead extends Model
 
         return $maxTransactionId + 1;
     }
-
-    public function transactionData(string $contractId, string $transactionId)
-    {
-        return $this->join;
-    }
 }
