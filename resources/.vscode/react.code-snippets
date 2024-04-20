@@ -100,7 +100,7 @@
             "     * ",
             "     * @returns",
             "     */",
-            "    reset: () => initialState,"
+            "    reset: () => initialState,",
             "    /**",
             "     * サンプル",
             "     *",
@@ -109,7 +109,7 @@
             "     */",
             "    sample: (state, action: PayloadAction<{ name: string; value: string }>) => {",
             "      console.log('サンプル')",
-            "    },"
+            "    },",
             "  },",
             "})",
             "export const { actions } = #{FUNC_NAME}"
@@ -159,7 +159,7 @@
             "  operate: ():AppThunk => async (dispatch, getState) => {",
             "    await dispatch(commonOperations.processStart())",
             "    dispatch(commonOperations.processEnd())",
-            "  }",
+            "  }"
         ]
     }
 }
