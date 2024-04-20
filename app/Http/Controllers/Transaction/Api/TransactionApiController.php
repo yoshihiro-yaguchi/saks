@@ -23,10 +23,13 @@ class TransactionApiController extends Controller
 
     public $commonService;
 
-    public function __construct()
+    public function __construct(
+        TransactionService $transactionService,
+        CommonService $commonService
+    )
     {
-        $this->transactionService = new TransactionService();
-        $this->commonService = new CommonService();
+        $this->transactionService = $transactionService;
+        $this->commonService = $commonService;
     }
 
     /**
@@ -55,8 +58,6 @@ class TransactionApiController extends Controller
     {
         Log::info('TransactionApiController.storeTransaction : START');
 
-        $service = new TransactionService();
-
         $transactionInfo = $request->input('transactionInfo');
         $detailRows = $request->input('detailRows');
         $culcResult = $this->transactionService->culcTransaction($detailRows);
@@ -69,8 +70,8 @@ class TransactionApiController extends Controller
         // 取引データ作成
         DB::beginTransaction();
         try {
-            $saveHeadResult = $service->insertTransactionHead($contractId, $transactionInfo, $amountInfo);
-            $service->saveTransactionDetails($contractId, $saveHeadResult->transaction_id, $detailRows);
+            $saveHeadResult = $this->transactionService->insertTransactionHead($contractId, $transactionInfo, $amountInfo);
+            $this->transactionService->saveTransactionDetails($contractId, $saveHeadResult->transaction_id, $detailRows);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('取引データ登録処理でエラー発生');
@@ -105,7 +106,7 @@ class TransactionApiController extends Controller
     {
         Log::info('TransactionApiController.getTransactionData : START');
 
-        // 契約IDと取引IDでデータを引っ張ってくる。
+        // 画面表示用のデータを取得する。
         $commonService = new CommonService();
         $transactionData = $this->transactionService->getTransactionData($commonService->getContractId(), $transactionId);
 
@@ -236,8 +237,6 @@ class TransactionApiController extends Controller
     {
         Log::info('TransactionApiController.updateTransaction : START');
 
-        $service = new TransactionService();
-
         $detailRows = $request->input('detailRows');
         $culcResult = $this->transactionService->culcTransaction($detailRows);
         $amountInfo = $culcResult['amountInfo'];
@@ -261,10 +260,10 @@ class TransactionApiController extends Controller
         // 取引データ作成
         DB::beginTransaction();
         try {
-            $service->updateTransactionHead($request->input('transactionId'), $contractId, $updateData);
+            $this->transactionService->updateTransactionHead($request->input('transactionId'), $contractId, $updateData);
             // 明細をdeleteする。
             TransactionDetail::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $request->input('transactionId'))->delete();
-            $service->saveTransactionDetails($contractId, $request->input('transactionId'), $detailRows);
+            $this->transactionService->saveTransactionDetails($contractId, $request->input('transactionId'), $detailRows);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('取引データ登録処理でエラー発生');
