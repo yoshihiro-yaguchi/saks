@@ -2,7 +2,6 @@ import { AppThunk } from "@src/app/store"
 import { actions } from "./commonReducer"
 import { commonApis } from "./commonApi"
 import { ValidateError } from "./commonTypes"
-import { userInfo } from "os"
 // import { apis } from './api'
 
 export const commonOperations = {
@@ -12,7 +11,9 @@ export const commonOperations = {
   init:
     (title: string): AppThunk =>
     async (dispatch, getState) => {
+      // タブの名前を設定
       document.querySelector("title")!.textContent = title
+      // csrfTokenを取得
       const token = document.head.querySelector<HTMLMetaElement>(
         'meta[name="csrfToken"]'
       )!.content
