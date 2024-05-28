@@ -102,48 +102,6 @@ class TransactionService extends BaseService
         // 事業所データ取得
         $officeEntity = $this->officeRepository->getOffice($contractId, $transactionEntity->transactionHead->transactionBranch);
 
-        // TODO:取得できなかった場合を考える。
-        // $transactionHeadData = DB::table('transaction_heads as T1')
-        //     ->select(
-        //         [
-        //             'T1.transaction_title as transactionTitle',
-        //             'T1.transaction_division as transactionDivision',
-        //             'T1.transaction_date as transactionDate',
-        //             'T2.office_name as transactionBranch',
-        //             'T2.office_code as office_code',
-        //             'T1.transaction_pic_name as transactionPicName',
-        //             'T1.subtotal as subtotal',
-        //             'T1.tax_include as taxInclude',
-        //             'T1.total as total',
-        //         ]
-        //     )
-        //     ->join('offices as T2', function ($join) {
-        //         /** @var Illuminate\Database\Query\Builder::join $join */
-        //         $join->on('T1.contract_id', '=', 'T2.contract_id')->on('T1.transaction_branch', '=', 'T2.office_code');
-        //     })
-        //     ->where('T1.contract_id', '=', $contractId)
-        //     ->where('T1.transaction_id', '=', $transactionId)
-        //     ->first();
-
-        // $transactionHead = [
-        //     'transactionTitle' => $transactionHeadData->transactionTitle,
-        //     'transactionDivision' => TransactionHead::$TRANSACTION_DIV_NAMES[$transactionHeadData->transactionDivision],
-        //     'transactionDivisionId' => $transactionHeadData->transactionDivision,
-        //     'transactionDate' => $transactionHeadData->transactionDate,
-        //     'transactionBranch' => $transactionHeadData->transactionBranch,
-        //     'officeCode' => $transactionHeadData->office_code,
-        //     'transactionPicName' => $transactionHeadData->transactionPicName,
-        //     'subtotal' => $transactionHeadData->subtotal,
-        //     'taxInclude' => $transactionHeadData->taxInclude,
-        //     'total' => $transactionHeadData->total,
-        // ];
-        // $detailRows = $this->getTransactionDetails($contractId, $transactionId);
-
-        // return [
-        //     'transactionHead' => $transactionHead,
-        //     'detailRows' => $detailRows,
-        //     'taxInfos' => $this->culcTransaction($detailRows)['taxInfos'],
-        // ];
         return [
             'transactionHead' => $transactionEntity->transactionHead,
             'detailRows' => $transactionEntity->transactionDetails,

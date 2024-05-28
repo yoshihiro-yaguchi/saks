@@ -35,6 +35,7 @@ export const operations = {
         dispatch(commonOperations.processEnd())
         throw error
       }
+
       const initData = apiInitResult.data.transactionData
 
       const initState: Partial<ShowTransactionState> = {
@@ -43,6 +44,8 @@ export const operations = {
         detailRows: initData.detailRows,
         taxInfos: initData.taxInfos,
       }
+
+      console.log(initState)
 
       await dispatch(actions.init({ updateData: initState }))
       dispatch(commonOperations.processEnd())
