@@ -6,6 +6,7 @@ use App\Models\TransactionDetail;
 use App\Models\TransactionHead;
 use App\Repository\OfficeRepository;
 use App\Repository\TransactionRepository;
+use App\Services\BaseService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -106,6 +107,7 @@ class TransactionService extends BaseService
             'transactionHead' => $transactionEntity->transactionHead,
             'detailRows' => $transactionEntity->transactionDetails,
             'taxInfos' => $this->culcTransaction($transactionEntity->transactionDetails)['taxInfos'],
+            'office' => $officeEntity,
         ];
     }
 

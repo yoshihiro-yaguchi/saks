@@ -10,6 +10,7 @@ use App\Http\Requests\Transaction\Api\StoreTransaction;
 use App\Models\Office;
 use App\Models\TransactionDetail;
 use App\Services\CommonService;
+use App\Services\Office\OfficeService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use App\Services\Transaction\TransactionService;
 use Illuminate\Http\JsonResponse;
@@ -21,14 +22,19 @@ class TransactionApiController extends Controller
     /** @var TransactionService */
     public $transactionService;
 
+    /** @var OfficeService */
+    public $officeService;
+
     public $commonService;
 
     public function __construct(
         TransactionService $transactionService,
+        OfficeService $officeService,
         CommonService $commonService
     )
     {
         $this->transactionService = $transactionService;
+        $this->officeService = $officeService;
         $this->commonService = $commonService;
     }
 
@@ -41,7 +47,7 @@ class TransactionApiController extends Controller
     {
         $contract_id = $this->commonService->getContractId();
 
-        $offices = Office::query()->where('contract_id', '=', $contract_id)->get(['office_code as officeCode', 'office_name as officeName']);
+        $offices = $this->officeService->getAllOffices($this->commonService->getContractId());
 
         return response()->json(
             ['offices' => $offices],
@@ -205,24 +211,22 @@ class TransactionApiController extends Controller
     public function initUpdateTransaction(ApiInitUpdateTransaction $request)
     {
         Log::info('TransactionApiController.initUpdateTransaction : START');
-        $contract_id = $this->commonService->getContractId();
-
-        $offices = Office::query()->where('contract_id', '=', $contract_id)->get(['office_code as officeCode', 'office_name as officeName']);
-
-        $transactionId = $request->input('transactionId');
 
         // 契約IDと取引IDでデータを引っ張ってくる。
-        $commonService = new CommonService();
-        $transactionData = $this->transactionService->getUpdateTransactionData($commonService->getContractId(), $request->input('transactionId'));
+        $contractId = $this->commonService->getContractId();
+        $transactionData = $this->transactionService->getTransactionData($contractId, $request->input('transactionId'));
+
+        $offices = $this->officeService->getAllOffices($contractId);
 
         Log::info('TransactionApiController.initUpdateTransaction : END');
 
         return response()->json(
             [
-                'offices' => $offices,
+                'office' => $transactionData["office"],
                 'transactionHead' => $transactionData['transactionHead'],
                 'detailRows' => $transactionData['detailRows'],
                 'taxInfos' => $transactionData['taxInfos'],
+                "offices" => $offices,
             ],
             200
         );

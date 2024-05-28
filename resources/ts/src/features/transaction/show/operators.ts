@@ -45,8 +45,6 @@ export const operations = {
         taxInfos: initData.taxInfos,
       }
 
-      console.log(initState)
-
       await dispatch(actions.init({ updateData: initState }))
       dispatch(commonOperations.processEnd())
     },

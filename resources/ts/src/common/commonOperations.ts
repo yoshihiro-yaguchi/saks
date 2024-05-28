@@ -84,6 +84,6 @@ export const commonOperations = {
   processEnd: (): AppThunk => async (dispatch, getState) => {
     dispatch(actions.processEnd())
     let screenLock = document.getElementById("screenLock")!
-    screenLock.parentNode!.removeChild(screenLock)
+    screenLock?.parentNode?.removeChild(screenLock)
   },
 }

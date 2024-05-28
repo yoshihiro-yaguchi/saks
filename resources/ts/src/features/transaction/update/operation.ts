@@ -314,6 +314,10 @@ export const operations = {
       const oldInfo = getState().updateTransaction.detailRows[index]
       const condtion = new URLSearchParams()
 
+      if (oldInfo.productNo === null || oldInfo.productNo === "") {
+        dispatch(commonOperations.processEnd())
+      }
+
       condtion.append("productionCode", oldInfo.productNo)
       let result
       try {
@@ -381,10 +385,13 @@ export const operations = {
         )
       }
 
+      // 税情報の更新
       dispatch(operations.updateTaxInfo())
+      // 合計情報の更新
       dispatch(operations.updateAmountInfo())
+      // アラートのクローズ
       dispatch(commonOperations.errorAlertClose())
-
+      // プロセス終了
       dispatch(commonOperations.processEnd())
     },
 }

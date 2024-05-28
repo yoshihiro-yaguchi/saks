@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use App\Entities\Office\OfficeEntity;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class OfficeRepository extends BaseRepository
@@ -34,5 +35,31 @@ class OfficeRepository extends BaseRepository
             ->first();
 
         return $this->convertResultToEntity($result, new OfficeEntity());
+    }
+
+    /**
+     * 契約に含まれるすべての店舗を取得する
+     *
+     * @param string $contractId
+     * @return Collection
+     */
+    public function getAllOffices(string $contractId): Collection
+    {
+        $records = DB::table('offices')
+            ->select(
+                [
+                    'office_code as officeCode',
+                    'office_name as officeName'
+                ]
+            )
+            ->where('contract_id', '=', $contractId)
+            ->get();
+
+        $result = new Collection();
+        foreach ($records as $record) {
+            $result->add($this->convertResultToEntity($record, new OfficeEntity()));
+        }
+
+        return $result;
     }
 }
