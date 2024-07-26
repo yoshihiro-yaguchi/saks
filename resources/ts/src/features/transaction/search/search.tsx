@@ -24,7 +24,7 @@ import {
 } from "@mui/material"
 import { BaseComponent } from "@resource/ts/src/common/Component/BaseComponent"
 import { LinedContainerBox } from "@resource/ts/src/common/Component/LinedContainerBox"
-import { H1, Typo } from "@resource/ts/src/common/Component/Typo"
+import { H1, H2, Typo } from "@resource/ts/src/common/Component/Typo"
 import { FullWidthInput, Input } from "@resource/ts/src/common/Component/Input"
 import { Spacer } from "@resource/ts/src/common/Component/Spacer"
 import { ErrorAlert } from "@resource/ts/src/common/Component/ErrorAlert"
@@ -76,13 +76,31 @@ export const Search = () => {
         {/* 画面内ヘッダー */}
         <Box>
           <LinedContainerBox>
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button
-                variant="outlined"
-                onClick={() => navigate("/transaction/store")}
+            <Box sx={{ display: "flex" }}>
+              <Box
+                sx={{
+                  flex: "1",
+                  display: "flex",
+                  justifyContent: "flex-start",
+                }}
               >
-                取引作成
-              </Button>
+                <H1>取引一覧</H1>
+              </Box>
+              <Box
+                sx={{
+                  flex: "1",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate("/transaction/store")}
+                >
+                  取引作成
+                </Button>
+              </Box>
             </Box>
           </LinedContainerBox>
         </Box>
@@ -90,7 +108,7 @@ export const Search = () => {
         {/* 検索条件 */}
         <Box>
           <LinedContainerBox>
-            <H1>取引検索</H1>
+            <H2>検索条件</H2>
             <Box sx={{ marginTop: "8px", marginLeft: "8px" }}>
               <Grid container spacing={1}>
                 <Grid item xs={12} md={2}>
