@@ -14,14 +14,21 @@ use PDF;
 
 class TransactionSlipController extends Controller
 {
+    public $transactionService;
+
+    public function __construct(
+        TransactionService $transactionService
+    ) {
+        $this->transactionService = $transactionService;
+    }
+
     public function printPurchaseInvoice(Request $request)
     {
         $transactionId = $request->input('transactionId');
-        $service = new TransactionService();
 
         $contractId = (new CommonService())->getContractId(Auth::user()->email);
-        $transactionData = $service->getTransactionData($contractId, $transactionId);
-        $cultTransactionResult = $service->culcTransaction($transactionData['detailRows']);
+        $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
+        $cultTransactionResult = $this->transactionService->culcTransaction($transactionData['detailRows']);
 
         $contractInfo = (new Contracts())->query()->where('contract_id', '=', $contractId)->first();
         $branchInfo = (new Office())->query()->where('contract_id', '=', $contractId)->where('office_code', '=', $transactionData['transactionHead']['officeCode'])->first();
@@ -57,11 +64,10 @@ class TransactionSlipController extends Controller
     public function printReceipt(Request $request)
     {
         $transactionId = $request->input('transactionId');
-        $service = new TransactionService();
 
         $contractId = (new CommonService())->getContractId(Auth::user()->email);
-        $transactionData = $service->getTransactionData($contractId, $transactionId);
-        $cultTransactionResult = $service->culcTransaction($transactionData['detailRows']);
+        $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
+        $cultTransactionResult = $this->transactionService->culcTransaction($transactionData['detailRows']);
 
         $contractInfo = (new Contracts())->query()->where('contract_id', '=', $contractId)->first();
         $branchInfo = (new Office())->query()->where('contract_id', '=', $contractId)->where('office_code', '=', $transactionData['transactionHead']['officeCode'])->first();

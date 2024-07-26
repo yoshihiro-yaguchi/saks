@@ -1,4 +1,4 @@
-import { DetailRow, TaxInfo, TaxInfos } from "../TransactionTypes"
+import { DetailRow, TaxInfos } from "../TransactionTypes"
 
 export interface ShowTransactionState {
   common: Common
@@ -52,10 +52,9 @@ export const initTransactionHead: TransactionHead = {
 
 // 初期処理API型
 export interface ApiDoInit {
-  transactionData: TransactionData
-}
-export interface TransactionData {
-  transactionHead: TransactionHead
-  detailRows: Array<DetailRow>
-  taxInfos: TaxInfos
+  transactionData: {
+    transactionHead: TransactionHead
+    detailRows: Array<DetailRow>
+    taxInfos: TaxInfos
+  }
 }

@@ -501,7 +501,7 @@ export const Show = () => {
                     伝票を発行
                   </Button>
                   {(() => {
-                    if (transactionHead.transactionDivision == "買取") {
+                    if (transactionHead.transactionDivision == "1") {
                       return (
                         <>
                           <Menu

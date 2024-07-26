@@ -35,6 +35,7 @@ export const operations = {
         dispatch(commonOperations.processEnd())
         throw error
       }
+
       const initData = apiInitResult.data.transactionData
 
       const initState: Partial<ShowTransactionState> = {
