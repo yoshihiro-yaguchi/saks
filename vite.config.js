@@ -25,11 +25,11 @@ export default defineConfig({
     react(),
   ],
   // Windows、WSL上で実行するときだけ必要か
-  server: {
-    hmr: {
-      host: "localhost",
-    },
-  },
+  // server: {
+  //   hmr: {
+  //     host: "localhost",
+  //   },
+  // },
 
   resolve: {
     alias: {
