@@ -1,3 +1,21 @@
+- [初回環境構築方法](#初回環境構築方法)
+  - [php の依存関係のインストール(実行済みの場合は不要)](#php-の依存関係のインストール実行済みの場合は不要)
+  - [`.env.example`をコピーして`.env`ファイルを作成する](#envexampleをコピーしてenvファイルを作成する)
+  - [パッケージのインストール](#パッケージのインストール)
+  - [エイリアスの設定](#エイリアスの設定)
+    - [bash](#bash)
+    - [zsh](#zsh)
+  - [環境の操作](#環境の操作)
+  - [npm の初期設定](#npm-の初期設定)
+- [compsoer](#compsoer)
+- [vite](#vite)
+  - [WSL(Widnows) で開発する場合](#wslwidnows-で開発する場合)
+  - [開発時用ビルド](#開発時用ビルド)
+  - [リリース用ビルド](#リリース用ビルド)
+- [追加パッケージ](#追加パッケージ)
+  - [react-typescript-redux](#react-typescript-redux)
+    - [参考](#参考)
+
 # 初回環境構築方法
 
 ## php の依存関係のインストール(実行済みの場合は不要)
@@ -9,23 +27,6 @@ sudo apt update -y
 ```
 sudo apt install curl php-cli php-mbstring git unzip
 ```
-
-<!-- ## composerのインストール
-> php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-
-> php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-
-> curl -sS https://getcomposer.org/installer | php
-
-> sudo mv composer.phar /usr/local/bin/composer
-
-> sudo chmod +x /usr/local/bin/composer
-
-> source ~/.bashrc
-
-> php composer-setup.php
-
-> php -r "unlink('composer-setup.php');" -->
 
 ## `.env.example`をコピーして`.env`ファイルを作成する<br>
 
@@ -106,9 +107,11 @@ sail up -d
 sail npm install
 ```
 
-## vite(laravel-mix に変わるやつ)
+# compsoer
 
-### WSL で開発する場合
+# vite
+
+## WSL(Widnows) で開発する場合
 
 `vite.config.js`に以下を設定する。
 
@@ -121,95 +124,17 @@ server: {
 },
 ```
 
-### 開発時用ビルド
+## 開発時用ビルド
 
 `npm run dev`
 開発時にビルドしたい時に使用するコマンドです。
 
-### リリース用ビルド
+## リリース用ビルド
 
 `npm run build`
 リリース用にビルドするコマンドで、開発時と違い CSS ファイルや JS ファイルが圧縮されて書き出されます。
 
 # 追加パッケージ
-
-## mPDF
-
-### 参考
-
--   [Laravel 超初心者が Mpdf で pdf を生成するまで](https://zenn.dev/chromel/articles/6edadcdcce19fa)<br>
--   [Laravel で PDF を出力する](https://qiita.com/yukieeeee/items/2085aad47f73aae3889e)
-
-### インストール方法
-
-1. パッケージ追加
-
-```
-sail composer require carlos-meneses/laravel-mpdf
-```
-
-2. PDF 用コントローラー作成
-
-```
-sail php artisan make:controller PdfController
-```
-
-3. `./config/app.php`に設定を追加する。
-   aliases に設定しても動作しなかった。`LaravelMpdf`を直接呼び出すとうまくいったので、それを使う。
-
-```
-'providers' => [
-Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
-],
-'aliases' => Facade::defaultAliases()->merge([
-// 'ExampleClass' => App\Example\ExampleClass::class,
-'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
-])->toArray(),
-```
-
-4. 2.で作成したコントローラーに下記設定をする。
-
-```php
-<?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf;
-
-class PdfController extends Controller
-{
-    public function viewPdf()
-    {
-        $data = [
-            'foo' => 'bar'
-        ];
-    	//ここでviewに$dataを送っているけど、
-    	//今回$dataはviewで使わない
-        $pdf = LaravelMpdf::loadView('pdf.document', $data);
-
-        // 表示させる場合
-        // return $pdf->stream('document.pdf');
-
-        return $pdf->download('document.pdf');//生成されるファイル名
-    }
-}
-```
-
-5. 日本語化対応のために、ipafont をダウンロードする。
-   [IPAex フォントおよび IPA フォントについて](https://moji.or.jp/ipafont/)
-6. ダウンロードしたファイルを回答し、`ipae.ttf`または`ipaexg.ttf`ファイルを`resources/fonts`に配置する。
-7. `config/pdf.php`の custom_font_data に以下の設定を追加する。
-
-```php
-'custom_font_data'         => [
-    'ipafont' => [
-        'R' => 'ipaexg.ttf' // 6.で配置したファイル名
-    ]
-],
-```
-
-8. `web.php`にルーティングの設定をしてリンクにアクセスしてみる。
 
 ## react-typescript-redux
 
