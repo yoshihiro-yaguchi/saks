@@ -31,8 +31,7 @@ class TransactionApiController extends Controller
         TransactionService $transactionService,
         OfficeService $officeService,
         CommonService $commonService
-    )
-    {
+    ) {
         $this->transactionService = $transactionService;
         $this->officeService = $officeService;
         $this->commonService = $commonService;
@@ -70,7 +69,7 @@ class TransactionApiController extends Controller
         $amountInfo = $culcResult['amountInfo'];
 
         // 契約ID
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $contractId = $commonService->getContractId();
 
         // 取引データ作成
@@ -113,7 +112,7 @@ class TransactionApiController extends Controller
         Log::info('TransactionApiController.getTransactionData : START');
 
         // 画面表示用のデータを取得する。
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $transactionData = $this->transactionService->getTransactionData($commonService->getContractId(), $transactionId);
 
         $response = response()->json(
@@ -140,7 +139,7 @@ class TransactionApiController extends Controller
         $offices = Office::query()->where('contract_id', '=', $contractId)->get(['office_code as officeCode', 'office_name as officeName']);
 
         // 条件設定
-        $condition = new SearchTransactionBean();
+        $condition = new SearchTransactionBean;
         $condition->id = $request->input('id');
         $condition->transactionTitle = $request->input('transactionTitle');
         $condition->transactionDivision = $request->input('transactionDivision');
@@ -175,7 +174,7 @@ class TransactionApiController extends Controller
         Log::info('TransactionApiController.searchTransactionData : START');
 
         // 条件設定
-        $condition = new SearchTransactionBean();
+        $condition = new SearchTransactionBean;
         $condition->id = $request->input('id');
         $condition->transactionTitle = $request->input('transactionTitle');
         $condition->transactionDivision = $request->input('transactionDivision');
@@ -189,7 +188,7 @@ class TransactionApiController extends Controller
         $condition->page = $request->input('page');
         $condition->itemsPerPage = $request->input('itemsPerPage');
 
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $searchResult = $this->transactionService->searchTransactionData($commonService->getContractId(), $condition);
         $response = response()->json(
             [
@@ -222,11 +221,11 @@ class TransactionApiController extends Controller
 
         return response()->json(
             [
-                'office' => $transactionData["office"],
+                'office' => $transactionData['office'],
                 'transactionHead' => $transactionData['transactionHead'],
                 'detailRows' => $transactionData['detailRows'],
                 'taxInfos' => $transactionData['taxInfos'],
-                "offices" => $offices,
+                'offices' => $offices,
             ],
             200
         );
@@ -258,7 +257,7 @@ class TransactionApiController extends Controller
         ];
 
         // 契約ID
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $contractId = $commonService->getContractId();
 
         // 取引データ作成

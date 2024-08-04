@@ -8,8 +8,5 @@ use App\Http\Requests\Stock\SearchStock;
 class StockApiController extends Controller
 {
     // 在庫検索(リスト返却・ページングあり)
-    public function searchStock(SearchStock $request)
-    {
-
-    }
+    public function searchStock(SearchStock $request) {}
 }

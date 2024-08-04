@@ -17,7 +17,7 @@ class ValidateDuplicateProductionCode implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // 重複チェック
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $contractId = $commonService->getContractId();
 
         $duplicateCount = DB::table('products')->where('contract_id', '=', $contractId)->where('production_code', '=', $value)->count();

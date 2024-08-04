@@ -22,7 +22,7 @@ class ProductApiController extends Controller
      */
     public function search(ApiSearchProduct $request)
     {
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $contractId = $commonService->getContractId();
 
         $query = DB::table('products')->select(
@@ -78,7 +78,7 @@ class ProductApiController extends Controller
                 200
             );
         }
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $contractId = $commonService->getContractId();
 
         $query = DB::table('products')->select(
@@ -111,9 +111,9 @@ class ProductApiController extends Controller
     {
         Log::info('ProductApiController.store START');
 
-        $productModel = new Product();
+        $productModel = new Product;
 
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $contractId = $commonService->getContractId();
 
         $productModel->fill([
@@ -145,7 +145,7 @@ class ProductApiController extends Controller
     public function getProduct(ApiGetProduct $request)
     {
         Log::info('ProductApiController.getProduct START');
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $contractId = $commonService->getContractId();
 
         $query = DB::table('products')->select(
@@ -188,9 +188,9 @@ class ProductApiController extends Controller
     {
         Log::info('ProductApiController.update START');
 
-        $productModel = new Product();
+        $productModel = new Product;
 
-        $commonService = new CommonService();
+        $commonService = new CommonService;
         $contractId = $commonService->getContractId();
 
         DB::table('products')->where('contract_id', '=', $contractId)->where('production_code', '=', $request->input('productionCode'))->update([

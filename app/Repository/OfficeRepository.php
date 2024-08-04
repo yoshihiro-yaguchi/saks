@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repository;
 
 use App\Entities\Office\OfficeEntity;
@@ -9,10 +10,6 @@ class OfficeRepository extends BaseRepository
 {
     /**
      * 事業所データを取得する
-     *
-     * @param string $contractId
-     * @param string $officeCode
-     * @return OfficeEntity
      */
     public function getOffice(string $contractId, string $officeCode): OfficeEntity
     {
@@ -27,21 +24,18 @@ class OfficeRepository extends BaseRepository
                     'address1 as address1',
                     'address2 as address2',
                     'address3 as address3',
-                    'address4 as address4'
+                    'address4 as address4',
                 ]
             )
             ->where('contract_id', '=', $contractId)
             ->where('office_code', '=', $officeCode)
             ->first();
 
-        return $this->convertResultToEntity($result, new OfficeEntity());
+        return $this->convertResultToEntity($result, new OfficeEntity);
     }
 
     /**
      * 契約に含まれるすべての店舗を取得する
-     *
-     * @param string $contractId
-     * @return Collection
      */
     public function getAllOffices(string $contractId): Collection
     {
@@ -49,15 +43,15 @@ class OfficeRepository extends BaseRepository
             ->select(
                 [
                     'office_code as officeCode',
-                    'office_name as officeName'
+                    'office_name as officeName',
                 ]
             )
             ->where('contract_id', '=', $contractId)
             ->get();
 
-        $result = new Collection();
+        $result = new Collection;
         foreach ($records as $record) {
-            $result->add($this->convertResultToEntity($record, new OfficeEntity()));
+            $result->add($this->convertResultToEntity($record, new OfficeEntity));
         }
 
         return $result;

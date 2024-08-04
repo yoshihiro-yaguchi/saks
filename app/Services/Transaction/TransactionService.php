@@ -34,7 +34,7 @@ class TransactionService extends BaseService
      */
     public function insertTransactionHead(string $contractId, array $transactionInfo, array $amountInfo)
     {
-        $transactionHeadModel = new TransactionHead();
+        $transactionHeadModel = new TransactionHead;
         $transactionHeadModel->fill([
             'contract_id' => $contractId,
             'transaction_id' => $transactionHeadModel->nextInsertTransactionId($contractId),
@@ -72,7 +72,7 @@ class TransactionService extends BaseService
         TransactionDetail::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->delete();
         $saveData = [];
 
-        $nowDate = new Carbon();
+        $nowDate = new Carbon;
 
         foreach ($detailRows as $detailRow) {
             $saveData[] = [

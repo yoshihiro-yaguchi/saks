@@ -14,7 +14,7 @@ class TransactionController extends Controller
 
     public function __construct()
     {
-        $this->transactionService = new TransactionService();
+        $this->transactionService = new TransactionService;
     }
 
     /**

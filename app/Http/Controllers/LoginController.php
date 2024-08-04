@@ -10,10 +10,10 @@ class LoginController extends Controller
 {
     public function login(PostLoginRequest $request)
     {
-        $loginServiceBean = new LoginServiceBean();
+        $loginServiceBean = new LoginServiceBean;
         $loginServiceBean->setUserId($request->input('id'));
         $loginServiceBean->setPassword($request->input('password'));
-        $result = (new LoginService())->login($loginServiceBean);
+        $result = (new LoginService)->login($loginServiceBean);
         $returnData = [
             'sample' => 'sample',
         ];

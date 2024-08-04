@@ -28,11 +28,11 @@ class TransactionSlipController extends Controller
     {
         $transactionId = $request->input('transactionId');
 
-        $contractId = (new CommonService())->getContractId(Auth::user()->email);
+        $contractId = (new CommonService)->getContractId(Auth::user()->email);
         $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
         $cultTransactionResult = $this->transactionService->culcTransaction($transactionData['detailRows']);
 
-        $contractInfo = (new Contracts())->query()->where('contract_id', '=', $contractId)->first();
+        $contractInfo = (new Contracts)->query()->where('contract_id', '=', $contractId)->first();
         /** @var TransactionHeadEntity $transactionHead */
         $transactionHead = $transactionData['transactionHead'];
         /** @var OfficeEntity $officeInfo */
@@ -70,12 +70,12 @@ class TransactionSlipController extends Controller
     {
         $transactionId = $request->input('transactionId');
 
-        $contractId = (new CommonService())->getContractId(Auth::user()->email);
+        $contractId = (new CommonService)->getContractId(Auth::user()->email);
         $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
         $cultTransactionResult = $this->transactionService->culcTransaction($transactionData['detailRows']);
 
-        $contractInfo = (new Contracts())->query()->where('contract_id', '=', $contractId)->first();
-        $branchInfo = (new Office())->query()->where('contract_id', '=', $contractId)->where('office_code', '=', $transactionData['transactionHead']['officeCode'])->first();
+        $contractInfo = (new Contracts)->query()->where('contract_id', '=', $contractId)->first();
+        $branchInfo = (new Office)->query()->where('contract_id', '=', $contractId)->where('office_code', '=', $transactionData['transactionHead']['officeCode'])->first();
 
         $transactionDate = new Carbon($transactionData['transactionHead']['transactionDate']);
         $data = [

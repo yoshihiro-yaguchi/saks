@@ -23,7 +23,7 @@ class ApiStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'productionCode' => ['required', 'max:50', new ValidateDuplicateProductionCode(), 'regex:/^[a-z0-9-]+$/i'],
+            'productionCode' => ['required', 'max:50', new ValidateDuplicateProductionCode, 'regex:/^[a-z0-9-]+$/i'],
             'productionName' => ['required', 'max:100'],
             // 'unitPrice' => ['required' , 'regex:/((^[0-9]{0,9})(\.[0-9]{0,3}$))|(^[0-9]{0,9}$)/'],
             'unitPrice' => ['required', 'max:9'],

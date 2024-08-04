@@ -56,11 +56,11 @@ class TransactionRepository extends BaseRepository
             ->get();
 
         // エンティティに詰める
-        $transactionEntity = new TransactionEntity();
-        $transactionEntity->transactionHead = $this->convertResultToEntity($headResult, new TransactionHeadEntity());
-        $transactionEntity->transactionDetails = new Collection();
+        $transactionEntity = new TransactionEntity;
+        $transactionEntity->transactionHead = $this->convertResultToEntity($headResult, new TransactionHeadEntity);
+        $transactionEntity->transactionDetails = new Collection;
         foreach ($detailsReuslt as $detail) {
-            $transactionEntity->transactionDetails->push($this->convertResultToEntity($detail, new TransactionDetailEntity()));
+            $transactionEntity->transactionDetails->push($this->convertResultToEntity($detail, new TransactionDetailEntity));
         }
 
         return $transactionEntity;
