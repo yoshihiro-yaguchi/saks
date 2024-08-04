@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Transaction\Api;
 
+use App\Entities\Office\OfficeEntity;
+use App\Entities\Transaction\TransactionHeadEntity;
 use App\Http\Controllers\Controller;
 use App\Models\Contracts;
 use App\Models\Office;
@@ -31,11 +33,14 @@ class TransactionSlipController extends Controller
         $cultTransactionResult = $this->transactionService->culcTransaction($transactionData['detailRows']);
 
         $contractInfo = (new Contracts())->query()->where('contract_id', '=', $contractId)->first();
-        $branchInfo = (new Office())->query()->where('contract_id', '=', $contractId)->where('office_code', '=', $transactionData['transactionHead']['officeCode'])->first();
+        /** @var TransactionHeadEntity $transactionHead */
+        $transactionHead = $transactionData['transactionHead'];
+        /** @var OfficeEntity $officeInfo */
+        $officeInfo = $transactionData['office'];
 
-        $transactionDate = new Carbon($transactionData['transactionHead']['transactionDate']);
+        $transactionDate = new Carbon($transactionHead->transactionDate);
         $data = [
-            'transactionHead' => $transactionData['transactionHead'],
+            'transactionHead' => $transactionHead,
             'detailRows' => $transactionData['detailRows'],
             'amountInfo' => $cultTransactionResult['amountInfo'],
             'taxInfos' => $cultTransactionResult['taxInfos'],
@@ -43,15 +48,15 @@ class TransactionSlipController extends Controller
             'id' => $transactionId,
             'companyInfo' => [
                 'companyName' => $contractInfo->contract_company_name,
-                'branchName' => $branchInfo->office_name,
-                'zipcode' => $branchInfo->zipcode,
-                'address1' => $branchInfo->address1,
-                'address2' => $branchInfo->address2,
-                'address3' => $branchInfo->address3,
-                'address4' => $branchInfo->address4,
-                'pinName' => $transactionData['transactionHead']['transactionPicName'],
+                'branchName' => $officeInfo->officeName,
+                'zipcode' => $officeInfo->zipcode,
+                'address1' => $officeInfo->address1,
+                'address2' => $officeInfo->address2,
+                'address3' => $officeInfo->address3,
+                'address4' => $officeInfo->address4,
+                'pinName' => $transactionHead->transactionPicName,
                 'email' => Auth::user()->email,
-                'tel' => $branchInfo->phone_number,
+                'tel' => $officeInfo->phoneNumber,
                 'invoiceNumber' => $contractInfo->invoice_number,
             ],
         ];

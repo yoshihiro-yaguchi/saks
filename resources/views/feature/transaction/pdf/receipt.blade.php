@@ -278,7 +278,7 @@
                     <td></td>
                     <td class="detailRowsBody tableTitle">
                         <p>
-                            (内消費税)
+                            &yen;(内消費税)
                         </p>
                     </td>
                     <td class="detailRowsBody number">

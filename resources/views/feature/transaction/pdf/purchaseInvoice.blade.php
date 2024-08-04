@@ -128,7 +128,7 @@
                                         </td>
                                         <td style="text-align: center; border-bottom: 2px solid #3CC6CC; width: 70%;">
                                             <p style="font-size: 24px;">
-                                                &yen;{{ number_format($transactionHead['total']) }}</p>
+                                                &yen;{{ number_format($transactionHead->total) }}</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -182,23 +182,23 @@
                     <tr class="detailRowTr">
                         {{-- 品番 --}}
                         <td class="detailRowsBody">
-                            <p>{{ $detailRow['productName'] }}</p>
+                            <p>{{ $detailRow->productName }}</p>
                         </td>
                         {{-- 数量(重量) --}}
                         <td class="detailRowsBody number">
-                            <p>{{ number_format($detailRow['quantity']) }}{{$detailRow['unit']}}</p>
+                            <p>{{ number_format($detailRow->quantity) }}{{$detailRow->unit}}</p>
                         </td>
                         {{-- 単価 --}}
                         <td class="detailRowsBody number">
-                            <p>&yen;{{ number_format($detailRow['unitPrice']) }}</p>
+                            <p>&yen;{{ number_format($detailRow->unitPrice) }}</p>
                         </td>
                         {{-- 税率 --}}
                         <td class="detailRowsBody number">
-                            <p>{{ number_format($detailRow['taxRate']) }}%</p>
+                            <p>{{ number_format($detailRow->taxRate) }}%</p>
                         </td>
                         {{-- 金額 --}}
                         <td class="detailRowsBody number">
-                            <p>&yen;{{ number_format($detailRow['totalPrice']) }}</p>
+                            <p>&yen;{{ number_format($detailRow->totalPrice) }}</p>
                         </td>
                     </tr>
                 @endforeach
@@ -240,7 +240,7 @@
                     <td></td>
                     <td class="detailRowsBody tableTitle">
                         <p>
-                            (内消費税)
+                            &yen;(内消費税)
                         </p>
                     </td>
                     <td class="detailRowsBody number">
@@ -300,7 +300,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="border: 1px solid #3CC6CC; height: 170pt; padding: 5px 5px">
-                        <p>{{$transactionHead['transactionNote']}}</p>
+                        {{-- <p>{{$transactionHead->transactionNote}}</p> --}}
                     </td>
                 </tr>
             </tbody>
