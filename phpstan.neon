@@ -1,0 +1,14 @@
+parameters:
+    paths:
+        - .
+    level: 9
+    excludePaths:
+        - ./storage/*
+        - ./vendor/*
+        - ./resources/.vscode/*
+        - ./resources/css/*
+        - ./resources/fonts/*
+        - ./resources/js/*
+        - ./resources/lang/*
+        - ./resources/sass/*
+        - ./resources/ts/*
