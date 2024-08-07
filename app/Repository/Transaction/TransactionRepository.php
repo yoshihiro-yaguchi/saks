@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Transaction;
 
 use App\Entities\Transaction\TransactionDetailEntity;
 use App\Entities\Transaction\TransactionEntity;
 use App\Entities\Transaction\TransactionHeadEntity;
+use App\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class TransactionRepository extends BaseRepository
 {
     /**
-     * 取引データ取得
+     * 取引データを取得します。
      */
     public function getTransactionData(string $contractId, string $transactionId): TransactionEntity
     {
@@ -64,5 +65,13 @@ class TransactionRepository extends BaseRepository
         }
 
         return $transactionEntity;
+    }
+
+    /**
+     * 取引詳細テーブルにINSERTします。
+     */
+    public function insertTransactionDetails(array $insData): bool
+    {
+        return DB::table('transaction_details')->insert($insData);
     }
 }

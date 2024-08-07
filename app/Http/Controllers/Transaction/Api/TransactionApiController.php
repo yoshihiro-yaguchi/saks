@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transaction\Api;
 
+use App\Entities\Transaction\TransactionDetailEntity;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\Api\ApiInitUpdateTransaction;
 use App\Http\Requests\Transaction\Api\ApiSearchTransaction;
@@ -14,6 +15,7 @@ use App\Services\Office\OfficeService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use App\Services\Transaction\TransactionService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -241,7 +243,14 @@ class TransactionApiController extends Controller
         Log::info('TransactionApiController.updateTransaction : START');
 
         $detailRows = $request->input('detailRows');
-        $culcResult = $this->transactionService->culcTransaction($detailRows);
+
+        $detailRowCollection = new Collection;
+        foreach ($detailRows as $detailRow) {
+            $parseEntity = CommonService::convertArrayToEntity($detailRow, new TransactionDetailEntity);
+            $detailRowCollection->push($parseEntity);
+        }
+
+        $culcResult = $this->transactionService->culcTransaction($detailRowCollection);
         $amountInfo = $culcResult['amountInfo'];
 
         // 更新データ

@@ -67,11 +67,6 @@ export const operations = {
 
       let formData = new FormData()
       Object.keys(state.inputState).forEach((key) => {
-        console.log(
-          `key: ${key}, value: ${
-            state.inputState[key as keyof InputState] as string
-          }`
-        )
         formData.append(
           key,
           state.inputState[key as keyof InputState] as string

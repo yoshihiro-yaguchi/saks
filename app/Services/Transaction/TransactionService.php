@@ -5,7 +5,7 @@ namespace App\Services\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\TransactionHead;
 use App\Repository\OfficeRepository;
-use App\Repository\TransactionRepository;
+use App\Repository\Transaction\TransactionRepository;
 use App\Services\BaseService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use Carbon\Carbon;
@@ -63,19 +63,19 @@ class TransactionService extends BaseService
     }
 
     /**
-     * 取引明細保存
+     * 取引詳細保存処理
      *
-     * @return TransactionDetail model
+     * @return void
      */
     public function saveTransactionDetails(string $contractId, string $transactionId, array $detailRows)
     {
         TransactionDetail::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->delete();
-        $saveData = [];
+        $insData = [];
 
         $nowDate = new Carbon;
 
         foreach ($detailRows as $detailRow) {
-            $saveData[] = [
+            $insData[] = [
                 'contract_id' => $contractId,
                 'transaction_id' => $transactionId,
                 'product_no' => $detailRow['productNo'] == null ? '' : $detailRow['productNo'],
@@ -89,7 +89,7 @@ class TransactionService extends BaseService
                 'updated_at' => $nowDate,
             ];
         }
-        TransactionDetail::insert($saveData);
+        $this->transactionRepository->insertTransactionDetails($insData);
     }
 
     /**
@@ -285,7 +285,7 @@ class TransactionService extends BaseService
      *
      * @param  int  $taxableAmount
      * @param  int  $taxRate
-     * @return void
+     * @return float
      */
     private function culcTaxInclude($taxableAmount, $taxRate)
     {

@@ -1,7 +1,7 @@
 parameters:
     paths:
         - .
-    level: 9
+    level: 0
     excludePaths:
         - ./storage/*
         - ./vendor/*

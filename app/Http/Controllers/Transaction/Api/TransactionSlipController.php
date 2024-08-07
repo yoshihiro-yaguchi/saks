@@ -9,10 +9,10 @@ use App\Models\Contracts;
 use App\Models\Office;
 use App\Services\CommonService;
 use App\Services\Transaction\TransactionService;
-use Auth;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use PDF;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionSlipController extends Controller
 {
@@ -61,7 +61,7 @@ class TransactionSlipController extends Controller
             ],
         ];
 
-        $pdf = PDF::loadView('feature.transaction.pdf.purchaseInvoice', $data);
+        $pdf = SnappyPdf::loadView('feature.transaction.pdf.purchaseInvoice', $data);
 
         return $pdf->download();
     }
@@ -100,7 +100,7 @@ class TransactionSlipController extends Controller
             ],
         ];
 
-        $pdf = PDF::loadView('feature.transaction.pdf.receipt', $data);
+        $pdf = SnappyPdf::loadView('feature.transaction.pdf.receipt', $data);
 
         return $pdf->download();
     }

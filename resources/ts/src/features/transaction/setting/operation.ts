@@ -34,7 +34,6 @@ export const operations = {
 
       // ステートの情報をもとにリクエストを作成する。
       let settings = getState().settingTransaction.inputs
-      console.log(settings)
 
       dispatch(commonOperations.processEnd())
     },
