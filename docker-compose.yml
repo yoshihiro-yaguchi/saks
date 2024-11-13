@@ -91,6 +91,7 @@ services:
         networks:
             - sail
     selenium:
+        platform: linux/x86_64
         image: selenium/standalone-chrome
         extra_hosts:
             - "host.docker.internal:host-gateway"
