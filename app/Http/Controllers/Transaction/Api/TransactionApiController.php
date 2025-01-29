@@ -14,6 +14,7 @@ use App\Services\CommonService;
 use App\Services\Office\OfficeService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use App\Services\Transaction\TransactionService;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -194,7 +195,7 @@ class TransactionApiController extends Controller
                 'count' => $searchResult['count'],
                 'transactions' => $searchResult['transactions'],
             ],
-            '200'
+            Response::HTTP_OK
         );
         Log::info('TransactionApiController.searchTransactionData : END');
 

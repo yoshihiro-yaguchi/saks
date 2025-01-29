@@ -10,6 +10,7 @@ use App\Http\Requests\Product\Api\ApiStoreRequest;
 use App\Http\Requests\Product\Api\ApiUpdateRequest;
 use App\Models\Product;
 use App\Services\CommonService;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -138,7 +139,7 @@ class ProductApiController extends Controller
                 'status' => 'success',
                 'id' => $productModel->production_code,
             ],
-            '200'
+            Response::HTTP_OK
         );
     }
 
@@ -179,7 +180,7 @@ class ProductApiController extends Controller
                 'count' => $count,
                 'product' => $query->forPage($request->input('page'), $request->input('itemsPerPage'))->orderBy('created_at')->first(),
             ],
-            200
+            Response::HTTP_OK
         );
     }
 
@@ -212,7 +213,7 @@ class ProductApiController extends Controller
                 'status' => 'success',
                 'id' => $productModel->production_code,
             ],
-            '200'
+            Response::HTTP_OK
         );
     }
 }

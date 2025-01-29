@@ -67,7 +67,7 @@ class TransactionService extends BaseService
      *
      * @return void
      */
-    public function saveTransactionDetails(string $contractId, string $transactionId, array $detailRows)
+    public function saveTransactionDetails(string $contractId, int $transactionId, array $detailRows)
     {
         TransactionDetail::query()->where('contract_id', '=', $contractId)->where('transaction_id', '=', $transactionId)->delete();
         $insData = [];
@@ -210,7 +210,7 @@ class TransactionService extends BaseService
 
         return [
             'count' => $count,
-            'transactions' => $query->forPage($condition->page, $condition->itemsPerPage)->orderByDesc('created_at')->get(),
+            'transactions' => $query->forPage((int) $condition->page, (int) $condition->itemsPerPage)->orderByDesc('created_at')->get(),
         ];
     }
 
@@ -288,12 +288,12 @@ class TransactionService extends BaseService
      */
     private function culcTaxInclude($taxableAmount, $taxRate)
     {
-        $effectiveTaxRate = bcdiv($taxRate, 100, 2);
-        $exclusionTaxableAmount = bcdiv($taxableAmount, bcadd(1, $effectiveTaxRate, 2), 5);
+        $effectiveTaxRate = bcdiv((string) $taxRate, (string) 100, 2);
+        $exclusionTaxableAmount = bcdiv((string) $taxableAmount, bcadd('1', (string) $effectiveTaxRate, 2), 5);
 
         $taxInclude = bcmul($effectiveTaxRate, $exclusionTaxableAmount, 5);
 
         // TODO: 丸め方式をどこかに持つ必要性あり。
-        return ceil($taxInclude);
+        return ceil((float) $taxInclude);
     }
 }
