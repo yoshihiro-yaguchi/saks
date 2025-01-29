@@ -11,7 +11,7 @@ class ContractController extends Controller
     /**
      * 契約登録画面を表示
      *
-     * @return void
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function routeRegisterContract()
     {
@@ -26,7 +26,7 @@ class ContractController extends Controller
     /**
      * メール確認画面を表示
      *
-     * @return void
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function routeConfirmMail()
     {

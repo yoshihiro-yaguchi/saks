@@ -58,7 +58,9 @@ class TransactionRepository extends BaseRepository
 
         // エンティティに詰める
         $transactionEntity = new TransactionEntity;
-        $transactionEntity->transactionHead = $this->convertResultToEntity($headResult, new TransactionHeadEntity);
+        /** @var TransactionHeadEntity $transactionHead */
+        $transactionHead = $this->convertResultToEntity($headResult, new TransactionHeadEntity);
+        $transactionEntity->transactionHead = $transactionHead;
         $transactionEntity->transactionDetails = new Collection;
         foreach ($detailsReuslt as $detail) {
             $transactionEntity->transactionDetails->push($this->convertResultToEntity($detail, new TransactionDetailEntity));

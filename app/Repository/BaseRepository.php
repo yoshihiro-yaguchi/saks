@@ -10,6 +10,7 @@ class BaseRepository
     /**
      * 検索結果をエンティティに変換する
      *
+     * @param  stdClass|null  $result  検索結果が渡されることを期待する
      * @param  BaseEntity  $entity  BaseEntityを継承したEntityクラスが渡されることを期待する
      * @return BaseEntity $entity
      */
@@ -22,7 +23,7 @@ class BaseRepository
             return $entity;
         }
 
-        foreach ($result as $key => $value) {
+        foreach ((array) $result as $key => $value) {
             $entity->$key = $value;
         }
 

@@ -32,7 +32,7 @@ final class CommonService
             return $entity;
         }
 
-        foreach ($result as $key => $value) {
+        foreach ((array) $result as $key => $value) {
             $entity->$key = $value;
         }
 

@@ -31,7 +31,10 @@ class OfficeRepository extends BaseRepository
             ->where('office_code', '=', $officeCode)
             ->first();
 
-        return $this->convertResultToEntity($result, new OfficeEntity);
+        /** @var OfficeEntity $entity */
+        $entity = $this->convertResultToEntity($result, new OfficeEntity);
+
+        return $entity;
     }
 
     /**

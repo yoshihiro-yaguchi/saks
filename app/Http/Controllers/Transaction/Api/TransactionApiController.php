@@ -14,7 +14,6 @@ use App\Services\CommonService;
 use App\Services\Office\OfficeService;
 use App\Services\Transaction\Beans\SearchTransactionBean;
 use App\Services\Transaction\TransactionService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -42,7 +41,7 @@ class TransactionApiController extends Controller
     /**
      * 取引作成画面初期処理
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function initStoreTransaction()
     {
@@ -59,7 +58,7 @@ class TransactionApiController extends Controller
     /**
      * 取引作成
      *
-     * @return JsonResponse response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function storeTransaction(StoreTransaction $request)
     {
@@ -105,7 +104,7 @@ class TransactionApiController extends Controller
     /**
      * パラメーターから取引データを1件分返す
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getTransactionData(string $transactionId)
     {
@@ -129,7 +128,7 @@ class TransactionApiController extends Controller
     /**
      * 取引作成画面初期処理
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function initSearchTransaction(ApiSearchTransaction $request)
     {
@@ -167,7 +166,7 @@ class TransactionApiController extends Controller
     /**
      * 取引検索
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function searchTransactionData(ApiSearchTransaction $request)
     {
@@ -205,7 +204,7 @@ class TransactionApiController extends Controller
     /**
      * 取引作成画面初期処理
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function initUpdateTransaction(ApiInitUpdateTransaction $request)
     {
@@ -234,7 +233,7 @@ class TransactionApiController extends Controller
     /**
      * 取引更新
      *
-     * @return JsonResponse response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateTransaction(ApiUpdateTransaction $request)
     {
