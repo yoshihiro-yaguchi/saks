@@ -20,8 +20,7 @@ final class CommonService
     /**
      * stdClassをエンティティに変換する
      *
-     * @param  stdClass|null $result
-     * @param  BaseEntity $entity  BaseEntityを継承したEntityクラスが渡されることを期待する
+     * @param  BaseEntity  $entity  BaseEntityを継承したEntityクラスが渡されることを期待する
      * @return BaseEntity $entity
      */
     public static function convertStdClassToEntity(?stdClass $result, BaseEntity $entity): BaseEntity
@@ -43,8 +42,7 @@ final class CommonService
     /**
      * 配列をエンティティに変換する
      *
-     * @param  array|null $result
-     * @param  BaseEntity $entity  BaseEntityを継承したEntityクラスが渡されることを期待する
+     * @param  BaseEntity  $entity  BaseEntityを継承したEntityクラスが渡されることを期待する
      * @return BaseEntity $entity
      */
     public static function convertArrayToEntity(?array $result, BaseEntity $entity): BaseEntity

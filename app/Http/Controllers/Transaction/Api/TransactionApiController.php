@@ -96,7 +96,7 @@ class TransactionApiController extends Controller
             200,
         );
 
-        Log::info('response: ' . $response);
+        Log::info('response: '.$response);
         Log::info('TransactionApiController.storeTransaction : END');
 
         return $response;
@@ -105,7 +105,6 @@ class TransactionApiController extends Controller
     /**
      * パラメーターから取引データを1件分返す
      *
-     * @param string $transactionId
      * @return void
      */
     public function getTransactionData(string $transactionId)
@@ -121,7 +120,7 @@ class TransactionApiController extends Controller
             200
         );
 
-        Log::info('response: ' . $response);
+        Log::info('response: '.$response);
         Log::info('TransactionApiController.getTransactionData : END');
 
         return $response;
@@ -292,7 +291,7 @@ class TransactionApiController extends Controller
             200,
         );
 
-        Log::info('response: ' . $response);
+        Log::info('response: '.$response);
         Log::info('TransactionApiController.updateTransaction : END');
 
         return $response;

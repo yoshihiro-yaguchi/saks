@@ -2,6 +2,4 @@
 
 namespace App\Http\Responses;
 
-class BaseResponse
-{
-}
+class BaseResponse {}

@@ -70,7 +70,6 @@ class ProductApiController extends Controller
     /**
      * 商品検索を商品コードで行う
      *
-     * @param ApiSearchProductByCode $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function searchProductByCode(ApiSearchProductByCode $request)
@@ -187,7 +186,6 @@ class ProductApiController extends Controller
     /**
      * 商品更新
      *
-     * @param  ApiUpdateRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(ApiUpdateRequest $request)
