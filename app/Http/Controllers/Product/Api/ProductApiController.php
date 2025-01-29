@@ -18,7 +18,7 @@ class ProductApiController extends Controller
     /**
      * 商品検索
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function search(ApiSearchProduct $request)
     {
@@ -67,6 +67,12 @@ class ProductApiController extends Controller
         );
     }
 
+    /**
+     * 商品検索を商品コードで行う
+     *
+     * @param ApiSearchProductByCode $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function searchProductByCode(ApiSearchProductByCode $request)
     {
         // プロダクションコードがnullか空文字の場合はnullでデータを返す
@@ -105,7 +111,7 @@ class ProductApiController extends Controller
     /**
      * 商品登録
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(ApiStoreRequest $request)
     {
@@ -140,7 +146,7 @@ class ProductApiController extends Controller
     /**
      * 商品取得
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getProduct(ApiGetProduct $request)
     {
@@ -181,8 +187,8 @@ class ProductApiController extends Controller
     /**
      * 商品更新
      *
-     * @param  ApiStoreRequest  $request
-     * @return void
+     * @param  ApiUpdateRequest  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(ApiUpdateRequest $request)
     {

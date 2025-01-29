@@ -16,7 +16,7 @@ class ContractApiController extends Controller
     /**
      * 契約情報を登録する
      *
-     * @return json
+     * @return \Illuminate\Http\JsonResponse
      */
     public function storeContract(StoreContract $request)
     {

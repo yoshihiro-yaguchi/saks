@@ -28,7 +28,7 @@ class TransactionSlipController extends Controller
     {
         $transactionId = $request->input('transactionId');
 
-        $contractId = (new CommonService)->getContractId(Auth::user()->email);
+        $contractId = (new CommonService)->getContractId();
         $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
         $cultTransactionResult = $this->transactionService->culcTransaction($transactionData['detailRows']);
 
@@ -70,7 +70,7 @@ class TransactionSlipController extends Controller
     {
         $transactionId = $request->input('transactionId');
 
-        $contractId = (new CommonService)->getContractId(Auth::user()->email);
+        $contractId = (new CommonService)->getContractId();
         $transactionData = $this->transactionService->getTransactionData($contractId, $transactionId);
         $cultTransactionResult = $this->transactionService->culcTransaction($transactionData['detailRows']);
 

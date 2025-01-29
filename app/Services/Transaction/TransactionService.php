@@ -132,7 +132,6 @@ class TransactionService extends BaseService
                 ]
             )
             ->join('offices as T2', function ($join) {
-                /** @var Illuminate\Database\Query\Builder::join $join */
                 $join->on('T1.contract_id', '=', 'T2.contract_id')->on('T1.transaction_branch', '=', 'T2.office_code');
             })
             ->where('T1.contract_id', '=', $contractId)

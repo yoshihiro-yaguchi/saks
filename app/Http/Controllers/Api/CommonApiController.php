@@ -10,7 +10,7 @@ class CommonApiController extends Controller
     /**
      * ユーザー情報を取得する
      *
-     * @return json
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchUserInfo()
     {

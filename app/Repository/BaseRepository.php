@@ -10,9 +10,9 @@ class BaseRepository
     /**
      * 検索結果をエンティティに変換する
      *
-     * @param  stdClass|null  $stdClass
-     * @param  BaseEntity<T>  $entity  BaseEntityを継承したEntityクラスが渡されることを期待する
-     * @return BaseEntity<T> $entity
+     * @param  stdClass|null $result
+     * @param  BaseEntity $entity  BaseEntityを継承したEntityクラスが渡されることを期待する
+     * @return BaseEntity $entity
      */
     public function convertResultToEntity(?stdClass $result, BaseEntity $entity): BaseEntity
     {
