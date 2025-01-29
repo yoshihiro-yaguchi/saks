@@ -2,4 +2,6 @@
 
 namespace App\Repository;
 
-final class ContractRepository {}
+final class ContractRepository
+{
+}

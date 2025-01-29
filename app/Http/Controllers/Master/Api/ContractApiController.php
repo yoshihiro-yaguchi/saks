@@ -54,8 +54,8 @@ class ContractApiController extends Controller
         // 事業所登録
         Office::create([
             'contract_id' => $contractId,
-            'office_code' => 'HQ',
-            'office_name' => '本社',
+            'office_code' => 'HQ', // TODO: 固定値になってるのでどうにかしようね〜
+            'office_name' => '本社', // TODO: 固定値になってるのでどうにかしようね〜
             'phone_number' => $request->input('hqPhoneNumber'),
             'zipcode' => $request->input('contractZipcode'),
             'address1' => $request->input('contractAddress1'),

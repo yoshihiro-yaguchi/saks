@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-
         Schema::create('stocks_change_history', function (Blueprint $table) {
             $table->id();
             // 契約ID	contract_id	varchar	8

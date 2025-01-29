@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-
     // リダイレクト
     Route::get('/', [RedirectController::class, 'authRedirector']);
     Route::get('/redirector', [RedirectController::class, 'authRedirector']);
@@ -116,5 +115,4 @@ Route::middleware('auth')->group(function () {
     // 在庫検索(リスト返却・ページングあり)
     // 在庫変動履歴検索(リスト返却・ページングあり)
     // 在庫変動登録
-
 });

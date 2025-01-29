@@ -3,7 +3,7 @@ includes:
 parameters:
     paths:
         - .
-    level: 0
+    level: 2
     excludePaths:
         - ./storage/*
         - ./vendor/*

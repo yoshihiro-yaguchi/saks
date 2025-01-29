@@ -34,7 +34,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(['contract_id', 'office_code'], 'offices_uk1');
-
         });
     }
 
