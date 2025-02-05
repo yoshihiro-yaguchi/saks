@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectController extends Controller
 {
-    //
+    /**
+     * 認証時の状態によってリダイレクトを行います。
+     *
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function authRedirector()
     {
         // メールアドレス認証が済んでいない。

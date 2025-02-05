@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionSlipController extends Controller
 {
+    /** @var TransactionService */
     public $transactionService;
 
     public function __construct(
@@ -24,6 +25,11 @@ class TransactionSlipController extends Controller
         $this->transactionService = $transactionService;
     }
 
+    /**
+     * 請求書を印刷します。
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function printPurchaseInvoice(Request $request)
     {
         $transactionId = $request->input('transactionId');
@@ -66,6 +72,11 @@ class TransactionSlipController extends Controller
         return $pdf->download();
     }
 
+    /**
+     * 領収書を印刷します。
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function printReceipt(Request $request)
     {
         $transactionId = $request->input('transactionId');

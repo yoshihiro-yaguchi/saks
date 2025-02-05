@@ -17,7 +17,7 @@ class ApiSearchProduct extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string,array<string>>
      */
     public function rules(): array
     {
@@ -30,6 +30,11 @@ class ApiSearchProduct extends FormRequest
         ];
     }
 
+    /**
+     * 属性名を返します。
+     *
+     * @return array<string>
+     */
     public function attributes(): array
     {
         return [

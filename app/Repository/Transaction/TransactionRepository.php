@@ -71,6 +71,8 @@ class TransactionRepository extends BaseRepository
 
     /**
      * 取引詳細テーブルにINSERTします。
+     *
+     * @param  array<int,mixed>  $insData
      */
     public function insertTransactionDetails(array $insData): bool
     {

@@ -27,6 +27,7 @@ class TransactionApiController extends Controller
     /** @var OfficeService */
     public $officeService;
 
+    /** @var CommonService */
     public $commonService;
 
     public function __construct(

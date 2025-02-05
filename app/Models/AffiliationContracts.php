@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 所属契約マスタ
+ */
 class AffiliationContracts extends Model
 {
     use HasFactory;

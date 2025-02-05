@@ -17,7 +17,7 @@ class ApiGetProduct extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string,array<string>>
      */
     public function rules(): array
     {
@@ -26,6 +26,11 @@ class ApiGetProduct extends FormRequest
         ];
     }
 
+    /**
+     * 属性名を返します。
+     *
+     * @return array<string,string>
+     */
     public function attributes(): array
     {
         return [

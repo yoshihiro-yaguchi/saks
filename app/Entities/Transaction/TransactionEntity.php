@@ -10,6 +10,6 @@ class TransactionEntity extends BaseEntity
     /** @var TransactionHeadEntity 取引ヘッダー */
     public $transactionHead;
 
-    /** @var Collection<TransactionDetailEntity> 取引明細 */
+    /** @var Collection<int,TransactionDetailEntity> 取引明細 */
     public $transactionDetails;
 }

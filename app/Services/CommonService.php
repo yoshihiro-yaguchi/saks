@@ -42,6 +42,7 @@ final class CommonService
     /**
      * 配列をエンティティに変換する
      *
+     * @param  array<string,mixed>|null  $result  変換対象の配列
      * @param  BaseEntity  $entity  BaseEntityを継承したEntityクラスが渡されることを期待する
      * @return BaseEntity $entity
      */

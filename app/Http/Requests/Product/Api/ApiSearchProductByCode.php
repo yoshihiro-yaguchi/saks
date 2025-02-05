@@ -26,6 +26,11 @@ class ApiSearchProductByCode extends FormRequest
         ];
     }
 
+    /**
+     * 属性名を返します。
+     *
+     * @return array<string>
+     */
     public function attributes(): array
     {
         return [

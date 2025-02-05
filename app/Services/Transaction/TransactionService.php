@@ -30,6 +30,8 @@ class TransactionService extends BaseService
     /**
      * 取引ヘッダー保存
      *
+     * @param  array<string,mixed>  $transactionInfo
+     * @param  array<string,mixed>  $amountInfo
      * @return TransactionHead model
      */
     public function insertTransactionHead(string $contractId, array $transactionInfo, array $amountInfo)
@@ -55,6 +57,7 @@ class TransactionService extends BaseService
     /**
      * 取引ヘッダー保存
      *
+     * @param  array<string,mixed>  $updateData
      * @return int
      */
     public function updateTransactionHead(string $transactionId, string $contractId, array $updateData)
@@ -65,6 +68,7 @@ class TransactionService extends BaseService
     /**
      * 取引詳細保存処理
      *
+     * @param  array<array<string,mixed>>  $detailRows
      * @return void
      */
     public function saveTransactionDetails(string $contractId, int $transactionId, array $detailRows)
@@ -94,6 +98,8 @@ class TransactionService extends BaseService
 
     /**
      * 取引データ取得
+     *
+     * @return array<mixed>
      */
     public function getTransactionData(string $contractId, string $transactionId): array
     {
@@ -113,6 +119,8 @@ class TransactionService extends BaseService
 
     /**
      * 取引データ取得
+     *
+     * @return array<mixed>
      */
     public function getUpdateTransactionData(string $contractId, string $transactionId): array
     {
@@ -160,6 +168,8 @@ class TransactionService extends BaseService
 
     /**
      * 取引検索
+     *
+     * @return array<mixed>
      */
     public function searchTransactionData(string $contractId, SearchTransactionBean $condition): array
     {
@@ -216,6 +226,8 @@ class TransactionService extends BaseService
 
     /**
      * 取引明細データ取得
+     *
+     * @return array<mixed>
      */
     private function getTransactionDetails(string $contractId, string $transactionId): array
     {
@@ -238,8 +250,11 @@ class TransactionService extends BaseService
 
     /**
      * トランザクション内の金額計算を行う。
+     *
+     * @param  array<array<int,\App\Entities\Transaction\TransactionDetailEntity>>  $detailRows
+     * @return array<string,mixec>
      */
-    public function culcTransaction($detailRows): array
+    public function culcTransaction(array $detailRows): array
     {
         $amountInfo = [
             'subtotal' => 0,
